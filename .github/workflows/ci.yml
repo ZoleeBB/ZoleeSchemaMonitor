@@ -74,6 +74,8 @@ jobs:
           name: schema-browser-preview
           path: .browser-test/*.png
           retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: error
 
   firmware:
     name: ESP32-P4 | ESP-IDF 5.5.4
