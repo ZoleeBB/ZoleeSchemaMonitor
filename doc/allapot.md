@@ -25,3 +25,14 @@ Az MS1 **nyitott**. Ez az állomány az alapozó fejlesztési állapotot írja l
 Statikus natív sémanézet: a mentett projekt aktuális oldala már LVGL objektumokként megjelenik. A PNG-ket a `graphics/light/` könyvtárból, a manifest méret- és SHA-256-adataival ellenőrizve olvassa; hibás/hiányzó grafikánál az elem neve látszik. Csövek, szövegek, értékhelyőrzők és a negyedfordulatos képek bekötve. Lapozás a felső nyilakkal vagy vízszintes gesztussal; az Info/Séma gomb a diagnosztikát váltja. Üres első projektnél a diagnosztika marad az indulónézet. A háttérben mentett új revízió automatikusan betöltődik, változatlan projektnél nincs újrarajzolás vagy projektmásolás.
 
 Ez még korlátozott működési változat: világos nézet, fix alapszínű háttér, 20 px-es Unicode betűkészlet skálázása; nincs élő érték vagy animáció. A szerkesztő összes formázási és témalehetőségének pontos natív egyezése, a PNG dekódolás és gesztusok fizikai próbája még szükséges. A host LVGL-próba 150 csövet, álló/fekvő koordinátákat, lapozást, revízió-újrafelhasználást és diagnosztikaváltást igazol; a 20 FPS-t nem méri.
+
+
+## Natív érték- és animációs motor
+
+Az `app_scene_set_reader` RAM-adatolvasó felületen keresztül kapott jeleket a natív nézet már feldolgozza. A Miniserver-adapter még nincs csatlakoztatva: alaphelyzetben nincs szimulált aktivitás, az értékek ismeretlenek. A gazdagépes teszt célzottan ad jeleket ennek a felületnek.
+
+A csövek három pontjának mozgása a töréspontokból számolt pixelhosszt követi, megadott irányban. A rotoros eszközök külön forgó üzemjelzőt kapnak. Az explicit aktivitás elsőbbséget élvez; teljesítményből csak az alsó határ fölött következik aktivitás. A sebesség a beállított tartományból normalizált, legalább 15%, legfeljebb 100%. A megjelenített teljesítményszázalék szintén a tartományhoz viszonyított. Az ismeretlen jel megállítja a mozgást, az ismeretlen aktivitás halványítja az elemet. Az értékmezők skálázást, eltolást, tizedesszámot és mértékegységet használnak.
+
+A főciklus 50 ms-os célütemmel hívja a motort, tényleges eltelt idővel; hosszú megakadás után legfeljebb 200 ms-ot lép. A mozgásciklus nem olvas JSON-t, SD-t vagy hálózatot. Az alkalmazás fix tárolókat és statikus címkeszövegeket használ; változatlan értéket nem ír újra. A nagy geometriai, állapot- és pillanatkép-tárolók a P4-en PSRAM BSS-ben vannak. Diagnosztikai nézetben az animáció szünetel. A fizikai 20 FPS és az LVGL teljes rajzolási memóriaigénye még nem mért.
+
+Ez nem zárja le a korábbi korlátozásokat: sötét téma, pontos formázási egyezés, permetanimációk, végleges grafikák, Loxone-kapcsolat és OTA még szükségesek.

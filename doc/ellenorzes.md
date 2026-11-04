@@ -20,3 +20,6 @@ Ez nem MS1-zárási jegyzőkönyv. A készülékes integráció hiányai az [ál
 A helyi buildkörnyezetben a folyamatok PID-névterét a komponenskezelő nem látta. Ezt kizárólag helyi Python-indítási kompatibilitási beállítással kezeltük; a repó forrásait és a managed komponenseket emiatt nem módosítottuk. A CI szabványos Ubuntu/ESP-IDF környezetet használ.
 
 A böngészős teszt a tesztkiszolgálót maga indítja, külön ideiglenes adatfájllal, és leállításkor eltakarítja. Nem használ ügyféladatot.
+
+
+Natív animációs motor: valódi LVGL-lel, virtuális kijelzőn sikeres az explicit aktivitás elsőbbsége, szigorú teljesítményküszöb, minimális sebesség, fordított csőirány, forgó üzemjelző, százalékkijelzés, skálázott hőmérséklet és adatvesztés kezelése. Az értékeket a teszt RAM-adatolvasója adja; ez nem Miniserver- vagy fizikai FPS-próba. A korábbi statikus nézet tesztjei szintén megmaradtak.

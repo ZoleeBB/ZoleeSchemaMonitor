@@ -10,6 +10,7 @@
 #include "bsp/esp-bsp.h"
 #include "esp_app_desc.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "lvgl.h"
@@ -104,9 +105,17 @@ void app_main(void)
     }
     /* A meres a kijelzozaron kivul fut, azonos szoveg nem ujrarajzolas. */
     char previous[768] = {0};
+    int64_t previous_tick = esp_timer_get_time();
+    unsigned metrics_ticks = 0;
     while (true)
     {
+        vTaskDelay(pdMS_TO_TICKS(50));
         app_scene_poll();
+        int64_t now = esp_timer_get_time();
+        app_scene_update((unsigned)((now - previous_tick) / 1000));
+        previous_tick = now;
+        if (++metrics_ticks % 20)
+            continue;
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
         app_network_status_t network;
@@ -142,6 +151,5 @@ void app_main(void)
             snprintf(previous, sizeof(previous), "%s", text);
             bsp_display_unlock();
         }
-        vTaskDelay(pdMS_TO_TICKS(250));
     }
 }

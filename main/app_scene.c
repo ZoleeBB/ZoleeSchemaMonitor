@@ -6,9 +6,17 @@
 #include "src/misc/cache/instance/lv_image_cache.h"
 #include "mbedtls/sha256.h"
 #include <stdatomic.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef ESP_PLATFORM
+#include "esp_attr.h"
+#define SCENE_BSS EXT_RAM_BSS_ATTR
+#else
+#define SCENE_BSS
+#endif
 
 LV_FONT_DECLARE(app_font_20);
 typedef struct
@@ -16,11 +24,164 @@ typedef struct
     lv_image_dsc_t image;
     unsigned char *bytes;
 } picture_t;
-static picture_t s_pictures[SM_MAX_ELEMENTS];
-static lv_point_precise_t s_points[SM_MAX_ELEMENTS][SM_MAX_POINTS];
-static lv_obj_t *s_root, *s_toggle;
-static atomic_int s_page, s_count;
+static SCENE_BSS picture_t s_pictures[SM_MAX_ELEMENTS];
+static SCENE_BSS lv_point_precise_t s_points[SM_MAX_ELEMENTS][SM_MAX_POINTS];
+static lv_obj_t *s_root;
 static atomic_bool s_diagnostics;
+typedef struct
+{
+    sm_binding_t value, activity, power;
+    double minimum, maximum, phase, length;
+    unsigned point_count, decimals;
+    int direction;
+    lv_obj_t *value_label, *power_label, *body, *dots[3], *rotor;
+    lv_point_precise_t rotor_points[2];
+    double rotor_x, rotor_y, rotor_radius;
+    char unit[100], last_value[160], last_power[64];
+    int last_opacity;
+    bool rotor_initialized;
+} runtime_t;
+static SCENE_BSS runtime_t s_runtime[SM_MAX_ELEMENTS];
+static unsigned s_runtime_count;
+static app_scene_read_fn s_reader;
+static void *s_reader_context;
+
+void app_scene_set_reader(app_scene_read_fn reader, void *context)
+{
+    s_reader = reader;
+    s_reader_context = context;
+}
+
+static sm_signal_t signal_read(const sm_binding_t *binding)
+{
+    double value = 0;
+    bool valid = binding->uuid[0] && s_reader && s_reader(binding->uuid, &value, s_reader_context);
+    return sm_binding_read(binding, valid, value);
+}
+
+static void dot_position(runtime_t *runtime, unsigned index, lv_obj_t *dot, double distance)
+{
+    for (unsigned i = 1; i < runtime->point_count; i++)
+    {
+        double dx = s_points[index][i].x - s_points[index][i - 1].x;
+        double dy = s_points[index][i].y - s_points[index][i - 1].y;
+        double length = hypot(dx, dy);
+        if (length > 0 && (distance <= length || i + 1 == runtime->point_count))
+        {
+            lv_obj_set_pos(dot,
+                           s_points[index][i - 1].x + dx * distance / length - 3,
+                           s_points[index][i - 1].y + dy * distance / length - 3);
+            break;
+        }
+        distance -= length;
+    }
+}
+
+void app_scene_update(unsigned elapsed_ms)
+{
+    /* A következő Loxone-adapter RAM-pillanatképe; nincs IO vagy JSON az animációban. */
+    static SCENE_BSS sm_signal_t values[SM_MAX_ELEMENTS], powers[SM_MAX_ELEMENTS];
+    static SCENE_BSS sm_activity_t states[SM_MAX_ELEMENTS];
+    for (unsigned i = 0; i < s_runtime_count; i++)
+    {
+        runtime_t *runtime = &s_runtime[i];
+        values[i] = signal_read(&runtime->value);
+        powers[i] = signal_read(&runtime->power);
+        states[i] = sm_activity(
+            signal_read(&runtime->activity), powers[i], runtime->minimum, runtime->maximum);
+    }
+    if (!bsp_display_lock(100))
+        return;
+    if (!s_root || atomic_load(&s_diagnostics))
+    {
+        bsp_display_unlock();
+        return;
+    }
+    double seconds = (elapsed_ms > 200 ? 200 : elapsed_ms) / 1000.0;
+    for (unsigned i = 0; i < s_runtime_count; i++)
+    {
+        runtime_t *runtime = &s_runtime[i];
+        sm_activity_t state = states[i];
+        if (runtime->value_label)
+        {
+            char text[160];
+            if (!values[i].valid)
+                snprintf(text, sizeof(text), "— %s", runtime->unit);
+            else if (fabs(values[i].value) >= 1e9)
+                snprintf(text, sizeof(text), "%.6g %s", values[i].value, runtime->unit);
+            else
+                snprintf(text,
+                         sizeof(text),
+                         "%.*f %s",
+                         runtime->decimals,
+                         values[i].value,
+                         runtime->unit);
+            if (strcmp(text, runtime->last_value))
+            {
+                snprintf(runtime->last_value, sizeof(runtime->last_value), "%s", text);
+                lv_label_set_text_static(runtime->value_label, runtime->last_value);
+            }
+        }
+        if (runtime->power_label)
+        {
+            char text[64];
+            double percent = powers[i].valid
+                               ? fmax(0,
+                                      fmin(100,
+                                           (powers[i].value - runtime->minimum) * 100 /
+                                               (runtime->maximum - runtime->minimum)))
+                               : 0;
+            snprintf(text, sizeof(text), powers[i].valid ? "%.0f %%" : "— %%", percent);
+            if (strcmp(text, runtime->last_power))
+            {
+                snprintf(runtime->last_power, sizeof(runtime->last_power), "%s", text);
+                lv_label_set_text_static(runtime->power_label, runtime->last_power);
+            }
+        }
+        int opacity = state.known ? LV_OPA_COVER : LV_OPA_50;
+        if (runtime->last_opacity != opacity)
+        {
+            if (runtime->body)
+                lv_obj_set_style_opa(runtime->body, opacity, 0);
+            if (runtime->rotor)
+                lv_obj_set_style_opa(runtime->rotor, opacity, 0);
+            runtime->last_opacity = opacity;
+        }
+        if (state.active)
+            runtime->phase += seconds * state.speed;
+        for (unsigned n = 0; n < 3; n++)
+            if (runtime->dots[n])
+            {
+                if (!state.active || runtime->length <= 0)
+                    lv_obj_add_flag(runtime->dots[n], LV_OBJ_FLAG_HIDDEN);
+                else
+                {
+                    lv_obj_remove_flag(runtime->dots[n], LV_OBJ_FLAG_HIDDEN);
+                    double distance =
+                        fmod(runtime->phase * 50 + runtime->length * n / 3, runtime->length);
+                    if (runtime->direction < 0)
+                        distance = runtime->length - distance;
+                    dot_position(runtime, i, runtime->dots[n], distance);
+                }
+            }
+        if (runtime->rotor && (!runtime->rotor_initialized || state.active))
+        {
+            double angle = runtime->phase * 6.283185307179586;
+            runtime->rotor_points[0] =
+                (lv_point_precise_t){runtime->rotor_x - cos(angle) * runtime->rotor_radius,
+                                     runtime->rotor_y - sin(angle) * runtime->rotor_radius};
+            runtime->rotor_points[1] =
+                (lv_point_precise_t){runtime->rotor_x + cos(angle) * runtime->rotor_radius,
+                                     runtime->rotor_y + sin(angle) * runtime->rotor_radius};
+            lv_obj_invalidate(runtime->rotor);
+            runtime->rotor_initialized = true;
+        }
+    }
+    bsp_display_unlock();
+}
+
+static lv_obj_t *s_toggle;
+static atomic_int s_page, s_count;
 static uint32_t s_revision = UINT32_MAX;
 static int s_drawn_page = -1;
 
@@ -216,6 +377,8 @@ void app_scene_poll(void)
     }
     memcpy(s_pictures, pictures, sizeof(s_pictures));
     free(pictures);
+    memset(s_runtime, 0, sizeof(s_runtime));
+    s_runtime_count = cJSON_GetArraySize(elements);
     s_root = lv_obj_create(lv_screen_active());
     lv_obj_remove_style_all(s_root);
     lv_obj_set_size(s_root, LV_PCT(100), LV_PCT(100));
@@ -228,6 +391,17 @@ void app_scene_poll(void)
     index = 0;
     cJSON_ArrayForEach(element, elements)
     {
+        runtime_t *runtime = &s_runtime[index];
+        sm_binding_parse(cJSON_GetObjectItemCaseSensitive(element, "value"), &runtime->value);
+        sm_binding_parse(cJSON_GetObjectItemCaseSensitive(element, "activity"), &runtime->activity);
+        const cJSON *power = cJSON_GetObjectItemCaseSensitive(element, "power");
+        sm_binding_parse(cJSON_GetObjectItemCaseSensitive(power, "source"), &runtime->power);
+        runtime->minimum = sm_json_number(power, "minimum", 0);
+        runtime->maximum = sm_json_number(power, "maximum", 100);
+        runtime->decimals = sm_json_number(element, "decimals", 1);
+        runtime->direction = sm_json_number(element, "direction", 1);
+        runtime->last_opacity = -1;
+        snprintf(runtime->unit, sizeof(runtime->unit), "%s", sm_json_string(element, "unit"));
         const char *type = sm_json_string(element, "type");
         int x = sm_json_number(element, "x", 0) * width,
             y = sm_json_number(element, "y", 0) * height;
@@ -243,11 +417,31 @@ void app_scene_poll(void)
                 s_points[index][n++] = (lv_point_precise_t){sm_json_number(point, "x", 0) * width,
                                                             sm_json_number(point, "y", 0) * height};
             }
+            runtime->point_count = n;
+            for (unsigned k = 1; k < n; k++)
+                runtime->length += hypot(s_points[index][k].x - s_points[index][k - 1].x,
+                                         s_points[index][k].y - s_points[index][k - 1].y);
+            if (runtime->activity.uuid[0] || runtime->power.uuid[0])
+                for (unsigned k = 0; k < 3; k++)
+                {
+                    lv_obj_t *dot = lv_obj_create(s_root);
+                    lv_obj_remove_style_all(dot);
+                    lv_obj_set_size(dot, 6, 6);
+                    lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
+                    lv_obj_set_style_bg_color(dot, lv_color_white(), 0);
+                    lv_obj_set_style_bg_opa(dot, LV_OPA_COVER, 0);
+                    lv_obj_add_flag(dot, LV_OBJ_FLAG_HIDDEN);
+                    runtime->dots[k] = dot;
+                }
             lv_obj_t *line = lv_line_create(s_root);
+            runtime->body = line;
             lv_line_set_points(line, s_points[index], n);
             lv_obj_set_style_line_color(line, color, 0);
             lv_obj_set_style_line_width(line, sm_json_number(element, "width", 6), 0);
             lv_obj_set_style_line_rounded(line, true, 0);
+            for (unsigned k = 0; k < 3; k++)
+                if (runtime->dots[k])
+                    lv_obj_move_foreground(runtime->dots[k]);
         }
         else if (!strcmp(type, "equipment"))
         {
@@ -255,6 +449,7 @@ void app_scene_poll(void)
             if (s_pictures[index].bytes)
             {
                 lv_obj_t *image = lv_image_create(s_root);
+                runtime->body = image;
                 lv_image_set_src(image, &s_pictures[index].image);
                 lv_image_set_scale(image, side * 256 / 160);
                 lv_image_set_pivot(image, 80, 80);
@@ -267,6 +462,21 @@ void app_scene_poll(void)
                 label(s_root, asset ? asset->name_hu : "?", x, y, color);
             }
             label(s_root, sm_json_string(element, "label"), x, y + h, lv_color_hex(0x345060));
+            if (cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(element, "showPower")))
+                runtime->power_label = label(s_root, "— %", x, y + h + 24, color);
+            const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
+            if (asset && asset->animation == 1)
+            {
+                double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
+                double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
+                runtime->rotor_x = x + w / 2.0 + px * cos(angle) - py * sin(angle);
+                runtime->rotor_y = y + h / 2.0 + px * sin(angle) + py * cos(angle);
+                runtime->rotor_radius = asset->animation_radius * side;
+                runtime->rotor = lv_line_create(s_root);
+                lv_line_set_points(runtime->rotor, runtime->rotor_points, 2);
+                lv_obj_set_style_line_color(runtime->rotor, color, 0);
+                lv_obj_set_style_line_width(runtime->rotor, 3, 0);
+            }
         }
         else
         {
@@ -277,6 +487,8 @@ void app_scene_poll(void)
                      !strcmp(type, "value") ? "— " : sm_json_string(element, "text"),
                      !strcmp(type, "value") ? sm_json_string(element, "unit") : "");
             lv_obj_t *object = label(s_root, text, x, y, color);
+            if (!strcmp(type, "value"))
+                runtime->value_label = object;
             lv_obj_set_width(object, w);
             lv_obj_set_style_transform_pivot_x(object, 0, 0);
             lv_obj_set_style_transform_pivot_y(object, 0, 0);
