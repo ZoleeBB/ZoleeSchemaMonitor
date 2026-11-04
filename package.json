@@ -1,0 +1,11 @@
+{
+  "name": "zolee-schema-monitor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "dev": "python3 tools/dev_server.py"
+  },
+  "engines": {"node": ">=22"}
+}

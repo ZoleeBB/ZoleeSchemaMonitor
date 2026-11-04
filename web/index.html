@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ZoleeSchemaMonitor</title>
+    <link rel="icon" href="/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/schema.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/">ZoleeSchemaMonitor</a>
+        <nav id="navigation" aria-label="Navigáció"></nav>
+        <select id="language" aria-label="Language"><option value="hu">Magyar</option><option value="en">English</option></select>
+    </header>
+    <div id="mode-banner" class="warning" hidden></div>
+    <main id="content"></main>
+    <p id="feedback" role="status" aria-live="polite"></p>
+    <aside id="development-support" class="card support">
+        <img src="/logo.svg" width="150" height="130" alt="ZoleeSchemaMonitor">
+        <div><h2 id="support-title"></h2><p id="support-copy"></p>
+            <div class="actions"><a class="button" href="https://ko-fi.com/E1H8299KGN" target="_blank" rel="noopener">Ko-fi</a>
+                <a class="button secondary" id="revolut" target="_blank" rel="noopener">Revolut-me</a></div>
+        </div>
+    </aside>
+    <dialog id="binding-dialog"><form method="dialog"><h2 id="binding-title"></h2>
+        <div class="grid"><label id="room-label">Helyiség<select id="room-filter"></select></label>
+            <label id="category-label">Funkció<select id="category-filter"></select></label></div>
+        <input id="binding-search" type="search" aria-label="Search">
+        <select id="binding-options" size="10" aria-label="Loxone state"></select>
+        <div class="grid"><label>×<input id="binding-scale" type="number" value="1" step="any"></label>
+            <label>+<input id="binding-offset" type="number" value="0" step="any"></label></div>
+        <div class="actions"><button value="cancel" id="binding-cancel">Mégse</button><button type="button" id="binding-clear">Leválasztás</button>
+            <button type="button" id="binding-apply">Kiválasztás</button></div>
+        <p id="binding-error" role="alert"></p>
+    </form></dialog>
+    <script type="module" src="/app.js"></script>
+</body>
+</html>

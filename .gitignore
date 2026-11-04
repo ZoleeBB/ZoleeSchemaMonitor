@@ -218,3 +218,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# ZoleeSchemaMonitor build és helyi fejlesztői adatok
+.dev-data/
+web/graphics/
+dist/
+build/
+managed_components/
+dependencies.lock
+sdkconfig
+sdkconfig.old
+__pycache__/
+*.pyc
+node_modules/
+.browser-test/
+
