@@ -10,7 +10,10 @@ Ez nem MS1-zárási jegyzőkönyv. A készülékes integráció hiányai az [ál
 | Valódi Chromium | Sikeres: elem, cső, párosítás, teljesítményhatár, mentés/visszatöltés, export, álló vászon, HU/EN |
 | SVG + PNG csomagolás | 138 elem metaadata, 553 manifestbejegyzés; közös tartalmak hash szerint deduplikálhatók |
 | ESP-IDF 5.5.4, ESP32-P4 platformfirmware | Sikeres fordítás/linkelés |
-| Platformfirmware bináris | 987136 bájt; a 8 MiB alkalmazáspartícióba belefér, 88% szabad |
+| Platformfirmware bináris | A webszerkesztővel és natív API-val kb. 1,42 MB; a 8 MiB alkalmazáspartícióban 83% szabad |
+| Natív JS/C modellparitás | 22 eset, köztük a 10×150 elemes projekt |
+| Natív SD-állapot, valódi AES-GCM | Tartós mentés, konfliktus, jelszórejtés, sérülés utáni visszaállás, más kulcs, SD-hiba sikeres |
+| Natív HTTP-kezelő | Beágyazott szerkesztő, import/export, CAS, Host/Origin, titokszűrés sikeres; socket helyettesítve |
 | Fizikai panel / Miniserver / készülékes OTA | Nem végzett |
 | Készülékes 20 FPS / tartós memóriahasználat | Nem mért |
 

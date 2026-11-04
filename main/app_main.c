@@ -1,8 +1,11 @@
-/* P4 platformindítás és valódi erőforrás-diagnosztika. A teljes sémafuttató
- * és a készülékes HTTP/Loxone integráció következő MS1-részfeladat. */
+/* P4 indítás, tartós SD-állapot, helyi webszerkesztő és diagnosztika. */
 #include <stdio.h>
 #include <string.h>
 
+#include "app_diagnostics.h"
+#include "app_network.h"
+#include "app_store.h"
+#include "app_web.h"
 #include "bsp/esp-bsp.h"
 #include "esp_app_desc.h"
 #include "esp_log.h"
@@ -12,7 +15,6 @@
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "schema_core.h"
-#include "app_diagnostics.h"
 
 static lv_obj_t *s_metrics;
 
@@ -35,13 +37,10 @@ static esp_lv_adapter_rotation_t rotation_value(unsigned degrees)
 
 static unsigned read_rotation(void)
 {
-    uint16_t degrees = 270;
-    nvs_handle_t handle;
-    if (nvs_open("schema", NVS_READONLY, &handle) == ESP_OK)
-    {
-        (void)nvs_get_u16(handle, "rotation", &degrees);
-        nvs_close(handle);
-    }
+    cJSON *settings = app_store_settings(false);
+    unsigned degrees =
+        sm_json_number(cJSON_GetObjectItemCaseSensitive(settings, "display"), "rotation", 270);
+    cJSON_Delete(settings);
     return sm_rotation_valid(degrees) ? degrees : 270;
 }
 
@@ -54,6 +53,9 @@ void app_main(void)
         error = nvs_flash_init();
     }
     ESP_ERROR_CHECK(error);
+    error = app_store_init();
+    if (error != ESP_OK)
+        ESP_LOGW("schema", "SD-allapot nem elerheto: %s", esp_err_to_name(error));
     unsigned degrees = read_rotation();
     bool swap = degrees == 90 || degrees == 270;
     bsp_display_cfg_t cfg = {.lv_adapter_cfg = ESP_LV_ADAPTER_DEFAULT_CONFIG(),
@@ -82,25 +84,37 @@ void app_main(void)
         lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 35);
         lv_obj_t *status = lv_label_create(screen);
         lv_label_set_text(status,
-                          "P4 platform / Platform bring-up\n"
-                          "A teljes keszulekes integracio fejlesztes alatt.\n"
-                          "Full device integration is under development.");
+                          "MS1 | Helyi webszerkeszto / Local web editor\n"
+                          "Loxone es semarendereles fejlesztes alatt.\n"
+                          "Loxone and native rendering are under development.");
         lv_obj_align(status, LV_ALIGN_TOP_MID, 0, 90);
         s_metrics = lv_label_create(screen);
         lv_obj_align(s_metrics, LV_ALIGN_CENTER, 0, 30);
         bsp_display_unlock();
     }
+    error = app_network_start();
+    if (error != ESP_OK)
+        ESP_LOGE("schema", "Wi-Fi: %s", esp_err_to_name(error));
+    else
+    {
+        error = app_web_start();
+        if (error != ESP_OK)
+            ESP_LOGE("schema", "HTTP: %s", esp_err_to_name(error));
+    }
     /* A meres a kijelzozaron kivul fut, azonos szoveg nem ujrarajzolas. */
-    char previous[384] = {0};
+    char previous[768] = {0};
     while (true)
     {
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
-        char text[384];
+        app_network_status_t network;
+        app_network_status(&network);
+        char text[768];
         snprintf(text,
                  sizeof(text),
                  "Firmware: %.32s\nRotation: %u\nCPU0 / CPU1: %u%% / %u%%\n"
-                 "Internal: %u B | minimum: %u B\nPSRAM: %u B\nDMA largest: %u B\nUptime: %llu s",
+                 "Internal: %u B | minimum: %u B\nPSRAM: %u B\nDMA largest: %u B\nUptime: %llu s\n"
+                 "SD: %s | Recovery: %s\nWeb: http://%s/\n%s%s%s%s",
                  esp_app_get_description()->version,
                  degrees,
                  metrics.cpu[0],
@@ -109,7 +123,16 @@ void app_main(void)
                  metrics.internal_minimum,
                  metrics.psram_free,
                  metrics.dma_largest,
-                 (unsigned long long)metrics.uptime_seconds);
+                 (unsigned long long)metrics.uptime_seconds,
+                 app_store_ready() ? "OK" : "ERROR",
+                 app_store_recovered() ? "YES" : "NO",
+                 network.connected  ? network.ip
+                 : network.recovery ? "192.168.4.1"
+                                    : "zolee-schema-monitor.local",
+                 network.recovery ? "Setup Wi-Fi: " : "",
+                 network.recovery ? network.recovery_ssid : "",
+                 network.recovery ? "\nPassword: " : "",
+                 network.recovery ? network.recovery_password : "");
         if (strcmp(previous, text) && bsp_display_lock(100))
         {
             if (s_metrics)

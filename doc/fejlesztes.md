@@ -24,7 +24,7 @@ gcc -std=c11 -Wall -Wextra -Werror -Icomponents/schema_core/include components/s
 
 ## Grafikai generálás
 
-A forráskatalógus `catalog/elements.py`, az egységes vektoros forrásgenerátor `tools/build_assets.py`. A `web/catalog.json` generált fájl, kézzel nem szerkesztendő. A generált SVG-k nem kerülnek külön Gitbe; a fejlesztői indítás és a CI előállítja őket.
+A forráskatalógus `catalog/elements.py`, az egységes vektoros forrásgenerátor `tools/build_assets.py`. A `web/catalog.json` és a `components/schema_model/schema_catalog.inc` generált fájlok, kézzel nem szerkesztendők. Katalógusváltozáskor a `python3 tools/generate_catalog.py` parancsot is futtasd. A generált SVG-k nem kerülnek külön Gitbe; a fejlesztői indítás és a CI előállítja őket.
 
 PNG csomaghoz CairoSVG szükséges:
 
@@ -34,3 +34,11 @@ python3 tools/build_assets.py --png --output dist/graphics
 ```
 
 A megjelenítő a statikus képet és az animáció mozgó részét külön kezeli. A katalógus animációs középpontot és csatlakozópontokat is tárol. A kezdeti közös rajzcsaládok nem bizonyítják automatikusan minden berendezés készüléken tesztelt grafikai viselkedését.
+
+## Készülékes C-kód gazdagépes vizsgálata
+
+```sh
+IDF_PATH=/az/esp-idf/helye MBEDTLS_PATH=/az/esp-idf/helye/components/mbedtls/mbedtls python3 tools/test_native.py
+```
+
+A teszt az IDF saját cJSON és Mbed TLS forrásaival fordítja az éles `schema_model`, `app_store` és `app_web` C-kódot. A BSP/NVS/FreeRTOS és a HTTP socket réteget helyettesíti; a JSON-ellenőrzés, a CRC, az AES-GCM, a fájlműveletek, a titokszűrés, a revízióvédelem és az API-kezelők az éles kódból futnak. A CI ugyanazokat a pontos függőség-commitokat használja. Ez nem Wi-Fi-driver- vagy fizikai SD-teszt.

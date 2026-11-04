@@ -10,3 +10,5 @@
 - [Verziótörténet](verziotortenet/README.md)
 
 A dokumentáció a ténylegesen elkészült és ellenőrzött állapotot különválasztja a tervezett funkcióktól. A fizikai paneltesztet sem böngészős előnézet, sem firmware-fordítás nem helyettesíti.
+
+- [Készülékes fejlesztői build és helyreállítás](keszulek.md)

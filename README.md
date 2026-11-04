@@ -4,7 +4,7 @@
 
 **Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, a készülékes integráció és a végleges teljes grafikai készlet még nincs kész.
 
-A **B, térhatásosabb grafikai irány kiválasztva**. Elkészült a működési webszerkesztő első változata, a 138 típust tartalmazó törzskatalógus és a hash szerinti grafikai tár gazdagépes referencia-megvalósítása. A natív firmware jelenleg P4 platformindítás és diagnosztika; még nem futtatja a szerkesztett oldalakat, és nincs készülékes Loxone/OTA-integráció.
+A **B, térhatásosabb grafikai irány kiválasztva**. Elkészült a működési webszerkesztő első változata, a 138 típust tartalmazó törzskatalógus és a hash szerinti grafikai tár gazdagépes referencia-megvalósítása. A natív firmware-ben már a helyi webszerkesztő, a készülékes HTTP API, a védett beállító Wi-Fi és a titkosított, kétpéldányos SD-mentés is benne van. A szerkesztett oldalak natív futtatása és a készülékes Loxone/OTA-integráció még hátravan. [Készülékes indítás](doc/keszulek.md).
 
 A kipróbálható számítógépes előnézet indítása:
 

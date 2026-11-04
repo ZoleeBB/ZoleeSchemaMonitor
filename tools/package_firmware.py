@@ -22,7 +22,7 @@ with zipfile.ZipFile(DIST / "ZoleeSchemaMonitor-usb.zip", "w", zipfile.ZIP_DEFLA
         archive.write(file, name)
     archive.writestr("flasher_args.json", json.dumps(args, indent=2))
     pairs = " ".join(f'{offset} "{name}"' for offset, name in args["flash_files"].items())
-    archive.writestr("FLASH.txt", f"Platformellenőrző MS1 build. Nem teljes sémafuttató.\npython -m esptool --chip esp32p4 write_flash {pairs}\n")
+    archive.writestr("FLASH.txt", f"MS1 fejlesztői build: helyi webszerkesztő, SD-mentés, Wi-Fi és diagnosztika.\nA natív sémafuttató, Loxone és OTA még nincs bekötve.\nAz SD-csomag graphics/ könyvtárát másold a FAT32 kártya gyökerébe.\nElső beállítás: a kijelzőn látható védett Wi-Fi, majd http://192.168.4.1/\npython -m esptool --chip esp32p4 write_flash {pairs}\n")
 with (DIST / "SHA256SUMS.txt").open("w") as stream:
     for file in sorted(DIST.iterdir()):
         if file.suffix in {".zip", ".bin"}:

@@ -191,7 +191,7 @@ function renderBackup() {
 }
 
 function renderUpdate() {
-    $('#content').innerHTML = `<h1>${tr('update')}</h1><section><h2>${tr('firmwareUpload')}</h2><input type="file" accept=".bin" id="firmware-file"><div class="actions"><button id="firmware-upload" ${state.device.development ? 'disabled' : ''}>${tr('upload')}</button></div><progress id="upload-progress" value="0" max="100"></progress><p>${escape(state.device.firmware)}</p></section>`;
+    $('#content').innerHTML = `<h1>${tr('update')}</h1><section><h2>${tr('firmwareUpload')}</h2><input type="file" accept=".bin" id="firmware-file"><div class="actions"><button id="firmware-upload" ${state.device.development || state.device.capabilities?.ota === false ? 'disabled' : ''}>${tr('upload')}</button></div><progress id="upload-progress" value="0" max="100"></progress><p>${escape(state.device.firmware)}</p></section>`;
     $('#firmware-upload').onclick = () => {
         const file = $('#firmware-file').files[0];
         if (!file) return;
@@ -223,8 +223,8 @@ async function route() {
         .map(page => `<a data-nav="${page}" href="/${page === 'home' ? '' : page}">${tr(page)}</a>`).join('');
     $('#support-title').textContent = tr('support');
     $('#support-copy').textContent = tr('supportCopy');
-    $('#mode-banner').hidden = !state.device.development;
-    $('#mode-banner').textContent = tr('dev');
+    $('#mode-banner').hidden = !state.device.development && !state.device.integrationStatus;
+    $('#mode-banner').textContent = state.device.development ? tr('dev') : state.device.integrationStatus?.[language] || state.device.integrationStatus;
     $('#revolut').href = state.device.revolut;
     if (!state.device.revolut) $('#revolut').hidden = true;
     if (route === 'editor') editor = new Editor($('#content'), state, {tr, api, escape, feedback, chooseBinding, language});
