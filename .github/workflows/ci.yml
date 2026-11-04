@@ -60,6 +60,22 @@ jobs:
           CJSON_PATH: ${{ github.workspace }}/.native-deps/cjson
           MBEDTLS_PATH: ${{ github.workspace }}/.native-deps/mbedtls
         run: python3 tools/test_native.py
+      - uses: actions/checkout@v4
+        with:
+          repository: lvgl/lvgl
+          ref: v9.5.0
+          path: .native-deps/lvgl
+      - name: Statikus natív rajzoló valódi LVGL-lel
+        env:
+          CJSON_PATH: ${{ github.workspace }}/.native-deps/cjson
+          MBEDTLS_PATH: ${{ github.workspace }}/.native-deps/mbedtls
+          LVGL_SOURCE: .native-deps/lvgl
+          LVGL_HOST_BUILD: /tmp/schema-lvgl-host
+        run: |
+          printf '#define LV_CONF_H\n' > /tmp/schema-lv-conf.h
+          cmake -S "$LVGL_SOURCE" -B "$LVGL_HOST_BUILD" -DLV_BUILD_CONF_PATH=/tmp/schema-lv-conf.h -DCONFIG_LV_BUILD_EXAMPLES=OFF -DCONFIG_LV_BUILD_DEMOS=OFF -DCMAKE_C_FLAGS=-DLV_CONF_SKIP=1
+          cmake --build "$LVGL_HOST_BUILD" -j4
+          bash tools/test_scene.sh
       - name: Chromium telepítése
         run: |
           npm install --no-save playwright@1.62.1

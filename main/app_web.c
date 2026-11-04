@@ -129,7 +129,7 @@ static cJSON *device(void)
     cJSON_AddItemToObject(json, "wifi", wifi);
     cJSON_AddBoolToObject(capabilities, "ota", false);
     cJSON_AddBoolToObject(capabilities, "loxone", false);
-    cJSON_AddBoolToObject(capabilities, "nativeRenderer", false);
+    cJSON_AddBoolToObject(capabilities, "nativeRenderer", true);
     cJSON_AddItemToObject(json, "capabilities", capabilities);
     cJSON *integration = cJSON_CreateObject();
     cJSON_AddStringToObject(integration,

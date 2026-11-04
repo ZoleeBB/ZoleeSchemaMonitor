@@ -279,6 +279,14 @@ cJSON *app_store_project(uint32_t *revision)
     return copy;
 }
 
+uint32_t app_store_revision(void)
+{
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    uint32_t revision = s_revision;
+    xSemaphoreGive(s_lock);
+    return revision;
+}
+
 cJSON *app_store_settings(bool public_view)
 {
     xSemaphoreTake(s_lock, portMAX_DELAY);

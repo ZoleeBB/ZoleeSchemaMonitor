@@ -6,6 +6,7 @@
 #include "app_network.h"
 #include "app_store.h"
 #include "app_web.h"
+#include "app_scene.h"
 #include "bsp/esp-bsp.h"
 #include "esp_app_desc.h"
 #include "esp_log.h"
@@ -85,8 +86,8 @@ void app_main(void)
         lv_obj_t *status = lv_label_create(screen);
         lv_label_set_text(status,
                           "MS1 | Helyi webszerkeszto / Local web editor\n"
-                          "Loxone es semarendereles fejlesztes alatt.\n"
-                          "Loxone and native rendering are under development.");
+                          "Loxone es animaciok fejlesztes alatt.\n"
+                          "Loxone and animation are under development.");
         lv_obj_align(status, LV_ALIGN_TOP_MID, 0, 90);
         s_metrics = lv_label_create(screen);
         lv_obj_align(s_metrics, LV_ALIGN_CENTER, 0, 30);
@@ -105,6 +106,7 @@ void app_main(void)
     char previous[768] = {0};
     while (true)
     {
+        app_scene_poll();
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
         app_network_status_t network;
@@ -140,6 +142,6 @@ void app_main(void)
             snprintf(previous, sizeof(previous), "%s", text);
             bsp_display_unlock();
         }
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        vTaskDelay(pdMS_TO_TICKS(250));
     }
 }

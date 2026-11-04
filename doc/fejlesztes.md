@@ -42,3 +42,13 @@ IDF_PATH=/az/esp-idf/helye MBEDTLS_PATH=/az/esp-idf/helye/components/mbedtls/mbe
 ```
 
 A teszt az IDF saját cJSON és Mbed TLS forrásaival fordítja az éles `schema_model`, `app_store` és `app_web` C-kódot. A BSP/NVS/FreeRTOS és a HTTP socket réteget helyettesíti; a JSON-ellenőrzés, a CRC, az AES-GCM, a fájlműveletek, a titokszűrés, a revízióvédelem és az API-kezelők az éles kódból futnak. A CI ugyanazokat a pontos függőség-commitokat használja. Ez nem Wi-Fi-driver- vagy fizikai SD-teszt.
+
+## Natív LVGL-próba
+
+A managed LVGL 9.5.0 forrásból készíts gazdagépes buildet `LV_CONF_SKIP=1` fordítási definícióval, kikapcsolt demókkal/példákkal. Ezután:
+
+```sh
+IDF_PATH=/az/esp-idf/helye LVGL_HOST_BUILD=/az/lvgl/host/build bash tools/test_scene.sh
+```
+
+Ez az éles `app_scene.c` rajzolót futtatja valódi LVGL objektumokon, virtuális kijelzővel; SD-PNG dekódolást és fizikai panelt nem helyettesít.

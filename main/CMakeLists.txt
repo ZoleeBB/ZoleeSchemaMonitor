@@ -8,7 +8,7 @@ set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${WEB_SOURCES}
     "${CMAKE_CURRENT_LIST_DIR}/../catalog/elements.py")
 
 idf_component_register(
-    SRCS "app_main.c" "app_display.c" "app_diagnostics.c" "app_store.c" "app_network.c" "app_web.c"
+    SRCS "app_main.c" "app_display.c" "app_diagnostics.c" "app_store.c" "app_network.c" "app_web.c" "app_scene.c" "fonts/app_font_20.c"
     INCLUDE_DIRS "." "${CMAKE_CURRENT_BINARY_DIR}"
     REQUIRES nvs_flash esp_timer esp_app_format esp_hw_support esp_system schema_model esp_http_server esp_netif esp_event esp_wifi mdns mbedtls
 )
