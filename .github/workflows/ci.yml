@@ -73,7 +73,7 @@ jobs:
           LVGL_HOST_BUILD: /tmp/schema-lvgl-host
         run: |
           printf '#define LV_CONF_H\n' > /tmp/schema-lv-conf.h
-          cmake -S "$LVGL_SOURCE" -B "$LVGL_HOST_BUILD" -DLV_BUILD_CONF_PATH=/tmp/schema-lv-conf.h -DCONFIG_LV_BUILD_EXAMPLES=OFF -DCONFIG_LV_BUILD_DEMOS=OFF -DCMAKE_C_FLAGS=-DLV_CONF_SKIP=1
+          cmake -S "$LVGL_SOURCE" -B "$LVGL_HOST_BUILD" -DLV_BUILD_CONF_PATH=/tmp/schema-lv-conf.h -DCONFIG_LV_BUILD_EXAMPLES=OFF -DCONFIG_LV_BUILD_DEMOS=OFF '-DCMAKE_C_FLAGS=-DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB'
           cmake --build "$LVGL_HOST_BUILD" -j4
           bash tools/test_scene.sh
       - name: Chromium telepítése
@@ -104,7 +104,7 @@ jobs:
           retention-days: 7
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && hashFiles('.browser-test/*.png') != ''
         with:
           name: schema-browser-preview
           path: .browser-test/*.png

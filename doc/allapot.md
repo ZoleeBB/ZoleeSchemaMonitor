@@ -36,3 +36,12 @@ A csövek három pontjának mozgása a töréspontokból számolt pixelhosszt k�
 A főciklus 50 ms-os célütemmel hívja a motort, tényleges eltelt idővel; hosszú megakadás után legfeljebb 200 ms-ot lép. A mozgásciklus nem olvas JSON-t, SD-t vagy hálózatot. Az alkalmazás fix tárolókat és statikus címkeszövegeket használ; változatlan értéket nem ír újra. A nagy geometriai, állapot- és pillanatkép-tárolók a P4-en PSRAM BSS-ben vannak. Diagnosztikai nézetben az animáció szünetel. A fizikai 20 FPS és az LVGL teljes rajzolási memóriaigénye még nem mért.
 
 Ez nem zárja le a korábbi korlátozásokat: sötét téma, pontos formázási egyezés, permetanimációk, végleges grafikák, Loxone-kapcsolat és OTA még szükségesek.
+
+
+## Loxone protokollfeldolgozás előkészítése
+
+A `schema_loxone` hordozható modul teljes WS-üzenetekből ellenőrzi a Loxone-fejlécet és a pontos payloadhosszt. A becsült fejlécet nem használja foglalásra, a hibás vagy túl nagy üzenetből nem ad részleges eseményt. A transzport feladata marad a WebSocket-fragmentumok összeállítása és a hibánál történő bontás.
+
+Az alkalmazásstruktúra-parser csak olvasható állapotokat ad vissza, parancs-UUID-kat nem. A subControls elemek a hiányzó helyiség/funkció adatait a szülőtől öröklik. Jelenlegi korlát: 512 KiB struktúra, 2048 állapotbejegyzés, nyolc beágyazási szint; túllépéskor nem aktivál részleges listát. A gazdagépes teszt az üzenetkeretezést és egy szintetikus LoxAPP-struktúrát ellenőriz. A hálózati adapter, kulcscsere és bejelentkezés továbbra is hátravan; a készülék még nem kapcsolódik Miniserverhez.
+
+A CI animációs próbáját az LVGL memóriafoglalójának egységesítésével javítottuk: a host teszt ugyanúgy C könyvtári mallocot használ, mint a P4. A böngésző-képek feltöltése csak akkor fut, ha készültek képek; korábban a megelőző teszthiba után egy másodlagos hiányzó-artefaktum hiba is elfedte az első okot.
