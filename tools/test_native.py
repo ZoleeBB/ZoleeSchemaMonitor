@@ -22,6 +22,8 @@ def main():
         run(str(Path(folder) / "journal"))
         run(*flags, *common, "components/schema_model/schema_loxone.c", "tests/native/loxone_test.c", "-lm", "-o", str(Path(folder) / "loxone"))
         run(str(Path(folder) / "loxone"))
+        run(*flags, *common, "components/schema_model/schema_lx_cache.c", "tests/native/cache_test.c", "-lm", "-o", str(Path(folder) / "cache"))
+        run(str(Path(folder) / "cache"))
         run("node", "tests/native_parity.mjs", cli)
         if "MBEDTLS_PATH" in os.environ:
             tls = Path(os.environ["MBEDTLS_PATH"])

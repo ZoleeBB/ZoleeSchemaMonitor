@@ -2,6 +2,7 @@
 #include "app_diagnostics.h"
 #include "app_network.h"
 #include "app_store.h"
+#include "app_loxone.h"
 #include "esp_app_desc.h"
 #include "esp_http_server.h"
 #include <math.h>
@@ -122,24 +123,24 @@ static cJSON *device(void)
                             network.connected  ? network.ip
                             : network.recovery ? "192.168.4.1"
                                                : "");
-    cJSON_AddBoolToObject(json, "connected", false);
+    cJSON_AddBoolToObject(json, "connected", app_loxone_connected());
     cJSON_AddNumberToObject(json, "uptime", metrics.uptime_seconds);
     cJSON_AddBoolToObject(wifi, "connected", network.connected);
     cJSON_AddNumberToObject(wifi, "rssi", network.rssi);
     cJSON_AddItemToObject(json, "wifi", wifi);
     cJSON_AddBoolToObject(capabilities, "ota", false);
-    cJSON_AddBoolToObject(capabilities, "loxone", false);
+    cJSON_AddBoolToObject(capabilities, "loxone", true);
     cJSON_AddBoolToObject(capabilities, "nativeRenderer", true);
     cJSON_AddItemToObject(json, "capabilities", capabilities);
     cJSON *integration = cJSON_CreateObject();
     cJSON_AddStringToObject(integration,
                             "hu",
-                            "MS1: a helyi szerkesztő és a mentés bekötve; a natív megjelenítő, "
-                            "Loxone és OTA még fejlesztés alatt.");
+                            "MS1 fejlesztői build: Loxone-kliens bekötve, fizikai teszt függőben; "
+                            "OTA és teljes grafikai készlet még fejlesztés alatt.");
     cJSON_AddStringToObject(integration,
                             "en",
-                            "MS1: local editor and storage integrated; native renderer, Loxone and "
-                            "OTA are under development.");
+                            "MS1 development build: Loxone client integrated, hardware validation "
+                            "pending; OTA and complete graphics are under development.");
     cJSON_AddItemToObject(json, "integrationStatus", integration);
     cJSON_AddItemToObject(json, "events", cJSON_CreateArray());
     return json;
@@ -212,18 +213,11 @@ static esp_err_t get(httpd_req_t *request)
     if (!strcmp(path, "/api/loxone/catalog"))
     {
         cJSON *json = cJSON_CreateObject();
-        cJSON_AddItemToObject(json, "catalog", cJSON_CreateArray());
+        cJSON_AddItemToObject(json, "catalog", app_loxone_catalog());
         return answer(request, "200 OK", json);
     }
     if (!strcmp(path, "/api/live"))
-    {
-        cJSON *json = cJSON_CreateObject();
-        cJSON_AddBoolToObject(json, "connected", false);
-        cJSON_AddItemToObject(json, "values", cJSON_CreateObject());
-        cJSON_AddStringToObject(
-            json, "status", "Loxone integráció fejlesztés alatt / Loxone integration pending");
-        return answer(request, "200 OK", json);
-    }
+        return answer(request, "200 OK", app_loxone_live());
     if (!strcmp(path, "/api/diagnostics"))
     {
         app_diagnostics_t data;

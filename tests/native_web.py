@@ -45,5 +45,5 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
     assert call("/graphics/light/../../schema-state/state-1.bin")["status"].startswith("404")
     assert call("/nonexistent")["status"].startswith("404")
     capabilities = decoded(call("/api/device"))["capabilities"]
-    assert capabilities["ota"] is False and capabilities["loxone"] is False
+    assert capabilities["ota"] is False and capabilities["loxone"] is True
 print("Native HTTP: embedded editor, import/export, CAS, secret filtering, Host/Origin, disabled OTA OK")

@@ -23,3 +23,6 @@ A böngészős teszt a tesztkiszolgálót maga indítja, külön ideiglenes adat
 
 
 Natív animációs motor: valódi LVGL-lel, virtuális kijelzőn sikeres az explicit aktivitás elsőbbsége, szigorú teljesítményküszöb, minimális sebesség, fordított csőirány, forgó üzemjelző, százalékkijelzés, skálázott hőmérséklet és adatvesztés kezelése. Az értékeket a teszt RAM-adatolvasója adja; ez nem Miniserver- vagy fizikai FPS-próba. A korábbi statikus nézet tesztjei szintén megmaradtak.
+
+
+Loxone-kliens bekötése: sikeres helyi ESP-IDF 5.5.4 P4-fordítás/linkelés, kb. 1,68 MB alkalmazás (8 MiB OTA-partíció, 80% szabad). A host cache-próba ellenőrzi az ismeretlen/nulla különbségét, felülírást, NaN-kezelést, csonka csomagot, munkamenet-törlést és a 8192 helyes tár túltöltésének teljes érvénytelenítését. A HTTP API teszt a Loxone backend helyettesítőjét használja; az RSA/JWT/WebSocket hálózati hitelesítést még nem vizsgálja valódi Miniserverrel. Ilyen helyszíni próba ebben a munkamenetben nem történt.

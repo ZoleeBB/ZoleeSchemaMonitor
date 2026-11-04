@@ -238,6 +238,8 @@ async function route() {
     timer = setInterval(async () => {
         try {
             const live = await api('/api/live');
+            const wasConnected = state.device.connected;
+            if (live.connected && !wasConnected) state.sources = (await api('/api/loxone/catalog')).catalog;
             state.values = live.values;
             state.device.connected = live.connected;
             editor?.updateValues();

@@ -147,3 +147,16 @@ int main(void)
     cJSON_Delete(response);
     cJSON_Delete(json);
 }
+
+bool app_loxone_connected(void)
+{
+    return false;
+}
+cJSON *app_loxone_catalog(void)
+{
+    return cJSON_CreateArray();
+}
+cJSON *app_loxone_live(void)
+{
+    return cJSON_Parse("{\"connected\":false,\"values\":{},\"status\":\"test\"}");
+}

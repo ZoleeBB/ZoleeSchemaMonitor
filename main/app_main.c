@@ -7,6 +7,7 @@
 #include "app_store.h"
 #include "app_web.h"
 #include "app_scene.h"
+#include "app_loxone.h"
 #include "bsp/esp-bsp.h"
 #include "esp_app_desc.h"
 #include "esp_log.h"
@@ -99,6 +100,10 @@ void app_main(void)
         ESP_LOGE("schema", "Wi-Fi: %s", esp_err_to_name(error));
     else
     {
+        error = app_loxone_start();
+        if (error != ESP_OK)
+            ESP_LOGE("schema", "Loxone: %s", esp_err_to_name(error));
+        app_scene_set_reader(app_loxone_read, NULL);
         error = app_web_start();
         if (error != ESP_OK)
             ESP_LOGE("schema", "HTTP: %s", esp_err_to_name(error));

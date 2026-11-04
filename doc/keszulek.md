@@ -1,6 +1,6 @@
 # Készülékes fejlesztői build
 
-Ez az MS1 részállapota. A helyi szerkesztő és a mentés bekötve, a kijelzőn statikus sémanézet és diagnosztikai lap is látszik. Nincs még animáció, valódi Miniserver-adat vagy OTA. A frissítés kizárólag USB-n történjen.
+Ez az MS1 részállapota. A helyi szerkesztő és a mentés bekötve, a kijelzőn statikus sémanézet és diagnosztikai lap is látszik. A numerikus Loxone-kliens és az animációk bekötve, de a fizikai Miniserver-próba még szükséges. Készülékes OTA még nincs. A frissítés kizárólag USB-n történjen.
 
 ## Első indítás
 
@@ -22,9 +22,14 @@ A helyi adminisztráció a saját hálózat és a WPA2 beállító hálózat biz
 
 ## Még szükséges
 
-A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív renderelő, a Loxone protokoll, a differenciális grafikai OTA, a teljes diagnosztikai ablak és az MS1 teljes eszközkészletének véglegesítése. A gazdagépes tesztek nem helyettesítik ezeket.
+A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív renderelő és a Loxone-kliens fizikai ellenőrzése, a differenciális grafikai OTA, a teljes diagnosztikai ablak és az MS1 teljes eszközkészletének véglegesítése. A gazdagépes tesztek nem helyettesítik ezeket.
 
 
 Statikus natív sémanézet: a mentett projekt aktuális oldala már LVGL objektumokként megjelenik. A PNG-ket a `graphics/light/` könyvtárból, a manifest méret- és SHA-256-adataival ellenőrizve olvassa; hibás/hiányzó grafikánál az elem neve látszik. Csövek, szövegek, értékhelyőrzők és a negyedfordulatos képek bekötve. Lapozás a felső nyilakkal vagy vízszintes gesztussal; az Info/Séma gomb a diagnosztikát váltja. Üres első projektnél a diagnosztika marad az indulónézet. A háttérben mentett új revízió automatikusan betöltődik, változatlan projektnél nincs újrarajzolás vagy projektmásolás.
 
-Ez még korlátozott működési változat: világos nézet, fix alapszínű háttér, 20 px-es Unicode betűkészlet skálázása; nincs élő érték vagy animáció. A szerkesztő összes formázási és témalehetőségének pontos natív egyezése, a PNG dekódolás és gesztusok fizikai próbája még szükséges. A host LVGL-próba 150 csövet, álló/fekvő koordinátákat, lapozást, revízió-újrafelhasználást és diagnosztikaváltást igazol; a 20 FPS-t nem méri.
+Ez még korlátozott működési változat: világos nézet, fix alapszínű háttér, 20 px-es Unicode betűkészlet skálázása; az élő numerikus érték és animáció a Loxone-klienshez csatlakozik, fizikai próba még szükséges. A szerkesztő összes formázási és témalehetőségének pontos natív egyezése, a PNG dekódolás és gesztusok fizikai próbája még szükséges. A host LVGL-próba 150 csövet, álló/fekvő koordinátákat, lapozást, revízió-újrafelhasználást és diagnosztikaváltást igazol; a 20 FPS-t nem méri.
+
+
+### Loxone-profil kipróbálása
+
+A Loxone oldalon a Miniserver címe, portja, felhasználója és jelszava menthető. WSS/TLS esetén a megfelelő CA PEM is szükséges. Sikeres tartós mentés után a készülék újraindul és önállóan csatlakozik. A kapcsolati státuszt a webes Loxone oldalon lehet követni. Kapcsolódás után a séma értékválasztója az alkalmazásstruktúra helyiség/funkció szűrőit és állapot-UUID-jait kínálja. Fizikai Miniserveres ellenőrzés még szükséges, ezért a jelenlegi build továbbra is fejlesztői változat.
