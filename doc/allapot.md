@@ -6,12 +6,12 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | --- | --- | --- |
 | Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték, import/export, undo, HU/EN | Használhatósági finomítás és készülékes regresszió |
 | Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások | Teljes eszközmentés, kártya nélküli helyreállítás és SD újracsatolás |
-| Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Sötét téma, háttérválasztás és pontos formázási egyezés, fizikai érintéspróba |
+| Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
 | Grafika | B irány, 138 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | SHA-címzett, újrafelhasználható és tranzakciós grafikai tár gazdagépes referenciája | Készülékes grafikai/firmware OTA, kompatibilitás és rollback együtt |
-| P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, valódi erőforrás-metrikák | Teljes átemelt diagnosztikai ablak, nappali/éjszakai témaváltás/fényerő |
+| P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, valódi erőforrás-metrikák | Teljes átemelt diagnosztikai ablak és fizikai fényerőpróba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
 
 ## Loxone-kliens
@@ -33,3 +33,14 @@ A rajz és animáció nagy tárolói, valamint a Loxone-worker stackje PSRAM-ban
 - A számítógépes `--demo` külön szimulált előnézet. A készülék nem szimulál adatot: kapcsolat nélkül ismeretlent mutat.
 - A készülékes OTA nincs kész; telepítés USB-n, a grafikai csomag kézzel az SD-re másolandó.
 - A CI host LVGL-je a P4-hez hasonlóan C könyvtári memóriafoglalót használ. A korábbi kis belső tesztheap miatti hibát reprodukáltuk és javítottuk.
+
+
+## Nappali/éjszakai megjelenítés
+
+A `nightSource` numerikus Loxone-párosítás pozitív értéke éjszakai módot választ; nulla vagy negatív értéke nappalit. Induláskor nappali a biztonságos alap. Ismeretlen jel esetén az utolsó ismert téma és fényerő marad, nem vált vissza nappalra. A nappali/éjszakai fényerőt a mentett beállítások adják, a BSP csak változáskor kap új értéket, a kijelzőzáron kívül. A 0%-os éjszakai fényerő szándékosan is választható.
+
+A natív nézet a megfelelő `graphics/light/` vagy `graphics/dark/` PNG-t tölti be, a manifest méret- és SHA-adataival ellenőrizve. Azonos hash és méret esetén az aktuális oldal elemei egy PNG-puffert és egy LVGL cache-forrást osztanak meg; felszabadításkor csak a tulajdonos szabadít. A meglévő oldal az új képek előtöltése alatt megmarad, SD-művelet nincs a kijelzőzár alatt.
+
+A sima, hűvös és meleg háttér színei a szerkesztő palettáját követik. A natív átmenet függőleges, a böngészőé átlós; a sima háttérnél nincs átmenet. A készülék nyelvbeállítása az Info/Séma feliratot és a hiányzó grafika helyén megjelenő elemnevet is választja. Téma-, nyelv- vagy projektváltozáskor újraépül az oldal, változatlan állapotnál nem.
+
+A virtuális LVGL-próba a háttérstílusokat, a nappali/éjszakai módot és fényerőhívásokat, az ismeretlen jel megtartását, a nyelvet és a megosztott PNG-forrást ellenőrzi. Ez nem a fizikai panel fényerejének, a tényleges SD-PNG dekódolásnak vagy a 20 FPS-nek a mérése.

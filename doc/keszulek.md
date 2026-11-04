@@ -27,9 +27,14 @@ A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív ren
 
 Statikus natív sémanézet: a mentett projekt aktuális oldala már LVGL objektumokként megjelenik. A PNG-ket a `graphics/light/` könyvtárból, a manifest méret- és SHA-256-adataival ellenőrizve olvassa; hibás/hiányzó grafikánál az elem neve látszik. Csövek, szövegek, értékhelyőrzők és a negyedfordulatos képek bekötve. Lapozás a felső nyilakkal vagy vízszintes gesztussal; az Info/Séma gomb a diagnosztikát váltja. Üres első projektnél a diagnosztika marad az indulónézet. A háttérben mentett új revízió automatikusan betöltődik, változatlan projektnél nincs újrarajzolás vagy projektmásolás.
 
-Ez még korlátozott működési változat: világos nézet, fix alapszínű háttér, 20 px-es Unicode betűkészlet skálázása; az élő numerikus érték és animáció a Loxone-klienshez csatlakozik, fizikai próba még szükséges. A szerkesztő összes formázási és témalehetőségének pontos natív egyezése, a PNG dekódolás és gesztusok fizikai próbája még szükséges. A host LVGL-próba 150 csövet, álló/fekvő koordinátákat, lapozást, revízió-újrafelhasználást és diagnosztikaváltást igazol; a 20 FPS-t nem méri.
+Ez még korlátozott működési változat: világos/sötét nézet és háromféle háttér, 20 px-es Unicode betűkészlet skálázása; az élő numerikus érték és animáció a Loxone-klienshez csatlakozik, fizikai próba még szükséges. A szerkesztő összes formázási és témalehetőségének pontos natív egyezése, a PNG dekódolás és gesztusok fizikai próbája még szükséges. A host LVGL-próba 150 csövet, álló/fekvő koordinátákat, lapozást, revízió-újrafelhasználást és diagnosztikaváltást igazol; a 20 FPS-t nem méri.
 
 
 ### Loxone-profil kipróbálása
 
 A Loxone oldalon a Miniserver címe, portja, felhasználója és jelszava menthető. WSS/TLS esetén a megfelelő CA PEM is szükséges. Sikeres tartós mentés után a készülék újraindul és önállóan csatlakozik. A kapcsolati státuszt a webes Loxone oldalon lehet követni. Kapcsolódás után a séma értékválasztója az alkalmazásstruktúra helyiség/funkció szűrőit és állapot-UUID-jait kínálja. Fizikai Miniserveres ellenőrzés még szükséges, ezért a jelenlegi build továbbra is fejlesztői változat.
+
+
+### Éjszakai nézet és fényerő
+
+A Beállítások oldalon válassz éjszakai Loxone-jelet, és állítsd be a két fényerőt. Pozitív jel éjszakát, nulla vagy negatív jel nappalt jelent. Kapcsolatvesztéskor a legutóbbi mód marad; az első érvényes jel előtt nappali a nézet. A fényerő fizikai ellenőrzése még szükséges. A natív sötét grafikákhoz az SD-n a `graphics/dark/` PNG-k is legyenek meg.

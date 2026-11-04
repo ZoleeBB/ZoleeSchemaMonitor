@@ -23,6 +23,8 @@ typedef struct
 {
     lv_image_dsc_t image;
     unsigned char *bytes;
+    unsigned owner;
+    char digest[65];
 } picture_t;
 static SCENE_BSS picture_t s_pictures[SM_MAX_ELEMENTS];
 static SCENE_BSS lv_point_precise_t s_points[SM_MAX_ELEMENTS][SM_MAX_POINTS];
@@ -45,6 +47,20 @@ static SCENE_BSS runtime_t s_runtime[SM_MAX_ELEMENTS];
 static unsigned s_runtime_count;
 static app_scene_read_fn s_reader;
 static void *s_reader_context;
+static sm_binding_t s_night_source;
+static bool s_dark, s_drawn_dark, s_english, s_appearance_dirty = true;
+static int s_day_brightness = 85, s_night_brightness = 15, s_applied_brightness = -1;
+
+void app_scene_configure(const cJSON *settings)
+{
+    const cJSON *display = cJSON_GetObjectItemCaseSensitive(settings, "display");
+    sm_binding_parse(cJSON_GetObjectItemCaseSensitive(display, "nightSource"), &s_night_source);
+    s_day_brightness = sm_json_number(display, "dayBrightness", 85);
+    s_night_brightness = sm_json_number(display, "nightBrightness", 15);
+    s_english = !strcmp(
+        sm_json_string(cJSON_GetObjectItemCaseSensitive(settings, "project"), "language"), "en");
+    s_appearance_dirty = true;
+}
 
 void app_scene_set_reader(app_scene_read_fn reader, void *context)
 {
@@ -247,13 +263,14 @@ static cJSON *read_json(const char *path)
 
 /* Csak katalógusból képzett útvonalat, manifest szerinti méretet és SHA-t fogadunk.
  * Minden fájlolvasás a kijelzőzár felvétele ELŐTT történik. */
-static picture_t load_picture(const cJSON *manifest, const char *asset)
+static picture_t load_picture(
+    const cJSON *manifest, const char *asset, bool dark, const picture_t *loaded, unsigned count)
 {
-    picture_t result = {0};
+    picture_t result = {.owner = count};
     if (!sm_asset_find(asset) || sm_json_number(manifest, "assetAbi", 0) != 1)
         return result;
     char relative[96], path[128];
-    snprintf(relative, sizeof(relative), "light/%s.png", asset);
+    snprintf(relative, sizeof(relative), "%s/%s.png", dark ? "dark" : "light", asset);
     const cJSON *entry, *found = NULL;
     cJSON_ArrayForEach(entry,
                        cJSON_GetObjectItemCaseSensitive(
@@ -265,6 +282,14 @@ static picture_t load_picture(const cJSON *manifest, const char *asset)
     double size = sm_json_number(found, "size", 0);
     if (size < 24 || size > 262144 || size != (size_t)size)
         return result;
+    const char *expected_hash = sm_json_string(found, "sha256");
+    if (strlen(expected_hash) != 64)
+        return result;
+    /* Azonos tartalomhoz egyetlen PNG-puffer és LVGL cache-kulcs tartozik. */
+    for (unsigned i = 0; i < count; i++)
+        if (loaded[i].bytes && loaded[i].image.data_size == (size_t)size &&
+            !strcmp(loaded[i].digest, expected_hash))
+            return loaded[i];
     snprintf(path, sizeof(path), "/sdcard/graphics/%s", relative);
     FILE *file = fopen(path, "rb");
     if (!file)
@@ -291,6 +316,7 @@ static picture_t load_picture(const cJSON *manifest, const char *asset)
         return result;
     }
     result.bytes = bytes;
+    snprintf(result.digest, sizeof(result.digest), "%s", digest);
     result.image = (lv_image_dsc_t){.header = {.magic = LV_IMAGE_HEADER_MAGIC,
                                                .cf = LV_COLOR_FORMAT_RAW_ALPHA,
                                                .w = 160,
@@ -322,7 +348,17 @@ static void button(lv_obj_t *parent, const char *text, int x, intptr_t direction
 
 void app_scene_poll(void)
 {
-    if (app_store_revision() == s_revision && atomic_load(&s_page) == s_drawn_page)
+    /* Ismeretlen éjszakai jel nem egyenlő nappallal: az utolsó ismert mód marad.
+     * Induláskor nappali a biztonságos alapérték. A BSP-hívás kijelzőzáron kívül fut. */
+    sm_signal_t night = signal_read(&s_night_source);
+    if (night.valid)
+        s_dark = night.value > 0;
+    int brightness = s_dark ? s_night_brightness : s_day_brightness;
+    if (brightness != s_applied_brightness && bsp_display_brightness_set(brightness) == ESP_OK)
+        s_applied_brightness = brightness;
+    bool appearance_changed = s_appearance_dirty || s_dark != s_drawn_dark;
+    if (!appearance_changed && app_store_revision() == s_revision &&
+        atomic_load(&s_page) == s_drawn_page)
         return;
     uint32_t revision;
     cJSON *project = app_store_project(&revision);
@@ -336,7 +372,7 @@ void app_scene_poll(void)
         page = 0;
         atomic_store(&s_page, 0);
     }
-    if (revision == s_revision && page == s_drawn_page)
+    if (!appearance_changed && revision == s_revision && page == s_drawn_page)
     {
         cJSON_Delete(project);
         return;
@@ -355,14 +391,16 @@ void app_scene_poll(void)
     cJSON_ArrayForEach(element, elements)
     {
         if (!strcmp(sm_json_string(element, "type"), "equipment"))
-            pictures[index] = load_picture(manifest, sm_json_string(element, "asset"));
+            pictures[index] =
+                load_picture(manifest, sm_json_string(element, "asset"), s_dark, pictures, index);
         index++;
     }
     cJSON_Delete(manifest);
     if (!bsp_display_lock(1000))
     {
         for (unsigned i = 0; i < SM_MAX_ELEMENTS; i++)
-            free(pictures[i].bytes);
+            if (pictures[i].owner == i)
+                free(pictures[i].bytes);
         free(pictures);
         cJSON_Delete(project);
         return;
@@ -371,9 +409,10 @@ void app_scene_poll(void)
         lv_obj_delete(s_root);
     for (unsigned i = 0; i < SM_MAX_ELEMENTS; i++)
     {
-        if (s_pictures[i].bytes)
+        if (s_pictures[i].bytes && s_pictures[i].owner == i)
             lv_image_cache_drop(&s_pictures[i].image);
-        free(s_pictures[i].bytes);
+        if (s_pictures[i].owner == i)
+            free(s_pictures[i].bytes);
     }
     memcpy(s_pictures, pictures, sizeof(s_pictures));
     free(pictures);
@@ -382,7 +421,13 @@ void app_scene_poll(void)
     s_root = lv_obj_create(lv_screen_active());
     lv_obj_remove_style_all(s_root);
     lv_obj_set_size(s_root, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_color(s_root, lv_color_hex(0xf1f5f7), 0);
+    const char *background = sm_json_string(selected, "background");
+    bool warm = !strcmp(background, "warm"), plain = !strcmp(background, "plain");
+    uint32_t first = s_dark ? 0x17232f : warm ? 0xfaf8f1 : 0xf7fafc;
+    uint32_t last = s_dark ? 0x25394a : warm ? 0xe9e1d7 : 0xdfeaf0;
+    lv_obj_set_style_bg_color(s_root, lv_color_hex(first), 0);
+    lv_obj_set_style_bg_grad_color(s_root, lv_color_hex(last), 0);
+    lv_obj_set_style_bg_grad_dir(s_root, plain ? LV_GRAD_DIR_NONE : LV_GRAD_DIR_VER, 0);
     lv_obj_set_style_bg_opa(s_root, LV_OPA_COVER, 0);
     lv_obj_remove_flag(s_root, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_add_event_cb(s_root, gesture, LV_EVENT_GESTURE, NULL);
@@ -408,6 +453,8 @@ void app_scene_poll(void)
         int w = sm_json_number(element, "w", .1) * width,
             h = sm_json_number(element, "h", .1) * height;
         lv_color_t color = lv_color_hex(strtoul(sm_json_string(element, "color") + 1, NULL, 16));
+        if (s_dark && !strcmp(sm_json_string(element, "color"), "#456172"))
+            color = lv_color_hex(0xd5e6f0);
         if (!strcmp(type, "pipe"))
         {
             unsigned n = 0;
@@ -450,7 +497,7 @@ void app_scene_poll(void)
             {
                 lv_obj_t *image = lv_image_create(s_root);
                 runtime->body = image;
-                lv_image_set_src(image, &s_pictures[index].image);
+                lv_image_set_src(image, &s_pictures[s_pictures[index].owner].image);
                 lv_image_set_scale(image, side * 256 / 160);
                 lv_image_set_pivot(image, 80, 80);
                 lv_image_set_rotation(image, sm_json_number(element, "rotation", 0) * 10);
@@ -459,9 +506,17 @@ void app_scene_poll(void)
             else
             {
                 const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
-                label(s_root, asset ? asset->name_hu : "?", x, y, color);
+                label(s_root,
+                      asset ? (s_english ? asset->name_en : asset->name_hu) : "?",
+                      x,
+                      y,
+                      color);
             }
-            label(s_root, sm_json_string(element, "label"), x, y + h, lv_color_hex(0x345060));
+            label(s_root,
+                  sm_json_string(element, "label"),
+                  x,
+                  y + h,
+                  lv_color_hex(s_dark ? 0xdfecf4 : 0x354e60));
             if (cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(element, "showPower")))
                 runtime->power_label = label(s_root, "— %", x, y + h + 24, color);
             const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
@@ -507,12 +562,18 @@ void app_scene_poll(void)
         lv_obj_set_size(s_toggle, 150, 36);
         lv_obj_align(s_toggle, LV_ALIGN_TOP_RIGHT, -4, 4);
         lv_obj_add_event_cb(s_toggle, toggle, LV_EVENT_CLICKED, NULL);
-        lv_obj_center(label(s_toggle, "Info / Séma", 0, 0, lv_color_white()));
+        lv_obj_center(
+            label(s_toggle, s_english ? "Info / Schema" : "Info / Séma", 0, 0, lv_color_white()));
     }
     if (s_revision == UINT32_MAX && count == 1 && cJSON_GetArraySize(elements) == 0)
         atomic_store(&s_diagnostics, true);
     if (atomic_load(&s_diagnostics))
         lv_obj_add_flag(s_root, LV_OBJ_FLAG_HIDDEN);
+    if (s_appearance_dirty)
+        lv_label_set_text(lv_obj_get_child(s_toggle, 0),
+                          s_english ? "Info / Schema" : "Info / Séma");
+    s_drawn_dark = s_dark;
+    s_appearance_dirty = false;
     s_revision = revision;
     s_drawn_page = page;
     bsp_display_unlock();

@@ -3,6 +3,14 @@
 #include "../../main/app_scene.c"
 static cJSON *s_test_project;
 static uint32_t s_test_revision;
+static unsigned s_brightness_writes;
+static int s_test_brightness;
+esp_err_t bsp_display_brightness_set(int percent)
+{
+    s_brightness_writes++;
+    s_test_brightness = percent;
+    return ESP_OK;
+}
 bool bsp_display_lock(unsigned timeout)
 {
     (void)timeout;
@@ -140,7 +148,68 @@ int main(void)
     app_scene_update(100);
     assert(!strcmp(lv_label_get_text(s_runtime[148].power_label), "— %"));
     assert(!strcmp(lv_label_get_text(s_runtime[149].value_label), "— °C"));
+    cJSON *settings = sm_settings_defaults();
+    cJSON *settings_display = cJSON_GetObjectItem(settings, "display");
+    cJSON_ReplaceItemInObject(
+        settings_display,
+        "nightSource",
+        cJSON_Parse("{\"uuid\":\"32345678-1234-5678-0102030405060708\",\"scale\":1,\"offset\":0}"));
+    cJSON_ReplaceItemInObject(
+        cJSON_GetObjectItem(settings, "project"), "language", cJSON_CreateString("en"));
+    app_scene_configure(settings);
+    cJSON_Delete(settings);
+    s_test_valid = true;
+    s_test_power = 1;
+    app_scene_poll();
+    assert(s_dark && s_drawn_dark && s_test_brightness == 15);
+    assert(lv_color_to_u32(lv_obj_get_style_bg_color(s_root, 0)) ==
+           lv_color_to_u32(lv_color_hex(0x17232f)));
+    assert(!strcmp(lv_label_get_text(lv_obj_get_child(s_toggle, 0)), "Info / Schema"));
+    previous = s_root;
+    unsigned writes = s_brightness_writes;
+    app_scene_poll();
+    assert(s_root == previous && s_brightness_writes == writes);
+    s_test_valid = false;
+    app_scene_poll();
+    assert(s_dark && s_test_brightness == 15 && s_brightness_writes == writes);
+    s_test_valid = true;
+    s_test_power = 0;
+    cJSON_ReplaceItemInObject(second, "background", cJSON_CreateString("warm"));
+    s_test_revision++;
+    app_scene_poll();
+    assert(!s_dark && s_test_brightness == 85);
+    assert(lv_color_to_u32(lv_obj_get_style_bg_color(s_root, 0)) ==
+           lv_color_to_u32(lv_color_hex(0xfaf8f1)));
+    cJSON_ReplaceItemInObject(second, "background", cJSON_CreateString("plain"));
+    s_test_revision++;
+    app_scene_poll();
+    assert(lv_obj_get_style_bg_grad_dir(s_root, 0) == LV_GRAD_DIR_NONE);
+    settings = sm_settings_defaults();
+    settings_display = cJSON_GetObjectItem(settings, "display");
+    cJSON_ReplaceItemInObject(
+        settings_display,
+        "nightSource",
+        cJSON_Parse("{\"uuid\":\"32345678-1234-5678-0102030405060708\",\"scale\":1,\"offset\":0}"));
+    cJSON_ReplaceItemInObject(settings_display, "nightBrightness", cJSON_CreateNumber(0));
+    app_scene_configure(settings);
+    cJSON_Delete(settings);
+    s_test_power = 1;
+    app_scene_poll();
+    assert(s_dark && s_test_brightness == 0);
+    const char *hash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    cJSON *manifest =
+        cJSON_Parse("{\"assetAbi\":1,\"files\":[{\"path\":\"dark/"
+                    "circulation-pump.png\",\"size\":100,\"sha256\":"
+                    "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}]}");
+    picture_t prior = {
+        .bytes = (unsigned char *)"already verified", .owner = 0, .image = {.data_size = 100}};
+    snprintf(prior.digest, sizeof(prior.digest), "%s", hash);
+    picture_t shared = load_picture(manifest, "circulation-pump", true, &prior, 1);
+    assert(shared.bytes == prior.bytes && shared.owner == 0);
+    picture_t absent = load_picture(manifest, "circulation-pump", false, &prior, 1);
+    assert(!absent.bytes);
+    cJSON_Delete(manifest);
     puts("LVGL scene: geometry, paging, activity precedence, power thresholds, reverse flow, "
-         "rotor, values, disconnect OK");
+         "rotor, values, disconnect, theme, brightness and shared PNG cache OK");
     return 0;
 }

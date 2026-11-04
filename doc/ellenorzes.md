@@ -26,3 +26,6 @@ Natív animációs motor: valódi LVGL-lel, virtuális kijelzőn sikeres az expl
 
 
 Loxone-kliens bekötése: sikeres helyi ESP-IDF 5.5.4 P4-fordítás/linkelés, kb. 1,68 MB alkalmazás (8 MiB OTA-partíció, 80% szabad). A host cache-próba ellenőrzi az ismeretlen/nulla különbségét, felülírást, NaN-kezelést, csonka csomagot, munkamenet-törlést és a 8192 helyes tár túltöltésének teljes érvénytelenítését. A HTTP API teszt a Loxone backend helyettesítőjét használja; az RSA/JWT/WebSocket hálózati hitelesítést még nem vizsgálja valódi Miniserverrel. Ilyen helyszíni próba ebben a munkamenetben nem történt.
+
+
+Nappali/éjszakai nézet: a valódi LVGL-objektumokon futó host próba ellenőrzi a palettát, a sima háttér átmenetmentességét, a módváltást, a 85/15%-os BSP-hívásokat, a változatlan állapotnál elmaradó fényerőírást/újraépítést, az ismeretlen éjszakai jel megtartását, az angol feliratot és a hash+méret szerinti PNG-megosztást. A BSP és az SD fájlok helyettesítettek; fizikai fényerő- és PNG-dekódolási próba továbbra sem történt.

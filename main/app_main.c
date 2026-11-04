@@ -40,7 +40,7 @@ static esp_lv_adapter_rotation_t rotation_value(unsigned degrees)
 
 static unsigned read_rotation(void)
 {
-    cJSON *settings = app_store_settings(false);
+    cJSON *settings = app_store_settings(true);
     unsigned degrees =
         sm_json_number(cJSON_GetObjectItemCaseSensitive(settings, "display"), "rotation", 270);
     cJSON_Delete(settings);
@@ -108,6 +108,9 @@ void app_main(void)
         if (error != ESP_OK)
             ESP_LOGE("schema", "HTTP: %s", esp_err_to_name(error));
     }
+    cJSON *appearance = app_store_settings(true);
+    app_scene_configure(appearance);
+    cJSON_Delete(appearance);
     /* A meres a kijelzozaron kivul fut, azonos szoveg nem ujrarajzolas. */
     char previous[768] = {0};
     int64_t previous_tick = esp_timer_get_time();
