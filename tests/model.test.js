@@ -42,6 +42,8 @@ test('import rejects secrets, unknown equipment, duplicate ids, invalid power an
         p => p.pages[0].elements.push(p.pages[0].elements[0]),
         p => p.pages[0].elements[0].power = {source: binding, minimum: 100, maximum: 100},
         p => p.pages[0].elements[0].value = {...binding, scale: Infinity},
+        p => p.pages[0].elements[0].asset = {password: 'secret'},
+        p => p.pages[0].elements[0].id = 123,
     ]) {
         const copy = structuredClone(project);
         change(copy);

@@ -224,7 +224,6 @@ web/graphics/
 dist/
 build/
 managed_components/
-dependencies.lock
 sdkconfig
 sdkconfig.old
 __pycache__/

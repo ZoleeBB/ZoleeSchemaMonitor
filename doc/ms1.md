@@ -23,7 +23,7 @@
 ## Sorrend
 
 1. Követelmények, formátum és hordozható állapotlogika.
-2. Grafikai stílusminták bemutatása; közben működési szerkesztő és tárolási/frissítési alapok.
+2. Grafikai stílusminták bemutatása; közben működési szerkesztő és tárolási/frissítési alapok. **A B irány kiválasztva.**
 3. P4-platform és Loxone/web integráció, semleges helyőrzőkkel.
 4. Jóváhagyott teljes grafika, natív animáció, diagnosztika.
 5. CI/release, dokumentáció, készülékes regresszió és teljesítménymérés.

@@ -1,0 +1,121 @@
+name: ZoleeSchemaMonitor | Ellenőrzés és kiadás
+
+on:
+  push:
+    branches: [MS1, main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+# A kiadási verzióválasztás és publikálás egy futássorban marad.
+concurrency:
+  group: schema-${{ github.ref }}
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  checks:
+    name: Modell, tárolás, böngésző és grafikai csomag
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      version: ${{ steps.plan.outputs.version }}
+      publish: ${{ steps.plan.outputs.publish }}
+      pr: ${{ steps.plan.outputs.pr }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 tools/build_assets.py
+      - run: npm test
+      - run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Fordítható hordozható C-mag
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -Icomponents/schema_core/include components/schema_core/schema_core.c tests/core_test.c -lm -o /tmp/schema-core-test
+          /tmp/schema-core-test
+      - name: Chromium telepítése
+        run: |
+          npm install --no-save playwright@1.62.1
+          npx playwright install --with-deps --only-shell chromium
+      - name: Valódi böngészős munkafolyamat
+        run: node tests/browser.mjs
+      - name: Kiadási verzió és összevont PR ellenőrzése
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/release_plan.py
+      - name: Teljes grafikai és SD-csomag
+        env:
+          ASSET_VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          python3 -m pip install -r tools/requirements-assets.txt
+          python3 tools/build_assets.py --png --output dist/graphics --version "$ASSET_VERSION"
+          python3 tools/package_preview.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: schema-sd-and-web
+          path: |
+            dist/*.zip
+            dist/asset-manifest.json
+            dist/assets/*
+          retention-days: 7
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: schema-browser-preview
+          path: .browser-test/*.png
+          retention-days: 7
+
+  firmware:
+    name: ESP32-P4 | ESP-IDF 5.5.4
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pontos buildverzió
+        env:
+          FIRMWARE_VERSION: ${{ needs.checks.outputs.version }}
+        run: printf '%s' "$FIRMWARE_VERSION" > version.txt
+      - uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.5.4
+          target: esp32p4
+          path: '.'
+      - run: python3 tools/package_firmware.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: schema-firmware
+          path: dist/firmware/*
+          retention-days: 7
+          if-no-files-found: error
+
+  release:
+    name: Kiadás main-be összevont PR után
+    needs: [checks, firmware]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.checks.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release
+          pattern: schema-*
+          merge-multiple: true
+      - name: Kiadás publikálása
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.checks.outputs.version }}
+        run: gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "ZoleeSchemaMonitor v$VERSION" --generate-notes release/*.zip release/*.bin release/SHA256SUMS.txt release/asset-manifest.json release/assets/*

@@ -33,4 +33,7 @@ bool sm_uuid_valid(const char *uuid);
 void sm_uuid_string(const uint8_t raw[16], char uuid[SM_UUID_SIZE]);
 
 /* Hibás csomagból egyetlen részleges eseményt sem adunk át a hívónak. */
-bool sm_numeric_events(const uint8_t *data, size_t length, sm_numeric_event_fn callback, void *context);
+bool sm_numeric_events(const uint8_t *data,
+                       size_t length,
+                       sm_numeric_event_fn callback,
+                       void *context);

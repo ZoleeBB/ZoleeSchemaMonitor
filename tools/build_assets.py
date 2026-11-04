@@ -116,7 +116,7 @@ def illustration(element, dark):
     return ''.join(parts).encode()
 
 
-def build(output, png=False):
+def build(output, png=False, version="0.1.0-ms1"):
     output = Path(output)
     elements = catalog.elements()
     identifiers = [element["id"] for element in elements]
@@ -143,7 +143,13 @@ def build(output, png=False):
     atomic_write(output / "catalog.json", canonical(data))
     raw = canonical(data)
     files.append({"path": "catalog.json", "sha256": hashlib.sha256(raw).hexdigest(), "size": len(raw)})
-    manifest = {"format": "zolee-assets", "version": "0.1.0-ms1", "assetAbi": 1, "files": files}
+    manifest = {"format": "zolee-assets", "version": version, "assetAbi": 1, "files": files}
+    # A kiadás minden tartalmat hash szerinti külön fájlként is tartalmaz:
+    # így a készüléknek nem kell egy teljes ZIP-et újra letöltenie.
+    for entry in files:
+        blob = output / "blobs" / entry["sha256"]
+        if not blob.exists():
+            atomic_write(blob, (output / entry["path"]).read_bytes())
     atomic_write(output / "manifest.json", canonical(manifest))
     print(f'{len(elements)} elemtípus, {len(files)} fájl, {sum(item["size"] for item in files)} bájt')
 
@@ -152,5 +158,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default=str(ROOT / "web/graphics"))
     parser.add_argument("--png", action="store_true")
+    parser.add_argument("--version", default="0.1.0-ms1")
     args = parser.parse_args()
-    build(args.output, args.png)
+    build(args.output, args.png, args.version)

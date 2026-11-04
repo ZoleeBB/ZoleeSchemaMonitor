@@ -25,6 +25,7 @@ export class Editor {
         this.preview = false;
         this.pipePoints = null;
         this.phase = 0;
+        this.motion = new Map();
         this.size = canvasSize(state.settings.display.rotation);
         this.keyHandler = event => this.keydown(event);
         this.unloadHandler = event => { if (this.dirty) { event.preventDefault(); event.returnValue = ''; } };
@@ -169,6 +170,10 @@ export class Editor {
         if (this.page.elements.length >= LIMITS.elements) return this.feedback('150 / page', true);
         this.remember();
         const element = newElement(type, asset);
+        if (type === 'equipment') {
+            element.w = 150 / this.size.width;
+            element.h = 150 / this.size.height;
+        }
         element.x = clamp(point.x, 0, 1 - element.w);
         element.y = clamp(point.y, 0, 1 - element.h);
         if (type === 'text') { element.text = this.tr('text'); element.color = '#456172'; element.w = 0.2; element.h = 0.06; }
@@ -213,8 +218,9 @@ export class Editor {
         const asset = this.state.catalog.elements.find(item => item.id === element.asset);
         const p = asset.ports[port];
         const radians = element.rotation * Math.PI / 180;
-        const dx = (p.x - 0.5) * element.w * this.size.width;
-        const dy = (p.y - 0.5) * element.h * this.size.height;
+        const side = Math.min(element.w * this.size.width, element.h * this.size.height);
+        const dx = (p.x - 0.5) * side;
+        const dy = (p.y - 0.5) * side;
         return {x: element.x + element.w / 2 + (dx * Math.cos(radians) - dy * Math.sin(radians)) / this.size.width,
             y: element.y + element.h / 2 + (dx * Math.sin(radians) + dy * Math.cos(radians)) / this.size.height};
     }
@@ -251,18 +257,21 @@ export class Editor {
                 const drawing = svgNode('g', {transform: `translate(${x},${y}) rotate(${element.rotation},${width / 2},${height / 2})`});
                 if (element.type === 'equipment') {
                     const asset = this.state.catalog.elements.find(item => item.id === element.asset);
-                    drawing.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width, height, preserveAspectRatio: 'none'}));
+                    const side = Math.min(width, height), offsetX = (width - side) / 2, offsetY = (height - side) / 2;
+                    const equipment = svgNode('g', {transform: `translate(${offsetX},${offsetY})`});
+                    equipment.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width: side, height: side}));
                     if (asset.animation?.kind === 'rotor') {
-                        const cx = width * asset.animation.x, cy = height * asset.animation.y;
+                        const cx = side * asset.animation.x, cy = side * asset.animation.y;
                         const rotor = svgNode('g', {'data-rotor': '1', 'data-cx': cx, 'data-cy': cy});
-                        const radius = Math.min(width, height) * asset.animation.radius;
+                        const radius = side * asset.animation.radius;
                         for (let index = 0; index < 3; index++) rotor.append(svgNode('path', {
                             d: `M${cx} ${cy}q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,
                             fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${index * 120},${cx},${cy})`}));
-                        drawing.append(rotor);
+                        equipment.append(rotor);
                     }
-                    if (!this.preview) asset.ports.forEach((port, index) => drawing.append(svgNode('circle', {cx: port.x * width, cy: port.y * height,
+                    if (!this.preview) asset.ports.forEach((port, index) => equipment.append(svgNode('circle', {cx: port.x * side, cy: port.y * side,
                         r: 5, class: 'port', 'data-port': index})));
+                    drawing.append(equipment);
                     if (element.label) group.append(svgNode('text', {x: x + width / 2, y: y + height + 17, 'text-anchor': 'middle',
                         fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': element.fontSize}, element.label));
                     if (element.showPower) group.append(svgNode('text', {x: x + width / 2, y: y + height + 36,
@@ -280,9 +289,15 @@ export class Editor {
             }
             this.canvas.append(group);
         }
-        if (this.pipePoints?.length) this.canvas.append(svgNode('polyline', {points: this.pipePoints.map(p => `${p.x * w},${p.y * h}`).join(' '),
-            stroke: '#dc5656', 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '8 4'}));
+        this.drawPipePreview();
         this.updateValues();
+    }
+
+    drawPipePreview() {
+        this.canvas.querySelector('[data-pipe-preview]')?.remove();
+        if (!this.pipePoints?.length) return;
+        this.canvas.append(svgNode('polyline', {points: this.pipePoints.map(point => `${point.x * this.size.width},${point.y * this.size.height}`).join(' '),
+            stroke: '#dc5656', 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '8 4', 'pointer-events': 'none', 'data-pipe-preview': '1'}));
     }
 
     click(event) {
@@ -295,7 +310,7 @@ export class Editor {
             if (this.pipePoints.length === 1) this.pipeSource = endpoint;
             else return this.finishPipe(endpoint);
         } else this.pipePoints.push(this.point(event));
-        this.draw();
+        this.drawPipePreview();
     }
 
     finishPipe(target = null) {
@@ -440,14 +455,20 @@ export class Editor {
             const group = this.canvas?.querySelector(`[data-element="${element.id}"]`);
             if (!group) continue;
             const live = activityState(element, this.state.values, this.state.device.connected);
+            const motion = this.motion.get(element.id) || {angle: 0, phase: 0};
+            this.motion.set(element.id, motion);
             const rotor = group.querySelector('[data-rotor]');
-            if (rotor && live.active) rotor.setAttribute('transform', `rotate(${this.phase * 120 * live.speed},${rotor.dataset.cx},${rotor.dataset.cy})`);
+            if (rotor && live.active) {
+                motion.angle = (motion.angle + 6 * live.speed) % 360;
+                rotor.setAttribute('transform', `rotate(${motion.angle},${rotor.dataset.cx},${rotor.dataset.cy})`);
+            }
             if (element.type === 'pipe') {
                 const path = group.querySelector('polyline'), length = path.getTotalLength();
+                if (live.active && length > 0) motion.phase = (motion.phase + 2.5 * live.speed * element.direction / length + 1) % 1;
                 group.querySelectorAll('[data-dot]').forEach((dot, index) => {
                     dot.style.display = live.active && length > 0 ? '' : 'none';
                     if (!live.active || !length) return;
-                    const phase = (this.phase * 0.12 * live.speed * element.direction + index / 5) % 1;
+                    const phase = (motion.phase + index / 5) % 1;
                     const p = path.getPointAtLength(((phase + 1) % 1) * length);
                     dot.setAttribute('cx', p.x);
                     dot.setAttribute('cy', p.y);

@@ -34,12 +34,12 @@ int main(void)
     assert(sm_rotation_valid(180) && !sm_rotation_valid(45));
     assert(sm_uuid_valid("12345678-1234-5678-0102030405060708"));
     assert(!sm_uuid_valid("12345678-1234-5678-0102-030405060708"));
-    uint8_t packet[25] = {0x78, 0x56, 0x34, 0x12, 0x34, 0x12, 0x78, 0x56,
-                          1, 2, 3, 4, 5, 6, 7, 8};
+    uint8_t packet[25] = {0x78, 0x56, 0x34, 0x12, 0x34, 0x12, 0x78, 0x56, 1, 2, 3, 4, 5, 6, 7, 8};
     double value = 42.5;
     uint64_t bits;
     memcpy(&bits, &value, 8);
-    for (unsigned i = 0; i < 8; i++) packet[16 + i] = bits >> (8 * i);
+    for (unsigned i = 0; i < 8; i++)
+        packet[16 + i] = bits >> (8 * i);
     assert(!sm_numeric_events(packet, 25, received, NULL) && events == 0);
     assert(sm_numeric_events(packet, 24, received, NULL) && events == 1);
     return 0;

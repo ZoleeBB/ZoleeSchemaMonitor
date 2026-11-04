@@ -27,7 +27,7 @@ def digest_file(path):
 def validate_manifest(manifest, expected_abi):
     if not isinstance(manifest, dict) or set(manifest) != {"format", "version", "assetAbi", "files"}:
         raise ValueError("Érvénytelen grafikai manifest")
-    if manifest["format"] != "zolee-assets" or manifest["assetAbi"] != expected_abi:
+    if manifest["format"] != "zolee-assets" or type(manifest["assetAbi"]) is not int or manifest["assetAbi"] != expected_abi:
         raise ValueError("A grafikai készlet nem kompatibilis a firmware-rel")
     if not isinstance(manifest["version"], str) or not re.fullmatch(r"[a-zA-Z0-9._-]{1,64}", manifest["version"]):
         raise ValueError("Érvénytelen készletverzió")
@@ -108,6 +108,12 @@ class AssetStore:
                 if size != entry["size"] or digest.hexdigest() != entry["sha256"]:
                     raise ValueError("A grafika mérete vagy hash-e hibás")
                 os.replace(temporary, target)
+                if os.name != "nt":
+                    descriptor = os.open(target.parent, os.O_RDONLY)
+                    try:
+                        os.fsync(descriptor)
+                    finally:
+                        os.close(descriptor)
                 downloaded.append(entry["path"])
             finally:
                 temporary.unlink(missing_ok=True)
