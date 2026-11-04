@@ -75,8 +75,23 @@ try {
     assert.equal(await page.locator('h1').textContent(), 'Editor');
     await fs.mkdir('.browser-test', {recursive: true});
     await page.screenshot({path: '.browser-test/editor-portrait.png', fullPage: true});
+    /* A részleges készülékes build képességei se jelenjenek meg kész funkcióként. */
+    await page.route('**/api/device', async route => {
+        const response = await route.fetch();
+        const device = await response.json();
+        Object.assign(device, {development: false, capabilities: {ota: false},
+            integrationStatus: {hu: 'Készülékes MS1 próba', en: 'Device MS1 preview'}});
+        await route.fulfill({response, json: device});
+    });
+    await page.goto(url + '/update');
+    await page.waitForSelector('#firmware-upload:disabled');
+    assert.equal(await page.locator('#mode-banner').textContent(), 'Device MS1 preview');
+    await page.locator('#language').selectOption('hu');
+    await page.waitForFunction(() => document.documentElement.lang === 'hu');
+    assert.equal(await page.locator('#mode-banner').textContent(), 'Készülékes MS1 próba');
+    assert.equal(await page.locator('#firmware-upload').isDisabled(), true);
     assert.deepEqual(errors, []);
-    console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN OK');
+    console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities OK');
 } finally {
     await browser?.close();
     server.kill();
