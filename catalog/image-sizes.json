@@ -456,6 +456,26 @@
             "role": "preview",
             "width": 1280,
             "height": 853
+        },
+        "assets/elements/universal/twin-inline-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/jet-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/self-priming-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/piston-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
