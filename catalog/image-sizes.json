@@ -151,6 +151,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/condensate-receiver.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/brine-tank.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/underground-cistern.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
