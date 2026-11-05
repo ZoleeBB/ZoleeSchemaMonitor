@@ -351,6 +351,8 @@ async function route() {
     else if (route === 'diagnostics') await renderDiagnostics();
     else renderHome();
     timer = setInterval(async () => {
+        // A jelszavas mentés alatt ne torlódjanak a háttér HTTP-kérések.
+        if (backup?.busy) return;
         if (route === 'diagnostics') await diagnostics?.refresh();
         if (route === 'graphics' || route === 'update') await refreshReleaseStatus();
         try {

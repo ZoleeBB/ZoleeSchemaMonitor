@@ -16,7 +16,7 @@ Az eszközmentésben nincs firmware, grafikai csomag, statisztika, készülékhe
 3. Visszaállításhoz válaszd ki a fájlt és írd be a hozzá tartozó mentési jelszót. A **Visszaállítás és újraindítás** az összes jelenlegi oldalt és beállítást lecseréli.
 4. Sikeres tartós írás után a készülék újraindul. A visszaállított Wi-Fi-, IP-, nyelvi és Loxone-beállítások lépnek életbe; szükség lehet az új címen történő megnyitásra.
 
-A titkosítás/dekódolás ideje alatt a felület várakozást jelez és letiltja a két műveletet. A firmware a kulcsszármaztatás idejére alacsony taskprioritást használ; eközben nincs kijelző- vagy állapottárzár. A P4 tényleges futásidejét és az animáció folyamatosságát fizikai próbával még mérni kell.
+A titkosítás/dekódolás ideje alatt a felület várakozást jelez és letiltja a két műveletet, és szünetelteti a webes háttérlekérdezéseket. A firmware a kulcsszármaztatás idejére alacsony taskprioritást használ; eközben nincs kijelző- vagy állapottárzár. A P4 tényleges futásidejét és az animáció folyamatosságát fizikai próbával még mérni kell.
 
 ## Védelmek és korlátok
 

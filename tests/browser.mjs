@@ -154,11 +154,18 @@ try {
     {
         await page.route('**/api/backup/status', route => route.fulfill({json: {available: true, revision: 7}}));
         const envelope = {format: 'zolee-backup', version: 1, data: 'Ciphertext fixture'};
-        let exports = 0, restores = 0;
+        let exports = 0, restores = 0, duringExport = false, pollsDuringExport = 0;
+        await page.route('**/api/live', async route => {
+            if (duringExport) pollsDuringExport++;
+            await route.continue();
+        });
         await page.route('**/api/backup/export', async route => {
             exports++;
             assert.deepEqual(route.request().postDataJSON(), {passphrase: 'Backup password 123!'});
             assert.equal(route.request().headers()['x-zolee-schema'], '1');
+            duringExport = true;
+            await new Promise(resolve => setTimeout(resolve, 1600));
+            duringExport = false;
             await route.fulfill({json: envelope});
         });
         await page.route('**/api/backup/restore', async route => {
@@ -183,6 +190,7 @@ try {
         const download = await downloadEvent;
         assert.deepEqual(JSON.parse(await fs.readFile(await download.path(), 'utf8')), envelope);
         assert.equal(await exportForm.locator('[name=passphrase]').inputValue(), '');
+        assert.equal(pollsDuringExport, 0);
         const restoreForm = page.locator('#device-restore-form');
         await restoreForm.locator('[name=file]').setInputFiles({name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(envelope))});
         await restoreForm.locator('[name=passphrase]').fill('Wrong password 123!');
