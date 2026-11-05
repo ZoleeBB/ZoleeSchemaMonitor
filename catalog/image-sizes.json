@@ -801,6 +801,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/backflow-preventer.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/butterfly-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/motor-butterfly-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/wafer-check-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
