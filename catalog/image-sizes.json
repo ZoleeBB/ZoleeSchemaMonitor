@@ -496,6 +496,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/macerator-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/vertical-sump-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/hydraulic-ram-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/split-case-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
