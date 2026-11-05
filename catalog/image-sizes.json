@@ -351,6 +351,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/air-conditioner-indoor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/panel-radiator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/column-radiator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/cast-iron-radiator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
