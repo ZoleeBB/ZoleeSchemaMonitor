@@ -316,6 +316,28 @@ int main(void)
     assert(app_release_start(true) == ESP_OK);
     completed("complete", true);
     assert(!restarted && firmware_calls == previous_firmware_calls && boot_targets == 1);
+    /* Azonos verziófelirat mellett eltérő grafikai azonosító is firmware-t igényel. */
+    fixtures();
+    char future_identity[APP_ASSET_ID_SIZE];
+    snprintf(future_identity, sizeof(future_identity), "%s", app_assets_identity());
+    future_identity[76] = future_identity[76] == 'a' ? 'b' : 'a';
+    descriptor = sm_json_parse(descriptor_bytes, strlen(descriptor_bytes));
+    cJSON_SetValuestring(cJSON_GetObjectItemCaseSensitive(descriptor, "identity"), future_identity);
+    memcpy(firmware_bytes + 288, future_identity, sizeof(future_identity));
+    hash_bytes(firmware_bytes, sizeof(firmware_bytes), sha);
+    cJSON_SetValuestring(cJSON_GetObjectItemCaseSensitive(
+                             cJSON_GetObjectItemCaseSensitive(descriptor, "firmware"), "sha256"),
+                         sha);
+    free(descriptor_bytes);
+    descriptor_bytes = cJSON_PrintUnformatted(descriptor);
+    cJSON_Delete(descriptor);
+    assert(app_release_start(false) == ESP_OK);
+    completed("firmware.required", false);
+    assert(firmware_calls == previous_firmware_calls);
+    assert(app_release_start(true) == ESP_OK);
+    completed("restarting", true);
+    assert(firmware_calls == previous_firmware_calls + 1 && boot_targets == 2 && restarted);
+    s_busy = false;
     clock_value = 0;
     assert(app_release_start(true) == ESP_OK);
     completed("clock.unavailable", false);

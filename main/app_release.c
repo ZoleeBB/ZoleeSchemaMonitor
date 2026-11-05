@@ -319,7 +319,8 @@ static void worker(void *argument)
         phase("graphics.failed");
         goto done;
     }
-    if (firmware && strcmp(version, esp_app_get_description()->version))
+    if (firmware && (strcmp(version, esp_app_get_description()->version) ||
+                     strcmp(identity, app_assets_identity())))
     {
         phase("firmware");
         snprintf(url, sizeof(url), RELEASE_BASE "download/v%s/ZoleeSchemaMonitor.bin", version);

@@ -43,7 +43,7 @@ A Beállítások oldalon válassz éjszakai Loxone-jelet, és állítsd be a ké
 
 Első telepítésnél az aktuális USB build és a hozzá tartozó teljes `schema-graphics.zip` szükséges. A ZIP `graphics/` könyvtárát az `identity.txt`, a `manifest.json` és a `blobs/` könyvtárral együtt másold az SD-re, kikapcsolt készüléken. A régebbi MS1 OTA-ból még nem lehet erre a frissítési rendszerre átállni; az első áttéréshez is USB szükséges.
 
-A Frissítés oldalon a **Legújabb kiadás telepítése** a projekt legújabb nyilvános GitHub-kiadásának firmware-ét és grafikai készletét kezeli. A folyamat állapota, verziója és az átvett bájtok mennyisége megjelenik. Új firmware esetén a teljes ellenőrzés után körülbelül három másodperccel újraindul a készülék; ezután töltsd újra a weboldalt. Ha a verzió már egyezik, csak a grafika ellenőrzése/javítása történik, újraindítás nélkül.
+A Frissítés oldalon a **Legújabb kiadás telepítése** a projekt legújabb nyilvános GitHub-kiadásának firmware-ét és grafikai készletét kezeli. A folyamat állapota, verziója és az átvett bájtok mennyisége megjelenik. Új firmware esetén a teljes ellenőrzés után körülbelül három másodperccel újraindul a készülék; ezután töltsd újra a weboldalt. Ha a verzió és a grafikai azonosító már egyezik, csak a grafika ellenőrzése/javítása történik, újraindítás nélkül.
 
 Az MS1 ágra készített CI-artefaktum nem nyilvános kiadás. Az első main-be egyesített, kiadást létrehozó PR előtt az online frissítő helyesen jelezheti, hogy nincs elérhető kiadás. Addig az USB/SD csomag használható. A frissítő nyilvános release-fájlokat használ, privát repóhoz nincs beépített GitHub-bejelentkezés.
 
