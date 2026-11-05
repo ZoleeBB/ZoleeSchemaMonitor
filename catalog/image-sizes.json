@@ -311,6 +311,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/absorption-chiller.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/rooftop-chiller.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/dry-cooler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
