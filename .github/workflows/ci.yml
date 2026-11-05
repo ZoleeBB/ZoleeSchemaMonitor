@@ -131,6 +131,10 @@ jobs:
           # A helyben tiszta konfigurálással ellenőrzött verzió kezeli a
           # feloldásból kieső csomagjelöltek hiányzó Kconfig-feltételeit.
           command: python -m pip install idf-component-manager==2.5.2 && idf.py build
+      - uses: actions/download-artifact@v4
+        with:
+          name: schema-sd-and-web
+          path: dist
       - run: python3 tools/package_firmware.py
       - uses: actions/upload-artifact@v4
         with:
@@ -158,4 +162,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ needs.checks.outputs.version }}
-        run: gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "ZoleeSchemaMonitor v$VERSION" --generate-notes release/*.zip release/*.bin release/SHA256SUMS.txt release/asset-manifest.json release/assets/*
+        run: gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "ZoleeSchemaMonitor v$VERSION" --generate-notes release/*.zip release/*.bin release/SHA256SUMS.txt release/asset-manifest.json release/update.json release/assets/*

@@ -9,6 +9,8 @@ export const tr = key => messages[language][key] || key;
 export const state = {settings: {}, device: {}, catalog: {elements: []}, project: newProject(), revision: 0, values: {}, sources: []};
 let editor;
 let timer;
+let firmwareUploading = false;
+let releasePolling = false;
 
 export function feedback(message, error = false) {
     $('#feedback').textContent = message;
@@ -178,10 +180,11 @@ async function renderGraphics() {
     const manifest = await api('/api/graphics');
     $('#content').innerHTML = `<h1>${tr('graphics')}</h1><section><p>${tr('catalogInfo')}</p><dl class="kv">
         <div><dt>${tr('current')}</dt><dd>${escape(manifest.version)}</dd></div><div><dt>${tr('available')}</dt><dd>${state.catalog.elements.length}</dd></div>
-        <div><dt>SHA-256</dt><dd>${manifest.files?.length || 0}</dd></div></dl><div class="actions"><button id="graphics-refresh">${tr('refresh')}</button></div></section>
+        <div><dt>SHA-256</dt><dd>${manifest.files?.length || 0}</dd></div></dl><div class="actions"><button id="graphics-refresh" ${state.device.development ? 'disabled' : ''}>${tr('refresh')}</button></div><p id="release-status" role="status"></p></section>
         <section><div class="device-list">${Object.entries(state.catalog.categories).map(([id, name]) => `<article><h3>${escape(name[language])}</h3><p>${state.catalog.elements.filter(item => item.category === id).length}</p></article>`).join('')}</div></section>`;
+    await refreshReleaseStatus();
     $('#graphics-refresh').onclick = async () => {
-        try { feedback((await api('/api/graphics/refresh', {})).message); }
+        try { await api('/api/graphics/refresh', {}); await refreshReleaseStatus(); }
         catch (error) { feedback(error.message, true); }
     };
 }
@@ -190,18 +193,121 @@ function renderBackup() {
     $('#content').innerHTML = `<h1>${tr('backup')}</h1><section><p>${language === 'hu' ? 'A sémaexport minden oldalt és Loxone-párosítást megőriz, jelszót vagy tokent nem tartalmaz.' : 'Schema exports preserve pages and Loxone bindings, without passwords or tokens.'}</p><a class="button" href="/api/project/export" download="ZoleeSchemaMonitor.json">${tr('exportProject')}</a><p><a href="/editor">${tr('import')}</a></p></section>`;
 }
 
+const releaseMessages = {
+    "hu": {
+        "wifi.unavailable": "Nincs Wi-Fi adatkapcsolat.",
+        "clock": "Várakozás az időszinkronra…",
+        "clock.unavailable": "Az óra még nincs szinkronizálva. Ellenőrizd az internetelérést, majd próbáld újra.",
+        "idle": "Még nem indult frissítés.",
+        "release": "Kiadás keresése…",
+        "manifest": "Grafikai készlet ellenőrzése…",
+        "graphics": "Hiányzó vagy sérült grafikák letöltése…",
+        "firmware": "Firmware letöltése és ellenőrzése…",
+        "restarting": "Frissítés ellenőrizve, a készülék újraindul. Ezután töltsd újra az oldalt.",
+        "complete": "A grafikai készlet naprakész.",
+        "release.unavailable": "Nincs elérhető, megfelelő kiadás, vagy nem sikerült kapcsolódni a GitHubhoz.",
+        "firmware.required": "Az új grafika új firmware-t igényel. Indítsd a közös frissítést a Frissítés oldalon.",
+        "manifest.invalid": "A kiadáshoz tartozó grafikai manifest hibás.",
+        "graphics.failed": "A grafikafrissítés megszakadt. Az ellenőrzött fájlok megmaradnak, újrapróbálható.",
+        "firmware.failed": "A firmware frissítése nem sikerült. A futó verzió marad aktív.",
+        "memory": "Nincs elegendő memória a frissítés indításához."
+    },
+    "en": {
+        "wifi.unavailable": "No Wi-Fi connection.",
+        "clock": "Waiting for clock synchronization…",
+        "clock.unavailable": "The clock is not synchronized. Check internet connectivity and retry.",
+        "idle": "No update started yet.",
+        "release": "Checking release…",
+        "manifest": "Checking graphics manifest…",
+        "graphics": "Downloading missing or damaged graphics…",
+        "firmware": "Downloading and validating firmware…",
+        "restarting": "Update verified; the device is restarting. Reload this page afterwards.",
+        "complete": "Graphics are up to date.",
+        "release.unavailable": "No compatible release is available, or GitHub could not be reached.",
+        "firmware.required": "New graphics require new firmware. Start the combined update on the Update page.",
+        "manifest.invalid": "The release graphics manifest is invalid.",
+        "graphics.failed": "Graphics update interrupted. Verified files are retained; you can retry.",
+        "firmware.failed": "Firmware update failed. The running version remains active.",
+        "memory": "Insufficient memory to start the update."
+    }
+};
+
+async function refreshReleaseStatus() {
+    const target = $('#release-status');
+    if (!target || state.device.development || releasePolling) return;
+    releasePolling = true;
+    try {
+        const update = await api('/api/update/status');
+        if (target !== $('#release-status')) return;
+        const details = [releaseMessages[language][update.phase] || update.phase];
+        if (update.version) details.push(update.version);
+        if (update.busy && update.receivedBytes) details.push(`${(update.receivedBytes / 1048576).toFixed(2)} MB`);
+        target.textContent = details.join(' · ');
+        for (const id of ['graphics-refresh', 'release-update', 'firmware-upload']) {
+            const button = $(`#${id}`);
+            if (button) button.disabled = update.busy || firmwareUploading || state.device.capabilities?.ota === false;
+        }
+    } catch { target.textContent = tr('disconnected'); }
+    finally { releasePolling = false; }
+}
+
 function renderUpdate() {
-    $('#content').innerHTML = `<h1>${tr('update')}</h1><section><h2>${tr('firmwareUpload')}</h2><p>${language === 'hu' ? 'Csak azonos grafikai készlethez tartozó firmware tölthető fel. A teljes ellenőrzést újraindítás követi.' : 'Only firmware with matching graphics can be uploaded. A restart follows successful validation.'}</p><input type="file" accept=".bin" id="firmware-file"><div class="actions"><button id="firmware-upload" ${state.device.development || state.device.capabilities?.ota === false ? 'disabled' : ''}>${tr('upload')}</button></div><progress id="upload-progress" value="0" max="100"></progress><p>${escape(state.device.firmware)}</p></section>`;
+    const disabled = state.device.development || state.device.capabilities?.ota === false;
+    $('#content').innerHTML = `
+        <h1>${tr('update')}</h1>
+        <section>
+            <h2>${language === 'hu' ? 'Firmware és grafika közös frissítése' : 'Combined firmware and graphics update'}</h2>
+            <p>${language === 'hu' ? 'A projekt legújabb GitHub-kiadását telepíti. Csak a hiányzó vagy hibás grafikai fájlokat tölti le.' : 'Installs the latest GitHub release of this project. Downloads only missing or damaged graphics files.'}</p>
+            <button id="release-update" ${disabled ? 'disabled' : ''}>
+                ${language === 'hu' ? 'Legújabb kiadás telepítése' : 'Install latest release'}
+            </button>
+            <p id="release-status" role="status"></p>
+        </section>
+        <section>
+            <h2>${tr('firmwareUpload')}</h2>
+            <p>${language === 'hu' ? 'Kézi feltöltésnél a hozzá tartozó grafikai készletnek már az SD-n kell lennie. A közös frissítés ezt automatikusan előkészíti.' : 'Manual uploads require the matching graphics set on the SD card. The combined update prepares it automatically.'}</p>
+            <input type="file" accept=".bin" id="firmware-file">
+            <div class="actions"><button id="firmware-upload" ${disabled ? 'disabled' : ''}>${tr('upload')}</button></div>
+            <progress id="upload-progress" value="0" max="100"></progress>
+            <p>${escape(state.device.firmware)}</p>
+        </section>`;
+    void refreshReleaseStatus();
+    $('#release-update').onclick = async () => {
+        try {
+            await api('/api/update/release', {});
+            await refreshReleaseStatus();
+        } catch (error) {
+            feedback(error.message, true);
+        }
+    };
     $('#firmware-upload').onclick = () => {
         const file = $('#firmware-file').files[0];
-        if (!file) return;
+        if (!file || firmwareUploading) return;
+        firmwareUploading = true;
+        $('#firmware-upload').disabled = true;
+        $('#release-update').disabled = true;
         const request = new XMLHttpRequest();
         request.open('POST', '/api/update');
         request.setRequestHeader('X-Zolee-Schema', '1');
         request.setRequestHeader('Content-Type', 'application/octet-stream');
-        request.upload.onprogress = event => { if (event.lengthComputable) $('#upload-progress').value = event.loaded / event.total * 100; };
-        request.onload = () => feedback(request.status === 200 ? (language === 'hu' ? 'Firmware ellenőrizve, a készülék újraindul.' : 'Firmware validated; the device is restarting.') : request.responseText, request.status !== 200);
-        request.onerror = () => feedback(tr('disconnected'), true);
+        request.upload.onprogress = event => {
+            if (event.lengthComputable && $('#upload-progress')) {
+                $('#upload-progress').value = event.loaded / event.total * 100;
+            }
+        };
+        request.onload = () => {
+            firmwareUploading = false;
+            void refreshReleaseStatus();
+            const success = language === 'hu'
+                ? 'Firmware ellenőrizve, a készülék újraindul.'
+                : 'Firmware validated; the device is restarting.';
+            feedback(request.status === 200 ? success : request.responseText, request.status !== 200);
+        };
+        request.onerror = () => {
+            firmwareUploading = false;
+            void refreshReleaseStatus();
+            feedback(tr('disconnected'), true);
+        };
         request.send(file);
     };
 }
@@ -237,6 +343,7 @@ async function route() {
     else if (route === 'diagnostics') await renderDiagnostics();
     else renderHome();
     timer = setInterval(async () => {
+        if (route === 'graphics' || route === 'update') await refreshReleaseStatus();
         try {
             const live = await api('/api/live');
             const wasConnected = state.device.connected;

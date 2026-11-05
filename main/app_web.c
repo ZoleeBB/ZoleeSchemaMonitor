@@ -4,6 +4,8 @@
 #include "app_store.h"
 #include "app_loxone.h"
 #include "app_ota.h"
+#include "app_assets.h"
+#include "app_release.h"
 #include "esp_app_desc.h"
 #include "esp_http_server.h"
 #include <math.h>
@@ -138,16 +140,15 @@ static cJSON *device(void)
     cJSON_AddBoolToObject(capabilities, "nativeRenderer", true);
     cJSON_AddItemToObject(json, "capabilities", capabilities);
     cJSON *integration = cJSON_CreateObject();
-    cJSON_AddStringToObject(
-        integration,
-        "hu",
-        "MS1 fejlesztői build: Loxone-kliens bekötve, fizikai teszt függőben; "
-        "Firmware OTA azonos grafikával; közös grafikafrissítés fejlesztés alatt.");
+    cJSON_AddStringToObject(integration,
+                            "hu",
+                            "MS1 fejlesztői build: Loxone-kliens bekötve, fizikai teszt függőben; "
+                            "Közös firmware–grafika frissítés bekötve; fizikai teszt szükséges.");
     cJSON_AddStringToObject(
         integration,
         "en",
         "MS1 development build: Loxone client integrated, hardware validation "
-        "pending; firmware OTA requires matching graphics; combined updates are pending.");
+        "pending; combined firmware/graphics updates integrated, hardware testing required.");
     cJSON_AddItemToObject(json, "integrationStatus", integration);
     cJSON_AddItemToObject(json, "events", cJSON_CreateArray());
     return json;
@@ -245,12 +246,13 @@ static esp_err_t get(httpd_req_t *request)
         cJSON_AddItemToObject(json, "tasks", cJSON_CreateArray());
         return answer(request, "200 OK", json);
     }
+    if (!strcmp(path, "/api/update/status"))
+        return answer(request, "200 OK", app_release_status());
     if (!strcmp(path, "/api/graphics"))
     {
-        const char *manifest = "/sdcard/graphics/manifest.json";
-        struct stat info;
-        if (!stat(manifest, &info))
-            return file_response(request, manifest, "application/json", 262144);
+        cJSON *manifest = app_assets_manifest();
+        if (manifest)
+            return answer(request, "200 OK", manifest);
         cJSON *json = cJSON_CreateObject();
         cJSON_AddStringToObject(json, "version", "not-installed");
         cJSON_AddNumberToObject(json, "assetAbi", 1);
@@ -271,8 +273,12 @@ static esp_err_t get(httpd_req_t *request)
         asset[length - 4] = 0;
         if (!sm_asset_find(asset))
             return failure(request, "404 Not Found", "graphics.asset");
-        char filename[160];
-        snprintf(filename, sizeof(filename), "/sdcard/graphics/%s", name);
+        char filename[APP_ASSET_PATH_SIZE];
+        cJSON *manifest = app_assets_manifest();
+        bool found = app_assets_path(manifest, name, filename);
+        cJSON_Delete(manifest);
+        if (!found)
+            return failure(request, "404 Not Found", "graphics.missing");
         return file_response(request, filename, "image/svg+xml", 262144);
     }
     const char *routes[] = {
@@ -332,11 +338,20 @@ static esp_err_t post(httpd_req_t *request)
         app_network_restart_later();
         return sent;
     }
-    if (!strcmp(request->uri, "/api/graphics/refresh"))
-        return failure(
-            request,
-            "501 Not Implemented",
-            "Device OTA integration pending / Készülékes OTA integráció fejlesztés alatt");
+    if (!strcmp(request->uri, "/api/graphics/refresh") ||
+        !strcmp(request->uri, "/api/update/release"))
+    {
+        /* A kérés nem fogadhat saját URL-t vagy grafikai fájlt. */
+        cJSON *json = body(request);
+        bool valid = cJSON_IsObject(json) && cJSON_GetArraySize(json) == 0;
+        cJSON_Delete(json);
+        if (!valid)
+            return failure(request, "400 Bad Request", "request.fields");
+        esp_err_t result = app_release_start(!strcmp(request->uri, "/api/update/release"));
+        if (result != ESP_OK)
+            return failure(request, "409 Conflict", "update.busy-or-unavailable");
+        return answer(request, "202 Accepted", app_release_status());
+    }
     if (request->content_len > SM_PROJECT_BYTES + 512)
         return failure(request, "413 Content Too Large", "body.size");
     cJSON *json = body(request);
@@ -388,6 +403,8 @@ static esp_err_t post(httpd_req_t *request)
 
 esp_err_t app_web_start(void)
 {
+    if (app_release_init() != ESP_OK)
+        return ESP_ERR_NO_MEM;
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     config.stack_size = 12288;
     config.max_open_sockets = 5;

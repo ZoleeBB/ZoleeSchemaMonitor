@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "esp_mac.h"
 #include "esp_netif.h"
+#include "esp_netif_sntp.h"
 #include "esp_random.h"
 #include "esp_system.h"
 #include "esp_timer.h"
@@ -185,6 +186,9 @@ esp_err_t app_network_start(void)
     if (result != ESP_OK)
         return result;
     (void)esp_wifi_set_ps(WIFI_PS_NONE);
+    /* Az időszinkron a GitHub TLS-hez Loxone-profil nélkül is szükséges. */
+    esp_sntp_config_t ntp = ESP_NETIF_SNTP_DEFAULT_CONFIG("pool.ntp.org");
+    (void)esp_netif_sntp_init(&ntp);
     if (mdns_init() == ESP_OK)
     {
         mdns_hostname_set("zolee-schema-monitor");

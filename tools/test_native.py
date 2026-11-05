@@ -31,6 +31,21 @@ def main():
         run("node", "tests/native_parity.mjs", cli)
         if "MBEDTLS_PATH" in os.environ:
             tls = Path(os.environ["MBEDTLS_PATH"])
+            asset_flags = [*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}",
+                           f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"',
+                           "-DMBEDTLS_SHA256_C", '-DAPP_ASSET_ROOT="graphics"']
+            hashes = [str(tls / "library/sha256.c"), str(tls / "library/platform_util.c")]
+            assets = str(Path(folder) / "assets-test")
+            run(*asset_flags, *common, *hashes, "tests/native/assets_test.c",
+                "-Wl,--wrap=fsync", "-lm", "-o", assets)
+            with tempfile.TemporaryDirectory(prefix="schema-assets-") as state:
+                subprocess.run([assets], cwd=state, check=True)
+            release = str(Path(folder) / "release-test")
+            run(*asset_flags, *common, *hashes, "main/app_assets.c",
+                "tests/native/platform_stubs.c", "tests/native/release_test.c",
+                "-Wl,--wrap=time", "-pthread", "-lm", "-o", release)
+            with tempfile.TemporaryDirectory(prefix="schema-release-") as state:
+                subprocess.run([release], cwd=state, check=True)
             library = [str(tls / "library" / f"{name}.c") for name in ["aes", "cipher", "cipher_wrap", "gcm", "platform_util", "constant_time"]]
             store = str(Path(folder) / "store-cli")
             run(*flags, "-Itests/native/stubs", "-Imain", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "tests/native/platform_stubs.c", "tests/native/store_cli.c", "-pthread", "-lm", "-o", store)

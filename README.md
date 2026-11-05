@@ -4,7 +4,7 @@
 
 **Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, a készülékes integráció és a végleges teljes grafikai készlet még nincs kész.
 
-A **B, térhatásosabb grafikai irány kiválasztva**. Elkészült a működési webszerkesztő első változata, a 138 típust tartalmazó törzskatalógus és a hash szerinti grafikai tár gazdagépes referencia-megvalósítása. A natív firmware-ben már a helyi webszerkesztő, a készülékes HTTP API, a védett beállító Wi-Fi és a titkosított, kétpéldányos SD-mentés is benne van. A natív sémanézet és az adatolvasó felületre épített animációs motor is bekötve; a Loxone-kliens is bekötve. Valódi Miniserverrel a helyszíni ellenőrzés még szükséges, a firmware-OTA azonos grafikai készlettel bekötve, a közös firmware–grafika frissítés még hátravan. Élő kapcsolat nélkül a készülék ismeretlen értékeket jelez, nem szimulált működést. [Készülékes indítás](doc/keszulek.md).
+A **B, térhatásosabb grafikai irány kiválasztva**. A webszerkesztő, a 138 típusú törzskatalógus, a natív animált nézet, a Loxone-kliens, az SD-mentés és a közös firmware–grafika frissítés bekötve. A végleges egyedi grafikák, a valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
 
 A kipróbálható számítógépes előnézet indítása:
 

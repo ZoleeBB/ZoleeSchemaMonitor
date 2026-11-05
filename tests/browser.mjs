@@ -90,8 +90,35 @@ try {
     await page.waitForFunction(() => document.documentElement.lang === 'hu');
     assert.equal(await page.locator('#mode-banner').textContent(), 'Készülékes MS1 próba');
     assert.equal(await page.locator('#firmware-upload').isDisabled(), true);
+    await page.unroute('**/api/device');
+    await page.route('**/api/device', async route => {
+        const response = await route.fetch();
+        const device = await response.json();
+        Object.assign(device, {development: false, capabilities: {ota: true}});
+        await route.fulfill({response, json: device});
+    });
+    let update = {busy: false, success: false, phase: 'idle', version: '', receivedBytes: 0};
+    await page.route('**/api/update/status', route => route.fulfill({json: update}));
+    await page.route('**/api/update/release', async route => {
+        assert.deepEqual(route.request().postDataJSON(), {});
+        assert.equal(route.request().headers()['x-zolee-schema'], '1');
+        update = {busy: true, success: false, phase: 'graphics', version: '0.1.0', receivedBytes: 2048};
+        await route.fulfill({status: 202, json: update});
+    });
+    await page.goto(url + '/update');
+    await page.waitForSelector('#release-update:enabled');
+    await page.locator('#release-update').click();
+    await page.waitForSelector('#release-update:disabled');
+    await page.waitForFunction(() => document.querySelector('#release-status').textContent.includes('grafikák letöltése'));
+    assert.equal(await page.locator('#firmware-upload').isDisabled(), true);
+    update = {busy: false, success: false, phase: 'firmware.failed', version: '0.1.0', receivedBytes: 2048};
+    await page.waitForSelector('#release-update:enabled');
+    await page.waitForFunction(() => document.querySelector('#release-status').textContent.includes('futó verzió marad'));
+    await page.locator('#language').selectOption('en');
+    await page.waitForFunction(() => document.querySelector('#release-status').textContent.includes('running version remains'));
+    await page.screenshot({path: '.browser-test/update-status.png', fullPage: true});
     assert.deepEqual(errors, []);
-    console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities OK');
+    console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry OK');
 } finally {
     await browser?.close();
     server.kill();

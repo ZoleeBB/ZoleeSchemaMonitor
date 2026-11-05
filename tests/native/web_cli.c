@@ -3,6 +3,8 @@
 #include "app_store.h"
 #include "app_web.h"
 #include "app_ota.h"
+#include "app_assets.h"
+#include "app_release.h"
 #include "esp_app_desc.h"
 #include "esp_http_server.h"
 #include <assert.h>
@@ -168,4 +170,29 @@ esp_err_t app_ota_upload(size_t size, app_ota_read_fn reader, void *context)
     (void)reader;
     (void)context;
     return ESP_ERR_INVALID_ARG;
+}
+
+cJSON *app_assets_manifest(void)
+{
+    return NULL;
+}
+bool app_assets_path(const cJSON *manifest, const char *relative, char path[APP_ASSET_PATH_SIZE])
+{
+    (void)manifest;
+    (void)relative;
+    (void)path;
+    return false;
+}
+esp_err_t app_release_init(void)
+{
+    return ESP_OK;
+}
+esp_err_t app_release_start(bool firmware)
+{
+    (void)firmware;
+    return ESP_OK;
+}
+cJSON *app_release_status(void)
+{
+    return cJSON_Parse("{\"busy\":true,\"phase\":\"release\"}");
 }

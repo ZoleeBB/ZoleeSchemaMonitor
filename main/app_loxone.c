@@ -12,7 +12,6 @@
 #include "esp_random.h"
 #include "esp_mac.h"
 #include "esp_timer.h"
-#include "esp_netif_sntp.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 #include "freertos/semphr.h"
@@ -1153,8 +1152,6 @@ esp_err_t app_loxone_start(void)
         free(config);
         return ESP_OK;
     }
-    esp_sntp_config_t ntp = ESP_NETIF_SNTP_DEFAULT_CONFIG("pool.ntp.org");
-    (void)esp_netif_sntp_init(&ntp);
     if (xTaskCreateWithCaps(
             worker, "schema_loxone", 32768, config, 4, NULL, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT) !=
         pdPASS)

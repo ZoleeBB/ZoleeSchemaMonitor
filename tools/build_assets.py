@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from asset_store import atomic_write, canonical
+from ota_identity import identity
 
 spec = importlib.util.spec_from_file_location("catalog", ROOT / "catalog/elements.py")
 catalog = importlib.util.module_from_spec(spec)
@@ -151,6 +152,7 @@ def build(output, png=False, version="0.1.0-ms1"):
         if not blob.exists():
             atomic_write(blob, (output / entry["path"]).read_bytes())
     atomic_write(output / "manifest.json", canonical(manifest))
+    atomic_write(output / "identity.txt", identity().encode())
     print(f'{len(elements)} elemtípus, {len(files)} fájl, {sum(item["size"] for item in files)} bájt')
 
 

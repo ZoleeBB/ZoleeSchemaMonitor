@@ -41,7 +41,7 @@ A megjelenítő a statikus képet és az animáció mozgó részét külön keze
 IDF_PATH=/az/esp-idf/helye MBEDTLS_PATH=/az/esp-idf/helye/components/mbedtls/mbedtls python3 tools/test_native.py
 ```
 
-A teszt az IDF saját cJSON és Mbed TLS forrásaival fordítja az éles `schema_model`, `app_store` és `app_web` C-kódot. A BSP/NVS/FreeRTOS és a HTTP socket réteget helyettesíti; a JSON-ellenőrzés, a CRC, az AES-GCM, a fájlműveletek, a titokszűrés, a revízióvédelem és az API-kezelők az éles kódból futnak. A CI ugyanazokat a pontos függőség-commitokat használja. Ez nem Wi-Fi-driver- vagy fizikai SD-teszt.
+A teszt az IDF saját cJSON és Mbed TLS forrásaival fordítja az éles `schema_model`, `app_store`, `app_web`, `app_ota`, `app_assets` és `app_release` C-kódot. A BSP/NVS/FreeRTOS és a HTTP socket réteget helyettesíti; a JSON-ellenőrzés, a CRC, az AES-GCM, a fájlműveletek, a titokszűrés, a revízióvédelem és az API-kezelők az éles kódból futnak. A CI ugyanazokat a pontos függőség-commitokat használja. Ez nem Wi-Fi-driver- vagy fizikai SD-teszt.
 
 ## Natív LVGL-próba
 
@@ -55,3 +55,9 @@ Ez az éles `app_scene.c` rajzolót futtatja valódi LVGL objektumokon, virtuál
 
 
 A gazdagépes LVGL build és a teszt **azonos** `-DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB` fordítási definíciókat használjon. A P4 konfigurációja szintén a C könyvtár memóriafoglalóját választja. Az alapértelmezett kis belső LVGL-heap a 150 elemes animációs próbához nem megfelelő, és nem tükrözi a firmware működését. A CI ezért ezt explicit rögzíti; korábbi buildkönyvtár helyett szükség esetén tiszta host build készüljön.
+
+## P4-fordítás és frissítőcsomag
+
+ESP-IDF 5.5.4 alatt a CI-vel azonos `idf-component-manager==2.5.2` verzió használatos. Az exportált IDF-környezetben `python -m pip install idf-component-manager==2.5.2`, majd `idf.py build` futtatható.
+
+A firmware csomagolása előtt `python3 tools/build_assets.py --png --output dist/graphics --version <firmware-verzió>` és `python3 tools/package_preview.py` szükséges. A firmware-verzió a `build/project_description.json` fájlban látható. Ezután `python3 tools/package_firmware.py` ellenőrzi a verzió- és készletegyezést, és létrehozza az `update.json` leírót is. A CI a saját ellenőrzési jobjának manifestjét adja át a firmware-jobnak; más futás csomagját nem használja.

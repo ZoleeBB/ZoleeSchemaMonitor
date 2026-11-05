@@ -6,6 +6,8 @@ import shutil
 import zipfile
 from pathlib import Path
 from ota_identity import identity
+from asset_store import validate_manifest
+from build_assets import catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD, DIST = ROOT / "build", ROOT / "dist/firmware"
@@ -19,6 +21,22 @@ expected = identity().encode() + b"\0"
 if app.read_bytes()[288:288 + len(expected)] != expected:
     raise SystemExit("Hiányzó vagy rossz helyre linkelt OTA kompatibilitási leíró")
 shutil.copyfile(app, DIST / "ZoleeSchemaMonitor.bin")
+manifest = ROOT / "dist/asset-manifest.json"
+if not manifest.is_file():
+    raise SystemExit("A firmware csomagolásához a saját grafikai manifest is szükséges")
+def file_description(file):
+    return {"sha256": hashlib.sha256(file.read_bytes()).hexdigest(), "size": file.stat().st_size}
+version = json.loads((BUILD / "project_description.json").read_text())["project_version"]
+graphics = validate_manifest(json.loads(manifest.read_bytes()), 1)
+required = {f"{mode}/{element['id']}.{kind}" for element in catalog.elements()
+            for mode in ["light", "dark"] for kind in ["svg", "png"]} | {"catalog.json"}
+if {entry["path"] for entry in graphics["files"]} != required:
+    raise SystemExit("A teljes világos/sötét SVG és PNG készlet kötelező a kiadáshoz")
+if graphics["version"] != version:
+    raise SystemExit("Eltérő firmware/grafika kiadási verzió")
+(DIST / "update.json").write_text(json.dumps({"format":"zolee-update", "version":version,
+    "identity":identity(), "manifest":file_description(manifest), "firmware":file_description(app)},
+    separators=(",", ":")) + "\n")
 with zipfile.ZipFile(DIST / "ZoleeSchemaMonitor-usb.zip", "w", zipfile.ZIP_DEFLATED) as archive:
     for offset, name in args["flash_files"].items():
         file = (BUILD / name).resolve()
@@ -27,7 +45,7 @@ with zipfile.ZipFile(DIST / "ZoleeSchemaMonitor-usb.zip", "w", zipfile.ZIP_DEFLA
         archive.write(file, name)
     archive.writestr("flasher_args.json", json.dumps(args, indent=2))
     pairs = " ".join(f'{offset} "{name}"' for offset, name in args["flash_files"].items())
-    archive.writestr("FLASH.txt", f"MS1 fejlesztői build: helyi webszerkesztő, SD-mentés, Wi-Fi és diagnosztika.\nNatív sémanézet, animáció és numerikus Loxone-kliens bekötve. Fizikai Miniserveres próba szükséges; firmware OTA csak azonos grafikai készlettel.\nAz SD-csomag graphics/ könyvtárát másold a FAT32 kártya gyökerébe.\nElső beállítás: a kijelzőn látható védett Wi-Fi, majd http://192.168.4.1/\npython -m esptool --chip esp32p4 write_flash {pairs}\n")
+    archive.writestr("FLASH.txt", f"MS1 fejlesztői build: helyi webszerkesztő, SD-mentés, Wi-Fi és diagnosztika.\nNatív sémanézet, animáció és numerikus Loxone-kliens bekötve. Fizikai Miniserveres próba szükséges; közös OTA frissítés a Frissítés oldalon, fizikai próba szükséges.\nAz SD-csomag graphics/ könyvtárát másold a FAT32 kártya gyökerébe.\nElső beállítás: a kijelzőn látható védett Wi-Fi, majd http://192.168.4.1/\npython -m esptool --chip esp32p4 write_flash {pairs}\n")
 with (DIST / "SHA256SUMS.txt").open("w") as stream:
     for file in sorted(DIST.iterdir()):
         if file.suffix in {".zip", ".bin"}:

@@ -47,6 +47,11 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
     assert call("/api/update", {}, {**headers, "Content-Type":"application/octet-stream", "Origin":"http://evil.example"})["status"].startswith("403")
     assert call("/graphics/light/../../schema-state/state-1.bin")["status"].startswith("404")
     assert call("/nonexistent")["status"].startswith("404")
+    assert call("/api/graphics/refresh", {})["status"].startswith("202")
+    assert call("/api/update/release", {})["status"].startswith("202")
+    assert call("/api/update/release", {"url":"https://evil.example"})["status"].startswith("400")
+    assert call("/api/update/release", {}, {**headers, "Origin":"http://evil.example"})["status"].startswith("403")
+    assert decoded(call("/api/update/status"))["phase"] == "release"
     capabilities = decoded(call("/api/device"))["capabilities"]
     assert capabilities["ota"] is True and capabilities["loxone"] is True
 print("Native HTTP: embedded editor, import/export, CAS, secret filtering, Host/Origin, OTA boundary OK")

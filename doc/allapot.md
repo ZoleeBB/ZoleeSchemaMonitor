@@ -10,7 +10,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
 | Grafika | B irány, 138 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
-| Frissítés | Streamelt firmware OTA azonos grafikai készlettel, inaktív partíció, IDF-validálás és indulási rollback; SHA-címzett grafikai tár gazdagépes referenciája | Készülékes differenciális grafikai frissítés, közös aktiválás/rollback és fizikai megszakításpróba |
+| Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, valódi erőforrás-metrikák | Teljes átemelt diagnosztikai ablak és fizikai fényerőpróba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
 
@@ -31,7 +31,7 @@ A rajz és animáció nagy tárolói, valamint a Loxone-worker stackje PSRAM-ban
 - A gazdagépes cache-/protokoll-/HTTP-/LVGL-teszt és a P4-fordítás külön bizonyíték; egyik sem helyettesít valódi Miniservert vagy fizikai panelt.
 - Ebben a munkamenetben nincs fizikai Miniserver-próba, tartósüzemi mérés vagy mért 20 FPS.
 - A számítógépes `--demo` külön szimulált előnézet. A készülék nem szimulál adatot: kapcsolat nélkül ismeretlent mutat.
-- A firmware-OTA csak azonos grafikai forrásazonosítóval használható; első telepítés és grafikai változás USB + kézi SD-csomag. A közös firmware–grafika frissítés még nincs kész.
+- A közös frissítő az első tényleges GitHub-kiadás után használható online. Az MS1 CI-artefaktum nem kiadás. Az első telepítéshez USB és az aktuális teljes SD-csomag szükséges.
 - A CI host LVGL-je a P4-hez hasonlóan C könyvtári memóriafoglalót használ. A korábbi kis belső tesztheap miatti hibát reprodukáltuk és javítottuk.
 
 
@@ -45,10 +45,20 @@ A sima, hűvös és meleg háttér színei a szerkesztő palettáját követik. 
 
 A virtuális LVGL-próba a háttérstílusokat, a nappali/éjszakai módot és fényerőhívásokat, az ismeretlen jel megtartását, a nyelvet és a megosztott PNG-forrást ellenőrzi. Ez nem a fizikai panel fényerejének, a tényleges SD-PNG dekódolásnak vagy a 20 FPS-nek a mérése.
 
-## Firmware OTA – első készülékes megvalósítás
+## Firmware és grafika közös frissítése
 
-A webes Frissítés oldal binárisan streameli a firmware-t a nem futó 8 MiB-os partícióra, 4 KiB-os munkapufferrel. Az első törlés előtt ellenőrzi az image/leíró jelét, a projektnevet és a saját grafikai forrásazonosítót. Az IDF véglegesíti a teljes bináris és hash, chip és revízió ellenőrzését; csak siker után állít bootcélt. A csomagoló a tényleges bináris 288. bájtjától ellenőrzi az egyéni leírót. A grafikai azonosító jelenleg a katalógus és a generátor forrásának SHA-256 lenyomata: konzervatív kompatibilitási korlát, nem aláírás vagy az SD tartalmának ellenőrzése.
+A Frissítés oldal a projekt saját, legújabb GitHub-kiadásából induló `update.json` leírót használja. A kérést a készülék végzi külön, 16 KiB belső stackű workerben; a böngésző nem tölt le release-fájlokat, és nem adhat meg URL-t. A GitHub, a release-assets.githubusercontent.com és az objects.githubusercontent.com HTTPS-átirányításai engedélyezettek, legfeljebb öt átirányítással. CA-ellenőrzés aktív; nincs token vagy hitelesítő adat a kiadási kérésekben. A kiadásnak nyilvánosan elérhetőnek kell lennie. Érvénytelen óra mellett legfeljebb 30 s időszinkron-várakozás történik; TLS-ellenőrzést nem kapcsolunk ki.
 
-Sikertelen stream/flash írás abortál, hibás végellenőrzés nem állít bootcélt. Újrapróbálás lehetséges; siker után az újraindulásig további feltöltés nem indulhat. Hibás feltöltésnél az HTTP-kapcsolat lezárul az olvasatlan törzs miatt. A Host/Origin/egyedi fejléc ellenőrzés a bináris végpontra is vonatkozik.
+A leíró rögzíti a kiadási verziót, a grafikai forrásazonosítót, a manifest és a firmware méretét/SHA-256 lenyomatát. A manifest csak a leíróban megjelölt, rögzített tagből tölthető le. Importált projektből vagy HTTP-kérésből URL nem vehető át. Ezek a hashek integritást és fájlösszerendelést biztosítanak, nem digitális aláírást; a megbízhatóság a projekt GitHub-kiadására és a TLS-re épül.
 
-A függő új alkalmazás 30 s uptime után véglegesíthető, ha a web és az SD-állapottár elérhető; Loxone-adatkapcsolat nem feltétel. 180 s után sikertelen ellenőrzésnél visszaállást kér. Kijelzőindítási hiba azonnal sikertelen indulásnak számít. Összeomlás/újraindulás esetén az IDF bootloader függő verzióra vonatkozó rollback-szabálya érvényes. Ez nem teljes rendszer-watchdog: egy beragadt, újra nem induló taskot ez a pollalapú ellenőrzés nem indít újra. Fizikai áramelvételes/rollback-próba még szükséges.
+Az SD-tár útvonala `graphics/blobs/<sha256>`. Minden meglévő fájlt méret és hash alapján ellenőrzünk; az ép közös tartalmat nem töltjük le újra. A hiányzó vagy sérült fájl `.part` néven streamelődik, tartós lezárás és teljes méret/hash-ellenőrzés után nevezhető át. A részleges fájl nem számít késznek, a következő kísérlet azt újrakezdi; a teljes, jó blobokat megtartja. A manifest korlátja 256 KiB, 1024 bejegyzés, 4 MiB/fájl, összesen 128 MiB; tiltott útvonal és hash/méret-ellentmondás nem fogadható el.
+
+Csak teljes készlethez írunk `graphics/sets/<forrás-hash>.json` kötést. Érvényes kötés fájllistája nem írható át ugyanazon forrásazonosító alatt; hibás kötés a teljes készlet ellenőrzése után javítható. Nincs globális aktív mutató: a firmware saját beégetett azonosítója választja a készletet, így bootloader-visszaálláskor a régi firmware saját grafikát választ. A régi kötések és blobok megmaradnak; automatikus szemétgyűjtés még nincs. Kevés SD-helynél a frissítés hibával leáll, nem törli a korábbi készletet.
+
+A firmware streamelése csak az előkészített készlet után indul a nem futó, 8 MiB-os partícióra. A projektazonosító és az egyéni leíró ellenőrzése a törlés előtt, az IDF image/hash/chip/revízió ellenőrzése és a kiadási SHA/forrásazonosító ellenőrzése a bootcél váltása előtt történik. A manuális bináris feltöltéshez az SD-n a binárishoz tartozó teljes készlet szükséges, azonos forrásazonosító esetén is. Siker után további firmware-feltöltés az újraindulásig nem indulhat.
+
+A grafikai oldalon indított frissítés az aktuális firmware azonosítójához tartozó készletet javítja/frissíti. Eltérő grafikai azonosítónál a közös firmware-frissítéshez irányít. Azonos firmware-verziónál a közös frissítő nem tölti újra a binárist és nem indít újra; a grafikai készletet ellenőrzi. Az aktuális készlet telepítése/javítása revíziót jelez a natív rajzolónak. A web és a kijelző ugyanazokat a hash-címzett fájlokat használja.
+
+A függő alkalmazás 30 s uptime után véglegesíthető, ha a web, az SD-állapottár és a saját teljes grafikai készlet elérhető. A Loxone adatkapcsolata nem feltétel. 180 s után sikertelen ellenőrzés visszaállást kér; kijelzőindítási hiba azonnal sikertelen indulásnak számít. A bootloader a függő verzió újraindulásakor a saját rollback-szabályát alkalmazza. A pollalapú ellenőrzés nem teljes rendszer-watchdog. Az SD FAT-fájlrendszere és a kártya áramelvételi viselkedése miatt a logikai írási sorrend mellett is szükséges a fizikai megszakításpróba.
+
+Az első, régebbi MS1 buildről áttéréshez USB és az új teljes SD-csomag kell. A kézzel másolt kezdeti készlet `identity.txt` fájlja is kötelező: eltérő vagy hiányzó azonosítóval a legacy manifest nem választódik ki. Ezután a közös frissítés kezeli az új készleteket a legacy könyvtár átírása nélkül.

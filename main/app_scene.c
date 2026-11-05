@@ -1,4 +1,5 @@
 #include "app_scene.h"
+#include "app_assets.h"
 #include "app_store.h"
 #include "bsp/esp-bsp.h"
 #include "esp_heap_caps.h"
@@ -198,7 +199,7 @@ void app_scene_update(unsigned elapsed_ms)
 
 static lv_obj_t *s_toggle;
 static atomic_int s_page, s_count;
-static uint32_t s_revision = UINT32_MAX;
+static uint32_t s_revision = UINT32_MAX, s_assets_revision;
 static int s_drawn_page = -1;
 
 static void navigate(lv_event_t *event)
@@ -237,30 +238,6 @@ static void gesture(lv_event_t *event)
         atomic_store(&s_page, (page + (direction == LV_DIR_LEFT ? 1 : count - 1)) % count);
 }
 
-static cJSON *read_json(const char *path)
-{
-    FILE *file = fopen(path, "rb");
-    if (!file)
-        return NULL;
-    if (fseek(file, 0, SEEK_END))
-    {
-        fclose(file);
-        return NULL;
-    }
-    long length = ftell(file);
-    if (length <= 0 || length > 262144 || fseek(file, 0, SEEK_SET))
-    {
-        fclose(file);
-        return NULL;
-    }
-    char *data = malloc(length);
-    cJSON *json =
-        data && fread(data, 1, length, file) == (size_t)length ? sm_json_parse(data, length) : NULL;
-    free(data);
-    fclose(file);
-    return json;
-}
-
 /* Csak katalógusból képzett útvonalat, manifest szerinti méretet és SHA-t fogadunk.
  * Minden fájlolvasás a kijelzőzár felvétele ELŐTT történik. */
 static picture_t load_picture(
@@ -269,7 +246,7 @@ static picture_t load_picture(
     picture_t result = {.owner = count};
     if (!sm_asset_find(asset) || sm_json_number(manifest, "assetAbi", 0) != 1)
         return result;
-    char relative[96], path[128];
+    char relative[96], path[APP_ASSET_PATH_SIZE];
     snprintf(relative, sizeof(relative), "%s/%s.png", dark ? "dark" : "light", asset);
     const cJSON *entry, *found = NULL;
     cJSON_ArrayForEach(entry,
@@ -290,7 +267,8 @@ static picture_t load_picture(
         if (loaded[i].bytes && loaded[i].image.data_size == (size_t)size &&
             !strcmp(loaded[i].digest, expected_hash))
             return loaded[i];
-    snprintf(path, sizeof(path), "/sdcard/graphics/%s", relative);
+    if (!app_assets_path(manifest, relative, path))
+        return result;
     FILE *file = fopen(path, "rb");
     if (!file)
         return result;
@@ -356,7 +334,9 @@ void app_scene_poll(void)
     int brightness = s_dark ? s_night_brightness : s_day_brightness;
     if (brightness != s_applied_brightness && bsp_display_brightness_set(brightness) == ESP_OK)
         s_applied_brightness = brightness;
-    bool appearance_changed = s_appearance_dirty || s_dark != s_drawn_dark;
+    uint32_t assets_revision = app_assets_revision();
+    bool appearance_changed =
+        s_appearance_dirty || s_dark != s_drawn_dark || assets_revision != s_assets_revision;
     if (!appearance_changed && app_store_revision() == s_revision &&
         atomic_load(&s_page) == s_drawn_page)
         return;
@@ -385,7 +365,7 @@ void app_scene_poll(void)
         cJSON_Delete(project);
         return;
     }
-    cJSON *manifest = read_json("/sdcard/graphics/manifest.json");
+    cJSON *manifest = app_assets_manifest();
     const cJSON *element;
     unsigned index = 0;
     cJSON_ArrayForEach(element, elements)
@@ -574,6 +554,7 @@ void app_scene_poll(void)
                           s_english ? "Info / Schema" : "Info / Séma");
     s_drawn_dark = s_dark;
     s_appearance_dirty = false;
+    s_assets_revision = assets_revision;
     s_revision = revision;
     s_drawn_page = page;
     bsp_display_unlock();

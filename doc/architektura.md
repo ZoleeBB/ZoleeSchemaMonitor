@@ -21,10 +21,12 @@ A teljesítményből számított aktivitás: `ismert && érték > minimum`. Expl
 
 A firmware által ismert elemtípusokból összeállított, HU/EN metaadatokat tartalmazó katalógus különül el a grafikai fájloktól. A készletmanifest formátumverziót, kompatibilitási azonosítót, fájlméretet és SHA-256 értéket tartalmaz.
 
-Tartalom szerinti SD-tár: `assets/blobs/<sha256>`. Az új manifest először staging állapotba kerül. Csak a hiányzó vagy hibás blob töltődik le egyedi ideiglenes fájlba, ellenőrzés és tartós lezárás után átnevezve. A teljes készlet ellenőrzése után aktiválható a manifest. A korábbi és a függő OTA-verzió által hivatkozott blobokat nem szabad törölni. A nyilvános export nem tartalmaz grafikai fájlt vagy titkot.
+A natív SD-tár `graphics/blobs/<sha256>` fájlokat és `graphics/sets/<forrás-hash>.json` kötéseket használ. Csak a hiányzó vagy hibás blob töltődik le `.part` fájlba; ellenőrzés és tartós lezárás után nevezhető át. Kötés csak teljes készlethez készül, a firmware saját azonosítója választja. Nincs globális aktív mutató: rollbackkor a firmware-rel együtt a készletválasztás is visszaáll. Régi fájlt nem gyűjtünk automatikusan. A nyilvános export nem tartalmaz grafikai fájlt vagy titkot. A gazdagépes `AssetStore` korábbi, aktív mutatós algoritmusa referencia; a készülék az itt leírt kötéseket használja.
 
-Az eszköz a firmware által kijelölt release-ből tölthet grafikát; importált oldal nem adhat meg letöltési URL-t. A fájlonkénti hash integritást biztosít, önmagában nem digitális aláírás.
+Az eszköz a saját projekt legújabb kiadásának `update.json` leírójából és annak rögzített tagjéből tölthet grafikát; importált oldal nem adhat meg letöltési URL-t. A fájlonkénti hash integritást biztosít, önmagában nem digitális aláírás.
 
 ## Átemelési határok
 
 A forrásprojektből a P4 BSP/adapter és ESP-Hosted javítások, Wi-Fi, Loxone hitelesítés, diagnosztika és a webes megjelenési alapok használhatók. Az energiaadatokra szabott UI és adatmodell, BLE, kaputelefon, statisztika és MQTT nem kerülhet az új firmware függőségi körébe. Minden átemelés pontos forráscommitja dokumentálandó.
+
+A kiadáscsomagoló ellenőrzi az összes ismert elemtípus világos/sötét SVG és PNG útvonalának meglétét, a firmware/manifest verzióegyezését és a binárisba linkelt grafikai azonosítót. Ezután készül a firmware- és manifest-hasheket tartalmazó `update.json`; a pipeline a firmware, a leíró, a manifest és a hash-címzett blobok együttesét adja ki.

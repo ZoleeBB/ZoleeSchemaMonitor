@@ -7,6 +7,7 @@
 #include "app_store.h"
 #include "app_web.h"
 #include "app_ota.h"
+#include "app_assets.h"
 #include "app_scene.h"
 #include "app_loxone.h"
 #include "bsp/esp-bsp.h"
@@ -130,7 +131,8 @@ void app_main(void)
             continue;
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
-        app_ota_boot_poll(web_ready && app_store_ready(), metrics.uptime_seconds);
+        app_ota_boot_poll(web_ready && app_store_ready() && app_assets_boot_ready(),
+                          metrics.uptime_seconds);
         app_network_status_t network;
         app_network_status(&network);
         char text[768];

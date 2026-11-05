@@ -1,4 +1,5 @@
 #include "app_ota.h"
+#include "app_assets.h"
 #include "esp_app_desc.h"
 #include "esp_app_format.h"
 #include "esp_ota_ops.h"
@@ -14,7 +15,8 @@ const char schema_ota_identity[] __attribute__((section(".rodata_custom_desc"), 
 static atomic_flag s_upload = ATOMIC_FLAG_INIT;
 static bool s_boot_checked;
 
-static esp_err_t upload(size_t size, app_ota_read_fn reader, void *context)
+static esp_err_t
+upload(size_t size, app_ota_read_fn reader, void *context, bool (*verify)(void *context))
 {
     const esp_partition_t *target = esp_ota_get_next_update_partition(NULL);
     size_t prefix_size = sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t) +
@@ -42,13 +44,14 @@ static esp_err_t upload(size_t size, app_ota_read_fn reader, void *context)
            buffer + sizeof(image) + sizeof(esp_image_segment_header_t),
            sizeof(descriptor));
     const esp_app_desc_t *running = esp_app_get_description();
+    char candidate[APP_ASSET_ID_SIZE];
+    memcpy(candidate, buffer + prefix_size - sizeof(schema_ota_identity), sizeof(candidate));
     bool valid =
         image.magic == ESP_IMAGE_HEADER_MAGIC && image.hash_appended == 1 &&
         descriptor.magic_word == ESP_APP_DESC_MAGIC_WORD &&
         !memcmp(descriptor.project_name, running->project_name, sizeof(descriptor.project_name)) &&
-        !memcmp(buffer + prefix_size - sizeof(schema_ota_identity),
-                schema_ota_identity,
-                sizeof(schema_ota_identity));
+        candidate[sizeof(candidate) - 1] == 0 && app_assets_identity_valid(candidate) &&
+        app_assets_ready(candidate);
     if (!valid)
     {
         free(buffer);
@@ -85,14 +88,24 @@ static esp_err_t upload(size_t size, app_ota_read_fn reader, void *context)
     result = esp_ota_end(handle);
     if (result != ESP_OK)
         return result;
+    if (verify && !verify(context))
+        return ESP_ERR_INVALID_ARG;
     return esp_ota_set_boot_partition(target);
 }
 
 esp_err_t app_ota_upload(size_t size, app_ota_read_fn reader, void *context)
 {
+    return app_ota_upload_verified(size, reader, context, NULL);
+}
+
+esp_err_t app_ota_upload_verified(size_t size,
+                                  app_ota_read_fn reader,
+                                  void *context,
+                                  bool (*verify)(void *context))
+{
     if (atomic_flag_test_and_set(&s_upload))
         return ESP_ERR_INVALID_STATE;
-    esp_err_t result = upload(size, reader, context);
+    esp_err_t result = upload(size, reader, context, verify);
     /* Siker után az újraindulásig nem írható felül a már ellenőrzött bootcél. */
     if (result != ESP_OK)
         atomic_flag_clear(&s_upload);

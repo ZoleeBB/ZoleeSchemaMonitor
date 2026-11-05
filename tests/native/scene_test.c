@@ -213,3 +213,21 @@ int main(void)
          "rotor, values, disconnect, theme, brightness and shared PNG cache OK");
     return 0;
 }
+
+/* A fájltár integrációját a külön natív SD-próba ellenőrzi. */
+cJSON *app_assets_manifest(void)
+{
+    return NULL;
+}
+bool app_assets_path(const cJSON *manifest, const char *relative, char path[APP_ASSET_PATH_SIZE])
+{
+    (void)manifest;
+    (void)relative;
+    (void)path;
+    return false;
+}
+
+uint32_t app_assets_revision(void)
+{
+    return 0;
+}

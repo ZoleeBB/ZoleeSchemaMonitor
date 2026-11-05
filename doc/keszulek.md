@@ -1,6 +1,6 @@
 # Készülékes fejlesztői build
 
-Ez az MS1 részállapota. A helyi szerkesztő és a mentés bekötve, a kijelzőn statikus sémanézet és diagnosztikai lap is látszik. A numerikus Loxone-kliens és az animációk bekötve, de a fizikai Miniserver-próba még szükséges. Első telepítéshez USB szükséges; a firmware-OTA első változata azonos grafikai készlettel használható. A közös firmware–grafika frissítés még nincs kész.
+Ez az MS1 részállapota. A helyi szerkesztő és a mentés bekötve, a kijelzőn statikus sémanézet és diagnosztikai lap is látszik. A numerikus Loxone-kliens és az animációk bekötve, de a fizikai Miniserver-próba még szükséges. Első telepítéshez USB szükséges; a közös firmware–grafika frissítés bekötve, fizikai próbája még szükséges.
 
 ## Első indítás
 
@@ -39,10 +39,16 @@ A Loxone oldalon a Miniserver címe, portja, felhasználója és jelszava menthe
 
 A Beállítások oldalon válassz éjszakai Loxone-jelet, és állítsd be a két fényerőt. Pozitív jel éjszakát, nulla vagy negatív jel nappalt jelent. Kapcsolatvesztéskor a legutóbbi mód marad; az első érvényes jel előtt nappali a nézet. A fényerő fizikai ellenőrzése még szükséges. A natív sötét grafikákhoz az SD-n a `graphics/dark/` PNG-k is legyenek meg.
 
-### Firmware frissítése
+### Firmware és grafika frissítése
 
-A Frissítés oldalon a CI `schema-firmware` csomagjából származó `ZoleeSchemaMonitor.bin` választható. A feltöltés teljes ellenőrzése után a készülék körülbelül három másodperccel újraindul. Ezután töltsd újra a böngészőoldalt. Elsőként az OTA-t már tartalmazó buildet USB-n kell telepíteni.
+Első telepítésnél az aktuális USB build és a hozzá tartozó teljes `schema-graphics.zip` szükséges. A ZIP `graphics/` könyvtárát az `identity.txt`, a `manifest.json` és a `blobs/` könyvtárral együtt másold az SD-re, kikapcsolt készüléken. A régebbi MS1 OTA-ból még nem lehet erre a frissítési rendszerre átállni; az első áttéréshez is USB szükséges.
 
-Jelenleg csak a futó firmware-ével azonos katalógus/grafikagenerátor-forrásazonosító fogadható el. Grafikai változást tartalmazó buildnél marad az USB-telepítés és a hozzá tartozó teljes `graphics/` könyvtár SD-re másolása kikapcsolt készüléken. Ez átmeneti korlát a differenciális grafikai frissítés és a közös visszaállítás elkészültéig. A forrásazonosító nem helyettesíti az SD-fájlok ellenőrzését vagy a megbízható firmware-forrást.
+A Frissítés oldalon a **Legújabb kiadás telepítése** a projekt legújabb nyilvános GitHub-kiadásának firmware-ét és grafikai készletét kezeli. A folyamat állapota, verziója és az átvett bájtok mennyisége megjelenik. Új firmware esetén a teljes ellenőrzés után körülbelül három másodperccel újraindul a készülék; ezután töltsd újra a weboldalt. Ha a verzió már egyezik, csak a grafika ellenőrzése/javítása történik, újraindítás nélkül.
 
-Megszakadt vagy elutasított feltöltésnél a futó partíció marad aktív, újrapróbálás lehetséges. Az új verzió a web és az SD-állapottár sikeres alapindulása, legalább 30 s uptime után válik véglegessé. A Loxone pillanatnyi elérhetősége ezt nem akadályozza. A készülékes OTA és áramelvételes visszaállítás fizikai tesztje még szükséges; az MS1 továbbra is nyitott.
+Az MS1 ágra készített CI-artefaktum nem nyilvános kiadás. Az első main-be egyesített, kiadást létrehozó PR előtt az online frissítő helyesen jelezheti, hogy nincs elérhető kiadás. Addig az USB/SD csomag használható. A frissítő nyilvános release-fájlokat használ, privát repóhoz nincs beépített GitHub-bejelentkezés.
+
+A Grafikai készlet oldalon a Frissítés csak az aktuális firmware-hez illő kiadási készletet használhatja; eltérésnél a közös frissítést kell indítani. A hiányzó/hibás fájlok töltődnek le, a jó fájlokat újrahasználja. Megszakítás után újra indítható: csak a teljes, hash alapján ellenőrzött fájlokat tartja késznek. A futó verziót és annak készletét a frissítés előkészítése nem írja felül.
+
+A kézi `.bin` feltöltés megmaradt. A binárishoz tartozó teljes készletnek az SD-n kell lennie; hiányos készlettel azonos grafikai azonosító esetén sem aktivál firmware-t. Általános grafikai fájlfeltöltő vagy egyedi URL megadása nincs.
+
+Az új alkalmazás a web, az SD-állapottár és a saját teljes grafikai készlet sikeres alapindulása, legalább 30 s uptime után válik véglegessé. A Loxone pillanatnyi elérhetősége ezt nem akadályozza. A készülékes OTA, valódi GitHub-hálózat és áramelvételes visszaállítás fizikai tesztje még szükséges; az MS1 továbbra is nyitott.

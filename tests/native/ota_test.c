@@ -13,6 +13,12 @@ static esp_err_t begin_error, write_error, end_error, switch_error, confirm_erro
 static esp_ota_img_states_t boot_state;
 static unsigned char image[10000], flashed[10000];
 static size_t offset, length, chunk, stop, written;
+static bool ready_set, current_ready = true;
+static bool reject_digest(void *context)
+{
+    (void)context;
+    return false;
+}
 static int read_image(void *context, void *buffer, size_t capacity)
 {
     assert(context == image);
@@ -98,6 +104,8 @@ static void reset(void)
 {
     begins = writes = ends = aborts = switches = confirms = rollbacks = 0;
     begin_error = write_error = end_error = switch_error = confirm_error = ESP_OK;
+    ready_set = false;
+    current_ready = true;
     s_boot_checked = false;
     boot_state = ESP_OTA_IMG_PENDING_VERIFY;
     atomic_flag_clear(&s_upload);
@@ -176,9 +184,31 @@ int main(void)
     app_ota_boot_poll(true, 180);
     assert(confirms == 1 && rollbacks == 1);
     reset();
+    current_ready = false;
+    assert(upload_image() != ESP_OK && !begins);
+    reset();
+    image[288 + 76] = image[288 + 76] == 'a' ? 'b' : 'a';
+    assert(upload_image() != ESP_OK && !begins);
+    ready_set = true;
+    offset = 0;
+    assert(upload_image() == ESP_OK && switches == 1);
+    reset();
+    assert(app_ota_upload_verified(length, read_image, image, reject_digest) ==
+               ESP_ERR_INVALID_ARG &&
+           ends == 1 && !switches);
+    reset();
     boot_state = ESP_OTA_IMG_VALID;
     app_ota_boot_poll(false, 180);
     assert(!confirms && !rollbacks);
     puts("Native OTA: stream, compatibility, interruptions, flash failures, boot switch and "
          "rollback policy OK");
+}
+
+bool app_assets_identity_valid(const char *identity)
+{
+    return strlen(identity) == APP_ASSET_ID_SIZE - 1 && !strncmp(identity, "ZSM-ASSETS-1:", 13);
+}
+bool app_assets_ready(const char *identity)
+{
+    return !strcmp(identity, schema_ota_identity) ? current_ready : ready_set;
 }
