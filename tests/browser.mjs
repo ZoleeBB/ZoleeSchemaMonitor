@@ -151,48 +151,50 @@ try {
     await page.waitForFunction(() => document.querySelector('h1').textContent === 'Rendszerdiagnosztika');
     await page.waitForFunction(() => document.querySelector('[data-diag="update"]').textContent.includes('Nincs frissítés'));
     await page.screenshot({path: '.browser-test/diagnostics-hu.png', fullPage: true});
-    await page.route('**/api/backup/status', route => route.fulfill({json: {available: true, revision: 7}}));
-    const envelope = {format: 'zolee-backup', version: 1, data: 'Ciphertext fixture'};
-    let exports = 0, restores = 0;
-    await page.route('**/api/backup/export', async route => {
-        exports++;
-        assert.deepEqual(route.request().postDataJSON(), {passphrase: 'Backup password 123!'});
-        assert.equal(route.request().headers()['x-zolee-schema'], '1');
-        await route.fulfill({json: envelope});
-    });
-    await page.route('**/api/backup/restore', async route => {
-        restores++;
-        const payload = route.request().postDataJSON();
-        assert.equal(payload.revision, 7);
-        assert.deepEqual(payload.backup, envelope);
-        if (payload.passphrase !== 'Backup password 123!') {
-            await route.fulfill({status: 400, json: {error: 'backup.invalid-or-password'}});
-        } else await route.fulfill({json: {revision: 8, restart: true}});
-    });
-    await page.goto(url + '/backup');
-    await page.waitForSelector('#device-backup-form button:enabled');
-    const exportForm = page.locator('#device-backup-form');
-    await exportForm.locator('[name=passphrase]').fill('Backup password 123!');
-    await exportForm.locator('[name=repeat]').fill('Different password 123!');
-    await exportForm.locator('button').click();
-    assert.equal(exports, 0);
-    await exportForm.locator('[name=repeat]').fill('Backup password 123!');
-    const downloadEvent = page.waitForEvent('download');
-    await exportForm.locator('button').click();
-    const download = await downloadEvent;
-    assert.deepEqual(JSON.parse(await fs.readFile(await download.path(), 'utf8')), envelope);
-    assert.equal(await exportForm.locator('[name=passphrase]').inputValue(), '');
-    const restoreForm = page.locator('#device-restore-form');
-    await restoreForm.locator('[name=file]').setInputFiles({name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(envelope))});
-    await restoreForm.locator('[name=passphrase]').fill('Wrong password 123!');
-    await restoreForm.locator('button').click();
-    await page.waitForFunction(() => document.querySelector('#device-restore-form button').disabled === false && document.querySelector('#device-restore-form [name=passphrase]').value === '');
-    assert.equal(restores, 1);
-    await restoreForm.locator('[name=passphrase]').fill('Backup password 123!');
-    await restoreForm.locator('button').click();
-    await page.waitForFunction(() => document.querySelector('#device-restore-form button').disabled && document.querySelector('#device-restore-form [name=passphrase]').value === '');
-    assert.equal(restores, 2);
-    await page.screenshot({path: '.browser-test/backup-hu.png', fullPage: true});
+    {
+        await page.route('**/api/backup/status', route => route.fulfill({json: {available: true, revision: 7}}));
+        const envelope = {format: 'zolee-backup', version: 1, data: 'Ciphertext fixture'};
+        let exports = 0, restores = 0;
+        await page.route('**/api/backup/export', async route => {
+            exports++;
+            assert.deepEqual(route.request().postDataJSON(), {passphrase: 'Backup password 123!'});
+            assert.equal(route.request().headers()['x-zolee-schema'], '1');
+            await route.fulfill({json: envelope});
+        });
+        await page.route('**/api/backup/restore', async route => {
+            restores++;
+            const payload = route.request().postDataJSON();
+            assert.equal(payload.revision, 7);
+            assert.deepEqual(payload.backup, envelope);
+            if (payload.passphrase !== 'Backup password 123!') {
+                await route.fulfill({status: 400, json: {error: 'backup.invalid-or-password'}});
+            } else await route.fulfill({json: {revision: 8, restart: true}});
+        });
+        await page.goto(url + '/backup');
+        await page.waitForSelector('#device-backup-form button:enabled');
+        const exportForm = page.locator('#device-backup-form');
+        await exportForm.locator('[name=passphrase]').fill('Backup password 123!');
+        await exportForm.locator('[name=repeat]').fill('Different password 123!');
+        await exportForm.locator('button').click();
+        assert.equal(exports, 0);
+        await exportForm.locator('[name=repeat]').fill('Backup password 123!');
+        const downloadEvent = page.waitForEvent('download');
+        await exportForm.locator('button').click();
+        const download = await downloadEvent;
+        assert.deepEqual(JSON.parse(await fs.readFile(await download.path(), 'utf8')), envelope);
+        assert.equal(await exportForm.locator('[name=passphrase]').inputValue(), '');
+        const restoreForm = page.locator('#device-restore-form');
+        await restoreForm.locator('[name=file]').setInputFiles({name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(envelope))});
+        await restoreForm.locator('[name=passphrase]').fill('Wrong password 123!');
+        await restoreForm.locator('button').click();
+        await page.waitForFunction(() => document.querySelector('#device-restore-form button').disabled === false && document.querySelector('#device-restore-form [name=passphrase]').value === '');
+        assert.equal(restores, 1);
+        await restoreForm.locator('[name=passphrase]').fill('Backup password 123!');
+        await restoreForm.locator('button').click();
+        await page.waitForFunction(() => document.querySelector('#device-restore-form button').disabled && document.querySelector('#device-restore-form [name=passphrase]').value === '');
+        assert.equal(restores, 2);
+        await page.screenshot({path: '.browser-test/backup-hu.png', fullPage: true});
+    }
     assert.deepEqual(errors, []);
     console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry and diagnostic live refresh/HU-EN/escaping OK');
 } finally {
