@@ -97,33 +97,37 @@ static void build(int width, int height)
     int columns = width >= 1000 ? 3 : 2, gap = 12;
     int cell_width = (width - 40 - gap * (columns - 1)) / columns;
     int rows = (12 + columns - 1) / columns;
+    int line_height = app_font_20.line_height;
+    int value_y = line_height + 4;
+    int card_height = value_y + 3 * line_height + 6;
+    int row_height = card_height + gap;
     for (unsigned i = 0; i < 12; i++)
     {
         lv_obj_t *card = lv_obj_create(s_root);
         lv_obj_remove_style_all(card);
-        lv_obj_set_pos(card, 20 + (i % columns) * (cell_width + gap), 86 + (i / columns) * 122);
-        lv_obj_set_size(card, cell_width, 110);
+        lv_obj_set_pos(card, 20 + (i % columns) * (cell_width + gap), 86 + (i / columns) * row_height);
+        lv_obj_set_size(card, cell_width, card_height);
         lv_obj_remove_flag(card, LV_OBJ_FLAG_SCROLLABLE);
         lv_obj_set_style_bg_color(card, lv_color_hex(s_dark ? 0x203342 : 0xffffff), 0);
         lv_obj_set_style_bg_opa(card, LV_OPA_COVER, 0);
         lv_obj_set_style_radius(card, 10, 0);
-        lv_obj_t *title = label(card, s_titles[i][s_english], 12, 8, cell_width - 24);
+        lv_obj_t *title = label(card, s_titles[i][s_english], 12, 4, cell_width - 24);
         lv_obj_set_style_text_color(title, lv_color_hex(s_dark ? 0xadc5d5 : 0x5f7889), 0);
-        s_labels[i] = label(card, s_values[i], 12, 34, cell_width - 24);
-        lv_obj_set_height(s_labels[i], i >= 4 ? 72 : 54);
+        s_labels[i] = label(card, s_values[i], 12, value_y, cell_width - 24);
+        lv_obj_set_height(s_labels[i], (i >= 4 ? 3 : 2) * line_height);
         if (i < 4)
         {
             unsigned start = i ? i + 1 : 0, count = i ? 1 : 2;
             for (unsigned n = 0; n < count; n++)
             {
                 s_bars[start + n] = lv_bar_create(card);
-                lv_obj_set_pos(s_bars[start + n], 12, n ? 94 : 80);
+                lv_obj_set_pos(s_bars[start + n], 12, n ? card_height - 12 : card_height - 26);
                 lv_obj_set_size(s_bars[start + n], cell_width - 24, 8);
                 lv_bar_set_range(s_bars[start + n], 0, 100);
             }
         }
     }
-    int log_y = 86 + rows * 122;
+    int log_y = 86 + rows * row_height;
     label(s_root,
           tr("Legutóbbi események · üzemidő szerint", "Recent events · uptime timestamps"),
           20,
@@ -136,7 +140,7 @@ static void build(int width, int height)
     lv_obj_set_scroll_dir(log, LV_DIR_VER);
     for (unsigned i = 0; i < APP_EVENT_LIMIT; i++)
     {
-        s_logs[i] = label(log, s_lines[i], 0, i * 26, width - 60);
+        s_logs[i] = label(log, s_lines[i], 0, i * (line_height + 2), width - 60);
         s_levels[i] = 99;
     }
 }
@@ -163,7 +167,7 @@ static void render(void)
     if (d->cpu_valid)
         snprintf(text, sizeof(text), "CPU0 %u%% / CPU1 %u%%", d->cpu[0], d->cpu[1]);
     else
-        snprintf(text, sizeof(text), "%s", tr("Mérés indul…", "Starting measurement…"));
+        snprintf(text, sizeof(text), "%s", tr("Mérés indul...", "Starting measurement..."));
     value(0, text);
     bar(0, d->cpu_valid, d->cpu[0]);
     bar(1, d->cpu_valid, d->cpu[1]);
@@ -266,7 +270,7 @@ static void render(void)
         value(7, text);
     }
     if (!d->sampled)
-        value(8, tr("Mérés indul…", "Starting measurement…"));
+        value(8, tr("Mérés indul...", "Starting measurement..."));
     else
     {
         snprintf(text,

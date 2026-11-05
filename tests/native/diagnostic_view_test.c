@@ -63,6 +63,10 @@ int main(void)
     assert(strstr(lv_label_get_text(s_labels[11]), "NativeOnlySecret"));
     assert(strstr(lv_label_get_text(s_labels[3]), "nem mért"));
     assert(lv_obj_has_flag(s_bars[0], LV_OBJ_FLAG_HIDDEN));
+    lv_obj_update_layout(s_root);
+    assert(lv_obj_get_height(s_labels[8]) >= 3 * app_font_20.line_height);
+    assert(lv_obj_get_height(lv_obj_get_parent(s_labels[8])) >=
+           lv_obj_get_y(s_labels[8]) + lv_obj_get_height(s_labels[8]));
     unsigned unchanged = locks;
     app_diagnostic_view_poll();
     assert(unchanged == locks);
@@ -112,7 +116,9 @@ int main(void)
     app_diagnostic_view_poll();
     lv_obj_update_layout(s_root);
     assert(lv_obj_get_width(lv_obj_get_child(s_root, 2)) == 374);
-    assert(lv_obj_get_height(lv_obj_get_child(s_root, 15)) > 390);
+    assert(lv_obj_get_height(lv_obj_get_child(s_root, 15)) >= 3 * app_font_20.line_height);
+    assert(lv_obj_get_y(s_logs[1]) - lv_obj_get_y(s_logs[0]) >= app_font_20.line_height);
+    assert(lv_obj_get_height(s_labels[8]) >= 3 * app_font_20.line_height);
     data.cpu_valid = data.sd_space_valid = data.recovery_wifi = false;
     network.recovery = false;
     app_diagnostic_view_update(&data, &network);
