@@ -556,6 +556,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/brazed-plate-exchanger.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/gasketed-plate-exchanger.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/shell-and-tube-exchanger.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/coil-exchanger.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
