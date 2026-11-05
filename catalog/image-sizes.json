@@ -291,6 +291,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/ground-source-heat-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/water-source-heat-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/pool-heat-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/inverter-pool-heat-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
