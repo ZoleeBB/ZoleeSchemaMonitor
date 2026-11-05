@@ -34,6 +34,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Grafikai függőségek
+        run: python3 -m pip install -r tools/requirements-assets.txt
+      - name: Csak szükséges méretű képek a Gitben
+        run: python3 tools/image_policy.py
       - run: python3 tools/build_assets.py
       - name: A natív katalógus naprakész
         run: |
@@ -91,7 +95,6 @@ jobs:
         env:
           ASSET_VERSION: ${{ steps.plan.outputs.version }}
         run: |
-          python3 -m pip install -r tools/requirements-assets.txt
           python3 tools/build_assets.py --png --output dist/graphics --version "$ASSET_VERSION"
           python3 tools/package_preview.py
       - uses: actions/upload-artifact@v4

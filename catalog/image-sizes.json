@@ -1,0 +1,11 @@
+{
+    "format": "zolee-image-sizes",
+    "version": 1,
+    "images": {
+        "doc/grafika/latvanytervek/01-szivattyuk.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
+        }
+    }
+}

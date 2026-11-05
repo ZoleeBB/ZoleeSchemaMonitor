@@ -35,3 +35,5 @@ Forrás: a felhasználó 2026-11-04-i specifikációja. A költségcél 50–60 
 ## Grafikai döntési pont
 
 A teljes készlet készítése előtt összehasonlítható látványterveket mutattunk be. A felhasználó a **B, térhatásosabb** irányt választotta. A determinisztikus vektoros rajzcsaládok ennek kezdeti műszaki megvalósításai; a teljes katalógus minden változatának egyedi, végleges grafikai ellenőrzése továbbra is MS1-feltétel.
+
+A 2026-11-05-i kiegészítés szerint csoportonként külön látványterv készül. A Gitre kizárólag a szükséges méretre kicsinyített képek kerülhetnek, a nagy munkaképek nem. Ezt képméret-jegyzék és CI-ellenőrzés védi; [részletek](grafika/README.md).

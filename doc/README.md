@@ -5,6 +5,7 @@
 - [MS1 és ellenőrzési lista](ms1.md)
 - [Fejlesztés és helyi előnézet](fejlesztes.md)
 - [Készülékes fejlesztői build és helyreállítás](keszulek.md)
+- [Grafikai látványtervek és képméretek](grafika/README.md)
 - [Mentés és visszaállítás](mentes.md)
 - [Diagnosztika, memória és események](diagnosztika.md)
 - [Fejlesztési állapot és hiányzó integrációk](allapot.md)

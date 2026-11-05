@@ -14,3 +14,5 @@
 - Import/mentés/frissítés tranzakciós legyen; a sikerüzenet tartós mentést jelentsen. Hibánál a korábbi érvényes adat megmarad.
 - Minden érdemi változáshoz futtassuk a célzott teszteket. A gazdagépes teszt, CI-fordítás és fizikai panelteszt eredményét külön nevezzük meg.
 - README: rövid alapadatok és linkek a `doc/` alá. PR-zárásonként a verzióváltozások a `doc/verziotortenet/` könyvtárba kerüljenek.
+
+- A nagy felbontású grafikai munkaképek nem kerülhetnek a Gitbe. Raszter csak a `catalog/image-sizes.json` jegyzékben rögzített pixelmérettel és célból vehető fel; ellenőrzés: `python3 tools/image_policy.py` (a Git-indexet olvassa). Csoportonként külön világos/sötét látványterv szükséges a végleges képek bekötése előtt.

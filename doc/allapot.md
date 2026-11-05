@@ -9,7 +9,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
-| Grafika | B irány, 138 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
+| Grafika | B irány, 138 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; első szivattyús csoportterv, Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
@@ -70,3 +70,7 @@ A testvérprojekt memória-/SD-sávjai és 15 soros eseménylistája a Loxone-on
 ## Teljes eszközmentés
 
 A titokmentes sémaexport mellett külön jelszavas, hordozható eszközmentés és egyetlen SD-journal írással végzett teljes konfiguráció-visszaállítás készült. A célkészülék a saját NVS-kulcsával tárolja a visszaállított beállításokat; a forrás kulcsa nem szükséges. [Használat, kriptográfia, tesztek és fizikai ellenőrzési korlátok](mentes.md).
+
+## Grafikai csoporttervek
+
+Az első szivattyús világos/sötét látványterv elkészült, de még nem végleges futásidejű készlet. A Gitre 1280×853-as, körülbelül 176 KiB-os dokumentációs előnézet került; a nagy munkakép nem. A Git-indexben ellenőrzött méretjegyzék megakadályozza a nem engedélyezett méretű raszterek beemelését. [Csoportterv, méretek és véglegesítési korlátok](grafika/README.md).

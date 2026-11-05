@@ -232,3 +232,7 @@ node_modules/
 .browser-test/
 .native-deps/
 
+
+# Nagy grafikai munkafájlok; csak az előkészített méretek verziózhatók.
+/artwork-work/
+/generated_images/
