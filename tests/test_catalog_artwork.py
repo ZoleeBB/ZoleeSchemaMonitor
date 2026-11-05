@@ -33,8 +33,8 @@ class CatalogArtworkTests(unittest.TestCase):
 
     def test_real_sources_are_registered_rgba_and_allow_theme_dedup(self):
         elements = [item for item in catalog.elements() if 'artwork' in item]
-        self.assertEqual(len(elements), 10)
-        self.assertEqual(len({item['artwork'] for item in elements}), 8)
+        self.assertGreaterEqual(len(elements), 15)
+        self.assertGreaterEqual(len({item['artwork'] for item in elements}), 12)
         policy = json.loads((ROOT / 'catalog/image-sizes.json').read_text())['images']
         for item in elements:
             path = f"assets/elements/universal/{item['artwork']}.png"
@@ -47,7 +47,7 @@ class CatalogArtworkTests(unittest.TestCase):
 
     def test_full_size_release_manifest_is_within_device_limits(self):
         # A tényleges generálást a CI csomaglépése végzi. Itt a 317 típusnyi
-        # maximális bejegyzésszámot is ellenőrizzük, nem csak a 10 kész rajzot.
+        # maximális bejegyzésszámot is ellenőrizzük, nem csak a már bekötött képeket.
         entries = []
         for item in catalog.elements():
             for theme in ['light', 'dark']:

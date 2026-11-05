@@ -8,7 +8,7 @@ Ez nem MS1-zárási jegyzőkönyv. A készülékes integráció hiányai az [ál
 | JavaScript modell | 4 sikeres teszt |
 | Python tárolási/API/kiadási tesztek | 9 sikeres teszt |
 | Valódi Chromium | Sikeres: elem, cső, párosítás, teljesítményhatár, mentés/visszatöltés, export, álló vászon, HU/EN |
-| SVG + PNG csomagolás | 317 elem metaadata, 1249 manifestbejegyzés; közös tartalmak hash szerint deduplikálhatók |
+| SVG + PNG csomagolás | 317 elem metaadata, 1239 manifestbejegyzés; közös tartalmak hash szerint deduplikálhatók |
 | ESP-IDF 5.5.4, ESP32-P4 platformfirmware | Sikeres fordítás/linkelés |
 | Platformfirmware bináris | OTA-val 1 693 376 bájt; a 8 MiB alkalmazáspartícióban 80% szabad |
 | Natív JS/C modellparitás | 22 eset, köztük a 10×150 elemes projekt |

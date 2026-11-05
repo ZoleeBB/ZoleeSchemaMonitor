@@ -70,14 +70,21 @@ A generátor a kész PNG-ket átveszi, a további típusoknál megtartja a műsz
 
 A minimum 300 eszközhöz **317 típus** van előkészítve. Ez nem 317 kész kép: [tételes készlet és állapot](keszlet.md). Következő csoportok: tárolók/HMV; hőtermelők; szelepek; hőleadók és hidraulika; légtechnika; medence; öntözés; érzékelők. Minden csoporthoz külön világos/sötét látványterv készül, a végleges képek további kis csomagokban kerülnek fel.
 
-A teljes, jelenlegi PNG/SVG kiadási csomag 1249 bejegyzés, a manifest körülbelül 153 KiB, a logikai fájlméretek összege körülbelül 3,8 MiB. A fájlszámkorlát 2048 lett; a 256 KiB-os manifest-, 4 MiB/fájl- és 128 MiB összméretkorlát változatlan. A teljes csomag előállítható, az új egyedi rajzok készültségét ez nem helyettesíti.
+A teljes, jelenlegi PNG/SVG kiadási csomag 1239 bejegyzés, a manifest körülbelül 152 KiB, a logikai fájlméretek összege körülbelül 3,9 MiB. A fájlszámkorlát 2048 lett; a 256 KiB-os manifest-, 4 MiB/fájl- és 128 MiB összméretkorlát változatlan. A teljes csomag előállítható, az új egyedi rajzok készültségét ez nem helyettesíti.
 
 [Gyártói tájékozódási pontok](forrasok.md).
 
 ## Második csoport: tárolók / HMV
 
-**Állapot: csoportos látványterv; a 24 tárolótípus egyedi PNG-i még készítésre várnak.**
+**Állapot: a csoportterv bemutatva; az első 4 PNG-forrás már bekötve 5 tárolótípushoz. További 19 típus még helyőrzős.**
 
 ![Tárolók és HMV – világos/sötét látványterv](latvanytervek/02-tarolok-hmv.jpg)
 
 Balról jobbra: sima álló puffer, egyspirálos HMV tároló, kétspirálos tároló, fekvő puffer; alul fűtési tágulási tartály, hidrofor, bordázott esővíztároló, szögletes hőtároló. A további tárolóváltozatokat a tételes készlet tartalmazza. A metszeti ablak kizárólag az eszköz felismerhetőségét segíti; nem gyártói belső szerkezeti terv.
+
+
+### 02/A képcsomag
+
+Az álló puffer, az egyspirálos HMV-tároló, a kétspirálos tároló és a fekvő puffer 160×160-as, átlátszó PNG-je külön négyképes csomagban került a repóba. A `hot-water-tank` és `single-coil-tank` közös, ténylegesen azonos egyspirálos kialakítást használ. Ezek passzív eszközök, forgórész vagy pulzáló pumpajelző nélkül; a kívánt hőmérsékletek és állapotértékek külön értékmezőkkel helyezhetők el.
+
+Az aktuális készültség összesen **15 típus, 12 külön PNG-forrás**. A többi 302 típus további csoporttervezést és egyedi grafikát igényel; a 317-es katalógus nem kész 317-es képkészlet.

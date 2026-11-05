@@ -51,6 +51,26 @@
             "role": "preview",
             "width": 1280,
             "height": 853
+        },
+        "assets/elements/universal/buffer-tank.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/hot-water-tank.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/dual-coil-tank.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/horizontal-buffer.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }

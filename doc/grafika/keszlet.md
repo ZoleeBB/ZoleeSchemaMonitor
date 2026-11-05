@@ -1,13 +1,13 @@
 # Grafikai készletnyilvántartás
 
-**317 katalógustípus; 10 típushoz bekötött egyedi kép, 8 külön PNG-forrásból.**
+**317 katalógustípus; 15 típushoz bekötött egyedi kép, 12 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
 | Csoport | Típus | Egyedi képpel | Még helyőrző |
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
-| Tárolás / HMV | 24 | 0 | 24 |
+| Tárolás / HMV | 24 | 5 | 19 |
 | Hidraulika / vízellátás | 61 | 8 | 53 |
 | Szelepek | 42 | 0 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
@@ -74,16 +74,16 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `buffer-tank` | Puffertartály | Buffer tank | Műszaki helyőrző |
-| `hot-water-tank` | HMV tartály | Domestic hot water tank | Műszaki helyőrző |
-| `single-coil-tank` | Egyspirálos tároló | Single coil tank | Műszaki helyőrző |
-| `dual-coil-tank` | Kétspirálos tároló | Dual coil tank | Műszaki helyőrző |
+| `buffer-tank` | Puffertartály | Buffer tank | [Egyedi kép](../../assets/elements/universal/buffer-tank.png) |
+| `hot-water-tank` | HMV tartály | Domestic hot water tank | [Egyedi kép](../../assets/elements/universal/hot-water-tank.png) |
+| `single-coil-tank` | Egyspirálos tároló | Single coil tank | [Egyedi kép](../../assets/elements/universal/hot-water-tank.png) |
+| `dual-coil-tank` | Kétspirálos tároló | Dual coil tank | [Egyedi kép](../../assets/elements/universal/dual-coil-tank.png) |
 | `electric-water-heater` | Villanybojler | Electric water heater | Műszaki helyőrző |
 | `expansion-vessel` | Tágulási tartály | Expansion vessel | Műszaki helyőrző |
 | `hydrophore` | Hidrofor tartály | Pressure vessel | Műszaki helyőrző |
 | `rainwater-tank` | Esővíztartály | Rainwater tank | Műszaki helyőrző |
 | `water-tank` | Víztartály | Water tank | Műszaki helyőrző |
-| `horizontal-buffer` | Fekvő puffertartály | Horizontal buffer tank | Műszaki helyőrző |
+| `horizontal-buffer` | Fekvő puffertartály | Horizontal buffer tank | [Egyedi kép](../../assets/elements/universal/horizontal-buffer.png) |
 | `rectangular-buffer` | Szögletes puffertartály | Rectangular buffer tank | Műszaki helyőrző |
 | `stratified-buffer` | Rétegtárolós puffer | Stratified buffer tank | Műszaki helyőrző |
 | `combi-storage` | Kombinált hőtároló | Combined thermal store | Műszaki helyőrző |

@@ -9,7 +9,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
-| Grafika | B irány, 317 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 10 szivattyútípushoz 8 bekötött egyedi PNG, Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
+| Grafika | B irány, 317 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 10 szivattyútípushoz 8, 5 tárolótípushoz 4 bekötött egyedi PNG; Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
@@ -80,3 +80,7 @@ Az első szivattyús világos/sötét látványterv jóváhagyva, az első 8 kü
 A minimum 300 eszköz új követelménye alapján 317 firmware-ben rögzített típus szerepel a HU/EN katalógusban. Ez nem 317 kész egyedi grafika: jelenleg 10 szivattyútípus használ 8 jóváhagyott, 160×160-as, átlátszó PNG-forrást. A többi típus a korábbi műszaki rajzcsaláddal próbálható ki. [Tételes, készültséget is jelző lista](grafika/keszlet.md).
 
 A képek két, egyenként négyképes commitban kerültek fel. A nyolc PNG összesen 150 235 bájt, a nagy munkaképek nem részei a repónak. A világos/sötét megjelenítés ugyanazt az átlátszó képet használja, így a közös tartalom SHA szerint deduplikálható. A zárt pumpaházakon pulzáló zöld jelző mutatja az aktivitást, a kikapcsolt állapot szürke, az ismeretlen borostyán. A keringetők külön forgórészréteget kapnak. Fizikai panelen mért képkockaidő továbbra sincs.
+
+### Tárolócsomag 02/A
+
+A tároló/HMV látványterv bemutatása után további 4 átlátszó PNG készült és került bekötésre 5 típushoz. A készlet aktuális állapota 15 típushoz 12 külön PNG-forrás, 302 típus még műszaki helyőrző. A részletes nyilvántartás a firmware-katalógusból generálódik. A P4 CMake előzetes feldolgozásával nem használható GLOB-kapcsoló eltávolítva; a meglévő PNG-k tartalomváltozását a könyvtár fájlfüggőség-listája követi, új kép bekötésekor a katalógus változása is újrakonfigurálást vált ki.

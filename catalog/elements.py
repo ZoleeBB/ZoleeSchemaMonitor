@@ -429,6 +429,13 @@ ARTWORK = {
     "pool-pump": ("pool-pump", [(0.06, 0.51), (0.47, 0.32)], ("status", 0.68, 0.38, 0.025)),
     "dosing-pump": ("dosing-pump", [(0.40, 0.84), (0.57, 0.84)], ("status", 0.66, 0.32, 0.025)),
 }
+ARTWORK.update({
+    "buffer-tank": ("buffer-tank", [(0.265, 0.336), (0.715, 0.336), (0.265, 0.655), (0.715, 0.655)], ("none", 0, 0, 0)),
+    "hot-water-tank": ("hot-water-tank", [(0.714, 0.257), (0.714, 0.755), (0.265, 0.48), (0.265, 0.675)], ("none", 0, 0, 0)),
+    "dual-coil-tank": ("dual-coil-tank", [(0.685, 0.257), (0.685, 0.74), (0.30, 0.322), (0.30, 0.45), (0.30, 0.55), (0.30, 0.69)], ("none", 0, 0, 0)),
+    "horizontal-buffer": ("horizontal-buffer", [(0.105, 0.42), (0.875, 0.42), (0.105, 0.56), (0.875, 0.56)], ("none", 0, 0, 0)),
+})
+ARTWORK["single-coil-tank"] = ARTWORK["hot-water-tank"]
 ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
 ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]
 
