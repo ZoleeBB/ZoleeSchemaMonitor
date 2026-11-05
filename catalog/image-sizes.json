@@ -716,6 +716,11 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "doc/grafika/latvanytervek/08-szelepek.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
         }
     }
 }
