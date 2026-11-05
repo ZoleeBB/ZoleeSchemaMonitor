@@ -331,6 +331,26 @@
             "role": "preview",
             "width": 1280,
             "height": 853
+        },
+        "assets/elements/universal/radiator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/towel-radiator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/convector.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/fan-coil.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
