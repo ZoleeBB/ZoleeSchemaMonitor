@@ -696,6 +696,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/iron-removal-filter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/reverse-osmosis.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/hydrocyclone.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/combined-air-dirt-separator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
