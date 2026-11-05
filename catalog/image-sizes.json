@@ -371,6 +371,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/trench-convector.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/cassette-fan-coil.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/ducted-fan-coil.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/cassette-air-conditioner.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
