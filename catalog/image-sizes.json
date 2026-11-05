@@ -516,6 +516,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/vortex-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/diaphragm-dosing-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/variable-speed-pool-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
