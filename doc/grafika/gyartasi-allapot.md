@@ -21,6 +21,7 @@ Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források s
 - [04 – Hőleadók](latvanytervek/04-holeadok.jpg)
 - [05 – Felületi hőleadók](latvanytervek/05-feluleti-holeadok.jpg)
 - [06 – Szivattyúváltozatok](latvanytervek/06-szivattyuvaltozatok.jpg)
+- [07 – Hidraulika](latvanytervek/07-hidraulika.jpg)
 
 A fűtés/hűtés kategória mind a 48 típusához, a tárolók mind a 24 típusához és az összes 29 szivattyútípushoz megvan a képi alap. A források bekerültek a repóba; a további bekötés és animációpróba a teljes képkészlet után következik.
 
