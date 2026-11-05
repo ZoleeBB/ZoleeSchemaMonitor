@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
-from asset_store import validate_manifest
+from asset_store import validate_manifest, validate_release_graphics
 from ota_identity import identity
 from PIL import Image
 
@@ -44,6 +44,21 @@ class CatalogArtworkTests(unittest.TestCase):
                 self.assertEqual(image.mode, 'RGBA')
                 self.assertEqual(image.getchannel('A').getextrema(), (0, 255))
         self.assertTrue(identity().startswith('ZSM-ASSETS-1:'))
+
+    def test_release_accepts_png_sources_and_requires_both_themes(self):
+        elements = [{'id': 'pump', 'artwork': 'pump'}, {'id': 'valve'}]
+        paths = ['catalog.json', 'light/pump.png', 'dark/pump.png',
+                 'light/valve.svg', 'dark/valve.svg', 'light/valve.png', 'dark/valve.png']
+        entries = [{'path': path, 'sha256': 'a' * 64, 'size': 1} for path in paths]
+        manifest = {'format': 'zolee-assets', 'version': '0.1.0', 'assetAbi': 1, 'files': entries}
+        validate_release_graphics(manifest, elements)
+        for missing in ['dark/pump.png', 'light/valve.svg']:
+            invalid = {**manifest, 'files': [entry for entry in entries if entry['path'] != missing]}
+            with self.assertRaises(ValueError):
+                validate_release_graphics(invalid, elements)
+        invalid = {**manifest, 'files': entries + [{'path': 'light/pump.svg', 'sha256': 'a' * 64, 'size': 1}]}
+        with self.assertRaises(ValueError):
+            validate_release_graphics(invalid, elements)
 
     def test_full_size_release_manifest_is_within_device_limits(self):
         # A tényleges generálást a CI csomaglépése végzi. Itt a 317 típusnyi

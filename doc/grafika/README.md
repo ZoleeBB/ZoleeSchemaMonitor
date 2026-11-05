@@ -88,3 +88,5 @@ Balról jobbra: sima álló puffer, egyspirálos HMV tároló, kétspirálos tá
 Az álló puffer, az egyspirálos HMV-tároló, a kétspirálos tároló és a fekvő puffer 160×160-as, átlátszó PNG-je külön négyképes csomagban került a repóba. A `hot-water-tank` és `single-coil-tank` közös, ténylegesen azonos egyspirálos kialakítást használ. Ezek passzív eszközök, forgórész vagy pulzáló pumpajelző nélkül; a kívánt hőmérsékletek és állapotértékek külön értékmezőkkel helyezhetők el.
 
 Az aktuális készültség összesen **15 típus, 12 külön PNG-forrás**. A többi 302 típus további csoporttervezést és egyedi grafikát igényel; a 317-es katalógus nem kész 317-es képkészlet.
+
+A firmware csomagolója minden típushoz világos és sötét PNG-t követel meg. A generált vektoros típusok SVG-jei is kötelezők; a kész PNG-forrásokhoz nem készítünk fölösleges SVG-burkolatot. Hiányzó téma, hiányzó szükséges SVG vagy váratlan fájl esetén a csomagolás elutasítja a készletet. A vegyes készlet ellenőrzését külön teszt fedi.

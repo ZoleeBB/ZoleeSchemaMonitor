@@ -135,3 +135,15 @@ class AssetStore:
     def active(self):
         pointer = self.root / "active.json"
         return json.loads(pointer.read_text())["manifest"] if pointer.exists() else None
+
+
+def validate_release_graphics(manifest, elements):
+    """Minden típusnak mindkét témában legyen PNG-je; SVG csak a vektorforrásnál kell."""
+    validate_manifest(manifest, 1)
+    required = {"catalog.json"}
+    for element in elements:
+        kinds = ["png"] if element.get("artwork") else ["svg", "png"]
+        required.update(f"{mode}/{element['id']}.{kind}" for mode in ["light", "dark"] for kind in kinds)
+    if {entry["path"] for entry in manifest["files"]} != required:
+        raise ValueError("Hiányos vagy eltérő világos/sötét grafikai csomag")
+    return manifest

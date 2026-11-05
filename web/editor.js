@@ -473,7 +473,7 @@ export class Editor {
                 const color = !live.known ? '#d9a23a' : live.active ? '#36c678' : '#596674';
                 const opacity = live.active ? 0.5 + 0.5 * (Math.sin(motion.angle * Math.PI / 180) + 1) / 2 : 1;
                 if (indicator.getAttribute('fill') !== color) indicator.setAttribute('fill', color);
-                indicator.setAttribute('opacity', opacity);
+                if (indicator.getAttribute('opacity') !== String(opacity)) indicator.setAttribute('opacity', opacity);
             }
             if (element.type === 'pipe') {
                 const path = group.querySelector('polyline'), length = path.getTotalLength();

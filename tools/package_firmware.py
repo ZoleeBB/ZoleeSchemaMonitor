@@ -6,7 +6,7 @@ import shutil
 import zipfile
 from pathlib import Path
 from ota_identity import identity
-from asset_store import validate_manifest
+from asset_store import validate_release_graphics
 from build_assets import catalog
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,11 +27,10 @@ if not manifest.is_file():
 def file_description(file):
     return {"sha256": hashlib.sha256(file.read_bytes()).hexdigest(), "size": file.stat().st_size}
 version = json.loads((BUILD / "project_description.json").read_text())["project_version"]
-graphics = validate_manifest(json.loads(manifest.read_bytes()), 1)
-required = {f"{mode}/{element['id']}.{kind}" for element in catalog.elements()
-            for mode in ["light", "dark"] for kind in ["svg", "png"]} | {"catalog.json"}
-if {entry["path"] for entry in graphics["files"]} != required:
-    raise SystemExit("A teljes világos/sötét SVG és PNG készlet kötelező a kiadáshoz")
+try:
+    graphics = validate_release_graphics(json.loads(manifest.read_bytes()), catalog.elements())
+except ValueError as error:
+    raise SystemExit(str(error)) from error
 if graphics["version"] != version:
     raise SystemExit("Eltérő firmware/grafika kiadási verzió")
 (DIST / "update.json").write_text(json.dumps({"format":"zolee-update", "version":version,
