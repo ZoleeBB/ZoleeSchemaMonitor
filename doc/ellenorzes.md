@@ -10,7 +10,7 @@ Ez nem MS1-zárási jegyzőkönyv. A készülékes integráció hiányai az [ál
 | Valódi Chromium | Sikeres: elem, cső, párosítás, teljesítményhatár, mentés/visszatöltés, export, álló vászon, HU/EN |
 | SVG + PNG csomagolás | 138 elem metaadata, 553 manifestbejegyzés; közös tartalmak hash szerint deduplikálhatók |
 | ESP-IDF 5.5.4, ESP32-P4 platformfirmware | Sikeres fordítás/linkelés |
-| Platformfirmware bináris | A webszerkesztővel és natív API-val kb. 1,42 MB; a 8 MiB alkalmazáspartícióban 83% szabad |
+| Platformfirmware bináris | OTA-val 1 693 376 bájt; a 8 MiB alkalmazáspartícióban 80% szabad |
 | Natív JS/C modellparitás | 22 eset, köztük a 10×150 elemes projekt |
 | Natív SD-állapot, valódi AES-GCM | Tartós mentés, konfliktus, jelszórejtés, sérülés utáni visszaállás, más kulcs, SD-hiba sikeres |
 | Natív HTTP-kezelő | Beágyazott szerkesztő, import/export, CAS, Host/Origin, titokszűrés sikeres; socket helyettesítve |
@@ -31,3 +31,5 @@ Loxone-kliens bekötése: sikeres helyi ESP-IDF 5.5.4 P4-fordítás/linkelés, k
 Nappali/éjszakai nézet: a valódi LVGL-objektumokon futó host próba ellenőrzi a palettát, a sima háttér átmenetmentességét, a módváltást, a 85/15%-os BSP-hívásokat, a változatlan állapotnál elmaradó fényerőírást/újraépítést, az ismeretlen éjszakai jel megtartását, az angol feliratot és a hash+méret szerinti PNG-megosztást. A BSP és az SD fájlok helyettesítettek; fizikai fényerő- és PNG-dekódolási próba továbbra sem történt.
 
 Firmware OTA: az éles C-kezelő host tesztje 7 bájtos streamdarabokkal bájtpontos írást, eltérő projekt/grafika és hibás fejléc törlés előtti elutasítását, túlméretet/csonka prefixet, megszakítást, újrapróbálást, begin/write/end/bootcél hibákat és párhuzamos feltöltés tiltását ellenőrzi. Külön vizsgálja a 30/180 s-os véglegesítési/rollback döntést, a véglegesítési hiba utáni visszaállást és a már érvényes alkalmazás változatlanságát. Az SDK flash/hash/chip ellenőrzése és a bootloader helyettesítve van; ezek működését a host teszt nem bizonyítja. A HTTP-próba az OTA bináris fejlécvédelmét és az elutasításkor kért kapcsolatlezárást is ellenőrzi.
+
+Az OTA-s változat helyi ESP-IDF 5.5.4 fordítása és bináris csomagolása sikeres: 1 693 376 bájt. A csomagoló a valódi binárisban is megtalálta a 288. bájtnál a kompatibilitási leírót. Külön, git archívumból készített munkakönyvtárban, előzetes sdkconfig/build/managed_components nélkül is sikeres a konfigurálás `idf-component-manager==2.5.2` mellett. A CI első kísérlete a konfigurálásban három USB-manifest Kconfig-változót hiányolt a rögzített ESP-Hosted 1.4.7 mellett; ezért a pipeline azonos, ellenőrzött csomagkezelő-verziót telepít. A panel/SDIO konfigurációja emiatt nem változik.
