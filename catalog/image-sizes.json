@@ -166,6 +166,11 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "doc/grafika/latvanytervek/03-hotermelok.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
         }
     }
 }
