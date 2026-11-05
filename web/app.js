@@ -191,15 +191,16 @@ function renderBackup() {
 }
 
 function renderUpdate() {
-    $('#content').innerHTML = `<h1>${tr('update')}</h1><section><h2>${tr('firmwareUpload')}</h2><input type="file" accept=".bin" id="firmware-file"><div class="actions"><button id="firmware-upload" ${state.device.development || state.device.capabilities?.ota === false ? 'disabled' : ''}>${tr('upload')}</button></div><progress id="upload-progress" value="0" max="100"></progress><p>${escape(state.device.firmware)}</p></section>`;
+    $('#content').innerHTML = `<h1>${tr('update')}</h1><section><h2>${tr('firmwareUpload')}</h2><p>${language === 'hu' ? 'Csak azonos grafikai készlethez tartozó firmware tölthető fel. A teljes ellenőrzést újraindítás követi.' : 'Only firmware with matching graphics can be uploaded. A restart follows successful validation.'}</p><input type="file" accept=".bin" id="firmware-file"><div class="actions"><button id="firmware-upload" ${state.device.development || state.device.capabilities?.ota === false ? 'disabled' : ''}>${tr('upload')}</button></div><progress id="upload-progress" value="0" max="100"></progress><p>${escape(state.device.firmware)}</p></section>`;
     $('#firmware-upload').onclick = () => {
         const file = $('#firmware-file').files[0];
         if (!file) return;
         const request = new XMLHttpRequest();
         request.open('POST', '/api/update');
         request.setRequestHeader('X-Zolee-Schema', '1');
+        request.setRequestHeader('Content-Type', 'application/octet-stream');
         request.upload.onprogress = event => { if (event.lengthComputable) $('#upload-progress').value = event.loaded / event.total * 100; };
-        request.onload = () => feedback(request.responseText, request.status !== 200);
+        request.onload = () => feedback(request.status === 200 ? (language === 'hu' ? 'Firmware ellenőrizve, a készülék újraindul.' : 'Firmware validated; the device is restarting.') : request.responseText, request.status !== 200);
         request.onerror = () => feedback(tr('disconnected'), true);
         request.send(file);
     };

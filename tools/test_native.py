@@ -16,6 +16,10 @@ def main():
                  "-Icomponents/schema_core/include", "-Icomponents/schema_model/include", f"-I{source}"]
         common = ["components/schema_core/schema_core.c", "components/schema_model/schema_model.c",
                   "components/schema_model/schema_catalog.c", "components/schema_model/schema_journal.c", str(source / "cJSON.c")]
+        run("python3", "tools/ota_identity.py", str(Path(folder) / "ota_identity.inc"))
+        ota = str(Path(folder) / "ota-test")
+        run(*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}", "tests/native/ota_test.c", "-o", ota)
+        run(ota)
         cli = str(Path(folder) / "model-cli")
         run(*flags, *common, "tests/native/model_cli.c", "-lm", "-o", cli)
         run(*flags, *common, "tests/native/journal_test.c", "-Wl,--wrap=rename", "-lm", "-o", str(Path(folder) / "journal"))

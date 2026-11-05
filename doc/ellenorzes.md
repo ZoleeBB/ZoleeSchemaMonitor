@@ -1,4 +1,4 @@
-# Alapozó ellenőrzések – 2026-11-04
+# Alapozó ellenőrzések – 2026-11-05
 
 Ez nem MS1-zárási jegyzőkönyv. A készülékes integráció hiányai az [állapotlapon](allapot.md) szerepelnek.
 
@@ -29,3 +29,5 @@ Loxone-kliens bekötése: sikeres helyi ESP-IDF 5.5.4 P4-fordítás/linkelés, k
 
 
 Nappali/éjszakai nézet: a valódi LVGL-objektumokon futó host próba ellenőrzi a palettát, a sima háttér átmenetmentességét, a módváltást, a 85/15%-os BSP-hívásokat, a változatlan állapotnál elmaradó fényerőírást/újraépítést, az ismeretlen éjszakai jel megtartását, az angol feliratot és a hash+méret szerinti PNG-megosztást. A BSP és az SD fájlok helyettesítettek; fizikai fényerő- és PNG-dekódolási próba továbbra sem történt.
+
+Firmware OTA: az éles C-kezelő host tesztje 7 bájtos streamdarabokkal bájtpontos írást, eltérő projekt/grafika és hibás fejléc törlés előtti elutasítását, túlméretet/csonka prefixet, megszakítást, újrapróbálást, begin/write/end/bootcél hibákat és párhuzamos feltöltés tiltását ellenőrzi. Külön vizsgálja a 30/180 s-os véglegesítési/rollback döntést, a véglegesítési hiba utáni visszaállást és a már érvényes alkalmazás változatlanságát. Az SDK flash/hash/chip ellenőrzése és a bootloader helyettesítve van; ezek működését a host teszt nem bizonyítja. A HTTP-próba az OTA bináris fejlécvédelmét és az elutasításkor kért kapcsolatlezárást is ellenőrzi.

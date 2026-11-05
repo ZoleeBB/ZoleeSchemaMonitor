@@ -5,6 +5,7 @@ import json
 import shutil
 import zipfile
 from pathlib import Path
+from ota_identity import identity
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD, DIST = ROOT / "build", ROOT / "dist/firmware"
@@ -13,6 +14,10 @@ args = json.loads((BUILD / "flasher_args.json").read_text())
 app = BUILD / "zolee_schema_monitor.bin"
 if not app.is_file() or app.stat().st_size > 8 * 1024 * 1024:
     raise SystemExit("A firmware hiányzik vagy túllépi a 8 MiB OTA partíciót")
+# Az IDF saját leírója után közvetlenül kell állnia az OTA kompatibilitási jelnek.
+expected = identity().encode() + b"\0"
+if app.read_bytes()[288:288 + len(expected)] != expected:
+    raise SystemExit("Hiányzó vagy rossz helyre linkelt OTA kompatibilitási leíró")
 shutil.copyfile(app, DIST / "ZoleeSchemaMonitor.bin")
 with zipfile.ZipFile(DIST / "ZoleeSchemaMonitor-usb.zip", "w", zipfile.ZIP_DEFLATED) as archive:
     for offset, name in args["flash_files"].items():
@@ -22,7 +27,7 @@ with zipfile.ZipFile(DIST / "ZoleeSchemaMonitor-usb.zip", "w", zipfile.ZIP_DEFLA
         archive.write(file, name)
     archive.writestr("flasher_args.json", json.dumps(args, indent=2))
     pairs = " ".join(f'{offset} "{name}"' for offset, name in args["flash_files"].items())
-    archive.writestr("FLASH.txt", f"MS1 fejlesztői build: helyi webszerkesztő, SD-mentés, Wi-Fi és diagnosztika.\nNatív sémanézet, animáció és numerikus Loxone-kliens bekötve. Fizikai Miniserveres próba szükséges; OTA még nincs.\nAz SD-csomag graphics/ könyvtárát másold a FAT32 kártya gyökerébe.\nElső beállítás: a kijelzőn látható védett Wi-Fi, majd http://192.168.4.1/\npython -m esptool --chip esp32p4 write_flash {pairs}\n")
+    archive.writestr("FLASH.txt", f"MS1 fejlesztői build: helyi webszerkesztő, SD-mentés, Wi-Fi és diagnosztika.\nNatív sémanézet, animáció és numerikus Loxone-kliens bekötve. Fizikai Miniserveres próba szükséges; firmware OTA csak azonos grafikai készlettel.\nAz SD-csomag graphics/ könyvtárát másold a FAT32 kártya gyökerébe.\nElső beállítás: a kijelzőn látható védett Wi-Fi, majd http://192.168.4.1/\npython -m esptool --chip esp32p4 write_flash {pairs}\n")
 with (DIST / "SHA256SUMS.txt").open("w") as stream:
     for file in sorted(DIST.iterdir()):
         if file.suffix in {".zip", ".bin"}:

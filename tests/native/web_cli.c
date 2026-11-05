@@ -2,6 +2,7 @@
 #include "app_network.h"
 #include "app_store.h"
 #include "app_web.h"
+#include "app_ota.h"
 #include "esp_app_desc.h"
 #include "esp_http_server.h"
 #include <assert.h>
@@ -35,7 +36,7 @@ void app_diagnostics_capture(app_diagnostics_t *data)
 }
 const esp_app_desc_t *esp_app_get_description(void)
 {
-    static const esp_app_desc_t app = {"native-test"};
+    static const esp_app_desc_t app = {.version = "native-test"};
     return &app;
 }
 esp_err_t httpd_start(httpd_handle_t *handle, const httpd_config_t *config)
@@ -159,4 +160,12 @@ cJSON *app_loxone_catalog(void)
 cJSON *app_loxone_live(void)
 {
     return cJSON_Parse("{\"connected\":false,\"values\":{},\"status\":\"test\"}");
+}
+
+esp_err_t app_ota_upload(size_t size, app_ota_read_fn reader, void *context)
+{
+    (void)size;
+    (void)reader;
+    (void)context;
+    return ESP_ERR_INVALID_ARG;
 }

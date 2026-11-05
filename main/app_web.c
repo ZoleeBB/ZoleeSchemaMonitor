@@ -3,6 +3,7 @@
 #include "app_network.h"
 #include "app_store.h"
 #include "app_loxone.h"
+#include "app_ota.h"
 #include "esp_app_desc.h"
 #include "esp_http_server.h"
 #include <math.h>
@@ -69,7 +70,7 @@ static bool permitted_host(httpd_req_t *request, char host[96])
            (network.recovery && !strcmp(name, "192.168.4.1"));
 }
 
-static bool permitted_write(httpd_req_t *request, const char *host)
+static bool permitted_write(httpd_req_t *request, const char *host, bool binary)
 {
     char marker[8], origin[128], expected[128], type[96];
     if (!header(request, "X-Zolee-Schema", marker, sizeof(marker)) || strcmp(marker, "1"))
@@ -80,6 +81,10 @@ static bool permitted_write(httpd_req_t *request, const char *host)
         if (!header(request, "Origin", origin, sizeof(origin)) || strcmp(origin, expected))
             return false;
     }
+    if (binary)
+        return !httpd_req_get_hdr_value_len(request, "Content-Type") ||
+               (header(request, "Content-Type", type, sizeof(type)) &&
+                !strcmp(type, "application/octet-stream"));
     return header(request, "Content-Type", type, sizeof(type)) &&
            (!strcmp(type, "application/json") || !strcmp(type, "application/json; charset=utf-8"));
 }
@@ -128,19 +133,21 @@ static cJSON *device(void)
     cJSON_AddBoolToObject(wifi, "connected", network.connected);
     cJSON_AddNumberToObject(wifi, "rssi", network.rssi);
     cJSON_AddItemToObject(json, "wifi", wifi);
-    cJSON_AddBoolToObject(capabilities, "ota", false);
+    cJSON_AddBoolToObject(capabilities, "ota", true);
     cJSON_AddBoolToObject(capabilities, "loxone", true);
     cJSON_AddBoolToObject(capabilities, "nativeRenderer", true);
     cJSON_AddItemToObject(json, "capabilities", capabilities);
     cJSON *integration = cJSON_CreateObject();
-    cJSON_AddStringToObject(integration,
-                            "hu",
-                            "MS1 fejlesztői build: Loxone-kliens bekötve, fizikai teszt függőben; "
-                            "OTA és teljes grafikai készlet még fejlesztés alatt.");
-    cJSON_AddStringToObject(integration,
-                            "en",
-                            "MS1 development build: Loxone client integrated, hardware validation "
-                            "pending; OTA and complete graphics are under development.");
+    cJSON_AddStringToObject(
+        integration,
+        "hu",
+        "MS1 fejlesztői build: Loxone-kliens bekötve, fizikai teszt függőben; "
+        "Firmware OTA azonos grafikával; közös grafikafrissítés fejlesztés alatt.");
+    cJSON_AddStringToObject(
+        integration,
+        "en",
+        "MS1 development build: Loxone client integrated, hardware validation "
+        "pending; firmware OTA requires matching graphics; combined updates are pending.");
     cJSON_AddItemToObject(json, "integrationStatus", integration);
     cJSON_AddItemToObject(json, "events", cJSON_CreateArray());
     return json;
@@ -295,12 +302,37 @@ static esp_err_t get(httpd_req_t *request)
     return failure(request, "404 Not Found", "route");
 }
 
+static int firmware_read(void *context, void *buffer, size_t capacity)
+{
+    return httpd_req_recv(context, buffer, capacity);
+}
+
 static esp_err_t post(httpd_req_t *request)
 {
     char host[96];
-    if (!permitted_host(request, host) || !permitted_write(request, host))
+    if (!permitted_host(request, host) ||
+        !permitted_write(request, host, !strcmp(request->uri, "/api/update")))
         return failure(request, "403 Forbidden", "origin/header");
-    if (!strcmp(request->uri, "/api/update") || !strcmp(request->uri, "/api/graphics/refresh"))
+    if (!strcmp(request->uri, "/api/update"))
+    {
+        esp_err_t result = app_ota_upload(request->content_len, firmware_read, request);
+        if (result != ESP_OK)
+        {
+            failure(request,
+                    "400 Bad Request",
+                    "Firmware elutasítva vagy megszakadt. Azonos projekt és grafikai készlet "
+                    "szükséges. / Firmware rejected or interrupted; matching project and graphics "
+                    "required.");
+            /* A még olvasatlan bináris törzs miatt a kapcsolatot is lezárjuk. */
+            return ESP_FAIL;
+        }
+        cJSON *response = cJSON_CreateObject();
+        cJSON_AddBoolToObject(response, "restart", true);
+        esp_err_t sent = answer(request, "200 OK", response);
+        app_network_restart_later();
+        return sent;
+    }
+    if (!strcmp(request->uri, "/api/graphics/refresh"))
         return failure(
             request,
             "501 Not Implemented",

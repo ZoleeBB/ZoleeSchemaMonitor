@@ -6,6 +6,7 @@
 #include "app_network.h"
 #include "app_store.h"
 #include "app_web.h"
+#include "app_ota.h"
 #include "app_scene.h"
 #include "app_loxone.h"
 #include "bsp/esp-bsp.h"
@@ -74,6 +75,7 @@ void app_main(void)
     if (!display)
     {
         ESP_LOGE("schema", "A kijelzo nem indithato");
+        app_ota_boot_poll(false, 180);
         return;
     }
     bsp_display_backlight_on();
@@ -95,6 +97,7 @@ void app_main(void)
         lv_obj_align(s_metrics, LV_ALIGN_CENTER, 0, 30);
         bsp_display_unlock();
     }
+    bool web_ready = false;
     error = app_network_start();
     if (error != ESP_OK)
         ESP_LOGE("schema", "Wi-Fi: %s", esp_err_to_name(error));
@@ -105,6 +108,7 @@ void app_main(void)
             ESP_LOGE("schema", "Loxone: %s", esp_err_to_name(error));
         app_scene_set_reader(app_loxone_read, NULL);
         error = app_web_start();
+        web_ready = error == ESP_OK;
         if (error != ESP_OK)
             ESP_LOGE("schema", "HTTP: %s", esp_err_to_name(error));
     }
@@ -126,6 +130,7 @@ void app_main(void)
             continue;
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
+        app_ota_boot_poll(web_ready && app_store_ready(), metrics.uptime_seconds);
         app_network_status_t network;
         app_network_status(&network);
         char text[768];
