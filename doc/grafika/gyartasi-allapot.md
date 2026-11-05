@@ -4,14 +4,14 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 
 | Csoport | Külön PNG-forrás | Lefedett katalógustípus | Állapot |
 | --- | ---: | ---: | --- |
-| Szivattyúk | 12 | 14 | Első 8 forrás/10 típus bekötve; további 4 forrás elkészült |
+| Szivattyúk | 27 | 29 | Minden forrás elkészült; első 8 forrás/10 típus bekötve |
 | Tárolók és HMV | 23 | 24 | Minden forrás elkészült; első 4 forrás/5 típus bekötve |
 | Hőtermelők, hőszivattyúk és hűtők | 31 | 31 | Minden forrás elkészült; bekötés később |
 | Radiátorok, konvektorok és klímabeltérik | 12 | 12 | Minden forrás elkészült; bekötés később |
 | Felületi hőleadók, körök és napkollektor | 7 | 7 | Minden forrás elkészült; bekötés később |
-| **Összesen** | **85** | **88** | **15 típus bekötve; további 73 típushoz a PNG már megvan** |
+| **Összesen** | **100** | **103** | **15 típus bekötve; további 88 típushoz a PNG már megvan** |
 
-Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 229. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
+Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 214. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
 ## Csoportlátványtervek
 
@@ -22,7 +22,19 @@ Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források s
 - [05 – Felületi hőleadók](latvanytervek/05-feluleti-holeadok.jpg)
 - [06 – Szivattyúváltozatok](latvanytervek/06-szivattyuvaltozatok.jpg)
 
-A fűtés/hűtés kategória mind a 48 típusához megvan a képi alap. A szivattyúváltozatok közül még 15 készül: iker inline, jet, önfelszívó, dugattyús, membrán-, fogaskerék-, kondenzvíz-, átemelő-, darálós, függőleges akna-, vízütéses, osztott házas és örvénykerekes szivattyú, valamint a membrános adagoló és a változó fordulatú medenceszivattyú.
+A fűtés/hűtés kategória mind a 48 típusához, a tárolók mind a 24 típusához és az összes 29 szivattyútípushoz megvan a képi alap. A források bekerültek a repóba; a további bekötés és animációpróba a teljes képkészlet után következik.
+
+## Hátralévő képek
+
+| Katalóguscsoport | Még hiányzó típus | Következő munka |
+| --- | ---: | --- |
+| Hidraulika | 36 | Hőcserélők, keverőegységek, osztó-gyűjtők és szűrők csoportlátványterve, majd kis képcsomagok |
+| Szelepek | 42 | Kézi, motoros, szabályozó és biztonsági szerelvények |
+| Szellőzés és légtechnika | 51 | Ventilátorok, légkezelők és légoldali szerelvények |
+| Medencetechnika | 27 | A szivattyúk és hőszivattyúk már elkészültek; a többi szerelvény még hátravan |
+| Öntözés | 23 | Szórófejek, zónák és szerelvények |
+| Érzékelők | 35 | Érték- és állapotérzékelők |
+| **Összesen** | **214** | **A legalább 300 eszközös teljes induló készlet még nincs kész** |
 
 ## Műszaki felülvizsgálat és hátralévő bekötés
 
