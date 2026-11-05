@@ -4,13 +4,14 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 
 | Csoport | Külön PNG-forrás | Lefedett katalógustípus | Állapot |
 | --- | ---: | ---: | --- |
-| Szivattyúk első csomagjai | 8 | 10 | Bekötve; további szivattyúváltozatok még készülnek |
+| Szivattyúk | 12 | 14 | Első 8 forrás/10 típus bekötve; további 4 forrás elkészült |
 | Tárolók és HMV | 23 | 24 | Minden forrás elkészült; első 4 forrás/5 típus bekötve |
 | Hőtermelők, hőszivattyúk és hűtők | 31 | 31 | Minden forrás elkészült; bekötés később |
-| Hőleadók | 0 | 0 | Világos/sötét csoportlátványterv elkészült |
-| **Összesen** | **62** | **65** | **15 típus bekötve; további 50 típushoz a PNG már megvan** |
+| Radiátorok, konvektorok és klímabeltérik | 12 | 12 | Minden forrás elkészült; bekötés később |
+| Felületi hőleadók, körök és napkollektor | 7 | 7 | Minden forrás elkészült; bekötés később |
+| **Összesen** | **85** | **88** | **15 típus bekötve; további 73 típushoz a PNG már megvan** |
 
-Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 252. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
+Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 229. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
 ## Csoportlátványtervek
 
@@ -18,6 +19,10 @@ Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források s
 - [02 – Tárolók és HMV](latvanytervek/02-tarolok-hmv.jpg)
 - [03 – Hőtermelők](latvanytervek/03-hotermelok.jpg)
 - [04 – Hőleadók](latvanytervek/04-holeadok.jpg)
+- [05 – Felületi hőleadók](latvanytervek/05-feluleti-holeadok.jpg)
+- [06 – Szivattyúváltozatok](latvanytervek/06-szivattyuvaltozatok.jpg)
+
+A fűtés/hűtés kategória mind a 48 típusához megvan a képi alap. A szivattyúváltozatok közül még 15 készül: iker inline, jet, önfelszívó, dugattyús, membrán-, fogaskerék-, kondenzvíz-, átemelő-, darálós, függőleges akna-, vízütéses, osztott házas és örvénykerekes szivattyú, valamint a membrános adagoló és a változó fordulatú medenceszivattyú.
 
 ## Műszaki felülvizsgálat és hátralévő bekötés
 
