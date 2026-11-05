@@ -20,6 +20,11 @@ def main():
         ota = str(Path(folder) / "ota-test")
         run(*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}", "tests/native/ota_test.c", "-o", ota)
         run(ota)
+        diagnostics = str(Path(folder) / "diagnostics-test")
+        run(*flags, "-Itests/native/stubs", "-Imain", *common, "main/app_events.c",
+            "main/app_diagnostics.c", "main/app_diagnostics_format.c", "tests/native/diagnostics_test.c",
+            "-Wl,--wrap=time", "-pthread", "-lm", "-o", diagnostics)
+        run(diagnostics)
         cli = str(Path(folder) / "model-cli")
         run(*flags, *common, "tests/native/model_cli.c", "-lm", "-o", cli)
         run(*flags, *common, "tests/native/journal_test.c", "-Wl,--wrap=rename", "-lm", "-o", str(Path(folder) / "journal"))
@@ -31,6 +36,7 @@ def main():
         run("node", "tests/native_parity.mjs", cli)
         if "MBEDTLS_PATH" in os.environ:
             tls = Path(os.environ["MBEDTLS_PATH"])
+            platform = ["tests/native/platform_stubs.c", "main/app_events.c"]
             asset_flags = [*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}",
                            f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"',
                            "-DMBEDTLS_SHA256_C", '-DAPP_ASSET_ROOT="graphics"']
@@ -42,17 +48,17 @@ def main():
                 subprocess.run([assets], cwd=state, check=True)
             release = str(Path(folder) / "release-test")
             run(*asset_flags, *common, *hashes, "main/app_assets.c",
-                "tests/native/platform_stubs.c", "tests/native/release_test.c",
+                *platform, "tests/native/release_test.c",
                 "-Wl,--wrap=time", "-pthread", "-lm", "-o", release)
             with tempfile.TemporaryDirectory(prefix="schema-release-") as state:
                 subprocess.run([release], cwd=state, check=True)
             library = [str(tls / "library" / f"{name}.c") for name in ["aes", "cipher", "cipher_wrap", "gcm", "platform_util", "constant_time"]]
             store = str(Path(folder) / "store-cli")
-            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "tests/native/platform_stubs.c", "tests/native/store_cli.c", "-pthread", "-lm", "-o", store)
+            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", *platform, "tests/native/store_cli.c", "-pthread", "-lm", "-o", store)
             run("python3", "tests/native_store.py", store)
             run("python3", "tools/embed_web.py", str(Path(folder) / "web_bundle.inc"))
             web = str(Path(folder) / "web-cli")
-            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "main/app_web.c", "tests/native/platform_stubs.c", "tests/native/web_cli.c", "-pthread", "-lm", "-o", web)
+            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "main/app_web.c", "main/app_diagnostics_format.c", *platform, "tests/native/web_cli.c", "-pthread", "-lm", "-o", web)
             run("python3", "tests/native_web.py", web)
 
 if __name__ == "__main__":

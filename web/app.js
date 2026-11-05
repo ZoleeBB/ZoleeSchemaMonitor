@@ -1,6 +1,7 @@
 import {messages} from './i18n.js';
 import {canvasSize, newProject, validateBinding} from './model.js';
 import {Editor} from './editor.js';
+import {DiagnosticPanel} from './diagnostics.js';
 
 export const $ = selector => document.querySelector(selector);
 export const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character]));
@@ -8,6 +9,7 @@ let language = localStorage.getItem('schema-language') || 'hu';
 export const tr = key => messages[language][key] || key;
 export const state = {settings: {}, device: {}, catalog: {elements: []}, project: newProject(), revision: 0, values: {}, sources: []};
 let editor;
+let diagnostics;
 let timer;
 let firmwareUploading = false;
 let releasePolling = false;
@@ -313,12 +315,13 @@ function renderUpdate() {
 }
 
 async function renderDiagnostics() {
-    const data = await api('/api/diagnostics');
-    $('#content').innerHTML = `<h1>${tr('diagnostics')}</h1><section><dl class="kv">${Object.entries(data).filter(([, value]) => typeof value !== 'object').map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl><pre id="diagnostics-extra"></pre></section>`;
-    $('#diagnostics-extra').textContent = JSON.stringify(data.tasks || [], null, 2);
+    diagnostics = new DiagnosticPanel($('#content'), {api, language, escape});
+    await diagnostics.refresh();
 }
 
 async function route() {
+    diagnostics?.destroy();
+    diagnostics = null;
     editor?.destroy();
     editor = null;
     clearInterval(timer);
@@ -343,6 +346,7 @@ async function route() {
     else if (route === 'diagnostics') await renderDiagnostics();
     else renderHome();
     timer = setInterval(async () => {
+        if (route === 'diagnostics') await diagnostics?.refresh();
         if (route === 'graphics' || route === 'update') await refreshReleaseStatus();
         try {
             const live = await api('/api/live');

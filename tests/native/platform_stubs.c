@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 SemaphoreHandle_t xSemaphoreCreateMutex(void)
 {
@@ -69,4 +70,11 @@ esp_err_t nvs_commit(nvs_handle_t handle)
 void nvs_close(nvs_handle_t handle)
 {
     (void)handle;
+}
+
+int64_t esp_timer_get_time(void)
+{
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return (int64_t)now.tv_sec * 1000000 + now.tv_nsec / 1000;
 }

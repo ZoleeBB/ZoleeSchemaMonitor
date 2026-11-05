@@ -13,3 +13,10 @@ gcc -std=c11 -Wall -Wextra -Werror -DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_ST
     "$scene_json/cJSON.c" "$scene_tls/library/sha256.c" "$scene_tls/library/platform_util.c" \
     "$LVGL_HOST_BUILD/lib/liblvgl.a" -lm -o "$scene_binary"
 "$scene_binary"
+# A diagnosztika is valódi LVGL-t kap; a méréseket ez a próba nem szimulálja valósnak.
+gcc -std=c11 -Wall -Wextra -Werror -DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB -DSCHEMA_SCENE_TEST \
+    -Itests/native/stubs -I"$scene_lvgl" -I"$scene_json" -Imain -Icomponents/schema_core/include -Icomponents/schema_model/include \
+    tests/native/diagnostic_view_test.c main/app_diagnostics_format.c main/fonts/app_font_20.c \
+    components/schema_core/schema_core.c components/schema_model/schema_model.c components/schema_model/schema_catalog.c \
+    "$scene_json/cJSON.c" "$LVGL_HOST_BUILD/lib/liblvgl.a" -lm -o "$scene_binary"
+"$scene_binary"

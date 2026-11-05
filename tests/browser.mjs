@@ -117,8 +117,42 @@ try {
     await page.locator('#language').selectOption('en');
     await page.waitForFunction(() => document.querySelector('#release-status').textContent.includes('running version remains'));
     await page.screenshot({path: '.browser-test/update-status.png', fullPage: true});
+    let diagnostic = {
+        measured: true, cpuValid: false, cpu0: null, cpu1: null, uptime: 90061, sampleAge: 0,
+        firmware: '0.1.0-test', clockValid: true, internalFree: 65536, internalTotal: 262144,
+        internalMinimum: 32768, psramFree: 30000000, psramTotal: 33554432,
+        dmaFree: 16000, dmaLargest: 8000, taskCount: 23, mainStackFree: 4096,
+        sdMounted: true, sdSpaceValid: false, sdFree: null, sdTotal: null,
+        wifi: {connected: true, ssid: '<b>Home</b>', ip: '192.168.2.123', rssi: -52,
+            recovery: true, recoverySsid: 'ZoleeSchema-Test', password: 'NeverRenderThis'},
+        loxone: {connected: true, numericAge: 0, knownValues: 42},
+        update: {phase: 'idle', phaseHu: 'Nincs frissítés', phaseEn: 'Idle', receivedBytes: 0},
+        events: [{uptime: 90061, level: 1, code: 'test', hu: '<img src=x onerror=window.pwned=true>', en: '<img src=x onerror=window.pwned=true>'}]
+    };
+    await page.route('**/api/diagnostics', route => route.fulfill({json: diagnostic}));
+    await page.goto(url + '/diagnostics');
+    await page.waitForSelector('[data-diag="cpu"]');
+    await page.waitForFunction(() => document.querySelector('[data-diag="wifi"]').textContent.includes('<b>Home</b>'));
+    assert.equal(await page.locator('[data-meter="cpu"]').isHidden(), true);
+    assert.equal(await page.locator('[data-meter="sd"]').isHidden(), true);
+    assert.equal(await page.locator('[data-diag="system"]').textContent(), '0.1.0-test\n25:01:01\nClock valid');
+    assert.equal(await page.locator('#diagnostic-events img').count(), 0);
+    assert.equal(await page.evaluate(() => window.pwned), undefined);
+    assert.equal((await page.locator('body').textContent()).includes('NeverRenderThis'), false);
+    await page.evaluate(() => { window.diagCard = document.querySelector('[data-diag-card="cpu"]'); });
+    diagnostic = {...diagnostic, cpuValid: true, cpu0: 75, cpu1: 25, sdSpaceValid: true,
+        sdTotal: 34359738368, sdFree: 17179869184, sampleAge: 7};
+    await page.waitForFunction(() => document.querySelector('[data-diag="cpu"]').textContent.includes('75%'));
+    assert.equal(await page.locator('[data-meter="cpu"]').evaluate(node => node.value), 75);
+    assert.equal(await page.locator('[data-meter="sd"]').evaluate(node => node.value), 50);
+    assert.equal(await page.evaluate(() => window.diagCard === document.querySelector('[data-diag-card="cpu"]')), true);
+    assert.equal((await page.locator('#diagnostics-status').textContent()).includes('7 s'), true);
+    await page.locator('#language').selectOption('hu');
+    await page.waitForFunction(() => document.querySelector('h1').textContent === 'Rendszerdiagnosztika');
+    await page.waitForFunction(() => document.querySelector('[data-diag="update"]').textContent.includes('Nincs frissítés'));
+    await page.screenshot({path: '.browser-test/diagnostics-hu.png', fullPage: true});
     assert.deepEqual(errors, []);
-    console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry OK');
+    console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry and diagnostic live refresh/HU-EN/escaping OK');
 } finally {
     await browser?.close();
     server.kill();

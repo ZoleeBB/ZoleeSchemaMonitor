@@ -1,4 +1,5 @@
 #include "app_store.h"
+#include "app_events.h"
 #include "bsp/esp-bsp.h"
 #include "esp_random.h"
 #include "freertos/FreeRTOS.h"
@@ -332,6 +333,7 @@ esp_err_t app_store_save_project(const cJSON *project,
     {
         result = ESP_FAIL;
         snprintf(error, SM_ERROR_SIZE, "storage.write");
+        app_events_add(APP_EVENT_SD_WRITE);
     }
     else
     {
@@ -399,6 +401,7 @@ esp_err_t app_store_save_settings(const cJSON *patch, bool loxone, char error[SM
         {
             result = ESP_FAIL;
             snprintf(error, SM_ERROR_SIZE, "storage.write");
+            app_events_add(APP_EVENT_SD_WRITE);
         }
         else
         {

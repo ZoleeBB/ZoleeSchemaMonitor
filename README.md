@@ -31,6 +31,7 @@ Ezután: `http://127.0.0.1:8080/editor`. Az előnézetben az adatok szimuláltak
 - [Rögzített követelmények](doc/kovetelmenyek.md)
 - [Felépítés és adatmodell](doc/architektura.md)
 - [Fejlesztés, előnézet és tesztek](doc/fejlesztes.md)
+- [Diagnosztika és eseménynapló](doc/diagnosztika.md)
 - [Tényleges fejlesztési állapot](doc/allapot.md)
 - [Verziótörténet](doc/verziotortenet/README.md)
 

@@ -11,7 +11,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
 | Grafika | B irány, 138 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
-| P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, valódi erőforrás-metrikák | Teljes átemelt diagnosztikai ablak és fizikai fényerőpróba |
+| P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
 
 ## Loxone-kliens
@@ -62,3 +62,7 @@ A grafikai oldalon indított frissítés az aktuális firmware azonosítójához
 A függő alkalmazás 30 s uptime után véglegesíthető, ha a web, az SD-állapottár és a saját teljes grafikai készlet elérhető. A Loxone adatkapcsolata nem feltétel. 180 s után sikertelen ellenőrzés visszaállást kér; kijelzőindítási hiba azonnal sikertelen indulásnak számít. A bootloader a függő verzió újraindulásakor a saját rollback-szabályát alkalmazza. A pollalapú ellenőrzés nem teljes rendszer-watchdog. Az SD FAT-fájlrendszere és a kártya áramelvételi viselkedése miatt a logikai írási sorrend mellett is szükséges a fizikai megszakításpróba.
 
 Az első, régebbi MS1 buildről áttéréshez USB és az új teljes SD-csomag kell. A kézzel másolt kezdeti készlet `identity.txt` fájlja is kötelező: eltérő vagy hiányzó azonosítóval a legacy manifest nem választódik ki. Ezután a közös frissítés kezeli az új készleteket a legacy könyvtár átírása nélkül.
+
+## Diagnosztikai nézet
+
+A testvérprojekt memória-/SD-sávjai és 15 soros eseménylistája a Loxone-only működéshez adaptálva bekötve. A mintavétel külön PSRAM-stackű taskban fut; a HTTP és a panel csak a rövid RAM-pillanatképet olvassa. A CPU induláskor ismeretlen, SD-kapacitás tíz másodpercenként mérhető. A főtask verem-mélypontja és a DMA legnagyobb blokkja is látszik. A napló nem fogad szabad szöveget vagy hitelesítő adatot; a beállító AP kulcsát kizárólag a fizikai nézet kapja. [Részletek és korlátok](diagnosztika.md).

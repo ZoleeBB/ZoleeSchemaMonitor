@@ -560,3 +560,16 @@ void app_scene_poll(void)
     bsp_display_unlock();
     cJSON_Delete(project);
 }
+
+bool app_scene_diagnostics_visible(void)
+{
+    return s_revision == UINT32_MAX || atomic_load(&s_diagnostics);
+}
+bool app_scene_dark(void)
+{
+    return s_dark;
+}
+bool app_scene_english(void)
+{
+    return s_english;
+}

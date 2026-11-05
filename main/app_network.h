@@ -3,7 +3,7 @@
 #include <stdbool.h>
 typedef struct
 {
-    bool connected, recovery;
+    bool connected, recovery, rssi_valid;
     int rssi;
     char ip[16], ssid[33], recovery_ssid[33], recovery_password[17];
 } app_network_status_t;

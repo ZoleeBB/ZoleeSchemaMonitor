@@ -141,10 +141,13 @@ def handler_for(state, demo):
                                      "wifi": {"rssi": None}, "connected": demo, "uptime": int(time.monotonic() - state.started),
                                      "revolut": "https://revolut.me/zoleebb", "events": []})
             if path == "/api/diagnostics":
-                return self.respond({"mode": "development", "ip": "127.0.0.1", "firmware": "0.1.0-ms1-dev",
-                                     "uptime_s": int(time.monotonic() - state.started), "loxone": "simulated" if demo else "offline",
-                                     "cpu0": "not measured", "cpu1": "not measured", "internal_ram": "not measured",
-                                     "psram": "not measured", "dma": "not measured", "display_fps": "not measured", "tasks": []})
+                return self.respond({"mode":"development", "measured":False, "cpuValid":False,
+                                     "firmware":"0.1.0-ms1-dev", "uptime":None, "cpu0":None, "cpu1":None,
+                                     "internalFree":None, "internalTotal":None, "internalMinimum":None,
+                                     "psramFree":None, "psramTotal":None, "dmaFree":None, "dmaLargest":None,
+                                     "sdMounted":None, "sdSpaceValid":False, "sdTotal":None, "sdFree":None,
+                                     "mainStackFree":None, "taskCount":None, "sampleAge":None, "displayFps":None,
+                                     "wifi":{}, "loxone":{}, "update":{}, "events":[]})
             if path == "/api/live":
                 value = 50 + math.sin((time.monotonic() - state.started) / 5) * 45
                 return self.respond({"connected": demo, "values": {DEMO_UUID: value} if demo else {},

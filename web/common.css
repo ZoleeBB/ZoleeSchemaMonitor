@@ -42,3 +42,14 @@ progress{width:100%;accent-color:var(--accent)}
 .kv>div{background:var(--bg);border-radius:12px;padding:12px 14px}
 .kv dt,.kv .k{font-size:13px;color:var(--muted)}.kv dd,.kv .v{margin:2px 0 0;font-weight:600;overflow-wrap:anywhere}
 @media(max-width:640px){body{padding:0 12px 32px}section,article,.card{padding:16px}h1{font-size:24px}.topbar nav a{padding:6px 10px;font-size:14px}}
+/* A diagnosztikai mezők rácsa és a memóriafoglaltság sávjai. */
+.diagnostic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; margin-top: 16px; }
+.diagnostic-grid article { margin: 0; padding: 18px; min-width: 0; }
+.diagnostic-grid h2 { font-size: 18px; margin-bottom: 8px; }
+.diagnostic-value { white-space: pre-line; overflow-wrap: anywhere; min-height: 48px; margin: 0 0 8px; }
+.diagnostic-grid progress { width: 100%; height: 10px; accent-color: var(--accent); margin: 4px 0; }
+.diagnostic-grid progress.warning { accent-color: var(--warn); }
+.diagnostic-grid progress.danger { accent-color: var(--danger); }
+.diagnostic-events { padding-left: 24px; }
+.diagnostic-events li { padding: 4px 0; overflow-wrap: anywhere; }
+.diagnostic-events time { font-variant-numeric: tabular-nums; margin-right: 10px; }

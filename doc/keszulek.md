@@ -22,7 +22,7 @@ A helyi adminisztráció a saját hálózat és a WPA2 beállító hálózat biz
 
 ## Még szükséges
 
-A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív renderelő és a Loxone-kliens fizikai ellenőrzése, a differenciális grafikai OTA, a teljes diagnosztikai ablak és az MS1 teljes eszközkészletének véglegesítése. A gazdagépes tesztek nem helyettesítik ezeket.
+A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív renderelő és a Loxone-kliens fizikai ellenőrzése, a közös OTA és a diagnosztikai ablak fizikai ellenőrzése, valamint az MS1 teljes eszközkészletének véglegesítése. A gazdagépes tesztek nem helyettesítik ezeket.
 
 
 Statikus natív sémanézet: a mentett projekt aktuális oldala már LVGL objektumokként megjelenik. A PNG-ket a `graphics/light/` könyvtárból, a manifest méret- és SHA-256-adataival ellenőrizve olvassa; hibás/hiányzó grafikánál az elem neve látszik. Csövek, szövegek, értékhelyőrzők és a negyedfordulatos képek bekötve. Lapozás a felső nyilakkal vagy vízszintes gesztussal; az Info/Séma gomb a diagnosztikát váltja. Üres első projektnél a diagnosztika marad az indulónézet. A háttérben mentett új revízió automatikusan betöltődik, változatlan projektnél nincs újrarajzolás vagy projektmásolás.
@@ -52,3 +52,7 @@ A Grafikai készlet oldalon a Frissítés csak az aktuális firmware-hez illő k
 A kézi `.bin` feltöltés megmaradt. A binárishoz tartozó teljes készletnek az SD-n kell lennie; hiányos készlettel azonos grafikai azonosító esetén sem aktivál firmware-t. Általános grafikai fájlfeltöltő vagy egyedi URL megadása nincs.
 
 Az új alkalmazás a web, az SD-állapottár és a saját teljes grafikai készlet sikeres alapindulása, legalább 30 s uptime után válik véglegessé. A Loxone pillanatnyi elérhetősége ezt nem akadályozza. A készülékes OTA, valódi GitHub-hálózat és áramelvételes visszaállítás fizikai tesztje még szükséges; az MS1 továbbra is nyitott.
+
+### Diagnosztika
+
+Az Info / Séma gomb a kártyás, világos/sötét diagnosztikát nyitja. Memória- és SD-sávok, Wi-Fi/Loxone állapot, számszerű csomag kora, üzemidő, app_main verem és 15 esemény látható; a napló függőlegesen görgethető. A webes Diagnosztika ugyanezt másodpercenként frissíti. Ismeretlen mérésnél nem mutat 0%-ot. A beállító AP jelszava csak a panelen olvasható. [Értelmezés és korlátok](diagnosztika.md).

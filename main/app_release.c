@@ -1,5 +1,6 @@
 /* Helyi indítású, önálló kiadásfrissítő. A kliens nem adhat meg letöltési URL-t. */
 #include "app_release.h"
+#include "app_events.h"
 #include "app_assets.h"
 #include "app_ota.h"
 #include "app_network.h"
@@ -338,6 +339,7 @@ static void worker(void *argument)
 done:
     cJSON_Delete(manifest);
     cJSON_Delete(descriptor);
+    app_events_add(result == ESP_OK ? APP_EVENT_UPDATE_DONE : APP_EVENT_UPDATE_FAILED);
     xSemaphoreTake(s_lock, portMAX_DELAY);
     s_success = result == ESP_OK;
     s_busy = s_success && restart;
@@ -370,6 +372,7 @@ esp_err_t app_release_start(bool firmware)
     s_version[0] = 0;
     snprintf(s_phase, sizeof(s_phase), "release");
     xSemaphoreGive(s_lock);
+    app_events_add(APP_EVENT_UPDATE_START);
     if (xTaskCreateWithCaps(worker,
                             "schema_update",
                             16384,
@@ -382,6 +385,7 @@ esp_err_t app_release_start(bool firmware)
     s_busy = false;
     snprintf(s_phase, sizeof(s_phase), "memory");
     xSemaphoreGive(s_lock);
+    app_events_add(APP_EVENT_UPDATE_FAILED);
     return ESP_ERR_NO_MEM;
 }
 

@@ -1,6 +1,7 @@
 /* A testvérprojekt 2dabb18 commitjának olvasási transzportja és hitelesítése.
  * Minden hálózati művelet egyetlen workerből fut; nincsenek vezérlőparancsok. */
 #include "app_loxone.h"
+#include "app_events.h"
 #include "app_store.h"
 #include "app_network.h"
 #include "schema_lx_cache.h"
@@ -68,7 +69,7 @@ static unsigned char s_aes_key[32], s_iv[16];
 static char s_salt[17];
 static char *s_public_key;
 static const lx_config_t *s_session_config;
-static int64_t s_last_response, s_token_refresh_us;
+static int64_t s_last_response, s_token_refresh_us, s_last_numeric;
 static EXT_RAM_BSS_ATTR sm_lx_cache_t s_cache;
 static bool update_values(int type, const uint8_t *data, size_t size)
 {
@@ -78,6 +79,8 @@ static bool update_values(int type, const uint8_t *data, size_t size)
     bool ok = sm_lx_cache_packet(&s_cache, data, size);
     if (!ok)
         s_live = false;
+    else if (size)
+        s_last_numeric = esp_timer_get_time();
     xSemaphoreGive(s_lock);
     return ok;
 }
@@ -1012,6 +1015,7 @@ static void worker(void *argument)
         }
         xSemaphoreTake(s_lock, portMAX_DELAY);
         sm_lx_cache_clear(&s_cache);
+        s_last_numeric = 0;
         s_live = false;
         xSemaphoreGive(s_lock);
         s_session_config = config;
@@ -1028,6 +1032,7 @@ static void worker(void *argument)
             xSemaphoreTake(s_lock, portMAX_DELAY);
             s_live = true;
             xSemaphoreGive(s_lock);
+            app_events_add(APP_EVENT_LOXONE_UP);
             status("Loxone kapcsolódva / Loxone connected");
             delay_seconds = 2;
             int64_t keepalive = esp_timer_get_time();
@@ -1054,9 +1059,12 @@ static void worker(void *argument)
                     s_dead = true;
             }
         }
+        if (ok)
+            app_events_add(APP_EVENT_LOXONE_DOWN);
         xSemaphoreTake(s_lock, portMAX_DELAY);
         s_live = false;
         sm_lx_cache_clear(&s_cache);
+        s_last_numeric = 0;
         xSemaphoreGive(s_lock);
         report_failure("Loxone kapcsolat megszakadt / Loxone disconnected");
         close_connection();
@@ -1161,4 +1169,24 @@ esp_err_t app_loxone_start(void)
         return ESP_ERR_NO_MEM;
     }
     return ESP_OK;
+}
+
+/* Nem másolja a nagy értéktárat, és nem ad vissza munkamenettitkot. */
+void app_loxone_diagnostics(app_loxone_diagnostics_t *out)
+{
+    memset(out, 0, sizeof(*out));
+    out->numeric_age = -1;
+    if (!s_lock)
+        return;
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    out->connected = s_live && !s_dead;
+    if (out->connected && s_last_numeric)
+    {
+        int64_t age = (esp_timer_get_time() - s_last_numeric) / 1000000;
+        out->numeric_age = age > 0 ? age : 0;
+        for (unsigned i = 0; i < SM_LX_CACHE_SLOTS; i++)
+            if (s_cache.entries[i].uuid[0] && s_cache.entries[i].valid)
+                out->known_values++;
+    }
+    xSemaphoreGive(s_lock);
 }

@@ -47,6 +47,10 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
     assert call("/api/update", {}, {**headers, "Content-Type":"application/octet-stream", "Origin":"http://evil.example"})["status"].startswith("403")
     assert call("/graphics/light/../../schema-state/state-1.bin")["status"].startswith("404")
     assert call("/nonexistent")["status"].startswith("404")
+    diagnostics = decoded(call("/api/diagnostics"))
+    assert diagnostics["cpu0"] is None and diagnostics["internalFree"] is None
+    assert diagnostics["displayFps"] is None and isinstance(diagnostics["events"], list)
+    assert "password" not in json.dumps(diagnostics)
     assert call("/api/graphics/refresh", {})["status"].startswith("202")
     assert call("/api/update/release", {})["status"].startswith("202")
     assert call("/api/update/release", {"url":"https://evil.example"})["status"].startswith("400")

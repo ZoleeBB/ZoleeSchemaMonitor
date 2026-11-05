@@ -133,7 +133,10 @@ static cJSON *device(void)
     cJSON_AddBoolToObject(json, "connected", app_loxone_connected());
     cJSON_AddNumberToObject(json, "uptime", metrics.uptime_seconds);
     cJSON_AddBoolToObject(wifi, "connected", network.connected);
-    cJSON_AddNumberToObject(wifi, "rssi", network.rssi);
+    if (network.connected && network.rssi_valid)
+        cJSON_AddNumberToObject(wifi, "rssi", network.rssi);
+    else
+        cJSON_AddNullToObject(wifi, "rssi");
     cJSON_AddItemToObject(json, "wifi", wifi);
     cJSON_AddBoolToObject(capabilities, "ota", true);
     cJSON_AddBoolToObject(capabilities, "loxone", true);
@@ -227,25 +230,7 @@ static esp_err_t get(httpd_req_t *request)
     if (!strcmp(path, "/api/live"))
         return answer(request, "200 OK", app_loxone_live());
     if (!strcmp(path, "/api/diagnostics"))
-    {
-        app_diagnostics_t data;
-        app_diagnostics_capture(&data);
-        app_network_status_t network;
-        app_network_status(&network);
-        cJSON *json = cJSON_CreateObject();
-        cJSON_AddNumberToObject(json, "uptime", data.uptime_seconds);
-        cJSON_AddNumberToObject(json, "cpu0", data.cpu[0]);
-        cJSON_AddNumberToObject(json, "cpu1", data.cpu[1]);
-        cJSON_AddNumberToObject(json, "internalFree", data.internal_free);
-        cJSON_AddNumberToObject(json, "internalMinimum", data.internal_minimum);
-        cJSON_AddNumberToObject(json, "psramFree", data.psram_free);
-        cJSON_AddNumberToObject(json, "dmaLargest", data.dma_largest);
-        cJSON_AddBoolToObject(json, "sdMounted", app_store_ready());
-        cJSON_AddBoolToObject(json, "storageRecovery", app_store_recovered());
-        cJSON_AddBoolToObject(json, "recoveryWifi", network.recovery);
-        cJSON_AddItemToObject(json, "tasks", cJSON_CreateArray());
-        return answer(request, "200 OK", json);
-    }
+        return answer(request, "200 OK", app_diagnostics_json());
     if (!strcmp(path, "/api/update/status"))
         return answer(request, "200 OK", app_release_status());
     if (!strcmp(path, "/api/graphics"))
@@ -321,9 +306,11 @@ static esp_err_t post(httpd_req_t *request)
         return failure(request, "403 Forbidden", "origin/header");
     if (!strcmp(request->uri, "/api/update"))
     {
+        app_events_add(APP_EVENT_UPDATE_START);
         esp_err_t result = app_ota_upload(request->content_len, firmware_read, request);
         if (result != ESP_OK)
         {
+            app_events_add(APP_EVENT_UPDATE_FAILED);
             failure(request,
                     "400 Bad Request",
                     "Firmware elutasítva vagy megszakadt. Azonos projekt és grafikai készlet "
@@ -332,6 +319,7 @@ static esp_err_t post(httpd_req_t *request)
             /* A még olvasatlan bináris törzs miatt a kapcsolatot is lezárjuk. */
             return ESP_FAIL;
         }
+        app_events_add(APP_EVENT_UPDATE_DONE);
         cJSON *response = cJSON_CreateObject();
         cJSON_AddBoolToObject(response, "restart", true);
         esp_err_t sent = answer(request, "200 OK", response);

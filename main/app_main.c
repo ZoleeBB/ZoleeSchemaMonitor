@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "app_diagnostics.h"
+#include "app_diagnostic_view.h"
+#include "app_events.h"
 #include "app_network.h"
 #include "app_store.h"
 #include "app_web.h"
@@ -20,8 +22,6 @@
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "schema_core.h"
-
-static lv_obj_t *s_metrics;
 
 /* A tájolás induláskor rögzül. A natív panel 800×1280-as, 90/270° fekvő.
  * A touch-tengelyek minden állásban ugyanazt az elfordítást követik. */
@@ -58,7 +58,11 @@ void app_main(void)
         error = nvs_flash_init();
     }
     ESP_ERROR_CHECK(error);
+    app_events_add(APP_EVENT_BOOT);
     error = app_store_init();
+    app_events_add(error == ESP_OK ? APP_EVENT_SD_READY : APP_EVENT_SD_MISSING);
+    if (app_store_recovered())
+        app_events_add(APP_EVENT_SD_RECOVERED);
     if (error != ESP_OK)
         ESP_LOGW("schema", "SD-allapot nem elerheto: %s", esp_err_to_name(error));
     unsigned degrees = read_rotation();
@@ -80,24 +84,7 @@ void app_main(void)
         return;
     }
     bsp_display_backlight_on();
-    if (bsp_display_lock(1000))
-    {
-        lv_obj_t *screen = lv_screen_active();
-        lv_obj_set_style_bg_color(screen, lv_color_hex(0x152735), 0);
-        lv_obj_set_style_text_color(screen, lv_color_hex(0xe4eef5), 0);
-        lv_obj_t *title = lv_label_create(screen);
-        lv_label_set_text(title, "ZoleeSchemaMonitor | MS1");
-        lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 35);
-        lv_obj_t *status = lv_label_create(screen);
-        lv_label_set_text(status,
-                          "MS1 | Helyi webszerkeszto / Local web editor\n"
-                          "Loxone es animaciok fejlesztes alatt.\n"
-                          "Loxone and animation are under development.");
-        lv_obj_align(status, LV_ALIGN_TOP_MID, 0, 90);
-        s_metrics = lv_label_create(screen);
-        lv_obj_align(s_metrics, LV_ALIGN_CENTER, 0, 30);
-        bsp_display_unlock();
-    }
+    app_diagnostic_view_poll();
     bool web_ready = false;
     error = app_network_start();
     if (error != ESP_OK)
@@ -117,13 +104,16 @@ void app_main(void)
     app_scene_configure(appearance);
     cJSON_Delete(appearance);
     /* A meres a kijelzozaron kivul fut, azonos szoveg nem ujrarajzolas. */
-    char previous[768] = {0};
+    bool diagnostics_ready = app_diagnostics_start() == ESP_OK;
+    if (!diagnostics_ready)
+        ESP_LOGE("schema", "A diagnosztikai task nem indithato");
     int64_t previous_tick = esp_timer_get_time();
     unsigned metrics_ticks = 0;
     while (true)
     {
         vTaskDelay(pdMS_TO_TICKS(50));
         app_scene_poll();
+        app_diagnostic_view_poll();
         int64_t now = esp_timer_get_time();
         app_scene_update((unsigned)((now - previous_tick) / 1000));
         previous_tick = now;
@@ -131,40 +121,12 @@ void app_main(void)
             continue;
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
-        app_ota_boot_poll(web_ready && app_store_ready() && app_assets_boot_ready(),
-                          metrics.uptime_seconds);
+        app_ota_boot_poll(web_ready && diagnostics_ready && metrics.sampled &&
+                              metrics.sample_age <= 10 && app_store_ready() &&
+                              app_assets_boot_ready(),
+                          now / 1000000);
         app_network_status_t network;
         app_network_status(&network);
-        char text[768];
-        snprintf(text,
-                 sizeof(text),
-                 "Firmware: %.32s\nRotation: %u\nCPU0 / CPU1: %u%% / %u%%\n"
-                 "Internal: %u B | minimum: %u B\nPSRAM: %u B\nDMA largest: %u B\nUptime: %llu s\n"
-                 "SD: %s | Recovery: %s\nWeb: http://%s/\n%s%s%s%s",
-                 esp_app_get_description()->version,
-                 degrees,
-                 metrics.cpu[0],
-                 metrics.cpu[1],
-                 metrics.internal_free,
-                 metrics.internal_minimum,
-                 metrics.psram_free,
-                 metrics.dma_largest,
-                 (unsigned long long)metrics.uptime_seconds,
-                 app_store_ready() ? "OK" : "ERROR",
-                 app_store_recovered() ? "YES" : "NO",
-                 network.connected  ? network.ip
-                 : network.recovery ? "192.168.4.1"
-                                    : "zolee-schema-monitor.local",
-                 network.recovery ? "Setup Wi-Fi: " : "",
-                 network.recovery ? network.recovery_ssid : "",
-                 network.recovery ? "\nPassword: " : "",
-                 network.recovery ? network.recovery_password : "");
-        if (strcmp(previous, text) && bsp_display_lock(100))
-        {
-            if (s_metrics)
-                lv_label_set_text(s_metrics, text);
-            snprintf(previous, sizeof(previous), "%s", text);
-            bsp_display_unlock();
-        }
+        app_diagnostic_view_update(&metrics, &network);
     }
 }

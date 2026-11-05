@@ -1,4 +1,5 @@
 #include "app_network.h"
+#include "app_events.h"
 #include "app_store.h"
 #include "esp_event.h"
 #include "esp_mac.h"
@@ -32,11 +33,15 @@ static void event(void *arg, esp_event_base_t base, int32_t id, void *data)
     if (base == IP_EVENT && id == IP_EVENT_STA_GOT_IP)
     {
         const ip_event_got_ip_t *info = data;
+        if (!s_status.connected)
+            app_events_add(APP_EVENT_WIFI_UP);
         s_status.connected = true;
         snprintf(s_status.ip, sizeof(s_status.ip), IPSTR, IP2STR(&info->ip_info.ip));
     }
     if (base == WIFI_EVENT && id == WIFI_EVENT_STA_DISCONNECTED)
     {
+        if (s_status.connected)
+            app_events_add(APP_EVENT_WIFI_DOWN);
         s_status.connected = false;
         s_status.ip[0] = 0;
     }
@@ -104,6 +109,7 @@ static esp_err_t recovery_start(void)
     {
         xSemaphoreTake(s_lock, portMAX_DELAY);
         s_status.recovery = true;
+        app_events_add(APP_EVENT_RECOVERY);
         snprintf(s_status.recovery_ssid, sizeof(s_status.recovery_ssid), "%s", config->ap.ssid);
         snprintf(s_status.recovery_password, sizeof(s_status.recovery_password), "%s", password);
         xSemaphoreGive(s_lock);
@@ -211,7 +217,10 @@ void app_network_status(app_network_status_t *status)
     {
         wifi_ap_record_t access_point;
         if (esp_wifi_sta_get_ap_info(&access_point) == ESP_OK)
+        {
             status->rssi = access_point.rssi;
+            status->rssi_valid = true;
+        }
     }
 }
 

@@ -8,3 +8,8 @@ void app_scene_set_reader(app_scene_read_fn reader, void *context);
 void app_scene_update(unsigned elapsed_ms);
 /* A hívó nem tarthat kijelzőzárat: a frissítés előbb SD-t olvas. */
 void app_scene_poll(void);
+
+/* Csak az app_main használja; az állapotolvasás nem vesz fel kijelzőzárat. */
+bool app_scene_diagnostics_visible(void);
+bool app_scene_dark(void);
+bool app_scene_english(void);
