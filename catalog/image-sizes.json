@@ -391,6 +391,11 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "doc/grafika/latvanytervek/05-feluleti-holeadok.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
         }
     }
 }
