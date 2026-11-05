@@ -431,6 +431,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/end-suction-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/long-coupled-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/vertical-multistage-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/horizontal-multistage-pump.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
