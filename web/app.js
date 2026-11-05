@@ -234,7 +234,7 @@ const releaseMessages = {
 
 async function refreshReleaseStatus() {
     const target = $('#release-status');
-    if (!target || state.device.development || releasePolling) return;
+    if (!target || state.device.development || releasePolling || firmwareUploading) return;
     releasePolling = true;
     try {
         const update = await api('/api/update/status');

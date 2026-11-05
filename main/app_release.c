@@ -341,7 +341,7 @@ done:
     s_success = result == ESP_OK;
     s_busy = s_success && restart;
     xSemaphoreGive(s_lock);
-    if (s_success && restart)
+    if (result == ESP_OK && restart)
         app_network_restart_later();
     vTaskDeleteWithCaps(NULL);
 }

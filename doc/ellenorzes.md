@@ -38,4 +38,4 @@ Közös grafikai/firmware frissítés: az éles C SD-tárat valódi fájlművele
 
 A Chromium-próba helyettesített frissítési API-val vizsgálja a közös frissítés indítását, a gombok zárolását, a folyamatállapotot és a hiba utáni újrapróbálhatóságot HU/EN nyelven. Ez nem valódi GitHub-letöltés, SD-hardver vagy flash-próba. A teljes kiadási lánc és a fizikai áramelvétel továbbra is kipróbálandó.
 
-A közös frissítőt tartalmazó helyi P4 build sikeres, 1 776 480 bájt (8 MiB-os partíció, 79% szabad). A teljes SVG/PNG-csomaggal a firmware csomagolása és az `update.json` létrehozása is sikeres; a leíró firmware/manifest méretet és SHA-256-ot, valamint grafikai forrásazonosítót tartalmaz.
+A közös frissítőt tartalmazó helyi P4 build és csomagolás sikeres, körülbelül 1,78 MB (8 MiB-os partíció, 79% szabad). A teljes SVG/PNG-csomaggal a firmware csomagolása és az `update.json` létrehozása is sikeres; a leíró firmware/manifest méretet és SHA-256-ot, valamint grafikai forrásazonosítót tartalmaz.
