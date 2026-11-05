@@ -10,9 +10,10 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 | Radiátorok, konvektorok és klímabeltérik | 12 | 12 | Minden forrás elkészült; bekötés később |
 | Felületi hőleadók, körök és napkollektor | 7 | 7 | Minden forrás elkészült; bekötés később |
 | Hidraulikai hőcserélők, egységek, osztók és szűrők | 36 | 36 | Minden forrás elkészült; bekötés később |
-| **Összesen** | **136** | **139** | **15 típus bekötve; további 124 típushoz a PNG már megvan** |
+| Szelepek és visszafolyásgátlók | 24 | 24 | Részben elkészült; bekötés később |
+| **Összesen** | **160** | **163** | **15 típus bekötve; további 148 típushoz a PNG már megvan** |
 
-Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 178. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
+Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 154. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
 ## Csoportlátványtervek
 
@@ -32,12 +33,12 @@ A fűtés/hűtés kategória mind a 48 típusához, a tárolók mind a 24 típus
 | Katalóguscsoport | Még hiányzó típus | Következő munka |
 | --- | ---: | --- |
 | Hidraulika | 0 | A teljes képi alap elkészült |
-| Szelepek | 42 | Kézi, motoros, szabályozó és biztonsági szerelvények |
+| Szelepek | 18 | Kézi, motoros, szabályozó és biztonsági szerelvények |
 | Szellőzés és légtechnika | 51 | Ventilátorok, légkezelők és légoldali szerelvények |
 | Medencetechnika | 27 | A szivattyúk és hőszivattyúk már elkészültek; a többi szerelvény még hátravan |
 | Öntözés | 23 | Szórófejek, zónák és szerelvények |
 | Érzékelők | 35 | Érték- és állapotérzékelők |
-| **Összesen** | **178** | **A legalább 300 eszközös teljes induló készlet még nincs kész** |
+| **Összesen** | **154** | **A legalább 300 eszközös teljes induló készlet még nincs kész** |
 
 ## Műszaki felülvizsgálat és hátralévő bekötés
 
