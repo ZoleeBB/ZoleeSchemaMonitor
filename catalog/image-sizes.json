@@ -741,6 +741,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/motor-valve-2.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/motor-valve-3.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/mixing-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/diverting-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
