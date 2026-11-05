@@ -10,3 +10,5 @@ typedef struct
 esp_err_t app_network_start(void);
 void app_network_status(app_network_status_t *status);
 void app_network_restart_later(void);
+
+bool app_network_restart_pending(void);

@@ -1,4 +1,5 @@
 #include "app_store.h"
+#include "app_backup.h"
 #include "app_events.h"
 #include "bsp/esp-bsp.h"
 #include "esp_random.h"
@@ -413,5 +414,98 @@ esp_err_t app_store_save_settings(const cJSON *patch, bool loxone, char error[SM
     }
     cJSON_Delete(next);
     xSemaphoreGive(s_lock);
+    return result;
+}
+
+/* A két fa egyetlen zár alatt másolódik, így a mentés konzisztens. */
+cJSON *app_store_snapshot(void)
+{
+    cJSON *state = cJSON_CreateObject();
+    if (!state)
+        return NULL;
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    cJSON *project = cJSON_Duplicate(s_project, true),
+          *settings = cJSON_Duplicate(s_settings, true);
+    xSemaphoreGive(s_lock);
+    bool ok = project && settings &&
+              cJSON_AddStringToObject(state, "format", "zolee-device-state") &&
+              cJSON_AddNumberToObject(state, "version", 1);
+    if (ok)
+    {
+        ok = cJSON_AddItemToObject(state, "project", project);
+        if (ok)
+            project = NULL;
+    }
+    if (ok)
+    {
+        ok = cJSON_AddItemToObject(state, "settings", settings);
+        if (ok)
+            settings = NULL;
+    }
+    app_backup_delete(project);
+    app_backup_delete(settings);
+    if (!ok)
+    {
+        app_backup_delete(state);
+        return NULL;
+    }
+    return state;
+}
+
+esp_err_t app_store_restore(const cJSON *state,
+                            uint32_t expected,
+                            uint32_t *revision,
+                            char error[SM_ERROR_SIZE])
+{
+    const cJSON *project = cJSON_GetObjectItemCaseSensitive(state, "project");
+    const cJSON *settings = cJSON_GetObjectItemCaseSensitive(state, "settings");
+    if (!cJSON_IsObject(state) || cJSON_GetArraySize(state) != 4 ||
+        strcmp(sm_json_string(state, "format"), "zolee-device-state") ||
+        sm_json_number(state, "version", 0) != 1)
+    {
+        snprintf(error, SM_ERROR_SIZE, "backup.format");
+        return ESP_ERR_INVALID_ARG;
+    }
+    if (!sm_project_validate(project, error) || !sm_settings_validate(settings, error))
+        return ESP_ERR_INVALID_ARG;
+    char *raw = cJSON_PrintUnformatted(project);
+    bool size_ok = raw && strlen(raw) <= SM_PROJECT_BYTES;
+    free(raw);
+    if (!size_ok)
+    {
+        snprintf(error, SM_ERROR_SIZE, "project.size");
+        return ESP_ERR_INVALID_SIZE;
+    }
+    cJSON *new_project = cJSON_Duplicate(project, true),
+          *new_settings = cJSON_Duplicate(settings, true);
+    if (!new_project || !new_settings)
+    {
+        app_backup_delete(new_project);
+        app_backup_delete(new_settings);
+        return ESP_ERR_NO_MEM;
+    }
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    esp_err_t result = ESP_ERR_INVALID_STATE;
+    if (expected != s_revision)
+        snprintf(error, SM_ERROR_SIZE, "revision.conflict");
+    else if (s_revision == UINT32_MAX || !persist(new_project, new_settings, s_revision + 1))
+    {
+        snprintf(error, SM_ERROR_SIZE, "storage.write");
+        result = ESP_FAIL;
+        app_events_add(APP_EVENT_SD_WRITE);
+    }
+    else
+    {
+        app_backup_delete(s_project);
+        app_backup_delete(s_settings);
+        s_project = new_project;
+        s_settings = new_settings;
+        new_project = new_settings = NULL;
+        *revision = ++s_revision;
+        result = ESP_OK;
+    }
+    xSemaphoreGive(s_lock);
+    app_backup_delete(new_project);
+    app_backup_delete(new_settings);
     return result;
 }

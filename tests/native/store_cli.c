@@ -1,4 +1,5 @@
 #include "app_store.h"
+#include "app_backup.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +18,8 @@ int main(int argc, char **argv)
         cJSON_AddBoolToObject(result, "recovered", app_store_recovered());
         cJSON_AddItemToObject(result, "settings", app_store_settings(true));
     }
+    else if (!strcmp(argv[1], "snapshot"))
+        cJSON_AddItemToObject(result, "state", app_store_snapshot());
     else
     {
         char *data = malloc(SM_PROJECT_BYTES + 512);
@@ -30,6 +33,19 @@ int main(int argc, char **argv)
             uint32_t revision = 0;
             status = app_store_save_project(
                 json, argc > 2 ? strtoul(argv[2], NULL, 10) : 0, &revision, error);
+            cJSON_AddNumberToObject(result, "revision", revision);
+        }
+        else if ((!strcmp(argv[1], "restore") || !strcmp(argv[1], "restore-fail")))
+        {
+            uint32_t revision = 0;
+            bool fail = !strcmp(argv[1], "restore-fail");
+            if (fail)
+                assert(rename("state", "unmounted") == 0);
+            status = app_store_restore(
+                json, argc > 2 ? strtoul(argv[2], NULL, 10) : 0, &revision, error);
+            if (fail)
+                assert(rename("unmounted", "state") == 0);
+            cJSON_AddItemToObject(result, "after", app_store_snapshot());
             cJSON_AddNumberToObject(result, "revision", revision);
         }
         else

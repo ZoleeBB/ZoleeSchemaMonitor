@@ -11,9 +11,9 @@ binary = str(Path(sys.argv[1]).resolve())
 with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
     root = Path(directory); (root / "state").mkdir()
     headers = {"Host":"192.168.2.123", "Origin":"http://192.168.2.123", "Content-Type":"application/json", "X-Zolee-Schema":"1"}
-    def call(path, body=None, override=None):
+    def call(path, body=None, override=None, **env):
         request = {"path":path, "method":"GET" if body is None else "POST", "headers":override if override is not None else headers, "body":json.dumps(body) if body is not None else ""}
-        result = subprocess.run([binary], cwd=root, input=json.dumps(request), capture_output=True, text=True, check=True)
+        result = subprocess.run([binary], cwd=root, env={**os.environ, **env}, input=json.dumps(request), capture_output=True, text=True, check=True)
         response = json.loads(result.stdout)
         data = bytes.fromhex(response.pop("bodyHex"))
         if response["headers"].get("Content-Encoding") == "gzip": data = gzip.decompress(data)
@@ -39,6 +39,38 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
     assert saved["status"] == "200 OK" and saved["restart"]
     assert decoded(saved)["wifi"]["hasPassword"]
     assert "password" not in decoded(saved)["wifi"]
+    # A hordozható mentés az eredeti készülék NVS-kulcsa nélkül is működik.
+    password = "Backup password 123!"
+    assert call("/api/backup/export", {"passphrase": password}, BACKUP_BUSY="1")["status"].startswith("423")
+    envelope = decoded(call("/api/backup/export", {"passphrase": password}))
+    assert envelope["format"] == "zolee-backup" and envelope["iterations"] == 600000
+    assert "12345678" not in json.dumps(envelope) and password not in json.dumps(envelope)
+    assert call("/api/backup/export", {"passphrase":"short"})["status"].startswith("400")
+    assert call("/api/backup/export", {"passphrase":password}, {**headers,"Origin":"http://evil.example"})["status"].startswith("403")
+    assert decoded(call("/api/backup/status"))["revision"] == 1
+    (root / "state").rename(root / "source-state")
+    (root / "state").mkdir()
+    (root / "key.bin").rename(root / "source-key.bin")
+    assert decoded(call("/api/backup/status"))["revision"] == 0
+    assert (root / "key.bin").read_bytes() != (root / "source-key.bin").read_bytes()
+    payload = {"backup":envelope, "passphrase":"Wrong password 123!", "revision":0}
+    rejected = call("/api/backup/restore", payload)
+    assert rejected["status"].startswith("400") and not rejected["restart"]
+    assert decoded(call("/api/project"))["revision"] == 0
+    payload["passphrase"] = password
+    payload["revision"] = 50
+    rejected = call("/api/backup/restore", payload)
+    assert rejected["status"].startswith("409") and not rejected["restart"]
+    payload["revision"] = 0
+    restored = call("/api/backup/restore", payload)
+    assert restored["status"] == "200 OK" and restored["restart"]
+    assert decoded(restored)["revision"] == 1
+    assert decoded(call("/api/project"))["project"] == project
+    target_settings = decoded(call("/api/settings"))
+    assert target_settings["wifi"]["ssid"] == "Test" and target_settings["wifi"]["hasPassword"]
+    assert "12345678" not in json.dumps(target_settings)
+    for file in (root / "state").glob("*"):
+        assert b"12345678" not in file.read_bytes()
     settings["wifi"]["password"] = "short"
     assert call("/api/settings", settings)["status"].startswith("400")
     assert call("/api/update", {})["status"].startswith("403")

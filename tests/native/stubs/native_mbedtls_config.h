@@ -1,3 +1,10 @@
 #define MBEDTLS_AES_C
 #define MBEDTLS_CIPHER_C
 #define MBEDTLS_GCM_C
+
+#define MBEDTLS_MD_C
+#ifndef MBEDTLS_SHA256_C
+#define MBEDTLS_SHA256_C
+#endif
+#define MBEDTLS_PKCS5_C
+#define MBEDTLS_BASE64_C

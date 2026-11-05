@@ -28,6 +28,8 @@ extern const unsigned sm_catalog_count;
 const sm_asset_t *sm_asset_find(const char *id);
 /* Pontosan egy UTF-8 JSON dokumentum; a beágyazott NUL nem csonkíthat mezőt. */
 cJSON *sm_json_parse(const char *data, size_t length);
+/* Titkosított mentés külső JSON-borítékához, változatlan mélység/UTF-8 szabályokkal. */
+cJSON *sm_json_parse_limit(const char *data, size_t length, size_t limit);
 const char *sm_json_string(const cJSON *object, const char *key);
 double sm_json_number(const cJSON *object, const char *key, double fallback);
 /* Ugyanazok a nyilvános korlátok, mint a web/model.js modellben. */

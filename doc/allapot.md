@@ -5,7 +5,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Terület | Bekötött működés | Még szükséges |
 | --- | --- | --- |
 | Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték, import/export, undo, HU/EN | Használhatósági finomítás és készülékes regresszió |
-| Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások | Teljes eszközmentés, kártya nélküli helyreállítás és SD újracsatolás |
+| Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások, hordozható jelszavas teljes eszközmentés és atomi visszaállítás | Kártya nélküli helyreállítás és SD újracsatolás |
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
@@ -66,3 +66,7 @@ Az első, régebbi MS1 buildről áttéréshez USB és az új teljes SD-csomag k
 ## Diagnosztikai nézet
 
 A testvérprojekt memória-/SD-sávjai és 15 soros eseménylistája a Loxone-only működéshez adaptálva bekötve. A mintavétel külön PSRAM-stackű taskban fut; a HTTP és a panel csak a rövid RAM-pillanatképet olvassa. A CPU induláskor ismeretlen, SD-kapacitás tíz másodpercenként mérhető. A főtask verem-mélypontja és a DMA legnagyobb blokkja is látszik. A napló nem fogad szabad szöveget vagy hitelesítő adatot; a beállító AP kulcsát kizárólag a fizikai nézet kapja. [Részletek és korlátok](diagnosztika.md).
+
+## Teljes eszközmentés
+
+A titokmentes sémaexport mellett külön jelszavas, hordozható eszközmentés és egyetlen SD-journal írással végzett teljes konfiguráció-visszaállítás készült. A célkészülék a saját NVS-kulcsával tárolja a visszaállított beállításokat; a forrás kulcsa nem szükséges. [Használat, kriptográfia, tesztek és fizikai ellenőrzési korlátok](mentes.md).

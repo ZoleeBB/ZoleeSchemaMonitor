@@ -14,3 +14,10 @@ esp_err_t app_store_save_project(const cJSON *project,
                                  uint32_t *revision,
                                  char error[SM_ERROR_SIZE]);
 esp_err_t app_store_save_settings(const cJSON *patch, bool loxone, char error[SM_ERROR_SIZE]);
+
+/* A teljes beállításokat tartalmazza: csak titkosításhoz, az eredmény nem publikus. */
+cJSON *app_store_snapshot(void);
+esp_err_t app_store_restore(const cJSON *state,
+                            uint32_t expected,
+                            uint32_t *revision,
+                            char error[SM_ERROR_SIZE]);

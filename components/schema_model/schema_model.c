@@ -7,7 +7,12 @@
 
 cJSON *sm_json_parse(const char *data, size_t length)
 {
-    if (!data || !length || length > SM_PROJECT_BYTES + 32768)
+    return sm_json_parse_limit(data, length, SM_PROJECT_BYTES + 32768U);
+}
+
+cJSON *sm_json_parse_limit(const char *data, size_t length, size_t limit)
+{
+    if (!data || !length || length > limit || limit > 2U * SM_PROJECT_BYTES + 131072U)
         return NULL;
     bool quoted = false;
     int depth = 0;

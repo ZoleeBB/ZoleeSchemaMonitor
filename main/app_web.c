@@ -2,6 +2,8 @@
 #include "app_diagnostics.h"
 #include "app_network.h"
 #include "app_store.h"
+#include "app_backup.h"
+#include "mbedtls/platform_util.h"
 #include "app_loxone.h"
 #include "app_ota.h"
 #include "app_assets.h"
@@ -91,10 +93,10 @@ static bool permitted_write(httpd_req_t *request, const char *host, bool binary)
            (!strcmp(type, "application/json") || !strcmp(type, "application/json; charset=utf-8"));
 }
 
-static cJSON *body(httpd_req_t *request)
+static cJSON *body_limit(httpd_req_t *request, size_t limit)
 {
     size_t length = request->content_len;
-    if (!length || length > SM_PROJECT_BYTES + 512)
+    if (!length || length > limit)
         return NULL;
     char *data = malloc(length);
     if (!data)
@@ -105,14 +107,21 @@ static cJSON *body(httpd_req_t *request)
         int received = httpd_req_recv(request, data + used, length - used);
         if (received <= 0)
         {
+            mbedtls_platform_zeroize(data, length);
             free(data);
             return NULL;
         }
         used += received;
     }
-    cJSON *json = sm_json_parse(data, length);
+    cJSON *json = sm_json_parse_limit(data, length, limit);
+    mbedtls_platform_zeroize(data, length);
     free(data);
     return json;
+}
+
+static cJSON *body(httpd_req_t *request)
+{
+    return body_limit(request, SM_PROJECT_BYTES + 512);
 }
 
 static cJSON *device(void)
@@ -139,6 +148,7 @@ static cJSON *device(void)
         cJSON_AddNullToObject(wifi, "rssi");
     cJSON_AddItemToObject(json, "wifi", wifi);
     cJSON_AddBoolToObject(capabilities, "ota", true);
+    cJSON_AddBoolToObject(capabilities, "backup", true);
     cJSON_AddBoolToObject(capabilities, "loxone", true);
     cJSON_AddBoolToObject(capabilities, "nativeRenderer", true);
     cJSON_AddItemToObject(json, "capabilities", capabilities);
@@ -204,6 +214,13 @@ static esp_err_t get(httpd_req_t *request)
     const char *path = request->uri;
     if (!strcmp(path, "/api/device"))
         return answer(request, "200 OK", device());
+    if (!strcmp(path, "/api/backup/status"))
+    {
+        cJSON *json = cJSON_CreateObject();
+        cJSON_AddNumberToObject(json, "revision", app_store_revision());
+        cJSON_AddBoolToObject(json, "available", app_store_ready());
+        return answer(request, "200 OK", json);
+    }
     if (!strcmp(path, "/api/settings"))
         return answer(request, "200 OK", app_store_settings(true));
     if (!strcmp(path, "/api/project") || !strcmp(path, "/api/project/export"))
@@ -298,12 +315,80 @@ static int firmware_read(void *context, void *buffer, size_t capacity)
     return httpd_req_recv(context, buffer, capacity);
 }
 
+/* A KDF a tárolózáron kívül fut. Csak a hitelesített, validált teljes állapot
+ * kerülhet egyetlen tartós journal-bejegyzésbe. A jelszó nem kerül URL-be. */
+static esp_err_t backup_post(httpd_req_t *request, bool restore)
+{
+    if (!app_store_ready())
+        return failure(request, "503 Service Unavailable", "backup.storage");
+    cJSON *update = app_release_status();
+    bool busy = cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(update, "busy")) ||
+                app_network_restart_pending();
+    cJSON_Delete(update);
+    if (busy)
+        return failure(request, "423 Locked", "backup.busy");
+    if (request->content_len > APP_BACKUP_HTTP_BYTES)
+        return failure(request, "413 Content Too Large", "backup.size");
+    cJSON *json = body_limit(request, APP_BACKUP_HTTP_BYTES);
+    if (!cJSON_IsObject(json) || cJSON_GetArraySize(json) != (restore ? 3 : 1))
+    {
+        app_backup_delete(json);
+        return failure(request, "400 Bad Request", "backup.fields");
+    }
+    const char *passphrase = sm_json_string(json, "passphrase");
+    if (!app_backup_passphrase_valid(passphrase))
+    {
+        app_backup_delete(json);
+        return failure(request, "400 Bad Request", "backup.passphrase");
+    }
+    if (!restore)
+    {
+        cJSON *state = app_store_snapshot();
+        cJSON *envelope = state ? app_backup_seal(state, passphrase) : NULL;
+        app_backup_delete(state);
+        app_backup_delete(json);
+        if (!envelope)
+            return failure(request, "503 Service Unavailable", "backup.export");
+        httpd_resp_set_hdr(
+            request, "Content-Disposition", "attachment; filename=ZoleeSchemaMonitor-backup.json");
+        return answer(request, "200 OK", envelope);
+    }
+    double expected = sm_json_number(json, "revision", -1);
+    if (expected < 0 || expected > UINT32_MAX || expected != floor(expected))
+    {
+        app_backup_delete(json);
+        return failure(request, "400 Bad Request", "backup.fields");
+    }
+    cJSON *state = app_backup_open(cJSON_GetObjectItemCaseSensitive(json, "backup"), passphrase);
+    app_backup_delete(json);
+    if (!state)
+        return failure(request, "400 Bad Request", "backup.invalid-or-password");
+    char error[SM_ERROR_SIZE] = {0};
+    uint32_t revision;
+    esp_err_t result = app_store_restore(state, (uint32_t)expected, &revision, error);
+    app_backup_delete(state);
+    if (result != ESP_OK)
+        return failure(request,
+                       result == ESP_ERR_INVALID_STATE ? "409 Conflict"
+                       : result == ESP_FAIL            ? "503 Service Unavailable"
+                                                       : "400 Bad Request",
+                       error);
+    cJSON *response = cJSON_CreateObject();
+    cJSON_AddNumberToObject(response, "revision", revision);
+    cJSON_AddBoolToObject(response, "restart", true);
+    esp_err_t sent = answer(request, "200 OK", response);
+    app_network_restart_later();
+    return sent;
+}
+
 static esp_err_t post(httpd_req_t *request)
 {
     char host[96];
     if (!permitted_host(request, host) ||
         !permitted_write(request, host, !strcmp(request->uri, "/api/update")))
         return failure(request, "403 Forbidden", "origin/header");
+    if (!strcmp(request->uri, "/api/backup/export") || !strcmp(request->uri, "/api/backup/restore"))
+        return backup_post(request, !strcmp(request->uri, "/api/backup/restore"));
     if (!strcmp(request->uri, "/api/update"))
     {
         app_events_add(APP_EVENT_UPDATE_START);

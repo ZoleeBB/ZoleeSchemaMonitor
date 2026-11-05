@@ -140,6 +140,8 @@ def handler_for(state, demo):
                 return self.respond({"development": True, "firmware": "0.1.0-ms1-dev", "ip": "127.0.0.1",
                                      "wifi": {"rssi": None}, "connected": demo, "uptime": int(time.monotonic() - state.started),
                                      "revolut": "https://revolut.me/zoleebb", "events": []})
+            if path == "/api/backup/status":
+                return self.respond({"available": False, "revision": state.revision, "development": True})
             if path == "/api/diagnostics":
                 return self.respond({"mode":"development", "measured":False, "cpuValid":False,
                                      "firmware":"0.1.0-ms1-dev", "uptime":None, "cpu0":None, "cpu1":None,

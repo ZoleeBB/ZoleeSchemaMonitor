@@ -2,6 +2,7 @@ import {messages} from './i18n.js';
 import {canvasSize, newProject, validateBinding} from './model.js';
 import {Editor} from './editor.js';
 import {DiagnosticPanel} from './diagnostics.js';
+import {BackupPanel} from './backup.js';
 
 export const $ = selector => document.querySelector(selector);
 export const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character]));
@@ -10,6 +11,7 @@ export const tr = key => messages[language][key] || key;
 export const state = {settings: {}, device: {}, catalog: {elements: []}, project: newProject(), revision: 0, values: {}, sources: []};
 let editor;
 let diagnostics;
+let backup;
 let timer;
 let firmwareUploading = false;
 let releasePolling = false;
@@ -19,9 +21,9 @@ export function feedback(message, error = false) {
     $('#feedback').className = error ? 'error' : 'status-ok';
 }
 
-export async function api(path, data, method = 'POST') {
+export async function api(path, data, method = 'POST', timeoutMs = 15000) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
     try {
         const response = await fetch(path, {signal: controller.signal, cache: 'no-store',
             ...(data === undefined ? {} : {method, headers: {'Content-Type': 'application/json', 'X-Zolee-Schema': '1'}, body: JSON.stringify(data)})});
@@ -191,8 +193,9 @@ async function renderGraphics() {
     };
 }
 
-function renderBackup() {
-    $('#content').innerHTML = `<h1>${tr('backup')}</h1><section><p>${language === 'hu' ? 'A sémaexport minden oldalt és Loxone-párosítást megőriz, jelszót vagy tokent nem tartalmaz.' : 'Schema exports preserve pages and Loxone bindings, without passwords or tokens.'}</p><a class="button" href="/api/project/export" download="ZoleeSchemaMonitor.json">${tr('exportProject')}</a><p><a href="/editor">${tr('import')}</a></p></section>`;
+async function renderBackup() {
+    backup = new BackupPanel($('#content'), {api, language, feedback});
+    await backup.init();
 }
 
 const releaseMessages = {
@@ -320,6 +323,8 @@ async function renderDiagnostics() {
 }
 
 async function route() {
+    backup?.destroy();
+    backup = null;
     diagnostics?.destroy();
     diagnostics = null;
     editor?.destroy();
@@ -341,7 +346,7 @@ async function route() {
     else if (route === 'settings') renderSettings();
     else if (route === 'loxone') renderLoxone();
     else if (route === 'graphics') await renderGraphics();
-    else if (route === 'backup') renderBackup();
+    else if (route === 'backup') await renderBackup();
     else if (route === 'update') renderUpdate();
     else if (route === 'diagnostics') await renderDiagnostics();
     else renderHome();

@@ -18,6 +18,7 @@ idf_component_register(
         "app_diagnostic_view.c"
         "app_events.c"
         "app_store.c"
+        "app_backup.c"
         "app_network.c"
         "app_web.c"
         "app_ota.c"

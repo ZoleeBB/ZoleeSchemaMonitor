@@ -52,13 +52,17 @@ def main():
                 "-Wl,--wrap=time", "-pthread", "-lm", "-o", release)
             with tempfile.TemporaryDirectory(prefix="schema-release-") as state:
                 subprocess.run([release], cwd=state, check=True)
-            library = [str(tls / "library" / f"{name}.c") for name in ["aes", "cipher", "cipher_wrap", "gcm", "platform_util", "constant_time"]]
+            library = [str(tls / "library" / f"{name}.c") for name in ["aes", "cipher", "cipher_wrap", "gcm", "platform_util", "constant_time", "sha256", "md", "pkcs5", "base64"]]
+            backup = str(Path(folder) / "backup-test")
+            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', *common, *library, *platform, "tests/native/backup_test.c", "-pthread", "-lm", "-o", backup)
+            run(backup)
             store = str(Path(folder) / "store-cli")
-            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", *platform, "tests/native/store_cli.c", "-pthread", "-lm", "-o", store)
+            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "main/app_backup.c", *platform, "tests/native/store_cli.c", "-pthread", "-lm", "-o", store)
             run("python3", "tests/native_store.py", store)
+            run("python3", "tests/native_backup_store.py", store)
             run("python3", "tools/embed_web.py", str(Path(folder) / "web_bundle.inc"))
             web = str(Path(folder) / "web-cli")
-            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "main/app_web.c", "main/app_diagnostics_format.c", *platform, "tests/native/web_cli.c", "-pthread", "-lm", "-o", web)
+            run(*flags, "-Itests/native/stubs", "-Imain", f"-I{folder}", f"-I{tls / 'include'}", '-DMBEDTLS_CONFIG_FILE="native_mbedtls_config.h"', '-DSM_STATE_DIRECTORY="state"', *common, *library, "main/app_store.c", "main/app_backup.c", "main/app_web.c", "main/app_diagnostics_format.c", *platform, "tests/native/web_cli.c", "-pthread", "-lm", "-o", web)
             run("python3", "tests/native_web.py", web)
 
 if __name__ == "__main__":

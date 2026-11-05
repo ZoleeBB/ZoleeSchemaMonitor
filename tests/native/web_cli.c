@@ -1,6 +1,7 @@
 #include "app_diagnostics.h"
 #include "app_network.h"
 #include "app_store.h"
+#include "app_backup.h"
 #include "app_web.h"
 #include "app_ota.h"
 #include "app_assets.h"
@@ -114,10 +115,10 @@ int httpd_req_recv(httpd_req_t *request, char *out, size_t size)
 
 int main(void)
 {
-    char *input = malloc(SM_PROJECT_BYTES + 4096);
+    char *input = malloc(APP_BACKUP_HTTP_BYTES + 8192);
     assert(input);
-    size_t length = fread(input, 1, SM_PROJECT_BYTES + 4096, stdin);
-    cJSON *json = sm_json_parse(input, length);
+    size_t length = fread(input, 1, APP_BACKUP_HTTP_BYTES + 8192, stdin);
+    cJSON *json = sm_json_parse_limit(input, length, APP_BACKUP_HTTP_BYTES + 8192);
     free(input);
     assert(json);
     s_input_headers = cJSON_GetObjectItemCaseSensitive(json, "headers");
@@ -194,5 +195,11 @@ esp_err_t app_release_start(bool firmware)
 }
 cJSON *app_release_status(void)
 {
-    return cJSON_Parse("{\"busy\":true,\"phase\":\"release\"}");
+    return cJSON_Parse(getenv("BACKUP_BUSY") ? "{\"busy\":true,\"phase\":\"release\"}"
+                                             : "{\"busy\":false,\"phase\":\"release\"}");
+}
+
+bool app_network_restart_pending(void)
+{
+    return s_restart;
 }

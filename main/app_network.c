@@ -230,3 +230,13 @@ void app_network_restart_later(void)
     s_restart = esp_timer_get_time() + 3000000;
     xSemaphoreGive(s_lock);
 }
+
+bool app_network_restart_pending(void)
+{
+    if (!s_lock)
+        return false;
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    bool pending = s_restart != 0;
+    xSemaphoreGive(s_lock);
+    return pending;
+}
