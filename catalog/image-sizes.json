@@ -131,6 +131,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/stainless-hot-water-tank.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/heating-expansion-vessel.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/potable-expansion-vessel.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/open-expansion-tank.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
