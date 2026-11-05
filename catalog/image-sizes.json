@@ -416,6 +416,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/heating-circuit.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/cooling-circuit.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/solar-collector.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
