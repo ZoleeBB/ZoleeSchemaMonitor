@@ -536,6 +536,26 @@
             "role": "preview",
             "width": 1280,
             "height": 853
+        },
+        "assets/elements/universal/plate-exchanger.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/tubular-exchanger.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/hydraulic-separator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/mixing-unit.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
