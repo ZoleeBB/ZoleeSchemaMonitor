@@ -42,7 +42,8 @@ jobs:
       - name: A natív katalógus naprakész
         run: |
           python3 tools/generate_catalog.py
-          git diff --exit-code -- components/schema_model/schema_catalog.inc
+          python3 tools/generate_catalog_report.py
+          git diff --exit-code -- components/schema_model/schema_catalog.inc doc/grafika/keszlet.md
       - run: npm test
       - run: python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Fordítható hordozható C-mag

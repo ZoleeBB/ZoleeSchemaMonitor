@@ -184,6 +184,225 @@ leak-sensor|Szivárgásérzékelő|Leak sensor
 frost-sensor|Fagyérzékelő|Frost sensor
 filter-pressure-switch|Szűrő nyomáskapcsoló|Filter pressure switch
 """),
+    ("heating", "heat-pump", """
+monobloc-heat-pump|Monoblokk levegő-víz hőszivattyú|Monobloc air-to-water heat pump
+split-heat-pump|Split levegő-víz hőszivattyú|Split air-to-water heat pump
+high-temperature-heat-pump|Magas hőmérsékletű hőszivattyú|High temperature heat pump
+reversible-heat-pump|Reverzibilis hőszivattyú|Reversible heat pump
+ground-source-heat-pump|Talajszondás hőszivattyú|Ground source heat pump
+water-source-heat-pump|Víz-víz hőszivattyú|Water source heat pump
+absorption-chiller|Abszorpciós folyadékhűtő|Absorption chiller
+rooftop-chiller|Tetőre telepített folyadékhűtő|Rooftop chiller
+dry-cooler|Szárazhűtő|Dry cooler
+"""),
+    ("heating", "boiler", """
+floor-standing-boiler|Álló gázkazán|Floor standing gas boiler
+oil-boiler|Olajtüzelésű kazán|Oil boiler
+condensing-boiler|Kondenzációs kazán|Condensing boiler
+wood-gasification-boiler|Faelgázosító kazán|Wood gasification boiler
+wood-chip-boiler|Aprítéktüzelésű kazán|Wood chip boiler
+biomass-boiler|Biomassza kazán|Biomass boiler
+micro-chp|Mikro kapcsolt hő- és áramtermelő|Micro CHP unit
+steam-boiler|Gőzkazán|Steam boiler
+"""),
+    ("heating", "radiator", """
+panel-radiator|Acéllemez lapradiátor|Steel panel radiator
+column-radiator|Oszlopradiátor|Column radiator
+cast-iron-radiator|Öntöttvas radiátor|Cast iron radiator
+trench-convector|Padlókonvektor|Trench convector
+cassette-fan-coil|Kazettás fan-coil|Cassette fan coil
+ducted-fan-coil|Légcsatornás fan-coil|Ducted fan coil
+cassette-air-conditioner|Kazettás klíma beltéri|Cassette AC indoor unit
+"""),
+    ("storage", "tank", """
+horizontal-buffer|Fekvő puffertartály|Horizontal buffer tank
+rectangular-buffer|Szögletes puffertartály|Rectangular buffer tank
+stratified-buffer|Rétegtárolós puffer|Stratified buffer tank
+combi-storage|Kombinált hőtároló|Combined thermal store
+indirect-water-heater|Indirekt HMV tároló|Indirect water heater
+tank-in-tank|Tartály a tartályban tároló|Tank-in-tank store
+solar-hot-water-tank|Szolár HMV tároló|Solar hot water tank
+heat-pump-water-heater|Hőszivattyús vízmelegítő|Heat pump water heater
+stainless-hot-water-tank|Rozsdamentes HMV tartály|Stainless hot water cylinder
+heating-expansion-vessel|Fűtési membrános tágulási tartály|Heating membrane expansion vessel
+potable-expansion-vessel|Ivóvizes tágulási tartály|Potable water expansion vessel
+open-expansion-tank|Nyitott tágulási tartály|Open expansion tank
+condensate-receiver|Kondenzátumgyűjtő tartály|Condensate receiver
+brine-tank|Sóoldattartály|Brine tank
+underground-cistern|Föld alatti víztároló|Underground cistern
+"""),
+    ("hydraulics", "pump", """
+end-suction-pump|Végszívású centrifugálszivattyú|End suction centrifugal pump
+long-coupled-pump|Hosszú tengelykapcsolós szivattyú|Long coupled pump
+vertical-multistage-pump|Függőleges többfokozatú szivattyú|Vertical multistage pump
+horizontal-multistage-pump|Vízszintes többfokozatú szivattyú|Horizontal multistage pump
+twin-inline-pump|Iker inline szivattyú|Twin inline pump
+jet-pump|Jet rendszerű szivattyú|Jet pump
+self-priming-pump|Önfelszívó szivattyú|Self priming pump
+piston-pump|Dugattyús szivattyú|Piston pump
+diaphragm-pump|Membránszivattyú|Diaphragm pump
+gear-pump|Fogaskerék-szivattyú|Gear pump
+condensate-pump|Kondenzvízszivattyú|Condensate pump
+sewage-lifting-station|Szennyvízátemelő telep|Sewage lifting station
+macerator-pump|Darálós szennyvízszivattyú|Macerator pump
+vertical-sump-pump|Függőleges aknaszivattyú|Vertical sump pump
+hydraulic-ram-pump|Vízütéses szivattyú|Hydraulic ram pump
+split-case-pump|Osztott házas szivattyú|Split case pump
+vortex-pump|Örvénykerekes szivattyú|Vortex pump
+"""),
+    ("hydraulics", "exchanger", """
+brazed-plate-exchanger|Forrasztott lemezes hőcserélő|Brazed plate exchanger
+gasketed-plate-exchanger|Tömítéses lemezes hőcserélő|Gasketed plate exchanger
+shell-and-tube-exchanger|Csőköteges hőcserélő|Shell and tube exchanger
+coil-exchanger|Csőkígyós hőcserélő|Coil heat exchanger
+tube-in-tube-exchanger|Cső a csőben hőcserélő|Tube in tube exchanger
+freshwater-station|Frissvízmodul|Fresh water station
+"""),
+    ("hydraulics", "manifold", """
+manifold-3|Osztó-gyűjtő 3 kör|3 circuit manifold
+manifold-5|Osztó-gyűjtő 5 kör|5 circuit manifold
+manifold-7|Osztó-gyűjtő 7 kör|7 circuit manifold
+manifold-9|Osztó-gyűjtő 9 kör|9 circuit manifold
+"""),
+    ("hydraulics", "filter", """
+duplex-strainer|Iker kosaras szűrő|Duplex strainer
+basket-strainer|Kosaras szűrő|Basket strainer
+prefilter|Előszűrő|Prefilter
+backwash-filter|Visszamosható vízszűrő|Backwashing water filter
+activated-carbon-filter|Aktívszén-szűrő|Activated carbon filter
+iron-removal-filter|Vastalanító szűrő|Iron removal filter
+reverse-osmosis|Fordított ozmózisos egység|Reverse osmosis unit
+hydrocyclone|Hidrociklon|Hydrocyclone
+combined-air-dirt-separator|Kombinált lég- és iszapleválasztó|Combined air and dirt separator
+"""),
+    ("valves", "valve", """
+butterfly-valve|Kézi pillangószelep|Manual butterfly valve
+motor-butterfly-valve|Motoros pillangószelep|Motorized butterfly valve
+wafer-check-valve|Ostya visszacsapó szelep|Wafer check valve
+swing-check-valve|Lengő visszacsapó szelep|Swing check valve
+spring-check-valve|Rugós visszacsapó szelep|Spring check valve
+double-check-valve|Kettős visszacsapó szelep|Double check valve
+angle-shutoff-valve|Sarokelzáró|Angle shut-off valve
+gate-valve|Tolózár|Gate valve
+globe-control-valve|Ülékes szabályozószelep|Globe control valve
+diaphragm-valve|Membránszelep|Diaphragm valve
+needle-valve|Tűszelep|Needle valve
+pinch-valve|Tömlős elzárószelep|Pinch valve
+thermostatic-mixing-valve|Termosztatikus keverőszelep|Thermostatic mixing valve
+thermostatic-diverting-valve|Termosztatikus váltószelep|Thermostatic diverting valve
+mixing-valve-4|Négyjáratú keverőszelep|Four-way mixing valve
+changeover-valve-6|Hatjáratú átváltószelep|Six-way changeover valve
+pressure-independent-valve|Nyomásfüggetlen szabályozószelep|Pressure independent control valve
+differential-pressure-valve|Nyomáskülönbség-szabályozó szelep|Differential pressure control valve
+pressure-relief-valve|Nyomástartó lefúvatószelep|Pressure relief valve
+float-ball-valve|Úszógolyós szelep|Float ball valve
+tank-float-valve|Tartálytöltő úszószelep|Tank float valve
+boiler-fill-valve|Automatikus kazántöltő|Automatic boiler fill valve
+reduced-pressure-backflow|Csökkentett nyomású visszafolyásgátló|Reduced pressure backflow preventer
+sewage-backwater-valve|Szennyvíz visszatorlódás-gátló|Sewage backwater valve
+automatic-bypass-valve|Automatikus bypass szelep|Automatic bypass valve
+"""),
+    ("ventilation", "fan", """
+wall-axial-fan|Fali axiálventilátor|Wall axial fan
+centrifugal-fan|Radiálventilátor|Centrifugal fan
+ec-inline-fan|EC csőventilátor|EC inline fan
+mixed-flow-fan|Félradiális csőventilátor|Mixed flow duct fan
+box-fan|Dobozventilátor|Box fan
+smoke-extract-fan|Hő- és füstelvezető ventilátor|Smoke extract fan
+destratification-fan|Légrétegződést megszüntető ventilátor|Destratification fan
+grease-extract-fan|Konyhai zsíroslevegő-elszívó|Kitchen grease extract fan
+"""),
+    ("ventilation", "ahu", """
+counterflow-heat-recovery|Ellenáramú hővisszanyerő|Counterflow heat recovery
+crossflow-heat-recovery|Keresztáramú hővisszanyerő|Crossflow heat recovery
+enthalpy-heat-recovery|Entalpiás hővisszanyerő|Enthalpy heat recovery
+decentralized-heat-recovery|Decentralizált szellőztető|Decentralized heat recovery
+rooftop-air-handler|Tető légkezelő|Rooftop air handling unit
+modular-air-handler|Moduláris légkezelő|Modular air handling unit
+supply-air-unit|Befúvó légkezelő|Supply air unit
+extract-air-unit|Elszívó légkezelő|Extract air unit
+steam-humidifier|Gőzpárásító|Steam humidifier
+ultrasonic-humidifier|Ultrahangos párásító|Ultrasonic humidifier
+desiccant-dehumidifier|Adszorpciós párátlanító|Desiccant dehumidifier
+"""),
+    ("ventilation", "damper", """
+constant-air-regulator|Állandó térfogatáram-szabályozó|Constant air volume regulator
+circular-vav|Kör keresztmetszetű VAV|Circular VAV box
+rectangular-vav|Négyszögletes VAV|Rectangular VAV box
+smoke-damper|Füstcsappantyú|Smoke damper
+pressure-relief-damper|Túlnyomás-kiegyenlítő zsalu|Pressure relief damper
+backdraft-damper|Visszacsapó légzsalu|Backdraft damper
+ceiling-diffuser|Mennyezeti befúvó|Ceiling diffuser
+slot-diffuser|Résbefúvó|Slot diffuser
+swirl-diffuser|Örvénybefúvó|Swirl diffuser
+weather-louver|Kültéri esővédő zsalu|Weather louver
+acoustic-air-terminal|Akusztikus légszelep|Acoustic air terminal
+"""),
+    ("pool", "pool", """
+overflow-pool|Feszített víztükrű medence|Overflow pool
+spa|Pezsgőmedence|Spa
+pool-cover|Motoros medencetakaró|Motorized pool cover
+solar-pool-cover|Szolár medencetakaró|Solar pool cover
+deck-jet|Perem vízsugár|Deck jet
+waterfall|Vízeséselem|Waterfall feature
+massage-jet|Masszázsbefúvó|Massage jet
+pool-bubbler|Levegőbefúvó élményelem|Pool bubbler
+"""),
+    ("pool", "filter", """
+top-mount-sand-filter|Felsőszelepes homokszűrő|Top mount sand filter
+side-mount-sand-filter|Oldalszelepes homokszűrő|Side mount sand filter
+diatomaceous-filter|Kovaföldszűrő|Diatomaceous earth filter
+ozone-generator|Ózonfertőtlenítő|Ozone generator
+chlorine-feeder|Klóradagoló tartály|Chlorine feeder
+"""),
+    ("pool", "pump", """
+diaphragm-dosing-pump|Membrános vegyszeradagoló|Diaphragm dosing pump
+variable-speed-pool-pump|Változó fordulatú medenceszivattyú|Variable speed pool pump
+"""),
+    ("pool", "valve", """
+automatic-multiport-valve|Automatikus hatállású szelep|Automatic multiport valve
+"""),
+    ("pool", "heat-pump", """
+inverter-pool-heat-pump|Inverteres medence hőszivattyú|Inverter pool heat pump
+"""),
+    ("irrigation", "sprinkler", """
+rotary-nozzle|Forgó fúvóka|Rotary nozzle
+impact-sprinkler|Kalapácsos szórófej|Impact sprinkler
+bubbler-emitter|Buborékoltató öntöző|Bubbler emitter
+dripper|Pontszerű csepegtető|Point drip emitter
+drip-tape|Csepegtető szalag|Drip tape
+porous-hose|Szivárogtató tömlő|Porous soaker hose
+irrigation-hydrant|Öntözővíz-csatlakozó|Irrigation hydrant
+irrigation-controller|Öntözésvezérlő|Irrigation controller
+"""),
+    ("irrigation", "valve", """
+angle-irrigation-valve|Sarok öntözőszelep|Angle irrigation valve
+latching-irrigation-valve|Bistabil öntözőszelep|Latching irrigation valve
+quick-coupling-valve|Gyorscsatlakozó szelep|Quick coupling valve
+fertigation-injector|Venturi tápoldatbekeverő|Venturi fertilizer injector
+"""),
+    ("sensors", "sensor", """
+outdoor-temperature-sensor|Külső hőmérséklet-érzékelő|Outdoor temperature sensor
+duct-temperature-sensor|Légcsatorna-hőmérséklet érzékelő|Duct temperature sensor
+immersion-temperature-sensor|Merülő hőmérséklet-érzékelő|Immersion temperature sensor
+strap-on-temperature-sensor|Csőre szerelt hőmérséklet-érzékelő|Strap-on temperature sensor
+infrared-temperature-sensor|Infravörös hőmérséklet-érzékelő|Infrared temperature sensor
+room-temperature-sensor|Szobahőmérséklet-érzékelő|Room temperature sensor
+combined-climate-sensor|Kombinált hőmérséklet-páratartalom érzékelő|Combined temperature and humidity sensor
+air-differential-pressure-sensor|Levegő nyomáskülönbség-érzékelő|Air differential pressure sensor
+water-differential-pressure-sensor|Víz nyomáskülönbség-érzékelő|Water differential pressure sensor
+differential-temperature-sensor|Hőmérséklet-különbség érzékelő|Differential temperature sensor
+ultrasonic-flow-meter|Ultrahangos térfogatárammérő|Ultrasonic flow meter
+magnetic-flow-meter|Elektromágneses térfogatárammérő|Electromagnetic flow meter
+turbidity-sensor|Zavarosságérzékelő|Turbidity sensor
+conductivity-sensor|Vezetőképesség-érzékelő|Conductivity sensor
+salinity-sensor|Sótartalom-érzékelő|Salinity sensor
+free-chlorine-sensor|Szabadklór-érzékelő|Free chlorine sensor
+dissolved-oxygen-sensor|Oldottoxigén-érzékelő|Dissolved oxygen sensor
+carbon-monoxide-sensor|Szén-monoxid-érzékelő|Carbon monoxide sensor
+air-velocity-sensor|Légsebesség-érzékelő|Air velocity sensor
+gas-meter|Gázmérő|Gas meter
+"""),
 ]
 
 CATEGORIES = {
@@ -196,6 +415,22 @@ CATEGORIES = {
     "irrigation": {"hu": "Öntözés", "en": "Irrigation"},
     "sensors": {"hu": "Mérések / érzékelők", "en": "Measurements / sensors"},
 }
+
+
+# A jóváhagyott vásznakhoz regisztrált csonkok és mozgó rétegek.
+# A világos/sötét oldal ugyanazt az átlátszó képet használhatja.
+ARTWORK = {
+    "circulation-pump": ("circulation-pump", [(0.05, 0.58), (0.93, 0.58)], ("rotor", 0.484, 0.572, 0.14)),
+    "dhw-pump": ("dhw-pump", [(0.08, 0.61), (0.90, 0.61)], ("rotor", 0.489, 0.608, 0.13)),
+    "well-pump": ("well-pump", [(0.49, 0.09), (0.49, 0.87)], ("status", 0.55, 0.19, 0.025)),
+    "submersible-pump": ("submersible-pump", [(0.45, 0.84), (0.74, 0.46)], ("status", 0.45, 0.24, 0.025)),
+    "booster-pump": ("booster-pump", [(0.08, 0.51), (0.36, 0.33)], ("status", 0.65, 0.31, 0.025)),
+    "sewage-pump": ("sewage-pump", [(0.43, 0.85), (0.80, 0.61)], ("status", 0.43, 0.22, 0.025)),
+    "pool-pump": ("pool-pump", [(0.06, 0.51), (0.47, 0.32)], ("status", 0.68, 0.38, 0.025)),
+    "dosing-pump": ("dosing-pump", [(0.40, 0.84), (0.57, 0.84)], ("status", 0.66, 0.32, 0.025)),
+}
+ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
+ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]
 
 
 def elements():
@@ -217,6 +452,19 @@ def elements():
                 animation = {"kind": "rotor", "x": 0.5, "y": 0.55, "radius": 0.16}
             if family == "sprinkler":
                 animation = {"kind": "spray", "x": 0.5, "y": 0.28, "radius": 0.3}
+            artwork = ARTWORK.get(identifier)
+            if artwork:
+                source, anchors, motion = artwork
+                ports = [{"x": x, "y": y} for x, y in anchors]
+                kind, x, y, radius = motion
+                animation = {"kind": kind, "x": x, "y": y, "radius": radius}
+            if identifier in {"thermostatic-mixing-valve", "thermostatic-diverting-valve", "automatic-multiport-valve"}:
+                ports.append({"x": 0.5, "y": 0.95})
+            if identifier == "mixing-valve-4":
+                ports += [{"x": 0.5, "y": 0.05}, {"x": 0.5, "y": 0.95}]
+            if identifier == "changeover-valve-6":
+                ports = [{"x": x, "y": y} for x, y in [(0.05, 0.3), (0.05, 0.7), (0.95, 0.3), (0.95, 0.7), (0.5, 0.05), (0.5, 0.95)]]
             result.append({"id": identifier, "name": {"hu": hu, "en": en}, "category": category,
-                           "family": family, "ports": ports, "animation": animation})
+                           "family": family, "ports": ports, "animation": animation,
+                           **({"artwork": artwork[0]} if artwork else {})})
     return result

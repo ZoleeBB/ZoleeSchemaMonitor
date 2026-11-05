@@ -4,7 +4,7 @@
 
 **Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, a készülékes integráció és a végleges teljes grafikai készlet még nincs kész.
 
-A **B, térhatásosabb grafikai irány kiválasztva**. A webszerkesztő, a 138 típusú törzskatalógus, a natív animált nézet, a Loxone-kliens, az SD-mentés és a közös firmware–grafika frissítés bekötve. A végleges egyedi grafikák, a valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
+A **B, térhatásosabb grafikai irány kiválasztva**. A webszerkesztő, a 317 típusú törzskatalógus, a natív animált nézet, a Loxone-kliens, az SD-mentés és a közös firmware–grafika frissítés bekötve. Tíz szivattyútípushoz nyolc egyedi PNG-forrás már bekötve; [készletnyilvántartás](doc/grafika/keszlet.md). A további egyedi grafikák, a valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
 
 A kipróbálható számítógépes előnézet indítása:
 

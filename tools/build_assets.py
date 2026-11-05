@@ -126,7 +126,24 @@ def build(output, png=False, version="0.1.0-ms1"):
     files = []
     for element in elements:
         element["graphics"] = {}
+        source = element.pop("artwork", None)
+        element["graphicsStatus"] = "ready" if source else "placeholder"
+        raster = None
+        if source:
+            from image_policy import png_size
+            if not source.replace("-", "").isalnum():
+                raise ValueError("Érvénytelen képforrás")
+            raster = (ROOT / "assets/elements/universal" / (source + ".png")).read_bytes()
+            if png_size(raster) != (160, 160) or raster[24:26] != b"\x08\x06":
+                raise ValueError("160×160-as RGBA PNG szükséges")
         for mode in ["light", "dark"]:
+            if raster is not None:
+                # Egyetlen forráskép: azonos hash esetén nincs dupla letöltés.
+                name = f'{mode}/{element["id"]}.png'
+                atomic_write(output / name, raster)
+                files.append({"path": name, "sha256": hashlib.sha256(raster).hexdigest(), "size": len(raster)})
+                element["graphics"][mode] = name
+                continue
             svg = illustration(element, mode == "dark")
             name = f'{mode}/{element["id"]}.svg'
             atomic_write(output / name, svg)

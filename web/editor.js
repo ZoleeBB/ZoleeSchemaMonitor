@@ -269,6 +269,11 @@ export class Editor {
                             fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${index * 120},${cx},${cy})`}));
                         equipment.append(rotor);
                     }
+                    if (asset.animation?.kind === 'status') {
+                        equipment.append(svgNode('circle', {cx: side * asset.animation.x, cy: side * asset.animation.y,
+                            r: Math.max(2, side * asset.animation.radius), fill: '#596674', stroke: '#e5eff4',
+                            'stroke-width': 1, 'data-status-indicator': '1'}));
+                    }
                     if (!this.preview) asset.ports.forEach((port, index) => equipment.append(svgNode('circle', {cx: port.x * side, cy: port.y * side,
                         r: 5, class: 'port', 'data-port': index})));
                     drawing.append(equipment);
@@ -459,8 +464,16 @@ export class Editor {
             this.motion.set(element.id, motion);
             const rotor = group.querySelector('[data-rotor]');
             if (rotor && live.active) {
-                motion.angle = (motion.angle + 6 * live.speed) % 360;
+                motion.angle = (motion.angle + 18 * live.speed) % 360;
                 rotor.setAttribute('transform', `rotate(${motion.angle},${rotor.dataset.cx},${rotor.dataset.cy})`);
+            }
+            const indicator = group.querySelector('[data-status-indicator]');
+            if (indicator) {
+                if (live.active) motion.angle = (motion.angle + 18 * live.speed) % 360;
+                const color = !live.known ? '#d9a23a' : live.active ? '#36c678' : '#596674';
+                const opacity = live.active ? 0.5 + 0.5 * (Math.sin(motion.angle * Math.PI / 180) + 1) / 2 : 1;
+                if (indicator.getAttribute('fill') !== color) indicator.setAttribute('fill', color);
+                indicator.setAttribute('opacity', opacity);
             }
             if (element.type === 'pipe') {
                 const path = group.querySelector('polyline'), length = path.getTotalLength();

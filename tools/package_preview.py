@@ -16,7 +16,7 @@ with zipfile.ZipFile(DIST / "schema-graphics.zip", "w", zipfile.ZIP_DEFLATED) as
             archive.write(file, "graphics/" + str(file.relative_to(DIST / "graphics")))
 
 with zipfile.ZipFile(DIST / "schema-web-preview.zip", "w", zipfile.ZIP_DEFLATED) as archive:
-    for directory in ["web", "catalog", "tools", "doc", "tests"]:
+    for directory in ["web", "catalog", "tools", "doc", "tests", "assets"]:
         for file in sorted((ROOT / directory).rglob("*")):
             if file.is_file() and "__pycache__" not in file.parts and "graphics" not in file.relative_to(ROOT).parts:
                 archive.write(file, str(file.relative_to(ROOT)))

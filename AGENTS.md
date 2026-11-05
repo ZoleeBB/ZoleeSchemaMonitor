@@ -16,3 +16,5 @@
 - README: rövid alapadatok és linkek a `doc/` alá. PR-zárásonként a verzióváltozások a `doc/verziotortenet/` könyvtárba kerüljenek.
 
 - A nagy felbontású grafikai munkaképek nem kerülhetnek a Gitbe. Raszter csak a `catalog/image-sizes.json` jegyzékben rögzített pixelmérettel és célból vehető fel; ellenőrzés: `python3 tools/image_policy.py` (a Git-indexet olvassa). Csoportonként külön világos/sötét látványterv szükséges a végleges képek bekötése előtt.
+
+- Az induló készlet célja minimum 300 eszköztípus. A típusszámot és az elkészült egyedi képek számát külön dokumentáljuk. A kicsinyített végleges képeket kis, kezdetben négyképes csomagokban folyamatosan commitoljuk. A szivattyús B stílus jóváhagyva.

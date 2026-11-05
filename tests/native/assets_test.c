@@ -86,6 +86,24 @@ int main(void)
         for (unsigned j = 0; j < 32; j++)
             snprintf(hashes[i] + j * 2, 3, "%02x", digest[j]);
     }
+    /* A 300 feletti paletta két témával és SVG/PNG-vel is beleférjen. */
+    cJSON *large = cJSON_Parse(
+        "{\"format\":\"zolee-assets\",\"version\":\"0.1.0\",\"assetAbi\":1,\"files\":[]}");
+    cJSON *large_files = cJSON_GetObjectItemCaseSensitive(large, "files");
+    for (unsigned i = 0; i <= 2048; i++)
+    {
+        cJSON *entry = cJSON_CreateObject();
+        char path[64];
+        snprintf(path, sizeof(path), "light/type-%u.png", i);
+        cJSON_AddStringToObject(entry, "path", path);
+        cJSON_AddStringToObject(entry, "sha256", hashes[0]);
+        cJSON_AddNumberToObject(entry, "size", strlen(payloads[0]));
+        cJSON_AddItemToArray(large_files, entry);
+        if (i == 1248 || i == 2047)
+            assert(app_assets_manifest_valid(large));
+    }
+    assert(!app_assets_manifest_valid(large));
+    cJSON_Delete(large);
     cJSON *first = manifest(0, 1), *second = manifest(0, 2), *third = manifest(2, 1);
     char future[APP_ASSET_ID_SIZE], later[APP_ASSET_ID_SIZE];
     snprintf(future, sizeof(future), "ZSM-ASSETS-1:%064d", 1);

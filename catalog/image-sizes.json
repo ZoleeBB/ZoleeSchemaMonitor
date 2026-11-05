@@ -46,6 +46,11 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "doc/grafika/latvanytervek/02-tarolok-hmv.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
         }
     }
 }

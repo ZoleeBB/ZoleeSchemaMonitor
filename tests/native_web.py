@@ -22,7 +22,7 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
     def decoded(response): return json.loads(response["body"])
     assert call("/editor")["status"] == "200 OK"
     assert b"new Editor" in call("/app.js")["body"]
-    assert len(decoded(call("/catalog.json"))["elements"]) == 138
+    assert len(decoded(call("/catalog.json"))["elements"]) >= 300
     assert call("/api/settings", override={"Host":"evil.example"})["status"].startswith("403")
     project = decoded(call("/api/project"))["project"]
     payload = {"project":project, "revision":0}

@@ -37,11 +37,11 @@ typedef struct
     double minimum, maximum, phase, length;
     unsigned point_count, decimals;
     int direction;
-    lv_obj_t *value_label, *power_label, *body, *dots[3], *rotor;
+    lv_obj_t *value_label, *power_label, *body, *dots[3], *rotor, *indicator;
     lv_point_precise_t rotor_points[2];
     double rotor_x, rotor_y, rotor_radius;
     char unit[100], last_value[160], last_power[64];
-    int last_opacity;
+    int last_opacity, last_indicator_color, last_indicator_opacity;
     bool rotor_initialized;
 } runtime_t;
 static SCENE_BSS runtime_t s_runtime[SM_MAX_ELEMENTS];
@@ -181,6 +181,23 @@ void app_scene_update(unsigned elapsed_ms)
                     dot_position(runtime, i, runtime->dots[n], distance);
                 }
             }
+        if (runtime->indicator)
+        {
+            int color = !state.known ? 0xd9a23a : state.active ? 0x36c678 : 0x596674;
+            int opacity = state.known ? LV_OPA_COVER : LV_OPA_50;
+            if (state.active)
+                opacity = 128 + (int)(127 * (sin(runtime->phase * 6.283185307179586) + 1) / 2);
+            if (runtime->last_indicator_color != color)
+            {
+                lv_obj_set_style_bg_color(runtime->indicator, lv_color_hex(color), 0);
+                runtime->last_indicator_color = color;
+            }
+            if (runtime->last_indicator_opacity != opacity)
+            {
+                lv_obj_set_style_opa(runtime->indicator, opacity, 0);
+                runtime->last_indicator_opacity = opacity;
+            }
+        }
         if (runtime->rotor && (!runtime->rotor_initialized || state.active))
         {
             double angle = runtime->phase * 6.283185307179586;
@@ -500,6 +517,22 @@ void app_scene_poll(void)
             if (cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(element, "showPower")))
                 runtime->power_label = label(s_root, "— %", x, y + h + 24, color);
             const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
+            if (asset && asset->animation == 3)
+            {
+                double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
+                double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
+                int radius = fmax(2, asset->animation_radius * side);
+                runtime->indicator = lv_obj_create(s_root);
+                lv_obj_remove_style_all(runtime->indicator);
+                lv_obj_set_size(runtime->indicator, radius * 2, radius * 2);
+                lv_obj_set_pos(runtime->indicator,
+                               x + w / 2.0 + px * cos(angle) - py * sin(angle) - radius,
+                               y + h / 2.0 + px * sin(angle) + py * cos(angle) - radius);
+                lv_obj_set_style_radius(runtime->indicator, LV_RADIUS_CIRCLE, 0);
+                lv_obj_set_style_bg_opa(runtime->indicator, LV_OPA_COVER, 0);
+                lv_obj_set_style_border_color(runtime->indicator, lv_color_hex(0xe5eff4), 0);
+                lv_obj_set_style_border_width(runtime->indicator, 1, 0);
+            }
             if (asset && asset->animation == 1)
             {
                 double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;

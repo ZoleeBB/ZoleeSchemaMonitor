@@ -209,6 +209,26 @@ int main(void)
     picture_t absent = load_picture(manifest, "circulation-pump", false, &prior, 1);
     assert(!absent.bytes);
     cJSON_Delete(manifest);
+    /* Zárt pumpaháznál nem rajzolunk forgó lapátot a tömör felületre. */
+    cJSON *equipment = cJSON_GetArrayItem(cJSON_GetObjectItem(second, "elements"), 148);
+    cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("well-pump"));
+    s_test_revision++;
+    app_scene_poll();
+    assert(s_runtime[148].indicator && !s_runtime[148].rotor);
+    s_test_valid = true;
+    s_test_power = 45;
+    app_scene_update(100);
+    assert(s_runtime[148].last_indicator_color == 0x36c678);
+    int brightness = s_runtime[148].last_indicator_opacity;
+    app_scene_update(100);
+    assert(s_runtime[148].last_indicator_opacity != brightness);
+    s_test_power = 10;
+    app_scene_update(100);
+    assert(s_runtime[148].last_indicator_color == 0x596674);
+    s_test_valid = false;
+    app_scene_update(100);
+    assert(s_runtime[148].last_indicator_color == 0xd9a23a);
+    assert(s_runtime[148].last_indicator_opacity == LV_OPA_50);
     puts("LVGL scene: geometry, paging, activity precedence, power thresholds, reverse flow, "
          "rotor, values, disconnect, theme, brightness and shared PNG cache OK");
     return 0;

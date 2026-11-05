@@ -31,7 +31,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(url + '/editor');
     await page.waitForSelector('[data-asset="circulation-pump"]');
-    assert.equal(await page.locator('[data-asset]').count(), 138);
+    assert.equal((await page.locator('[data-asset]').count()) >= 300, true);
     await page.locator('[data-asset="circulation-pump"]').click();
     assert.equal(await page.locator('svg [data-element]').count(), 1);
     await page.locator('[data-property="label"]').fill('Szivattyú <teszt>');
@@ -203,6 +203,23 @@ try {
         assert.equal(restores, 2);
         await page.screenshot({path: '.browser-test/backup-hu.png', fullPage: true});
     }
+    await page.goto(url + '/editor');
+    await page.waitForSelector('[data-asset="well-pump"]');
+    await page.locator('[data-asset="well-pump"]').click();
+    await page.waitForSelector('[data-status-indicator]');
+    await page.locator('[data-binding="activity"]').click();
+    await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+    await page.locator('#binding-apply').click();
+    let pumpLive = {connected: true, values: {'12345678-1234-5678-0102030405060708': 1}, status: 'test'};
+    await page.route('**/api/live', route => route.fulfill({json: pumpLive}));
+    await page.waitForFunction(() => document.querySelector('[data-status-indicator]').getAttribute('fill') === '#36c678');
+    const pulse = await page.locator('[data-status-indicator]').getAttribute('opacity');
+    await page.waitForFunction(value => document.querySelector('[data-status-indicator]').getAttribute('opacity') !== value, pulse);
+    pumpLive.values['12345678-1234-5678-0102030405060708'] = 0;
+    await page.waitForFunction(() => document.querySelector('[data-status-indicator]').getAttribute('fill') === '#596674');
+    pumpLive.connected = false;
+    await page.waitForFunction(() => document.querySelector('[data-status-indicator]').getAttribute('fill') === '#d9a23a');
+    await page.screenshot({path: '.browser-test/editor-pumps.png', fullPage: true});
     assert.deepEqual(errors, []);
     console.log('Chromium: editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry and diagnostic live refresh/HU-EN/escaping OK');
 } finally {

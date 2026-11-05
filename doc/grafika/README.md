@@ -4,7 +4,7 @@ A kiválasztott irány a **B: finoman térhatásos, egységes műszaki illusztr�
 
 ## Első csoport: szivattyúk
 
-**Állapot: látványterv, még nem végleges futásidejű grafika.**
+**Állapot: a szivattyús stílus jóváhagyva. Az első 8 PNG-forrás bekötve 10 katalógustípushoz.**
 
 ![Szivattyúk – világos és sötét látványterv](latvanytervek/01-szivattyuk.jpg)
 
@@ -56,4 +56,28 @@ python3 tools/image_policy.py
 
 Az ellenőrzés a **Git-index tartalmát** olvassa, nem a munkapéldányt. Így ugyanazt vizsgálja helyben és a CI-ben, ami a commitba kerül. A nem jegyzett képet, a hiányzó jegyzett fájlt, az eltérő pixelméretet, a túl nagy fájlt és a hibás PNG-fejlécet elutasítja. A runtime elemkép csak PNG lehet; dokumentációban megengedett a kis JPEG is. Az SVG-források vektorosak, nem tartoznak a raszterjegyzékbe.
 
-A generált `web/graphics/` és `dist/graphics/` készletek továbbra sem verziózott fájlok. A jelenlegi generátor 160×160 PNG-ket állít elő; a jóváhagyott egyedi képek átvételét és OTA-forrásazonosítóba kötését a későbbi bekötésnek kell biztosítania. Ebben a változásban a futásidejű rajzcsaládok és az OTA grafikai azonosítója nem változott.
+A generált `web/graphics/` és `dist/graphics/` készletek továbbra sem verziózott fájlok. A jelenlegi generátor 160×160 PNG-ket állít elő; a jóváhagyott egyedi képek átvételét és OTA-forrásazonosítóba kötését az alább leírt generátor végzi. Az első méretvédelmi változás még nem érintette az OTA-azonosítót; az egyedi képek alább leírt bekötése már igen.
+
+## Bekötött szivattyúk és folytatás
+
+A források `assets/elements/universal/` alatt vannak. Egy forrásból képződik a világos és sötét csomagútvonal; a hash szerinti deduplikáció így a témák és a valóban közös hardverkialakítások között is működik. A készülék nem tölt le két példányt ugyanabból a képből.
+
+A keringető és HMV-keringető üres középső felületére külön mozgó rotor kerül. A zárt kútszivattyú, merülő-, nyomásfokozó-, szennyvíz-, medence- és adagolószivattyú pulzáló üzemjelzőt kap: aktív zöld, kikapcsolva szürke, ismeretlen adatnál borostyán. A teljesítményjel az ütemet is befolyásolja. Az animációk nem módosítják a PNG-t, és a frissítésükben nincs SD-olvasás vagy képenkénti memóriafoglalás.
+
+A csonk- és animációkoordináták a firmware-katalógusban, az új vásznakhoz regisztrálva szerepelnek. Korábban tervezett oldal importjánál a csővégek illeszkedését ellenőrizni kell az új kialakításokon; nem végzünk automatikus, rejtett rajzátalakítást.
+
+A generátor a kész PNG-ket átveszi, a további típusoknál megtartja a műszaki helyőrzőket. A natív katalógus és a webszerkesztő ugyanazokat a port- és animációadatokat kapja. Az OTA-forrásazonosító a PNG-k tartalmát és a grafikai függőségverziókat is lefedi. Az új teljes csomaghoz új firmware kell; a korábbi firmware-hez kötött készletek megmaradnak.
+
+A minimum 300 eszközhöz **317 típus** van előkészítve. Ez nem 317 kész kép: [tételes készlet és állapot](keszlet.md). Következő csoportok: tárolók/HMV; hőtermelők; szelepek; hőleadók és hidraulika; légtechnika; medence; öntözés; érzékelők. Minden csoporthoz külön világos/sötét látványterv készül, a végleges képek további kis csomagokban kerülnek fel.
+
+A teljes, jelenlegi PNG/SVG kiadási csomag 1249 bejegyzés, a manifest körülbelül 153 KiB, a logikai fájlméretek összege körülbelül 3,8 MiB. A fájlszámkorlát 2048 lett; a 256 KiB-os manifest-, 4 MiB/fájl- és 128 MiB összméretkorlát változatlan. A teljes csomag előállítható, az új egyedi rajzok készültségét ez nem helyettesíti.
+
+[Gyártói tájékozódási pontok](forrasok.md).
+
+## Második csoport: tárolók / HMV
+
+**Állapot: csoportos látványterv; a 24 tárolótípus egyedi PNG-i még készítésre várnak.**
+
+![Tárolók és HMV – világos/sötét látványterv](latvanytervek/02-tarolok-hmv.jpg)
+
+Balról jobbra: sima álló puffer, egyspirálos HMV tároló, kétspirálos tároló, fekvő puffer; alul fűtési tágulási tartály, hidrofor, bordázott esővíztároló, szögletes hőtároló. A további tárolóváltozatokat a tételes készlet tartalmazza. A metszeti ablak kizárólag az eszköz felismerhetőségét segíti; nem gyártói belső szerkezeti terv.

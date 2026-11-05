@@ -4,8 +4,10 @@ execute_process(COMMAND ${PYTHON} "${CMAKE_CURRENT_LIST_DIR}/../tools/build_asse
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/.." COMMAND_ERROR_IS_FATAL ANY)
 execute_process(COMMAND ${PYTHON} "${CMAKE_CURRENT_LIST_DIR}/../tools/embed_web.py" "${CMAKE_CURRENT_BINARY_DIR}/web_bundle.inc"
     COMMAND_ERROR_IS_FATAL ANY)
+file(GLOB_RECURSE ELEMENT_IMAGES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/../assets/elements/*.png")
 file(GLOB WEB_SOURCES "${CMAKE_CURRENT_LIST_DIR}/../web/*.*")
-set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${WEB_SOURCES}
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${WEB_SOURCES} ${ELEMENT_IMAGES}
+    "${CMAKE_CURRENT_LIST_DIR}/../tools/requirements-assets.txt"
     "${CMAKE_CURRENT_LIST_DIR}/../tools/embed_web.py" "${CMAKE_CURRENT_LIST_DIR}/../tools/build_assets.py"
     "${CMAKE_CURRENT_LIST_DIR}/../catalog/elements.py" "${CMAKE_CURRENT_LIST_DIR}/../tools/ota_identity.py")
 

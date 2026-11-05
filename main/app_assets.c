@@ -65,7 +65,7 @@ bool app_assets_manifest_valid(const cJSON *manifest)
         return false;
     const cJSON *files = cJSON_GetObjectItemCaseSensitive(manifest, "files");
     int count = cJSON_GetArraySize(files);
-    if (!cJSON_IsArray(files) || count < 1 || count > 1024)
+    if (!cJSON_IsArray(files) || count < 1 || count > 2048)
         return false;
     double total = 0;
     const cJSON *entry;

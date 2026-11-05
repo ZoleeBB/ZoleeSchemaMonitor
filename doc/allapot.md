@@ -9,7 +9,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
-| Grafika | B irány, 138 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; első szivattyús csoportterv, Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
+| Grafika | B irány, 317 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 10 szivattyútípushoz 8 bekötött egyedi PNG, Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
@@ -51,7 +51,7 @@ A Frissítés oldal a projekt saját, legújabb GitHub-kiadásából induló `up
 
 A leíró rögzíti a kiadási verziót, a grafikai forrásazonosítót, a manifest és a firmware méretét/SHA-256 lenyomatát. A manifest csak a leíróban megjelölt, rögzített tagből tölthető le. Importált projektből vagy HTTP-kérésből URL nem vehető át. Ezek a hashek integritást és fájlösszerendelést biztosítanak, nem digitális aláírást; a megbízhatóság a projekt GitHub-kiadására és a TLS-re épül.
 
-Az SD-tár útvonala `graphics/blobs/<sha256>`. Minden meglévő fájlt méret és hash alapján ellenőrzünk; az ép közös tartalmat nem töltjük le újra. A hiányzó vagy sérült fájl `.part` néven streamelődik, tartós lezárás és teljes méret/hash-ellenőrzés után nevezhető át. A részleges fájl nem számít késznek, a következő kísérlet azt újrakezdi; a teljes, jó blobokat megtartja. A manifest korlátja 256 KiB, 1024 bejegyzés, 4 MiB/fájl, összesen 128 MiB; tiltott útvonal és hash/méret-ellentmondás nem fogadható el.
+Az SD-tár útvonala `graphics/blobs/<sha256>`. Minden meglévő fájlt méret és hash alapján ellenőrzünk; az ép közös tartalmat nem töltjük le újra. A hiányzó vagy sérült fájl `.part` néven streamelődik, tartós lezárás és teljes méret/hash-ellenőrzés után nevezhető át. A részleges fájl nem számít késznek, a következő kísérlet azt újrakezdi; a teljes, jó blobokat megtartja. A manifest korlátja 256 KiB, 2048 bejegyzés, 4 MiB/fájl, összesen 128 MiB; tiltott útvonal és hash/méret-ellentmondás nem fogadható el.
 
 Csak teljes készlethez írunk `graphics/sets/<forrás-hash>.json` kötést. Érvényes kötés fájllistája nem írható át ugyanazon forrásazonosító alatt; hibás kötés a teljes készlet ellenőrzése után javítható. Nincs globális aktív mutató: a firmware saját beégetett azonosítója választja a készletet, így bootloader-visszaálláskor a régi firmware saját grafikát választ. A régi kötések és blobok megmaradnak; automatikus szemétgyűjtés még nincs. Kevés SD-helynél a frissítés hibával leáll, nem törli a korábbi készletet.
 
@@ -73,4 +73,10 @@ A titokmentes sémaexport mellett külön jelszavas, hordozható eszközmentés 
 
 ## Grafikai csoporttervek
 
-Az első szivattyús világos/sötét látványterv elkészült, de még nem végleges futásidejű készlet. A Gitre 1280×853-as, körülbelül 176 KiB-os dokumentációs előnézet került; a nagy munkakép nem. A Git-indexben ellenőrzött méretjegyzék megakadályozza a nem engedélyezett méretű raszterek beemelését. [Csoportterv, méretek és véglegesítési korlátok](grafika/README.md).
+Az első szivattyús világos/sötét látványterv jóváhagyva, az első 8 különálló PNG-forrás már bekötve 10 típushoz. A Gitre 1280×853-as, körülbelül 176 KiB-os dokumentációs előnézet került; a nagy munkakép nem. A Git-indexben ellenőrzött méretjegyzék megakadályozza a nem engedélyezett méretű raszterek beemelését. [Csoportterv, méretek és véglegesítési korlátok](grafika/README.md).
+
+## Szélesített katalógus és első képcsomagok
+
+A minimum 300 eszköz új követelménye alapján 317 firmware-ben rögzített típus szerepel a HU/EN katalógusban. Ez nem 317 kész egyedi grafika: jelenleg 10 szivattyútípus használ 8 jóváhagyott, 160×160-as, átlátszó PNG-forrást. A többi típus a korábbi műszaki rajzcsaláddal próbálható ki. [Tételes, készültséget is jelző lista](grafika/keszlet.md).
+
+A képek két, egyenként négyképes commitban kerültek fel. A nyolc PNG összesen 150 235 bájt, a nagy munkaképek nem részei a repónak. A világos/sötét megjelenítés ugyanazt az átlátszó képet használja, így a közös tartalom SHA szerint deduplikálható. A zárt pumpaházakon pulzáló zöld jelző mutatja az aktivitást, a kikapcsolt állapot szürke, az ismeretlen borostyán. A keringetők külön forgórészréteget kapnak. Fizikai panelen mért képkockaidő továbbra sincs.

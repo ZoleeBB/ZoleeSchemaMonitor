@@ -6,7 +6,7 @@ import os
 import re
 from pathlib import Path
 
-MAX_FILES = 1024
+MAX_FILES = 2048
 MAX_FILE_BYTES = 4 * 1024 * 1024
 MAX_TOTAL_BYTES = 128 * 1024 * 1024
 SHA = re.compile(r"^[0-9a-f]{64}$")
