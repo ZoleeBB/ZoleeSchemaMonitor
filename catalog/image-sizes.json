@@ -396,6 +396,26 @@
             "role": "preview",
             "width": 1280,
             "height": 853
+        },
+        "assets/elements/universal/underfloor-heating.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/wall-heating.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/ceiling-heating.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/ceiling-cooling.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
