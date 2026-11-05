@@ -191,6 +191,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/floor-standing-boiler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/oil-boiler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/condensing-boiler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/wood-gasification-boiler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
