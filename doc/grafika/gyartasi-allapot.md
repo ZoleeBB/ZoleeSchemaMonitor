@@ -2,7 +2,7 @@
 
 ## Aktuális összesítés
 
-**331 külön PNG-forrás, 333 katalógustípus.** A teljes vizuális felülvizsgálat során 8 elemkép új generálást kapott, 12 hazai kínálathoz igazított új típus bekerült. A futásidejű integráció 72 típus / 69 PNG-forrás és egy [paraméterezhető osztó-gyűjtő](../osztogyujtok.md); a többi 260 korábbi helyőrző bekötése hátravan. [Tételes felülvizsgálat és gyártói alapok](vizualis-felulvizsgalat.md). A fizikai panelpróba és az összevont animációs ellenőrzés továbbra is nyitott.
+**331 külön PNG-forrás, 333 katalógustípus.** A teljes vizuális felülvizsgálat során 8 elemkép új generálást kapott, 12 hazai kínálathoz igazított új típus bekerült. A futásidejű integráció 82 típus / 79 PNG-forrás és egy [paraméterezhető osztó-gyűjtő](../osztogyujtok.md); a többi 250 korábbi helyőrző bekötése hátravan. [Tételes felülvizsgálat és gyártói alapok](vizualis-felulvizsgalat.md). A fizikai panelpróba és az összevont animációs ellenőrzés továbbra is nyitott.
 
 Az alábbi táblázatok és bejegyzések a korábbi csomagok időrendben megőrzött állapotait mutatják.
 
@@ -249,3 +249,9 @@ Elkészült: ultrasonic-flow-meter, magnetic-flow-meter, turbidity-sensor, condu
 **A forrásképek gyártása teljes: 319 külön PNG található a repóban, és a katalógus mind a 320 típusához elérhető forrás.** A lefedettség-ellenőrzés a már regisztrált ARTWORK-hozzárendeléseket, a többi típusnál a stabil azonosítóval egyező PNG-t vizsgálta; hiányzó típus nincs. Ez a meglévő fájlok ellenőrzése, nem automatikus futásidejű bekötés. A futásidejű integráció továbbra is 60 típus / 57 forrás; a további 260 típus bekötése és animációs regisztrációja hátravan. [Generálási leírások](promptok/erzekelok-vizminoseg-gaz-10.md).
 
 Ellenőrzés: az új húsz kép pontosan 160×160-as RGBA PNG, üres háttérrel és teljesen fedő tárgyrészekkel; a hat célzott képelőkészítési/méretjegyzék-teszt sikeres. A Git-index képméret- és méretkorlát-ellenőrzése sikeres. A firmware-fordítás, az összevont animációs regresszió és a fizikai P4-próba még hátravan; az MS1 mérföldkő nyitott marad.
+
+## Tíz alapszelep futásidejű bekötése
+
+A golyóscsap, elzárószelep, visszacsapó, mágnesszelep, két- és háromjáratú motoros szelep, váltószelep, termosztatikus szelep, beszabályozó és nyomáscsökkentő meglévő képe bekötve. Nyolc kétjáratú és két háromjáratú típus; a kezelőszervek és a beszabályozó két mérőcsonkja nem vízport. A tíz kép statikus; nem rajzolunk rájuk kitalált külső forgórészt.
+
+![Alapszelepek világos és sötét háttéren](latvanytervek/08e-alapszelepek.jpg)

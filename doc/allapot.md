@@ -114,3 +114,7 @@ A lemezes, forrasztott lemezes, tömítéses lemezes és cső-a-csőben hőcser�
 ### Vizuális felülvizsgálat és paraméterezhető osztók
 
 A 331 PNG-forrás vizuális ellenőrzése dokumentálva: 8 csere, 12 új hazai szerelvénytípus. 333 katalógustípusból 72 egyedi PNG-vel, egy további típus paraméterezhető osztó-gyűjtőként jeleníthető meg; 260 korábbi helyőrző integrációja hátravan. A [2–16 körös osztó](osztogyujtok.md) körönkénti kézi vagy Loxone-százalékkal, kapcsolható csőbekötéssel és négy felhasználással működik. A tulajdonságpanelen minden grafikai elem negyedfordulattal forgatható. A gazdagépes modell-, LVGL- és Chromium-próbák sikeresek; fizikai P4- és Miniserver-próba még nincs. Az MS1 nyitott.
+
+### Alapszelepek és kapcsolt csővégpontok
+
+További tíz meglévő szelepforrás bekötve: 82 típus / 79 PNG és egy paraméterezhető osztó; 250 helyőrző maradt. A két- és háromjáratú motoros szelepek, a kézi elzárók, váltószelep, mágnesszelep és szabályozószerelvények saját porthelyet kapnak. A kapcsolt csővégek már régi oldal betöltésekor is az aktuális kép csonkjait követik; a szabad végek és belső töréspontok megmaradnak. A webes szerkesztő az ilyen igazítást mentendő változásként jelzi; a P4 közvetlenül a megjelenítéshez számolja az aktuális kötést. [Részletek](grafika/alapszelepek.md). Fizikai panelpróba még szükséges.

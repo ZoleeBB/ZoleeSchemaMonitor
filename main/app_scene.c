@@ -522,6 +522,65 @@ static void button(lv_obj_t *parent, const char *text, int x, intptr_t direction
     lv_obj_center(label(object, text, 0, 0, lv_color_white()));
 }
 
+/* A kapcsolt végpontot mindig az aktuális grafika csonkjából számoljuk.
+ * Régi mentésben maradt helyőrző-koordináta nem hagyhat rést az új kép mellett. */
+static bool equipment_port_position(const cJSON *element, unsigned port, int width, int height,
+                                    lv_point_precise_t *result)
+{
+    const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
+    if (!asset || strcmp(sm_json_string(element, "type"), "equipment"))
+        return false;
+    const cJSON *m = cJSON_GetObjectItemCaseSensitive(element, "manifold");
+    sm_point_t anchor;
+    if (m)
+    {
+        unsigned count = sm_json_number(m, "circuits", 0);
+        if (!cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(m, "connections")) || count < 2 ||
+            count > 16 || port >= 2 + 2 * count)
+            return false;
+        if (port < 2)
+            anchor = (sm_point_t){.04, port ? .72 : .30};
+        else
+            anchor = (sm_point_t){.16 + .78 * ((port - 2) / 2 + .5) / count, port % 2 ? .95 : .46};
+    }
+    else
+    {
+        if (port >= asset->port_count)
+            return false;
+        anchor = asset->ports[port];
+    }
+    int x = sm_json_number(element, "x", 0) * width;
+    int y = sm_json_number(element, "y", 0) * height;
+    int w = sm_json_number(element, "w", .1) * width;
+    int h = sm_json_number(element, "h", .1) * height;
+    int side = w < h ? w : h;
+    double dx = (anchor.x - .5) * (m ? w : side), dy = (anchor.y - .5) * (m ? h : side);
+    double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
+    *result = (lv_point_precise_t){x + w / 2.0 + dx * cos(angle) - dy * sin(angle),
+                                   y + h / 2.0 + dx * sin(angle) + dy * cos(angle)};
+    return true;
+}
+
+static void connect_pipe_endpoints(const cJSON *pipe, const cJSON *elements, unsigned index,
+                                   unsigned count, int width, int height)
+{
+    const char *keys[] = {"source", "target"};
+    for (unsigned k = 0; k < 2; k++)
+    {
+        const cJSON *end = cJSON_GetObjectItemCaseSensitive(pipe, keys[k]);
+        const char *id = sm_json_string(end, "element");
+        if (!id[0])
+            continue;
+        const cJSON *equipment;
+        cJSON_ArrayForEach(equipment, elements) if (!strcmp(sm_json_string(equipment, "id"), id))
+        {
+            equipment_port_position(equipment, sm_json_number(end, "port", 999), width, height,
+                                    &s_points[index][k ? count - 1 : 0]);
+            break;
+        }
+    }
+}
+
 void app_scene_poll(void)
 {
     /* Ismeretlen éjszakai jel nem egyenlő nappallal: az utolsó ismert mód marad.
@@ -651,6 +710,8 @@ void app_scene_poll(void)
                 s_points[index][n++] = (lv_point_precise_t){sm_json_number(point, "x", 0) * width,
                                                             sm_json_number(point, "y", 0) * height};
             }
+            if (n >= 2)
+                connect_pipe_endpoints(element, elements, index, n, width, height);
             runtime->point_count = n;
             for (unsigned k = 1; k < n; k++)
                 runtime->length += hypot(s_points[index][k].x - s_points[index][k - 1].x,

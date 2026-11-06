@@ -1736,6 +1736,11 @@
             "role": "preview",
             "width": 1280,
             "height": 960
+        },
+        "doc/grafika/latvanytervek/08e-alapszelepek.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 960
         }
     }
 }

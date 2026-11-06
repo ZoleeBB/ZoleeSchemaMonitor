@@ -236,8 +236,29 @@ export class Editor {
         }
     }
 
+    synchronizeConnections() {
+        const equipment = new Map(this.page.elements.filter(e => e.type === 'equipment').map(e => [e.id, e]));
+        let changed = false;
+        for (const pipe of this.page.elements.filter(e => e.type === 'pipe')) {
+            for (const key of ['source', 'target']) {
+                const end = pipe[key];
+                if (!end || !equipment.has(end.element)) continue;
+                const point = this.portPoint(equipment.get(end.element), end.port);
+                const index = key === 'source' ? 0 : pipe.points.length - 1;
+                const previous = pipe.points[index];
+                if (Math.abs(previous.x - point.x) > 1e-9 || Math.abs(previous.y - point.y) > 1e-9) {
+                    pipe.points[index] = point;
+                    changed = true;
+                }
+            }
+        }
+        // Frissített képhez új csonkhely tartozhat; a tartós mentés továbbra is explicit.
+        if (changed) this.markDirty();
+    }
+
     draw() {
         if (!this.canvas) return;
+        this.synchronizeConnections();
         const {width: w, height: h} = this.size;
         this.canvas.replaceChildren();
         const defs = svgNode('defs');

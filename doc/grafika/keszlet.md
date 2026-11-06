@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 72 típushoz bekötött egyedi kép, 69 külön PNG-forrásból; 1 paraméterezhető műszaki grafika.**
+**333 katalógustípus; 82 típushoz bekötött egyedi kép, 79 külön PNG-forrásból; 1 paraméterezhető műszaki grafika.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -9,7 +9,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | Fűtés / hűtés | 48 | 0 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
 | Hidraulika / vízellátás | 64 | 32 | 0 | 32 |
-| Szelepek | 55 | 12 | 1 | 42 |
+| Szelepek | 55 | 22 | 1 | 32 |
 | Szellőzés / légtechnika | 51 | 0 | 0 | 51 |
 | Medencetechnika | 33 | 4 | 0 | 29 |
 | Öntözés | 23 | 0 | 0 | 23 |
@@ -172,12 +172,12 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `ball-valve` | Golyóscsap | Ball valve | Műszaki helyőrző |
-| `shutoff-valve` | Elzárószelep | Shut-off valve | Műszaki helyőrző |
-| `check-valve` | Visszacsapó szelep | Check valve | Műszaki helyőrző |
-| `solenoid-valve` | Mágnesszelep | Solenoid valve | Műszaki helyőrző |
-| `motor-valve-2` | Kétjáratú motoros szelep | Two-way motor valve | Műszaki helyőrző |
-| `motor-valve-3` | Háromjáratú motoros szelep | Three-way motor valve | Műszaki helyőrző |
+| `ball-valve` | Golyóscsap | Ball valve | [Egyedi kép](../../assets/elements/universal/ball-valve.png) |
+| `shutoff-valve` | Elzárószelep | Shut-off valve | [Egyedi kép](../../assets/elements/universal/shutoff-valve.png) |
+| `check-valve` | Visszacsapó szelep | Check valve | [Egyedi kép](../../assets/elements/universal/check-valve.png) |
+| `solenoid-valve` | Mágnesszelep | Solenoid valve | [Egyedi kép](../../assets/elements/universal/solenoid-valve.png) |
+| `motor-valve-2` | Kétjáratú motoros szelep | Two-way motor valve | [Egyedi kép](../../assets/elements/universal/motor-valve-2.png) |
+| `motor-valve-3` | Háromjáratú motoros szelep | Three-way motor valve | [Egyedi kép](../../assets/elements/universal/motor-valve-3.png) |
 | `black-rotary-valve-3` | Forgatómotoros háromjáratú – menetes | Rotary three-way – threaded | [Egyedi kép](../../assets/elements/universal/black-rotary-valve-3.png) |
 | `black-union-rotary-valve-3` | Forgatómotoros háromjáratú – hollanderes | Rotary three-way – union | [Egyedi kép](../../assets/elements/universal/black-union-rotary-valve-3.png) |
 | `black-flanged-rotary-valve-3` | Forgatómotoros háromjáratú – karimás | Rotary three-way – flanged | [Egyedi kép](../../assets/elements/universal/black-flanged-rotary-valve-3.png) |
@@ -191,10 +191,10 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `radiator-thermostatic-valve-straight` | Termosztatikus radiátorszelep – egyenes | Straight thermostatic radiator valve | [Egyedi kép](../../assets/elements/universal/radiator-thermostatic-valve-straight.png) |
 | `radiator-thermostatic-valve-angle` | Termosztatikus radiátorszelep – sarok | Angle thermostatic radiator valve | [Egyedi kép](../../assets/elements/universal/radiator-thermostatic-valve-angle.png) |
 | `mixing-valve` | Keverőszelep | Mixing valve | Műszaki helyőrző |
-| `diverting-valve` | Váltószelep | Diverting valve | Műszaki helyőrző |
-| `thermostatic-valve` | Termosztatikus szelep | Thermostatic valve | Műszaki helyőrző |
-| `balancing-valve` | Beszabályozó szelep | Balancing valve | Műszaki helyőrző |
-| `pressure-reducer` | Nyomáscsökkentő | Pressure reducing valve | Műszaki helyőrző |
+| `diverting-valve` | Váltószelep | Diverting valve | [Egyedi kép](../../assets/elements/universal/diverting-valve.png) |
+| `thermostatic-valve` | Termosztatikus szelep | Thermostatic valve | [Egyedi kép](../../assets/elements/universal/thermostatic-valve.png) |
+| `balancing-valve` | Beszabályozó szelep | Balancing valve | [Egyedi kép](../../assets/elements/universal/balancing-valve.png) |
+| `pressure-reducer` | Nyomáscsökkentő | Pressure reducing valve | [Egyedi kép](../../assets/elements/universal/pressure-reducer.png) |
 | `safety-valve` | Biztonsági szelep | Safety valve | Műszaki helyőrző |
 | `drain-valve` | Ürítőcsap | Drain valve | Műszaki helyőrző |
 | `fill-valve` | Töltőszelep | Fill valve | Műszaki helyőrző |

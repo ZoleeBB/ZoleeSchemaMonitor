@@ -243,6 +243,10 @@ int main(void)
     cJSON_ReplaceItemInObject(cJSON_GetArrayItem(heads, 2), "percent", cJSON_CreateNumber(.001));
     cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("configurable-manifold"));
     cJSON_AddItemToObject(equipment, "manifold", manifold);
+    cJSON_AddStringToObject(equipment, "id", "manifold-device");
+    cJSON *linked_pipe = cJSON_GetArrayItem(cJSON_GetObjectItem(second, "elements"), 0);
+    cJSON_AddItemToObject(linked_pipe, "source",
+                          cJSON_Parse("{\"element\":\"manifold-device\",\"port\":33}"));
     for (unsigned rotation = 0; rotation < 360; rotation += 90)
     {
         cJSON_DeleteItemFromObject(equipment, "rotation");
@@ -250,6 +254,15 @@ int main(void)
         s_test_revision++;
         app_scene_poll();
         assert(s_head_count == 16);
+        // Az LVGL alapkonfigurációja egész pixeles pontokat használ.
+        double px = (.16 + .78 * 15.5 / 16 - .5) * 80;
+        double py = (.95 - .5) * 128;
+        double angle = rotation * 3.141592653589793 / 180;
+        assert(fabs(s_points[0][0].x - (320 + 40 + px * cos(angle) - py * sin(angle))) < 1.01);
+        assert(fabs(s_points[0][0].y - (512 + 64 + px * sin(angle) + py * cos(angle))) < 1.01);
+        // A szabad végpont változatlan marad.
+        assert(s_points[0][1].x == 720 && s_points[0][1].y == 1024);
+
         s_test_valid = true;
         s_test_activity = .5;
         app_scene_update(50);
@@ -264,6 +277,20 @@ int main(void)
         assert(s_heads[0].last_color == 0xd9a23a);
         assert(!strcmp(lv_label_get_text(s_heads[0].label), "—"));
         assert(s_heads[1].last_color == 0x36c678);
+    }
+    cJSON_DeleteItemFromObject(equipment, "manifold");
+    cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("motor-valve-3"));
+    cJSON_ReplaceItemInObject(cJSON_GetObjectItem(linked_pipe, "source"), "port",
+                              cJSON_CreateNumber(2));
+    for (unsigned rotation = 0; rotation < 360; rotation += 90)
+    {
+        cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(rotation));
+        s_test_revision++;
+        app_scene_poll();
+        double angle = rotation * 3.141592653589793 / 180;
+        assert(s_head_count == 0);
+        assert(fabs(s_points[0][0].x - (360 - 29.2 * sin(angle))) < 1.01);
+        assert(fabs(s_points[0][0].y - (576 + 29.2 * cos(angle))) < 1.01);
     }
     puts("LVGL scene: geometry, paging, activity precedence, power thresholds, reverse flow, "
          "rotor, values, disconnect, theme, brightness and shared PNG cache OK");

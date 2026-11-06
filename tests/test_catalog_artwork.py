@@ -133,6 +133,31 @@ class CatalogArtworkTests(unittest.TestCase):
             self.assertEqual(valve['artwork'], valve['id'])
             self.assertTrue(0 < valve['animation']['radius'] < .2)
 
+    def test_basic_valves_keep_water_ports_away_from_controls_and_measuring_nipples(self):
+        elements = {item['id']: item for item in catalog.elements()}
+        three_way = {'motor-valve-3', 'diverting-valve'}
+        ids = ['ball-valve', 'shutoff-valve', 'check-valve', 'solenoid-valve',
+               'motor-valve-2', 'motor-valve-3', 'diverting-valve',
+               'thermostatic-valve', 'balancing-valve', 'pressure-reducer']
+        for identifier in ids:
+            with self.subTest(identifier=identifier):
+                valve = elements[identifier]
+                self.assertEqual(valve['artwork'], identifier)
+                self.assertEqual(len(valve['ports']), 3 if identifier in three_way else 2)
+                self.assertEqual(valve['animation']['kind'], 'none')
+                # A két átmenő ág két oldalt, a kezelőszervek alatt van.
+                left, right = valve['ports'][:2]
+                self.assertLess(left['x'], .2)
+                self.assertGreater(right['x'], .78)
+                self.assertEqual(left['y'], right['y'])
+                self.assertGreater(left['y'], .5)
+                if identifier in three_way:
+                    third = valve['ports'][2]
+                    self.assertGreater(third['y'], left['y'] + .2)
+                    self.assertTrue(.4 < third['x'] < .6)
+        # A piros/kék mérőcsonkok és a ferde kézikerék nem új csőágak.
+        self.assertTrue(all(port['y'] >= .7 for port in elements['balancing-valve']['ports']))
+
     def test_local_valve_families_keep_fluid_ports_separate_from_actuators(self):
         elements = {item['id']: item for item in catalog.elements()}
         expected = {

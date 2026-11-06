@@ -557,6 +557,19 @@ ARTWORK.update({
         (0.28, 0.87), (0.43, 0.87), (0.58, 0.87), (0.73, 0.87),
     ], ("none", 0, 0, 0)),
 })
+# A kézi szár, tekercs, motorház és mérőcsonkok nem folyadékportok.
+ARTWORK.update({
+    "ball-valve": ("ball-valve", [(0.155, 0.615), (0.795, 0.615)], ("none", 0, 0, 0)),
+    "shutoff-valve": ("shutoff-valve", [(0.18, 0.755), (0.815, 0.755)], ("none", 0, 0, 0)),
+    "check-valve": ("check-valve", [(0.14, 0.575), (0.86, 0.575)], ("none", 0, 0, 0)),
+    "solenoid-valve": ("solenoid-valve", [(0.16, 0.78), (0.84, 0.78)], ("none", 0, 0, 0)),
+    "motor-valve-2": ("motor-valve-2", [(0.19, 0.72), (0.82, 0.72)], ("none", 0, 0, 0)),
+    "motor-valve-3": ("motor-valve-3", [(0.17, 0.59), (0.79, 0.59), (0.50, 0.865)], ("none", 0, 0, 0)),
+    "diverting-valve": ("diverting-valve", [(0.18, 0.52), (0.80, 0.52), (0.49, 0.81)], ("none", 0, 0, 0)),
+    "thermostatic-valve": ("thermostatic-valve", [(0.16, 0.765), (0.85, 0.765)], ("none", 0, 0, 0)),
+    "balancing-valve": ("balancing-valve", [(0.12, 0.70), (0.88, 0.70)], ("none", 0, 0, 0)),
+    "pressure-reducer": ("pressure-reducer", [(0.14, 0.74), (0.86, 0.74)], ("none", 0, 0, 0)),
+})
 ARTWORK["single-coil-tank"] = ARTWORK["hot-water-tank"]
 ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
 ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]

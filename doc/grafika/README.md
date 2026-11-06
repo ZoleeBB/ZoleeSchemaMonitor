@@ -101,3 +101,9 @@ A firmware csomagolója minden típushoz világos és sötét PNG-t követel meg
 2–16 kör, négy felhasználás, opcionális csőcsonkok és körönkénti százalék. A darabszámot a műszaki rajz algoritmusa határozza meg; ez külön paraméterezhető grafika, nem további PNG-forrás. [Használat és ellenőrzés](../osztogyujtok.md).
 
 ![Paraméterezhető osztók – világos és sötét](latvanytervek/08d-parameterezheto-osztok.jpg)
+
+## Alapszelepek: első bekötött tízes csomag
+
+Tíz meglévő PNG saját vízoldali végpontokkal bekötve. [Csomag és ellenőrzés](alapszelepek.md).
+
+![Tíz alapszelep világos és sötét háttéren](latvanytervek/08e-alapszelepek.jpg)

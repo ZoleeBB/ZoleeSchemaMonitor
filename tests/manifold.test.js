@@ -68,3 +68,16 @@ test('rotated manifold ports follow the rectangular graphic; removed ports detac
     assert.equal(pipe.source,null);assert.deepEqual(pipe.points[0],endpoint);assert.equal(pipe.target.port,2);
     e.manifold.connections=false;Editor.prototype.updateConnections.call(context,e);assert.equal(pipe.target,null);
 });
+
+test('loading old pipe coordinates follows current artwork anchors, preserves bends and only marks a real change',()=>{
+    const e=newElement('equipment','motor-valve-3'),pipe=newElement('pipe');
+    pipe.source={element:e.id,port:2};pipe.points=[{x:.01,y:.01},{x:.4,y:.3},{x:.6,y:.7}];
+    let dirty=0;
+    const context={state:{catalog},size:{width:1280,height:800},page:{elements:[pipe,e]},
+        portPoint:Editor.prototype.portPoint,markDirty:()=>dirty++};
+    const bends=structuredClone(pipe.points.slice(1));
+    Editor.prototype.synchronizeConnections.call(context);
+    assert.deepEqual(pipe.points[0],context.portPoint(e,2));
+    assert.deepEqual(pipe.points.slice(1),bends);assert.equal(dirty,1);
+    Editor.prototype.synchronizeConnections.call(context);assert.equal(dirty,1);
+});
