@@ -1071,6 +1071,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/silencer.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/counterflow-heat-recovery.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/crossflow-heat-recovery.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/enthalpy-heat-recovery.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
