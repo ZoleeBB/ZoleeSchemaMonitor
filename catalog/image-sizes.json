@@ -921,6 +921,16 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/sewage-backwater-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/automatic-bypass-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
