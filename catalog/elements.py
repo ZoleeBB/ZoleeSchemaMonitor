@@ -482,6 +482,14 @@ ARTWORK.update({
     "vertical-multistage-pump": ("vertical-multistage-pump", [(0.30, 0.825), (0.70, 0.825)], ("status", 0.61, 0.20, 0.025)),
     "horizontal-multistage-pump": ("horizontal-multistage-pump", [(0.105, 0.55), (0.505, 0.315)], ("status", 0.745, 0.345, 0.025)),
 })
+# A dugattyús gép bal csonkszerű eleme hajtótengely, a fekete sapka olajbetöltő.
+# A membránszivattyú két nagy gyűjtőcsöve a folyadékoldal; a középső szerelvény nem vízport.
+ARTWORK.update({
+    "jet-pump": ("jet-pump", [(0.10, 0.56), (0.40, 0.28)], ("status", 0.70, 0.33, 0.025)),
+    "self-priming-pump": ("self-priming-pump", [(0.11, 0.59), (0.36, 0.16)], ("status", 0.71, 0.37, 0.025)),
+    "piston-pump": ("piston-pump", [(0.68, 0.32), (0.96, 0.585)], ("status", 0.38, 0.45, 0.025)),
+    "diaphragm-pump": ("diaphragm-pump", [(0.51, 0.09), (0.51, 0.91)], ("status", 0.50, 0.38, 0.025)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

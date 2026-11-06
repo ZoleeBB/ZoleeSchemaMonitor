@@ -33,7 +33,8 @@ class CatalogArtworkTests(unittest.TestCase):
 
     def test_closed_pump_housings_have_status_and_two_water_ports(self):
         identifiers = ['end-suction-pump', 'long-coupled-pump',
-                       'vertical-multistage-pump', 'horizontal-multistage-pump']
+                       'vertical-multistage-pump', 'horizontal-multistage-pump',
+                       'jet-pump', 'self-priming-pump', 'piston-pump', 'diaphragm-pump']
         elements = {item['id']: item for item in catalog.elements()}
         for identifier in identifiers:
             with self.subTest(identifier=identifier):
@@ -41,6 +42,15 @@ class CatalogArtworkTests(unittest.TestCase):
                 self.assertEqual(item['artwork'], identifier)
                 self.assertEqual(len(item['ports']), 2)
                 self.assertEqual(item['animation']['kind'], 'status')
+
+    def test_piston_drive_and_diaphragm_air_fittings_are_not_water_ports(self):
+        elements = {item['id']: item for item in catalog.elements()}
+        # A dugattyús gép folyadékoldala a jobb oldali rézfejen van, nem a bal tengelyen.
+        self.assertTrue(all(p['x'] > .6 for p in elements['piston-pump']['ports']))
+        # A membránszivattyú folyadékcsatlakozói a két külső gyűjtőn vannak.
+        ports = elements['diaphragm-pump']['ports']
+        self.assertTrue(any(p['y'] < .15 for p in ports))
+        self.assertTrue(any(p['y'] > .85 for p in ports))
 
     def test_storage_ports_exclude_air_valves_and_service_caps(self):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.

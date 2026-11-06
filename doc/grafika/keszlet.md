@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 41 típushoz bekötött egyedi kép, 38 külön PNG-forrásból.**
+**320 katalógustípus; 45 típushoz bekötött egyedi kép, 42 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,7 +8,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 61 | 12 | 49 |
+| Hidraulika / vízellátás | 61 | 16 | 45 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 2 | 31 |
@@ -133,10 +133,10 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `vertical-multistage-pump` | Függőleges többfokozatú szivattyú | Vertical multistage pump | [Egyedi kép](../../assets/elements/universal/vertical-multistage-pump.png) |
 | `horizontal-multistage-pump` | Vízszintes többfokozatú szivattyú | Horizontal multistage pump | [Egyedi kép](../../assets/elements/universal/horizontal-multistage-pump.png) |
 | `twin-inline-pump` | Iker inline szivattyú | Twin inline pump | Műszaki helyőrző |
-| `jet-pump` | Jet rendszerű szivattyú | Jet pump | Műszaki helyőrző |
-| `self-priming-pump` | Önfelszívó szivattyú | Self priming pump | Műszaki helyőrző |
-| `piston-pump` | Dugattyús szivattyú | Piston pump | Műszaki helyőrző |
-| `diaphragm-pump` | Membránszivattyú | Diaphragm pump | Műszaki helyőrző |
+| `jet-pump` | Jet rendszerű szivattyú | Jet pump | [Egyedi kép](../../assets/elements/universal/jet-pump.png) |
+| `self-priming-pump` | Önfelszívó szivattyú | Self priming pump | [Egyedi kép](../../assets/elements/universal/self-priming-pump.png) |
+| `piston-pump` | Dugattyús szivattyú | Piston pump | [Egyedi kép](../../assets/elements/universal/piston-pump.png) |
+| `diaphragm-pump` | Membránszivattyú | Diaphragm pump | [Egyedi kép](../../assets/elements/universal/diaphragm-pump.png) |
 | `gear-pump` | Fogaskerék-szivattyú | Gear pump | Műszaki helyőrző |
 | `condensate-pump` | Kondenzvízszivattyú | Condensate pump | Műszaki helyőrző |
 | `sewage-lifting-station` | Szennyvízátemelő telep | Sewage lifting station | Műszaki helyőrző |
