@@ -1196,6 +1196,61 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/vav-box.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/constant-air-regulator.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/circular-vav.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/rectangular-vav.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/smoke-damper.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/sand-filter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/cartridge-filter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/uv-disinfection.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/salt-electrolysis.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "doc/grafika/latvanytervek/10-medencetechnika.jpg": {
+            "role": "preview",
+            "width": 960,
+            "height": 960
         }
     }
 }
