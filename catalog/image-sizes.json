@@ -991,6 +991,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/roof-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/centrifugal-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/ec-inline-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/mixed-flow-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
