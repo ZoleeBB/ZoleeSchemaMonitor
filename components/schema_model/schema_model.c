@@ -186,7 +186,7 @@ static bool element_valid(const cJSON *element, char *error)
 {
     if (!fields(element,
                 "|id|type|asset|x|y|w|h|rotation|label|text|color|fontSize|unit|decimals|value|"
-                "activity|power|showPower|points|width|direction|source|target|"))
+                "activity|power|showPower|points|width|direction|source|target|position|"))
         return fail(error, "element.fields");
     const char *type = sm_json_string(element, "type");
     if (!identifier(sm_json_string(element, "id")) ||
@@ -227,6 +227,20 @@ static bool element_valid(const cJSON *element, char *error)
          !sm_power_range_valid(sm_json_number(power, "minimum", NAN),
                                sm_json_number(power, "maximum", NAN))))
         return fail(error, "power.range");
+    /* Hiányzó állásmező a korábbi mentésekben megengedett. */
+    const cJSON *position = cJSON_GetObjectItemCaseSensitive(element, "position");
+    if (position && !cJSON_IsNull(position))
+    {
+        if (strcmp(type, "equipment") || !fields(position, "|source|minimum|maximum|reverse|") ||
+            !sm_binding_validate(cJSON_GetObjectItemCaseSensitive(position, "source")) ||
+            cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(position, "source")) ||
+            !number(position, "minimum", -1e12, 1e12) ||
+            !number(position, "maximum", -1e12, 1e12) ||
+            !sm_power_range_valid(sm_json_number(position, "minimum", NAN),
+                                 sm_json_number(position, "maximum", NAN)) ||
+            !cJSON_IsBool(cJSON_GetObjectItemCaseSensitive(position, "reverse")))
+            return fail(error, "position.range");
+    }
     if (!strcmp(type, "pipe"))
     {
         const cJSON *points = cJSON_GetObjectItemCaseSensitive(element, "points");

@@ -39,6 +39,16 @@ for (const mutate of [
 for (const raw of ['{} {}', JSON.stringify(base) + 'garbage', JSON.stringify(base).replace('"version":1', '"version":1,"version":1'), Buffer.from([123,34,120,34,58,34,0xc0,0x80,34,125])]) {
     assert.notEqual(spawnSync(cli, {input:raw}).status, 0); count++;
 }
+// Az opcionális szelepállást a böngésző és a készülék azonosan fogadja el.
+for (const position of [null,
+    {source: {uuid:'12345678-1234-5678-0102030405060708', scale:1, offset:0}, minimum:2, maximum:10, reverse:true},
+    {source:null, minimum:0, maximum:100, reverse:false},
+    {source: {uuid:'12345678-1234-5678-0102030405060708', scale:1, offset:0}, minimum:10, maximum:10, reverse:false},
+    {source: {uuid:'12345678-1234-5678-0102030405060708', scale:1, offset:0}, minimum:0, maximum:100, reverse:1}]) {
+    const p = structuredClone(base);
+    p.pages[0].elements[0].position = position;
+    check(p);
+}
 const max = newProject();
 max.pages = Array.from({length:10}, (_, n) => ({...max.pages[0], id:`p${n}`, elements:Array.from({length:150}, (_, i) => ({...pump,id:`e${i}`}))}));
 check(max);

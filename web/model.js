@@ -42,7 +42,7 @@ export function validateBinding(binding, path = 'binding') {
 function validateElement(element, assets) {
     object(element, ['id', 'type', 'asset', 'x', 'y', 'w', 'h', 'rotation', 'label', 'text',
         'color', 'fontSize', 'unit', 'decimals', 'value', 'activity', 'power', 'showPower',
-        'points', 'width', 'direction', 'source', 'target'], 'element');
+        'points', 'width', 'direction', 'source', 'target', 'position'], 'element');
     if (typeof element.id !== 'string' || !ID.test(element.id) || !['equipment', 'text', 'value', 'pipe'].includes(element.type)) throw Error('element.id/type');
     text(element.asset, 64, 'asset');
     if (element.type === 'equipment' && !assets.has(element.asset)) throw Error(`element.asset: ${element.asset}`);
@@ -66,6 +66,17 @@ function validateElement(element, assets) {
         number(element.power.minimum, -1e12, 1e12, 'power.minimum');
         number(element.power.maximum, -1e12, 1e12, 'power.maximum');
         if (element.power.maximum <= element.power.minimum) throw Error('power.range');
+    }
+    // Opcionális mező: a korábbi oldalexportok továbbra is érvényesek.
+    if (element.position !== undefined && element.position !== null) {
+        if (element.type !== 'equipment') throw Error('position.type');
+        object(element.position, ['source', 'minimum', 'maximum', 'reverse'], 'position');
+        validateBinding(element.position.source, 'position.source');
+        if (!element.position.source) throw Error('position.source');
+        number(element.position.minimum, -1e12, 1e12, 'position.minimum');
+        number(element.position.maximum, -1e12, 1e12, 'position.maximum');
+        if (element.position.maximum <= element.position.minimum ||
+            typeof element.position.reverse !== 'boolean') throw Error('position.range');
     }
     if (element.type === 'pipe') {
         if (!Array.isArray(element.points) || element.points.length < 2 || element.points.length > LIMITS.points) throw Error('points');

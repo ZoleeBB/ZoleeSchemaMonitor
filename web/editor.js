@@ -391,6 +391,11 @@ export class Editor {
             <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(e.power?.source.uuid || t('none'))}</button></label>
             ${e.power ? `<div class="small-grid"><label>${t('minimum')}<input id="power-min" type="number" step="any" value="${e.power.minimum}"></label><label>${t('maximum')}<input id="power-max" type="number" step="any" value="${e.power.maximum}"></label></div>
                 <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p>` : ''}`;
+        if (e.type === 'equipment') {
+            panel.insertAdjacentHTML('beforeend', `<label>${t('position')}<button class="binding-button" data-binding="position">${this.escape(e.position?.source.uuid || t('none'))}</button></label>
+                ${e.position ? `<div class="small-grid"><label>${t('minimum')}<input id="position-min" type="number" step="any" value="${e.position.minimum}"></label><label>${t('maximum')}<input id="position-max" type="number" step="any" value="${e.position.maximum}"></label></div>
+                <label><input id="position-reverse" type="checkbox" ${e.position.reverse ? 'checked' : ''}>${t('positionReverse')}</label>` : ''}<p class="hint">${t('positionHint')}</p>`);
+        }
         panel.querySelectorAll('[data-property]').forEach(input => input.onchange = () => {
             const key = input.dataset.property;
             const value = input.type === 'number' ? Number(input.value) : input.value;
@@ -409,10 +414,11 @@ export class Editor {
         });
         panel.querySelectorAll('[data-binding]').forEach(button => button.onclick = async () => {
             const key = button.dataset.binding;
-            const binding = await this.chooseBinding(key === 'power' ? e.power?.source : e[key]);
+            const binding = await this.chooseBinding(['power', 'position'].includes(key) ? e[key]?.source : e[key]);
             if (binding === undefined) return;
             this.remember();
             if (key === 'power') e.power = binding ? {source: binding, minimum: e.power?.minimum ?? 0, maximum: e.power?.maximum ?? 100} : null;
+            else if (key === 'position') e.position = binding ? {source: binding, minimum: e.position?.minimum ?? 0, maximum: e.position?.maximum ?? 100, reverse: e.position?.reverse ?? false} : null;
             else e[key] = binding;
             this.inspect();
             this.draw();
@@ -428,6 +434,24 @@ export class Editor {
                 Object.assign(e.power, {minimum, maximum});
             };
         }
+        for (const selector of ['#position-min', '#position-max']) {
+            const input = panel.querySelector(selector);
+            if (input) input.onchange = () => {
+                const minimumInput = panel.querySelector('#position-min');
+                const maximumInput = panel.querySelector('#position-max');
+                const minimum = Number(minimumInput.value), maximum = Number(maximumInput.value);
+                if (!minimumInput.value.trim() || !maximumInput.value.trim() ||
+                    !Number.isFinite(minimum) || !Number.isFinite(maximum) ||
+                    minimum < -1e12 || maximum > 1e12 || maximum <= minimum) {
+                    this.feedback('position.range', true); this.inspect(); return;
+                }
+                this.remember(); Object.assign(e.position, {minimum, maximum}); this.draw();
+            };
+        }
+        const positionReverse = panel.querySelector('#position-reverse');
+        if (positionReverse) positionReverse.onchange = event => {
+            this.remember(); e.position.reverse = event.target.checked; this.draw();
+        };
         if (panel.querySelector('#show-power')) panel.querySelector('#show-power').onchange = event => {
             this.remember(); e.showPower = event.target.checked; this.draw();
         };

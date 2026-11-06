@@ -85,3 +85,22 @@ test('valve position maps ranges and reverses needle independently of activity',
     positionState(binding, {[uuid]: 100});
     assert.equal(activityState(element, {[uuid]: 100}).active, false);
 });
+
+test('optional independent position binding survives page export and rejects malformed settings', () => {
+    const project = newProject();
+    const valve = newElement('equipment', 'pump');
+    project.pages[0].elements.push(valve);
+    validateProject(project, catalog); // Régi, állásmező nélküli séma.
+    valve.position = {source: binding, minimum: 2, maximum: 10, reverse: true};
+    validateProject(exportPage(project, 'page-1'), catalog);
+    assert.deepEqual(exportPage(project, 'page-1').pages[0].elements[0].position, valve.position);
+    for (const change of [p => p.source = null, p => p.source = {...binding, uuid: 'bad'},
+        p => p.maximum = p.minimum, p => p.reverse = 1, p => p.secret = 'bad',
+        p => p.minimum = -1e13]) {
+        const copy = structuredClone(project);
+        change(copy.pages[0].elements[0].position);
+        assert.throws(() => validateProject(copy, catalog));
+    }
+    valve.type = 'text';
+    assert.throws(() => validateProject(project, catalog));
+});

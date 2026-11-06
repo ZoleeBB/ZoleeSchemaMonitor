@@ -30,3 +30,9 @@ Tájékozódási alap: [ESBE VRG130 + ARA600](https://esbe.eu/group/products/rot
 A böngészős `positionState` és a firmware hordozható `sm_position` függvénye elkészült. Külön kötésből, az aktivitás módosítása nélkül számítanak 0–100%-os nyitottságot és −45…+45° mutatószöget. Az irányfordítás a szöget fordítja, a nyitottsági értéket nem. Hiányzó, érvénytelen vagy megszakadt kapcsolatból származó adatnál `known=false`; ilyenkor a rajzoló feladata a mutató elrejtése és a „—” felirat. A nulla százalék érvényes, ismert állapot.
 
 Határérték-, tartomány-, irányfordítás- és adathiány-tesztesetek készültek C és JavaScript nyelven. Futtatásuk a felhasználó korábbi kérésére a teljes képkészlet utáni összevont ellenőrzésre marad. A szerkesztő beállítómezői, a projektformátum állásmezője, a Loxone-előfizetés és a két rajzoló bekötése még hátravan; ez a változás önmagában nem kapcsolja be az élő mutatót.
+
+## Fejlesztési állapot – beállítás és import
+
+A szerkesztőben külön állásforrás választható a meglévő helyiség-/funkciószűrős értékválasztóval. Hozzárendelés után alsó/felső határ és mutatóirány állítható. A `position` mező opcionális, a korábbi oldalak mező nélkül is elfogadhatók; az új mező mentéssel és oldalexporttal együtt megmarad. A C és JavaScript importellenőrzés csak érvényes kötést, növekvő véges tartományt és logikai irányjelzőt fogad el, tetszőleges további mezőt nem.
+
+A felület jelzi, hogy a mutató rajzolása még fejlesztés alatt. A készülékes élő olvasás és a két rajzoló bekötése továbbra is hátravan. A tesztesetek bővültek, futtatásuk és az Actions ellenőrzése továbbra is halasztva.
