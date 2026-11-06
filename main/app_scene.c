@@ -51,6 +51,18 @@ typedef struct
     bool rotor_initialized;
 } runtime_t;
 static SCENE_BSS runtime_t s_runtime[SM_MAX_ELEMENTS];
+/* Körönkénti állapot PSRAM-ban; az animáció nem foglal memóriát. */
+typedef struct
+{
+    sm_binding_t source;
+    double manual;
+    sm_signal_t signal;
+    lv_obj_t *indicator, *label;
+    int last_color;
+    char text[16];
+} head_runtime_t;
+static SCENE_BSS head_runtime_t s_heads[SM_MAX_ELEMENTS * 16];
+static unsigned s_head_count;
 static unsigned s_runtime_count;
 static app_scene_read_fn s_reader;
 static void *s_reader_context;
@@ -116,12 +128,40 @@ void app_scene_update(unsigned elapsed_ms)
         states[i] = sm_activity(
             signal_read(&runtime->activity), powers[i], runtime->minimum, runtime->maximum);
     }
+    for (unsigned i = 0; i < s_head_count; i++)
+        s_heads[i].signal =
+            s_heads[i].source.uuid[0]
+                ? signal_read(&s_heads[i].source)
+                : (sm_signal_t){.configured = true, .valid = true, .value = s_heads[i].manual};
     if (!bsp_display_lock(100))
         return;
     if (!s_root || atomic_load(&s_diagnostics))
     {
         bsp_display_unlock();
         return;
+    }
+    for (unsigned i = 0; i < s_head_count; i++)
+    {
+        head_runtime_t *head = &s_heads[i];
+        double percent = fmax(0, fmin(100, head->signal.value));
+        int color = !head->signal.valid ? 0xd9a23a : percent > 0 ? 0x36c678 : 0x26333d;
+        if (color != head->last_color)
+        {
+            lv_obj_set_style_bg_color(head->indicator, lv_color_hex(color), 0);
+            head->last_color = color;
+        }
+        char text[16];
+        if (head->signal.valid && percent > 0 && percent < .5)
+            snprintf(text, sizeof(text), "<1%%");
+        else if (head->signal.valid)
+            snprintf(text, sizeof(text), "%.0f%%", floor(percent + .5));
+        else
+            snprintf(text, sizeof(text), "—");
+        if (strcmp(text, head->text))
+        {
+            snprintf(head->text, sizeof(head->text), "%s", text);
+            lv_label_set_text_static(head->label, head->text);
+        }
     }
     double seconds = (elapsed_ms > 200 ? 200 : elapsed_ms) / 1000.0;
     for (unsigned i = 0; i < s_runtime_count; i++)
@@ -377,6 +417,102 @@ static lv_obj_t *label(lv_obj_t *parent, const char *text, int x, int y, lv_colo
     return object;
 }
 
+typedef struct
+{
+    double x, y, w, h, angle;
+} manifold_geometry_t;
+static void manifold_point(manifold_geometry_t g, double px, double py, double *x, double *y)
+{
+    double dx = (px - .5) * g.w, dy = (py - .5) * g.h;
+    *x = g.x + g.w / 2 + dx * cos(g.angle) - dy * sin(g.angle);
+    *y = g.y + g.h / 2 + dx * sin(g.angle) + dy * cos(g.angle);
+}
+static lv_obj_t *manifold_rect(manifold_geometry_t g, double x, double y, double w, double h,
+                               unsigned color)
+{
+    double cx, cy;
+    manifold_point(g, x + w / 2, y + h / 2, &cx, &cy);
+    double rw = fabs(cos(g.angle)) * w * g.w + fabs(sin(g.angle)) * h * g.h;
+    double rh = fabs(sin(g.angle)) * w * g.w + fabs(cos(g.angle)) * h * g.h;
+    lv_obj_t *obj = lv_obj_create(s_root);
+    lv_obj_remove_style_all(obj);
+    lv_obj_set_size(obj, fmax(1, lround(rw)), fmax(1, lround(rh)));
+    lv_obj_set_pos(obj, lround(cx - rw / 2), lround(cy - rh / 2));
+    lv_obj_set_style_radius(obj, fmin(3, fmin(rw, rh) * .15), 0);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(color), 0);
+    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_color(obj, lv_color_hex(0x67747d), 0);
+    lv_obj_set_style_border_width(obj, 1, 0);
+    return obj;
+}
+static lv_obj_t *manifold_label(manifold_geometry_t g, double x, double y, const char *text,
+                                int font_size)
+{
+    double cx, cy;
+    manifold_point(g, x, y, &cx, &cy);
+    lv_obj_t *obj = label(s_root, text, lround(cx - 40), lround(cy),
+                          lv_color_hex(s_dark ? 0xdfecf4 : 0x354e60));
+    int text_width = strlen(text) > 6 ? 260 : 80;
+    lv_obj_set_width(obj, text_width);
+    lv_obj_set_pos(obj, lround(cx - text_width / 2), lround(cy));
+    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_transform_pivot_x(obj, text_width / 2, 0);
+    lv_obj_set_style_transform_pivot_y(obj, 0, 0);
+    lv_obj_set_style_transform_scale(obj, font_size * 256 / 20, 0);
+    return obj;
+}
+static void draw_manifold(const cJSON *m, manifold_geometry_t g)
+{
+    unsigned n = sm_json_number(m, "circuits", 4);
+    if (n < 2 || n > 16)
+        return;
+    bool connections = cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(m, "connections"));
+    const char *variant = sm_json_string(m, "variant");
+    unsigned supply = !strcmp(variant, "ceiling-cool") ? 0x349bd0 : 0xdb5952;
+    const char *caption =
+        !strcmp(variant, "ceiling-cool")   ? (s_english ? "Ceiling cooling" : "Mennyezethűtés")
+        : !strcmp(variant, "ceiling-heat") ? (s_english ? "Ceiling heating" : "Mennyezetfűtés")
+        : !strcmp(variant, "floor")        ? (s_english ? "Underfloor heating" : "Padlófűtés")
+                                           : (s_english ? "Heating" : "Fűtés");
+    manifold_label(g, .5, .0, caption, 12);
+    manifold_rect(g, .08, .265, .88, .07, 0xc6cfd4);
+    manifold_rect(g, .08, .685, .88, .07, 0xc6cfd4);
+    manifold_rect(g, .08, .265, .88, .012, supply);
+    manifold_rect(g, .08, .735, .88, .012, 0x349bd0);
+    if (connections)
+    {
+        manifold_rect(g, .04, .28, .04, .04, 0xc9a455);
+        manifold_rect(g, .04, .70, .04, .04, 0xc9a455);
+    }
+    for (unsigned i = 0; i < n; i++)
+    {
+        double x = .16 + .78 * (i + .5) / n, d = .55 / n;
+        manifold_rect(g, x - d * .28, .17, d * .56, .095, 0xb9d9e5);
+        manifold_rect(g, x - d * .25, .235, d * .5, .035, supply);
+        manifold_rect(g, x - d * .32, .335, d * .64, .06, 0xc9a455);
+        manifold_rect(g, x - d * .35, .65, d * .7, .035, 0xc9a455);
+        manifold_rect(g, x - d * .5, .50, d, .17, 0xedf1f3);
+        manifold_rect(g, x - d * .4, .49, d * .8, .025, 0xffffff);
+        head_runtime_t *head = &s_heads[s_head_count++];
+        const cJSON *json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(m, "heads"), i);
+        sm_binding_parse(cJSON_GetObjectItemCaseSensitive(json, "source"), &head->source);
+        head->manual = sm_json_number(json, "percent", 0);
+        head->last_color = -1;
+        head->indicator = manifold_rect(g, x - d * .23, .52, d * .46, .025, 0x26333d);
+        head->label = manifold_label(g, x, .58, "—", fmax(9, fmin(16, g.w * .16 / n)));
+        lv_obj_set_style_text_color(head->label, lv_color_hex(0x26333d), 0);
+        char number[8];
+        snprintf(number, sizeof(number), "%u", i + 1);
+        manifold_label(g, x, .065, number, 11);
+        manifold_rect(g, x - d * .32, .755, d * .64, .06, 0xc9a455);
+        if (connections)
+        {
+            manifold_rect(g, x - d * .18, .395, d * .36, .065, supply);
+            manifold_rect(g, x - d * .18, .815, d * .36, .135, 0x349bd0);
+        }
+    }
+}
+
 static void button(lv_obj_t *parent, const char *text, int x, intptr_t direction)
 {
     lv_obj_t *object = lv_button_create(parent);
@@ -432,7 +568,8 @@ void app_scene_poll(void)
     unsigned index = 0;
     cJSON_ArrayForEach(element, elements)
     {
-        if (!strcmp(sm_json_string(element, "type"), "equipment"))
+        if (!strcmp(sm_json_string(element, "type"), "equipment") &&
+            strcmp(sm_json_string(element, "asset"), "configurable-manifold"))
             pictures[index] =
                 load_picture(manifest, sm_json_string(element, "asset"), s_dark, pictures, index);
         index++;
@@ -459,6 +596,8 @@ void app_scene_poll(void)
     memcpy(s_pictures, pictures, sizeof(s_pictures));
     free(pictures);
     memset(s_runtime, 0, sizeof(s_runtime));
+    memset(s_heads, 0, sizeof(s_heads));
+    s_head_count = 0;
     s_runtime_count = cJSON_GetArraySize(elements);
     s_root = lv_obj_create(lv_screen_active());
     lv_obj_remove_style_all(s_root);
@@ -541,7 +680,13 @@ void app_scene_poll(void)
         else if (!strcmp(type, "equipment"))
         {
             int side = w < h ? w : h;
-            if (s_pictures[index].bytes)
+            const cJSON *manifold = cJSON_GetObjectItemCaseSensitive(element, "manifold");
+            if (manifold)
+                draw_manifold(manifold,
+                              (manifold_geometry_t){x, y, w, h,
+                                                    sm_json_number(element, "rotation", 0) *
+                                                        3.141592653589793 / 180});
+            else if (s_pictures[index].bytes)
             {
                 lv_obj_t *image = lv_image_create(s_root);
                 runtime->body = image;
@@ -630,16 +775,23 @@ void app_scene_poll(void)
                      "%s%s",
                      !strcmp(type, "value") ? "— " : sm_json_string(element, "text"),
                      !strcmp(type, "value") ? sm_json_string(element, "unit") : "");
-            lv_obj_t *object = label(s_root, text, x, y, color);
+            lv_obj_t *container = lv_obj_create(s_root);
+            lv_obj_remove_style_all(container);
+            lv_obj_set_pos(container, x, y);
+            lv_obj_set_size(container, w, h);
+            lv_obj_add_flag(container, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
+            lv_obj_set_style_transform_pivot_x(container, w / 2, 0);
+            lv_obj_set_style_transform_pivot_y(container, h / 2, 0);
+            lv_obj_set_style_transform_rotation(container,
+                                                sm_json_number(element, "rotation", 0) * 10, 0);
+            lv_obj_t *object = label(container, text, 0, 0, color);
             if (!strcmp(type, "value"))
                 runtime->value_label = object;
-            lv_obj_set_width(object, w);
+            lv_obj_set_width(object, w * 20 / sm_json_number(element, "fontSize", 20));
             lv_obj_set_style_transform_pivot_x(object, 0, 0);
             lv_obj_set_style_transform_pivot_y(object, 0, 0);
             lv_obj_set_style_transform_scale(
                 object, sm_json_number(element, "fontSize", 20) * 256 / 20, 0);
-            lv_obj_set_style_transform_rotation(
-                object, sm_json_number(element, "rotation", 0) * 10, 0);
         }
         index++;
     }

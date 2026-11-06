@@ -1,6 +1,10 @@
 /* A közös feliratok azonos kulcsokkal szerepelnek mindkét nyelven. */
 export const messages = {
     hu: {
+        manifold: 'Termofejes osztó-gyűjtő', circuits: 'Körök száma', circuit: 'Kör', variant: 'Felhasználás',
+        heating: 'Fűtés', floor: 'Padlófűtés', 'ceiling-heat': 'Mennyezetfűtés', 'ceiling-cool': 'Mennyezethűtés',
+        connections: 'Csőcsonkok és bekötési pontok', manual: 'Kézi érték',
+        headHint: 'Körönként külön nyitási érték: 0% sötét, 0% felett zöld. Élő érték hiányában borostyán jel és —. A Loxone-forrás leválasztásával kézi százalék adható meg. A csőcsonkok kikapcsolása vagy a körszám csökkentése leválasztja a megszűnő csatlakozások csöveit.',
         home: 'Kezdőlap', editor: 'Szerkesztő', settings: 'Beállítások', loxone: 'Loxone', graphics: 'Grafikai készlet',
         backup: 'Mentés', update: 'Frissítés', diagnostics: 'Diagnosztika', support: 'Kérlek támogasd a program fejlesztését',
         supportCopy: 'Ha hasznosnak találod a ZoleeSchemaMonitor programot, támogathatod a további fejlesztését.',
@@ -32,6 +36,10 @@ export const messages = {
         catalogInfo: 'Az elemfajtákat a firmware határozza meg. A fájlok SHA-256 szerint frissülnek; a változatlanokat nem töltjük le újra.',
     },
     en: {
+        manifold: 'Actuated manifold', circuits: 'Circuit count', circuit: 'Circuit', variant: 'Application',
+        heating: 'Heating', floor: 'Underfloor heating', 'ceiling-heat': 'Ceiling heating', 'ceiling-cool': 'Ceiling cooling',
+        connections: 'Pipe stubs and connection points', manual: 'Manual value',
+        headHint: 'Separate opening value per circuit: 0% dark, above 0% green. Missing live value: amber and —. Clear the Loxone source to enter a manual percentage. Disabling pipe stubs or reducing circuits detaches pipes from removed connection points.',
         home: 'Home', editor: 'Editor', settings: 'Settings', loxone: 'Loxone', graphics: 'Graphics library',
         backup: 'Backup', update: 'Update', diagnostics: 'Diagnostics', support: 'Please support development',
         supportCopy: 'If ZoleeSchemaMonitor is useful to you, you can support its continued development.',

@@ -184,7 +184,7 @@ async function renderGraphics() {
     const manifest = await api('/api/graphics');
     $('#content').innerHTML = `<h1>${tr('graphics')}</h1><section><p>${tr('catalogInfo')}</p><dl class="kv">
         <div><dt>${tr('current')}</dt><dd>${escape(manifest.version)}</dd></div><div><dt>${tr('available')}</dt><dd>${state.catalog.elements.length}</dd></div>
-        <div><dt>${language === 'hu' ? 'Egyedi grafika kész' : 'Final artwork ready'}</dt><dd>${state.catalog.elements.filter(item => item.graphicsStatus === 'ready').length} / ${state.catalog.elements.length}</dd></div><div><dt>SHA-256</dt><dd>${manifest.files?.length || 0}</dd></div></dl><div class="actions"><button id="graphics-refresh" ${state.device.development ? 'disabled' : ''}>${tr('refresh')}</button></div><p id="release-status" role="status"></p></section>
+        <div><dt>${language === 'hu' ? 'Megjeleníthető grafika' : 'Display graphics ready'}</dt><dd>${state.catalog.elements.filter(item => item.graphicsStatus === 'ready').length} / ${state.catalog.elements.length}</dd></div><div><dt>SHA-256</dt><dd>${manifest.files?.length || 0}</dd></div></dl><div class="actions"><button id="graphics-refresh" ${state.device.development ? 'disabled' : ''}>${tr('refresh')}</button></div><p id="release-status" role="status"></p></section>
         <section><div class="device-list">${Object.entries(state.catalog.categories).map(([id, name]) => `<article><h3>${escape(name[language])}</h3><p>${state.catalog.elements.filter(item => item.category === id).length}</p></article>`).join('')}</div></section>`;
     await refreshReleaseStatus();
     $('#graphics-refresh').onclick = async () => {

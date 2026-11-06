@@ -229,6 +229,42 @@ int main(void)
     app_scene_update(100);
     assert(s_runtime[148].last_indicator_color == 0xd9a23a);
     assert(s_runtime[148].last_indicator_opacity == LV_OPA_50);
+    cJSON *manifold = cJSON_Parse(
+        "{\"circuits\":16,\"variant\":\"ceiling-cool\",\"connections\":true,\"heads\":[]}");
+    cJSON *heads = cJSON_GetObjectItem(manifold, "heads");
+    for (unsigned i = 0; i < 16; i++)
+        cJSON_AddItemToArray(heads, cJSON_Parse("{\"percent\":0,\"source\":null}"));
+    cJSON *mh = cJSON_GetArrayItem(heads, 0);
+    cJSON_ReplaceItemInObject(
+        mh, "source",
+        cJSON_Parse(
+            "{\"uuid\":\"12345678-1234-5678-0102030405060708\",\"scale\":100,\"offset\":0}"));
+    cJSON_ReplaceItemInObject(cJSON_GetArrayItem(heads, 1), "percent", cJSON_CreateNumber(25));
+    cJSON_ReplaceItemInObject(cJSON_GetArrayItem(heads, 2), "percent", cJSON_CreateNumber(.001));
+    cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("configurable-manifold"));
+    cJSON_AddItemToObject(equipment, "manifold", manifold);
+    for (unsigned rotation = 0; rotation < 360; rotation += 90)
+    {
+        cJSON_DeleteItemFromObject(equipment, "rotation");
+        cJSON_AddNumberToObject(equipment, "rotation", rotation);
+        s_test_revision++;
+        app_scene_poll();
+        assert(s_head_count == 16);
+        s_test_valid = true;
+        s_test_activity = .5;
+        app_scene_update(50);
+        assert(!strcmp(lv_label_get_text(s_heads[0].label), "50%"));
+        assert(!strcmp(lv_label_get_text(s_heads[1].label), "25%"));
+        assert(s_heads[2].last_color == 0x36c678 && s_heads[3].last_color == 0x26333d);
+        s_test_activity = 0;
+        app_scene_update(50);
+        assert(s_heads[0].last_color == 0x26333d);
+        s_test_valid = false;
+        app_scene_update(50);
+        assert(s_heads[0].last_color == 0xd9a23a);
+        assert(!strcmp(lv_label_get_text(s_heads[0].label), "—"));
+        assert(s_heads[1].last_color == 0x36c678);
+    }
     puts("LVGL scene: geometry, paging, activity precedence, power thresholds, reverse flow, "
          "rotor, values, disconnect, theme, brightness and shared PNG cache OK");
     return 0;

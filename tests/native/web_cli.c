@@ -180,9 +180,11 @@ cJSON *app_assets_manifest(void)
 bool app_assets_path(const cJSON *manifest, const char *relative, char path[APP_ASSET_PATH_SIZE])
 {
     (void)manifest;
-    (void)relative;
-    (void)path;
-    return false;
+    /* Csak a teszt által regisztrált két fájl: a valódi manifest külön tesztelt. */
+    if (strcmp(relative,"light/circulation-pump.png") && strcmp(relative,"light/circulation-pump.svg"))
+        return false;
+    snprintf(path,APP_ASSET_PATH_SIZE,"graphics/%s",relative);
+    return true;
 }
 esp_err_t app_release_init(void)
 {

@@ -41,3 +41,9 @@ A Chromium-próba helyettesített frissítési API-val vizsgálja a közös fris
 A közös frissítőt tartalmazó helyi P4 build és csomagolás sikeres, körülbelül 1,78 MB (8 MiB-os partíció, 79% szabad). A teljes SVG/PNG-csomaggal a firmware csomagolása és az `update.json` létrehozása is sikeres; a leíró firmware/manifest méretet és SHA-256-ot, valamint grafikai forrásazonosítót tartalmaz.
 
 Diagnosztika: az éles C-mintavétel és JSON tesztje ellenőrzi a CPU első ismeretlen állapotát, 2 s-os ablakát és clampelését, az API SD/CPU-olvasás nélküli cache-ét, tíz másodperces SD-lekérdezést és annak hibáját, a minta korát, egyszeri memória/verem figyelmeztetést, 15 soros körnaplót, taskindítás hibáját és a jelszó nélküli JSON-t. Valódi LVGL-próba igazolja az ismeretlen sávok elrejtését, százalékokat, változatlan/rejtett nézetnél elmaradó írást, HU/EN és téma váltását, álló oszlopméretet, naplót és a csak panelen megjelenő AP-kulcsot. A platformmetrikák és a BSP helyettesítettek; fizikai diagnosztikai és érintéspróba még szükséges.
+
+## 2026-11-06: vizuális audit, osztók és negyedfordulat
+
+14 JavaScript- és 31 Python-teszt sikeres. A natív C/JS modell 214 esetben azonos eredményt ad, az új esetek minden 2–16 körszámot és üzemmódot, a 34. portot és a hibás konfigurációkat is lefedik. A gazdagépen valódi LVGL 9.5.0-val futó jelenetteszt ellenőrzi a 16 külön kör jelzését, a kapcsolatvesztést és mind a négy forgatást. A Chromium 133-as helyi próbában a 15 körszám, a 34. port csőbekötése, a körönkénti forrás, a nulla/pozitív/hiányzó állapot, a csőleválasztás és a mentés/visszatöltés sikeres. A készülék HTTP-kezelőjén a regisztrált PNG-k megfelelő `image/png` típussal, az SVG-k továbbra is `image/svg+xml` típussal elérhetők; ezt a natív HTTP-teszt ellenőrzi.
+
+Ezek nem fizikai paneles vagy valódi Miniserveres mérések. Új helyi ESP-IDF firmware-fordítás ezen a körön nem történt; a CI eredménye külön kezelendő. Az MS1 és a 20 FPS fizikai igazolása továbbra is nyitott.

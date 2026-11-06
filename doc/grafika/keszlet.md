@@ -1,19 +1,19 @@
 # Grafikai készletnyilvántartás
 
-**332 katalógustípus; 72 típushoz bekötött egyedi kép, 69 külön PNG-forrásból.**
+**333 katalógustípus; 72 típushoz bekötött egyedi kép, 69 külön PNG-forrásból; 1 paraméterezhető műszaki grafika.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
-| Csoport | Típus | Egyedi képpel | Még helyőrző |
-| --- | ---: | ---: | ---: |
-| Fűtés / hűtés | 48 | 0 | 48 |
-| Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 64 | 32 | 32 |
-| Szelepek | 54 | 12 | 42 |
-| Szellőzés / légtechnika | 51 | 0 | 51 |
-| Medencetechnika | 33 | 4 | 29 |
-| Öntözés | 23 | 0 | 23 |
-| Mérések / érzékelők | 35 | 0 | 35 |
+| Csoport | Típus | Egyedi képpel | Paraméteres | Még helyőrző |
+| --- | ---: | ---: | ---: | ---: |
+| Fűtés / hűtés | 48 | 0 | 0 | 48 |
+| Tárolás / HMV | 24 | 24 | 0 | 0 |
+| Hidraulika / vízellátás | 64 | 32 | 0 | 32 |
+| Szelepek | 55 | 12 | 1 | 42 |
+| Szellőzés / légtechnika | 51 | 0 | 0 | 51 |
+| Medencetechnika | 33 | 4 | 0 | 29 |
+| Öntözés | 23 | 0 | 0 | 23 |
+| Mérések / érzékelők | 35 | 0 | 0 | 35 |
 
 A fűtési, szolár és általános keringető azonos fizikai szivattyúházat használhat. Ezt a három szerepet külön típusnév jelöli, a közös képet egyszer tároljuk.
 
@@ -226,6 +226,7 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `reduced-pressure-backflow` | Csökkentett nyomású visszafolyásgátló | Reduced pressure backflow preventer | Műszaki helyőrző |
 | `sewage-backwater-valve` | Szennyvíz visszatorlódás-gátló | Sewage backwater valve | Műszaki helyőrző |
 | `automatic-bypass-valve` | Automatikus bypass szelep | Automatic bypass valve | Műszaki helyőrző |
+| `configurable-manifold` | Termofejes osztó-gyűjtő (2–16 kör) | Actuated manifold (2–16 circuits) | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
 
 ## Szellőzés / légtechnika
 

@@ -42,7 +42,7 @@ export function validateBinding(binding, path = 'binding') {
 function validateElement(element, assets) {
     object(element, ['id', 'type', 'asset', 'x', 'y', 'w', 'h', 'rotation', 'label', 'text',
         'color', 'fontSize', 'unit', 'decimals', 'value', 'activity', 'power', 'showPower',
-        'points', 'width', 'direction', 'source', 'target', 'position'], 'element');
+        'points', 'width', 'direction', 'source', 'target', 'position', 'manifold'], 'element');
     if (typeof element.id !== 'string' || !ID.test(element.id) || !['equipment', 'text', 'value', 'pipe'].includes(element.type)) throw Error('element.id/type');
     text(element.asset, 64, 'asset');
     if (element.type === 'equipment' && !assets.has(element.asset)) throw Error(`element.asset: ${element.asset}`);
@@ -78,6 +78,18 @@ function validateElement(element, assets) {
         if (element.position.maximum <= element.position.minimum ||
             typeof element.position.reverse !== 'boolean') throw Error('position.range');
     }
+    if (element.asset === 'configurable-manifold' && element.type === 'equipment') {
+        object(element.manifold, ['circuits', 'variant', 'connections', 'heads'], 'manifold');
+        const m = element.manifold;
+        if (!Number.isInteger(m.circuits) || m.circuits < 2 || m.circuits > 16 ||
+            !['heating', 'floor', 'ceiling-heat', 'ceiling-cool'].includes(m.variant) ||
+            typeof m.connections !== 'boolean' || !Array.isArray(m.heads) || m.heads.length !== m.circuits) throw Error('manifold');
+        for (const head of m.heads) {
+            object(head, ['percent', 'source'], 'manifold.head');
+            number(head.percent, 0, 100, 'manifold.percent');
+            validateBinding(head.source, 'manifold.source');
+        }
+    } else if (element.manifold !== undefined) throw Error('manifold.asset');
     if (element.type === 'pipe') {
         if (!Array.isArray(element.points) || element.points.length < 2 || element.points.length > LIMITS.points) throw Error('points');
         for (const point of element.points) {
@@ -90,7 +102,7 @@ function validateElement(element, assets) {
         for (const key of ['source', 'target']) {
             if (element[key] === null) continue;
             object(element[key], ['element', 'port'], key);
-            if (typeof element[key].element !== 'string' || !ID.test(element[key].element) || !Number.isInteger(element[key].port) || element[key].port < 0 || element[key].port > 31) throw Error(key);
+            if (typeof element[key].element !== 'string' || !ID.test(element[key].element) || !Number.isInteger(element[key].port) || element[key].port < 0 || element[key].port > 33) throw Error(key);
         }
     }
 }
@@ -120,7 +132,7 @@ export function validateProject(project, catalog) {
                 if (!end) continue;
                 const equipment = page.elements.find(element => element.id === end.element && element.type === 'equipment');
                 const asset = equipment && catalog.elements.find(item => item.id === equipment.asset);
-                if (!asset || end.port >= asset.ports.length) throw Error('pipe.endpoint');
+                if (!asset || end.port >= elementPorts(equipment, asset).length) throw Error('pipe.endpoint');
             }
         }
     }
@@ -134,7 +146,7 @@ export function newProject() {
 }
 
 export function newElement(type, asset = '') {
-    return {id: newId(), type, asset, x: 0.1, y: 0.1, w: 0.12, h: 0.16,
+    return {...(type === 'equipment' && asset === 'configurable-manifold' ? {manifold: newManifold()} : {}), id: newId(), type, asset, x: 0.1, y: 0.1, w: 0.12, h: 0.16,
         rotation: 0, label: '', text: '', color: '#e34d4d', fontSize: 20, unit: '', decimals: 1,
         value: null, activity: null, power: null, showPower: false,
         points: [{x: 0.1, y: 0.1}, {x: 0.4, y: 0.1}], width: 6, direction: 1, source: null, target: null};
@@ -177,4 +189,75 @@ export function positionState(binding, values, minimum = 0, maximum = 100,
         (signal.value - minimum) / (maximum - minimum);
     return {known: true, percent: fraction * 100,
         angle: (reverse ? 1 - fraction : fraction) * 90 - 45};
+}
+
+/* A körszám szerkesztésénél a megmaradó körök saját állapotforrása megmarad. */
+export function newManifold(circuits = 4, previous) {
+    return {circuits, variant: previous?.variant ?? 'floor', connections: previous?.connections ?? true,
+        heads: Array.from({length: circuits}, (_, i) => previous?.heads[i] ? clone(previous.heads[i]) : {percent: 0, source: null})};
+}
+
+export function elementPorts(element, asset) {
+    if (!element.manifold) return asset.ports;
+    const m = element.manifold;
+    if (!m.connections) return [];
+    // Stabil páros indexelés: 2+2*i előremenő, 3+2*i visszatérő.
+    return [{x: .04, y: .30}, {x: .04, y: .72}, ...m.heads.flatMap((_, i) =>
+        [{x: .16 + .78 * (i + .5) / m.circuits, y: .46},
+         {x: .16 + .78 * (i + .5) / m.circuits, y: .95}])];
+}
+
+export function manifoldHeadState(head, values, connected = true) {
+    const signal = head.source ? readBinding(head.source, values, connected) : {valid: true, value: head.percent};
+    const percent = signal.valid ? Math.max(0, Math.min(100, signal.value)) : 0;
+    return {known: signal.valid, percent, active: signal.valid && percent > 0};
+}
+
+/* Csőnél a tárolt töréspontokat forgatjuk: a firmware pontosan ezt a vonalat rajzolja. */
+export function rotateElement(element, rotation, size) {
+    if (![0, 90, 180, 270].includes(rotation)) throw Error('element.rotation');
+    const result = clone(element);
+    if (element.type === 'pipe') {
+        const angle = (rotation - element.rotation) * Math.PI / 180;
+        const xs = element.points.map(p => p.x * size.width), ys = element.points.map(p => p.y * size.height);
+        const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+        result.points = xs.map((x, i) => ({x: (cx + (x-cx)*Math.cos(angle) - (ys[i]-cy)*Math.sin(angle))/size.width,
+            y: (cy + (x-cx)*Math.sin(angle) + (ys[i]-cy)*Math.cos(angle))/size.height}));
+        if (result.points.some(p => p.x < -1e-9 || p.x > 1+1e-9 || p.y < -1e-9 || p.y > 1+1e-9)) throw Error('element.bounds');
+        result.points.forEach(p => {p.x = Math.max(0, Math.min(1,p.x)); p.y = Math.max(0, Math.min(1,p.y));});
+        if (rotation !== element.rotation) result.source = result.target = null;
+    }
+    if (element.type !== 'pipe') {
+        const width = element.w * size.width, height = element.h * size.height;
+        const rw = rotation % 180 ? height : width, rh = rotation % 180 ? width : height;
+        if (rw > size.width || rh > size.height) throw Error('element.bounds');
+        const cx = Math.max(rw/2, Math.min(size.width-rw/2, (element.x+element.w/2)*size.width));
+        const cy = Math.max(rh/2, Math.min(size.height-rh/2, (element.y+element.h/2)*size.height));
+        // A tárolt befoglaló téglalap is az oldalon marad.
+        result.x = Math.max(0,Math.min(1-element.w,cx/size.width-element.w/2));
+        result.y = Math.max(0,Math.min(1-element.h,cy/size.height-element.h/2));
+    }
+    result.rotation = rotation;
+    return result;
+}
+
+/* Pontos műszaki rajz: két külön sín, körönként egy átfolyásmérő és egy termofej. */
+export function manifoldParts(m) {
+    const parts = [];
+    const rect = (x,y,w,h,color,head) => parts.push({x,y,w,h,color,...(head === undefined ? {} : {head})});
+    const supply = m.variant === 'ceiling-cool' ? '#349bd0' : '#db5952';
+    rect(.08,.265,.88,.07,'#c6cfd4'); rect(.08,.685,.88,.07,'#c6cfd4');
+    rect(.08,.265,.88,.012,supply); rect(.08,.735,.88,.012,'#349bd0');
+    if (m.connections) {rect(.04,.28,.04,.04,'#c9a455'); rect(.04,.70,.04,.04,'#c9a455');}
+    for (let i=0;i<m.circuits;i++) {
+        const x=.16+.78*(i+.5)/m.circuits, d=.55/m.circuits;
+        rect(x-d*.28,.17,d*.56,.095,'#b9d9e5'); rect(x-d*.25,.235,d*.5,.035,supply);
+        rect(x-d*.32,.335,d*.64,.06,'#c9a455');
+        rect(x-d*.35,.65,d*.7,.035,'#c9a455');
+        rect(x-d*.5,.50,d,.17,'#edf1f3'); rect(x-d*.4,.49,d*.8,.025,'#ffffff');
+        rect(x-d*.23,.52,d*.46,.025,'#26333d',i);
+        rect(x-d*.32,.755,d*.64,.06,'#c9a455');
+        if(m.connections) {rect(x-d*.18,.395,d*.36,.065,supply);rect(x-d*.18,.815,d*.36,.135,'#349bd0');}
+    }
+    return parts;
 }

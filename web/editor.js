@@ -1,4 +1,4 @@
-import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState} from './model.js';
+import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
@@ -173,6 +173,7 @@ export class Editor {
         if (type === 'equipment') {
             element.w = 150 / this.size.width;
             element.h = 150 / this.size.height;
+            if (element.manifold) { element.w = 320 / this.size.width; element.h = 200 / this.size.height; }
         }
         element.x = clamp(point.x, 0, 1 - element.w);
         element.y = clamp(point.y, 0, 1 - element.h);
@@ -216,17 +217,20 @@ export class Editor {
 
     portPoint(element, port) {
         const asset = this.state.catalog.elements.find(item => item.id === element.asset);
-        const p = asset.ports[port];
+        const p = elementPorts(element, asset)[port];
         const radians = element.rotation * Math.PI / 180;
         const side = Math.min(element.w * this.size.width, element.h * this.size.height);
-        const dx = (p.x - 0.5) * side;
-        const dy = (p.y - 0.5) * side;
+        const dx = (p.x - 0.5) * (element.manifold ? element.w * this.size.width : side);
+        const dy = (p.y - 0.5) * (element.manifold ? element.h * this.size.height : side);
         return {x: element.x + element.w / 2 + (dx * Math.cos(radians) - dy * Math.sin(radians)) / this.size.width,
             y: element.y + element.h / 2 + (dx * Math.sin(radians) + dy * Math.cos(radians)) / this.size.height};
     }
 
     updateConnections(element) {
         for (const pipe of this.page.elements.filter(item => item.type === 'pipe')) {
+            const asset = this.state.catalog.elements.find(item => item.id === element.asset);
+            const count = asset ? elementPorts(element, asset).length : 0;
+            for (const key of ['source', 'target']) if (pipe[key]?.element === element.id && pipe[key].port >= count) pipe[key] = null;
             if (pipe.source?.element === element.id) pipe.points[0] = this.portPoint(element, pipe.source.port);
             if (pipe.target?.element === element.id) pipe.points[pipe.points.length - 1] = this.portPoint(element, pipe.target.port);
         }
@@ -255,7 +259,32 @@ export class Editor {
             } else {
                 const x = element.x * w, y = element.y * h, width = element.w * w, height = element.h * h;
                 const drawing = svgNode('g', {transform: `translate(${x},${y}) rotate(${element.rotation},${width / 2},${height / 2})`});
-                if (element.type === 'equipment') {
+                if (element.type === 'equipment' && element.manifold) {
+                    const m = element.manifold;
+                    const tx = width / 2, ty = .055 * height;
+                    drawing.append(svgNode('text', {x: tx, y: ty, 'text-anchor': 'middle',
+                        fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 12,
+                        transform: `rotate(${-element.rotation},${tx},${ty})`}, this.tr(m.variant)));
+                    for (const part of manifoldParts(m)) drawing.append(svgNode('rect', {
+                        x: part.x * width, y: part.y * height, width: part.w * width, height: part.h * height,
+                        rx: Math.min(3,part.w * width * .15), fill: part.color,
+                        stroke: '#67747d', 'stroke-width': .6,
+                        ...(part.head === undefined ? {} : {'data-head-indicator': part.head})}));
+                    m.heads.forEach((head, index) => {
+                        const cx = (.16 + .78*(index+.5)/m.circuits)*width, cy = .65*height;
+                        drawing.append(svgNode('text', {x: cx, y: cy, 'text-anchor': 'middle',
+                            fill: '#26333d', 'font-size': Math.max(9, Math.min(16,width*.16/m.circuits)),
+                            transform: `rotate(${-element.rotation},${cx},${cy})`, 'data-head-label': index}));
+                        const ix = cx, iy = .12*height;
+                        drawing.append(svgNode('text', {x: ix, y: iy, 'text-anchor': 'middle',
+                            fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 11,
+                            transform: `rotate(${-element.rotation},${ix},${iy})`}, index+1));
+                    });
+                    if (!this.preview) elementPorts(element, {}).forEach((p,index) => drawing.append(svgNode('circle', {
+                        cx: p.x*width,cy: p.y*height,r:5,class:'port','data-port':index})));
+                    if (element.label) group.append(svgNode('text', {x:x+width/2,y:y+height+17,
+                        'text-anchor':'middle',fill:this.dark ? '#dfecf4' : '#354e60','font-size':element.fontSize},element.label));
+                } else if (element.type === 'equipment') {
                     const asset = this.state.catalog.elements.find(item => item.id === element.asset);
                     const side = Math.min(width, height), offsetX = (width - side) / 2, offsetY = (height - side) / 2;
                     const equipment = svgNode('g', {transform: `translate(${offsetX},${offsetY})`});
@@ -387,6 +416,11 @@ export class Editor {
             this.element.y = clamp(original.y + dy, 0, 1 - original.h);
             this.updateConnections(this.element);
         }
+        if (this.element.type !== 'pipe') {
+            try { Object.assign(this.element, rotateElement(this.element, this.element.rotation, this.size)); }
+            catch { Object.assign(this.element, original); }
+            this.updateConnections(this.element);
+        }
         this.draw();
     }
 
@@ -399,14 +433,26 @@ export class Editor {
         const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" value="${this.escape(e[key])}"></label>`;
         panel.innerHTML = `<p class="hint">${this.escape(e.asset || e.type)}</p>${field('label', 'label')}
             ${e.type === 'text' ? field('text', 'text') : ''}${field('color', 'color', 'color')}
-            <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : field('rotation', 'rotate', 'number')}</div>
+            <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>
             ${e.type !== 'pipe' ? `<div class="small-grid">${field('w', 'width', 'number')}${field('h', 'height', 'number')}</div>` : this.button('reverse-pipe', 'reverse')}
             ${e.type === 'value' ? `${field('unit', 'unit')}${field('decimals', 'decimals', 'number')}<button class="binding-button" data-binding="value">${t('source')}: ${this.escape(e.value?.uuid || t('none'))}</button>` : ''}
-            ${['equipment', 'pipe'].includes(e.type) ? `<label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(e.activity?.uuid || t('none'))}</button></label>
+            ${['equipment', 'pipe'].includes(e.type) && !e.manifold ? `<label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(e.activity?.uuid || t('none'))}</button></label>
             <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(e.power?.source.uuid || t('none'))}</button></label>
             ${e.power ? `<div class="small-grid"><label>${t('minimum')}<input id="power-min" type="number" step="any" value="${e.power.minimum}"></label><label>${t('maximum')}<input id="power-max" type="number" step="any" value="${e.power.maximum}"></label></div>
                 <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p>` : ''}`;
-        if (e.type === 'equipment') {
+        panel.insertAdjacentHTML('beforeend', `<label>${t('rotate')}<select id="element-rotation">${[0,90,180,270].map(n => `<option value="${n}" ${n === e.rotation ? 'selected' : ''}>${n}°</option>`).join('')}</select></label>`);
+        panel.querySelector('#element-rotation').onchange = event => {
+            const before = clone(this.state.project);
+            this.remember();
+            try {
+                Object.assign(e, rotateElement(e, Number(event.target.value), this.size));
+                this.updateConnections(e);
+                validateProject(this.state.project, this.state.catalog);
+                this.draw(); this.inspect();
+            } catch(error) { this.state.project = before; this.feedback(error.message, true); this.inspect(); }
+        };
+        if (e.manifold) this.inspectManifold(panel, e);
+        if (e.type === 'equipment' && !e.manifold) {
             panel.insertAdjacentHTML('beforeend', `<label>${t('position')}<button class="binding-button" data-binding="position">${this.escape(e.position?.source.uuid || t('none'))}</button></label>
                 ${e.position ? `<div class="small-grid"><label>${t('minimum')}<input id="position-min" type="number" step="any" value="${e.position.minimum}"></label><label>${t('maximum')}<input id="position-max" type="number" step="any" value="${e.position.maximum}"></label></div>
                 <label><input id="position-reverse" type="checkbox" ${e.position.reverse ? 'checked' : ''}>${t('positionReverse')}</label>` : ''}<p class="hint">${t('positionHint')}</p>`);
@@ -414,17 +460,19 @@ export class Editor {
         panel.querySelectorAll('[data-property]').forEach(input => input.onchange = () => {
             const key = input.dataset.property;
             const value = input.type === 'number' ? Number(input.value) : input.value;
-            const before = clone(e);
+            const before = clone(this.state.project);
             this.remember();
             e[key] = value;
             try {
-                validateProject(this.state.project, this.state.catalog);
+                if (e.type !== 'pipe') Object.assign(e, rotateElement(e, e.rotation, this.size));
                 this.updateConnections(e);
+                validateProject(this.state.project, this.state.catalog);
                 this.draw();
             } catch (error) {
-                Object.assign(e, before);
+                this.state.project = before;
                 this.feedback(error.message, true);
                 this.inspect();
+                this.draw();
             }
         });
         panel.querySelectorAll('[data-binding]').forEach(button => button.onclick = async () => {
@@ -473,6 +521,35 @@ export class Editor {
         if (e.type === 'pipe') panel.querySelector('#reverse-pipe').onclick = () => { this.remember(); e.direction *= -1; this.draw(); };
     }
 
+    inspectManifold(panel, e) {
+        const t = this.tr, m = e.manifold;
+        panel.insertAdjacentHTML('beforeend', `<fieldset><legend>${t('manifold')}</legend>
+            <label>${t('circuits')}<select id="manifold-circuits">${Array.from({length:15},(_,i)=>i+2).map(n=>`<option ${n===m.circuits?'selected':''}>${n}</option>`).join('')}</select></label>
+            <label>${t('variant')}<select id="manifold-variant">${['heating','floor','ceiling-heat','ceiling-cool'].map(v=>`<option value="${v}" ${v===m.variant?'selected':''}>${t(v)}</option>`).join('')}</select></label>
+            <label><input type="checkbox" id="manifold-connections" ${m.connections?'checked':''}>${t('connections')}</label>
+            <p class="hint">${t('headHint')}</p>
+            ${m.heads.map((head,i)=>`<label>${t('circuit')} ${i+1} (%)<input data-head-percent="${i}" type="number" min="0" max="100" step="any" ${head.source?'disabled':''} value="${head.percent}"></label><button type="button" data-head-source="${i}">${t('source')}: ${this.escape(head.source?.uuid || t('manual'))}</button>`).join('')}</fieldset>`);
+        const change = update => {
+            const before = clone(this.state.project);
+            this.remember();
+            try {update(); this.updateConnections(e); validateProject(this.state.project,this.state.catalog);this.draw();this.inspect();}
+            catch(error) {this.state.project=before;this.feedback(error.message,true);this.inspect();}
+        };
+        panel.querySelector('#manifold-circuits').onchange = event => change(()=>{e.manifold=newManifold(Number(event.target.value),m);
+            e.w=Math.min(this.size.width*.9,80+40*e.manifold.circuits)/this.size.width;
+            Object.assign(e,rotateElement(e,e.rotation,this.size));});
+        panel.querySelector('#manifold-variant').onchange = event => change(()=>{m.variant=event.target.value;});
+        panel.querySelector('#manifold-connections').onchange = event => change(()=>{m.connections=event.target.checked;});
+        panel.querySelectorAll('[data-head-percent]').forEach(input => input.onchange = () => change(()=>{
+            if (!input.value.trim()) throw Error('manifold.percent');
+            m.heads[Number(input.dataset.headPercent)].percent=Number(input.value);
+        }));
+        panel.querySelectorAll('[data-head-source]').forEach(button => button.onclick = async () => {
+            const head=m.heads[Number(button.dataset.headSource)], source=await this.chooseBinding(head.source);
+            if(source!==undefined) change(()=>{head.source=source;});
+        });
+    }
+
     updateValues() {
         if (!this.canvas) return;
         for (const element of this.page.elements) {
@@ -497,9 +574,16 @@ export class Editor {
                 const transform = `rotate(${position.angle},${needle.dataset.cx},${needle.dataset.cy})`;
                 if (needle.getAttribute('transform') !== transform) needle.setAttribute('transform', transform);
             }
+            element.manifold?.heads.forEach((head,index) => {
+                const state = manifoldHeadState(head, this.state.values, this.state.device.connected);
+                setText(`[data-head-label="${index}"]`, state.known ? (state.percent > 0 && state.percent < .5 ? '<1%' : `${Math.round(state.percent)}%`) : '—');
+                const indicator = group.querySelector(`[data-head-indicator="${index}"]`);
+                const color = !state.known ? '#d9a23a' : state.active ? '#36c678' : '#26333d';
+                if (indicator && indicator.getAttribute('fill') !== color) indicator.setAttribute('fill',color);
+            });
             const power = readBinding(element.power?.source, this.state.values, this.state.device.connected);
             setText('[data-live-power]', power.valid ? `${power.value.toFixed(element.decimals)} ${element.unit || '%'}` : '—');
-            group.style.opacity = live.known ? '1' : '0.55';
+            group.style.opacity = element.manifold || live.known ? '1' : '0.55';
         }
     }
 

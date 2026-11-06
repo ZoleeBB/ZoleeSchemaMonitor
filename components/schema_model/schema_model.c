@@ -186,7 +186,7 @@ static bool element_valid(const cJSON *element, char *error)
 {
     if (!fields(element,
                 "|id|type|asset|x|y|w|h|rotation|label|text|color|fontSize|unit|decimals|value|"
-                "activity|power|showPower|points|width|direction|source|target|position|"))
+                "activity|power|showPower|points|width|direction|source|target|position|manifold|"))
         return fail(error, "element.fields");
     const char *type = sm_json_string(element, "type");
     if (!identifier(sm_json_string(element, "id")) ||
@@ -241,6 +241,29 @@ static bool element_valid(const cJSON *element, char *error)
             !cJSON_IsBool(cJSON_GetObjectItemCaseSensitive(position, "reverse")))
             return fail(error, "position.range");
     }
+    const cJSON *manifold = cJSON_GetObjectItemCaseSensitive(element, "manifold");
+    if (!strcmp(type, "equipment") &&
+        !strcmp(sm_json_string(element, "asset"), "configurable-manifold"))
+    {
+        const char *variant = sm_json_string(manifold, "variant");
+        const cJSON *heads = cJSON_GetObjectItemCaseSensitive(manifold, "heads");
+        if (!fields(manifold, "|circuits|variant|connections|heads|") ||
+            !integer(manifold, "circuits", 2, 16) ||
+            (strcmp(variant, "heating") && strcmp(variant, "floor") &&
+             strcmp(variant, "ceiling-heat") && strcmp(variant, "ceiling-cool")) ||
+            !cJSON_IsBool(cJSON_GetObjectItemCaseSensitive(manifold, "connections")) ||
+            !cJSON_IsArray(heads) ||
+            cJSON_GetArraySize(heads) != sm_json_number(manifold, "circuits", 0))
+            return fail(error, "manifold");
+        const cJSON *head;
+        cJSON_ArrayForEach(head, heads) if (!fields(head, "|percent|source|") ||
+                                            !number(head, "percent", 0, 100) ||
+                                            !sm_binding_validate(cJSON_GetObjectItemCaseSensitive(
+                                                head, "source"))) return fail(error,
+                                                                              "manifold.head");
+    }
+    else if (manifold)
+        return fail(error, "manifold.asset");
     if (!strcmp(type, "pipe"))
     {
         const cJSON *points = cJSON_GetObjectItemCaseSensitive(element, "points");
@@ -303,16 +326,25 @@ bool sm_project_validate(const cJSON *project, char error[SM_ERROR_SIZE])
                 if (cJSON_IsNull(end))
                     continue;
                 if (!fields(end, "|element|port|") || !identifier(sm_json_string(end, "element")) ||
-                    !integer(end, "port", 0, 31))
+                    !integer(end, "port", 0, 33))
                     return fail(error, "pipe.endpoint");
+                unsigned port_count = 0;
                 const sm_asset_t *asset = NULL;
                 const cJSON *other;
                 cJSON_ArrayForEach(
                     other, elements) if (!strcmp(sm_json_string(other, "id"),
                                                  sm_json_string(end, "element")) &&
                                          !strcmp(sm_json_string(other, "type"), "equipment"))
+                {
                     asset = sm_asset_find(sm_json_string(other, "asset"));
-                if (!asset || sm_json_number(end, "port", 999) >= asset->port_count)
+                    const cJSON *m = cJSON_GetObjectItemCaseSensitive(other, "manifold");
+                    port_count =
+                        m ? (cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(m, "connections"))
+                                 ? 2 + 2 * sm_json_number(m, "circuits", 0)
+                                 : 0)
+                          : (asset ? asset->port_count : 0);
+                }
+                if (!asset || sm_json_number(end, "port", 999) >= port_count)
                     return fail(error, "pipe.endpoint");
             }
         }

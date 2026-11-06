@@ -53,3 +53,15 @@ const max = newProject();
 max.pages = Array.from({length:10}, (_, n) => ({...max.pages[0], id:`p${n}`, elements:Array.from({length:150}, (_, i) => ({...pump,id:`e${i}`}))}));
 check(max);
 console.log(`Native/browser parity: ${count} cases OK`);
+
+// Minden körszám és üzemmód, a 34. porttal és szigorú fej-validálással.
+for (let n=2;n<=16;n++) for(const variant of ['heating','floor','ceiling-heat','ceiling-cool']) {
+    const p=newProject(),e=newElement('equipment','configurable-manifold'),pipe=newElement('pipe');
+    e.manifold={circuits:n,variant,connections:true,heads:Array.from({length:n},()=>({percent:0,source:null}))};
+    pipe.source={element:e.id,port:1+2*n};p.pages[0].elements.push(e,pipe);check(p);
+    pipe.source.port++;check(p);pipe.source.port--;e.manifold.connections=false;check(p);
+}
+for(const mutate of [m=>m.circuits=17,m=>m.heads.pop(),m=>m.heads[0].percent=101,m=>m.heads[0].source={},m=>m.extra=1,m=>m.variant='pool',m=>m.connections=0]) {
+    const p=newProject(),e=newElement('equipment','configurable-manifold');p.pages[0].elements.push(e);mutate(e.manifold);check(p);
+}
+console.log(`Native/browser extended parity: ${count} cases OK`);

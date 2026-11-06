@@ -20,6 +20,15 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
         response["body"] = data
         return response
     def decoded(response): return json.loads(response["body"])
+    (root / "graphics/light").mkdir(parents=True)
+    for extension, data, mime in [("png", b"\x89PNG\r\n\x1a\nfixture", "image/png"),
+                                  ("svg", b'<svg xmlns="http://www.w3.org/2000/svg"/>', "image/svg+xml")]:
+        (root / f"graphics/light/circulation-pump.{extension}").write_bytes(data)
+        image = call(f"/graphics/light/circulation-pump.{extension}")
+        assert image["status"] == "200 OK" and image["body"] == data
+        assert image["headers"]["Content-Type"] == mime
+    for invalid in ["circulation-pump.jpg", "unknown.png", "../circulation-pump.png"]:
+        assert call("/graphics/light/" + invalid)["status"].startswith("404")
     assert call("/editor")["status"] == "200 OK"
     assert b"new Editor" in call("/app.js")["body"]
     assert len(decoded(call("/catalog.json"))["elements"]) >= 300

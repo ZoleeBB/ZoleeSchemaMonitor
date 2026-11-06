@@ -110,3 +110,7 @@ A függőleges akna-, vízütéses, osztott házas és örvénykerekes szivatty�
 Az iker inline, membrános adagoló és szabályozható medenceszivattyú bekötésével a szivattyúcsalád mind a 29 típusa saját grafikát használ, 27 PNG-forrásból. Az iker inline közös jelzője a teljes egység egy aktivitásforrását követi. A teljesítményhez igazított jelzőpulzálás a meglévő opcionális teljesítménykötést használja. Ez integrációs kódállapot, tesztfuttatás és készülékes próba még hátravan.
 
 A lemezes, forrasztott lemezes, tömítéses lemezes és cső-a-csőben hőcserélő saját grafikával, négy-négy külön külső csatlakozóval bekötve. A képek statikusak, a csövek aktivitása külön rendelhető hozzá; a katalógus nem köt össze belsőleg végpontokat. A vizuális és készülékes próba még hátravan.
+
+### Vizuális felülvizsgálat és paraméterezhető osztók
+
+A 331 PNG-forrás vizuális ellenőrzése dokumentálva: 8 csere, 12 új hazai szerelvénytípus. 333 katalógustípusból 72 egyedi PNG-vel, egy további típus paraméterezhető osztó-gyűjtőként jeleníthető meg; 260 korábbi helyőrző integrációja hátravan. A [2–16 körös osztó](osztogyujtok.md) körönkénti kézi vagy Loxone-százalékkal, kapcsolható csőbekötéssel és négy felhasználással működik. A tulajdonságpanelen minden grafikai elem negyedfordulattal forgatható. A gazdagépes modell-, LVGL- és Chromium-próbák sikeresek; fizikai P4- és Miniserver-próba még nincs. Az MS1 nyitott.

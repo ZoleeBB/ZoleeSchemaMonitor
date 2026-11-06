@@ -95,3 +95,9 @@ A firmware csomagolója minden típushoz világos és sötét PNG-t követel meg
 ## Teljes vizuális felülvizsgálat
 
 [A 319 kiinduló kép és a 12 új típus tételes ellenőrzése](vizualis-felulvizsgalat.md), a lecserélt képek indoklásával és a hazai termékcsaládok gyártói tájékozódási alapjaival. A legfrissebb összesített bekötési állapotot a [készletnyilvántartás](keszlet.md) mutatja.
+
+## Paraméterezhető termofejes osztó-gyűjtők
+
+2–16 kör, négy felhasználás, opcionális csőcsonkok és körönkénti százalék. A darabszámot a műszaki rajz algoritmusa határozza meg; ez külön paraméterezhető grafika, nem további PNG-forrás. [Használat és ellenőrzés](../osztogyujtok.md).
+
+![Paraméterezhető osztók – világos és sötét](latvanytervek/08d-parameterezheto-osztok.jpg)

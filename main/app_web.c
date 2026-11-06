@@ -269,7 +269,10 @@ static esp_err_t get(httpd_req_t *request)
         const char *id = strchr(name, '/') + 1;
         size_t length = strlen(id);
         char asset[65];
-        if (length < 5 || length - 4 >= sizeof(asset) || strcmp(id + length - 4, ".svg"))
+        if (length < 5 || length - 4 >= sizeof(asset))
+            return failure(request, "404 Not Found", "graphics.path");
+        bool png = !strcmp(id + length - 4, ".png");
+        if (!png && strcmp(id + length - 4, ".svg"))
             return failure(request, "404 Not Found", "graphics.path");
         memcpy(asset, id, length - 4);
         asset[length - 4] = 0;
@@ -281,7 +284,7 @@ static esp_err_t get(httpd_req_t *request)
         cJSON_Delete(manifest);
         if (!found)
             return failure(request, "404 Not Found", "graphics.missing");
-        return file_response(request, filename, "image/svg+xml", 262144);
+        return file_response(request, filename, png ? "image/png" : "image/svg+xml", 262144);
     }
     const char *routes[] = {
         "/", "/editor", "/settings", "/loxone", "/graphics", "/backup", "/update", "/diagnostics"};
