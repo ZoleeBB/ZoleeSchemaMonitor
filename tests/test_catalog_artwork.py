@@ -31,6 +31,20 @@ class CatalogArtworkTests(unittest.TestCase):
         valve = next(item for item in elements if item['id'] == 'changeover-valve-6')
         self.assertEqual(len(valve['ports']), 6)
 
+    def test_storage_ports_exclude_air_valves_and_service_caps(self):
+        # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.
+        expected = {'electric-water-heater': 2, 'expansion-vessel': 1,
+                    'hydrophore': 1, 'combi-storage': 4}
+        elements = {item['id']: item for item in catalog.elements()}
+        for identifier, count in expected.items():
+            with self.subTest(identifier=identifier):
+                item = elements[identifier]
+                self.assertEqual(item['artwork'], identifier)
+                self.assertEqual(len(item['ports']), count)
+                self.assertEqual(item['animation']['kind'], 'none')
+        for identifier in ['expansion-vessel', 'hydrophore']:
+            self.assertGreater(elements[identifier]['ports'][0]['y'], .8)
+
     def test_rotary_valves_have_independent_position_overlay(self):
         ids = {'black-rotary-valve-3', 'black-union-rotary-valve-3', 'black-flanged-rotary-valve-3'}
         valves = [item for item in catalog.elements() if item['id'] in ids]

@@ -78,3 +78,9 @@ A tető-légkezelő és befúvó légkezelő képe elkészült és felkerült. A
 ## Forgatómotoros kiegészítések integrációja
 
 A három fekete házas szelep a katalógusba és a két rajzolóba bekötve; a katalógus így 320 típusú. Az alapképek száma változatlanul 209. A korábbi, 317 típusra vonatkozó gyártási táblázat mellé három új, saját PNG-vel regisztrált típus került; a két szürke házas képi változat regisztrációja továbbra is hátravan. A futásidejű grafikával bekötött típusok száma 18, külön forrásaik száma 15. Ez kódállapot, nem tesztelt készülékes eredmény.
+
+## Tartályok integrációja – második csomag
+
+A villanybojler, zárt tágulási tartály, hidrofor és kombinált tároló meglévő forrása bekötve. A légszelepek és zárt szervizfedelek nem csatlakozók. A villanybojler két alsó vízcsonkot, a tágulási tartály és hidrofor egy-egy alsó vízcsonkot, a kombinált tároló négy oldalsó vízcsonkot kapott. Forgó animáció egyikre sem kerül. A csonkok vizuális illeszkedésének szerkesztős és készülékes próbája még szükséges.
+
+A katalógus továbbra is 320 típusú, az elkészült források száma 209; a bekötés 22 típust fed le 19 külön PNG-ből. A tárolócsoportban így 9 típushoz 8 forrás van bekötve. Ez kódállapot, a tesztek és az Actions ellenőrzése továbbra is halasztva.

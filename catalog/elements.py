@@ -438,6 +438,14 @@ ARTWORK.update({
     "dual-coil-tank": ("dual-coil-tank", [(0.685, 0.257), (0.685, 0.74), (0.30, 0.322), (0.30, 0.45), (0.30, 0.55), (0.30, 0.69)], ("none", 0, 0, 0)),
     "horizontal-buffer": ("horizontal-buffer", [(0.105, 0.42), (0.875, 0.42), (0.105, 0.56), (0.875, 0.56)], ("none", 0, 0, 0)),
 })
+# A tartályok légszelepe és szervizfedele nem vízcsatlakozó.
+# A statikus metszeti képekre nem kerül forgó vagy áláramlási réteg.
+ARTWORK.update({
+    "electric-water-heater": ("electric-water-heater", [(0.425, 0.94), (0.545, 0.94)], ("none", 0, 0, 0)),
+    "expansion-vessel": ("expansion-vessel", [(0.50, 0.89)], ("none", 0, 0, 0)),
+    "hydrophore": ("hydrophore", [(0.50, 0.89)], ("none", 0, 0, 0)),
+    "combi-storage": ("combi-storage", [(0.29, 0.245), (0.29, 0.625), (0.71, 0.415), (0.71, 0.755)], ("none", 0, 0, 0)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),
