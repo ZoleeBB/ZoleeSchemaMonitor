@@ -2,7 +2,7 @@
 
 ## Aktuális összesítés
 
-**309 külön PNG-forrás készült el; még 10 érzékelőkép hiányzik.** A korábban megkezdett 21 képes csomag teljes. A futásidejű katalógusbekötés ettől külön állapot: 60 típus / 57 forrás. A további bekötés, firmware-fordítás és fizikai panelpróba hátravan.
+**319 külön PNG-forrás készült el; minden jelenlegi katalógustípushoz megvan a képi alap.** A katalógus 320 típust tartalmaz. A forráskészlet készítése lezárult, a grafikai integráció még folyamatban van. A futásidejű katalógusbekötés ettől külön állapot: 60 típus / 57 forrás. A további bekötés, firmware-fordítás és fizikai panelpróba hátravan.
 
 Az alábbi táblázatok és bejegyzések a korábbi csomagok időrendben megőrzött állapotait mutatják.
 
@@ -240,3 +240,12 @@ Az első kör nem négyzetes, feliratos vagy háttérfátylas változatai helyet
 Elkészült: outdoor-temperature-sensor, duct-temperature-sensor, immersion-temperature-sensor, strap-on-temperature-sensor, infrared-temperature-sensor, room-temperature-sensor, combined-climate-sensor, air-differential-pressure-sensor, water-differential-pressure-sensor, differential-temperature-sensor. Mindegyik 160×160-as, átlátszó PNG. A csőre szerelt érzékelő nyitott bilincse nem folyadékport. A vízoldali differenciálnyomás-távadó két külön menetes nyomáscsatlakozót, a légoldali két külön tömlőcsonkot kapott. A hőmérséklet-különbség mérő két önálló szondája két külön kábellel kapcsolódik a készülékhez; az első, hibás kábelágazású munkakép helyett új generálás készült. Nincs beégetett számérték vagy mutató.
 
 Összesen 309 forráskép kész; még 10 érzékelőkép hiányzik. A futásidejű integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/erzekelok-homerseklet-nyomas-10.md). A hat célzott képelőkészítési/méretjegyzék-teszt sikeres; firmware-fordítás és fizikai panelpróba nem történt.
+
+
+## Érzékelők — áramlás, vízminőség és gáz, záró tízképes csomag
+
+Elkészült: ultrasonic-flow-meter, magnetic-flow-meter, turbidity-sensor, conductivity-sensor, salinity-sensor, free-chlorine-sensor, dissolved-oxygen-sensor, carbon-monoxide-sensor, air-velocity-sensor, gas-meter. Mindegyik 160×160-as, átlátszó PNG. Az ultrahangos és elektromágneses mérő külön kialakítást kapott. A zavarosságmérő két optikai ablaka egymással szemben áll; a vezetőképesség-szonda két fém elektródát, az induktív sótartalom-szonda átmenő nyílású érzékelőgyűrűt mutat. A klórszonda membrános, az oldottoxigén-szonda optikai érzékelővégű. A légsebességmérő védett mérőeleme álló, nem ventilátor. A gázmérő két külön felső csatlakozót kapott. A vezetőképesség-szonda első, a vászon széléig érő kábele helyett teljes kábelt és csatlakozót mutató új generálás készült. Nincs beégetett számérték, folyadék vagy animációs effekt.
+
+**A forrásképek gyártása teljes: 319 külön PNG található a repóban, és a katalógus mind a 320 típusához elérhető forrás.** A lefedettség-ellenőrzés a már regisztrált ARTWORK-hozzárendeléseket, a többi típusnál a stabil azonosítóval egyező PNG-t vizsgálta; hiányzó típus nincs. Ez a meglévő fájlok ellenőrzése, nem automatikus futásidejű bekötés. A futásidejű integráció továbbra is 60 típus / 57 forrás; a további 260 típus bekötése és animációs regisztrációja hátravan. [Generálási leírások](promptok/erzekelok-vizminoseg-gaz-10.md).
+
+Ellenőrzés: az új húsz kép pontosan 160×160-as RGBA PNG, üres háttérrel és teljesen fedő tárgyrészekkel; a hat célzott képelőkészítési/méretjegyzék-teszt sikeres. A Git-index képméret- és méretkorlát-ellenőrzése sikeres. A firmware-fordítás, az összevont animációs regresszió és a fizikai P4-próba még hátravan; az MS1 mérföldkő nyitott marad.

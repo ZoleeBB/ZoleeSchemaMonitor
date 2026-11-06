@@ -1616,6 +1616,56 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/ultrasonic-flow-meter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/magnetic-flow-meter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/turbidity-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/conductivity-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/salinity-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/free-chlorine-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/dissolved-oxygen-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/carbon-monoxide-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/air-velocity-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/gas-meter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
