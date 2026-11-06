@@ -1011,6 +1011,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/box-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/smoke-extract-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/destratification-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/grease-extract-fan.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
