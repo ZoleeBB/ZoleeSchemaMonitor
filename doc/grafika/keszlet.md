@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**317 katalógustípus; 15 típushoz bekötött egyedi kép, 12 külön PNG-forrásból.**
+**320 katalógustípus; 18 típushoz bekötött egyedi kép, 15 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -9,7 +9,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 5 | 19 |
 | Hidraulika / vízellátás | 61 | 8 | 53 |
-| Szelepek | 42 | 0 | 42 |
+| Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 2 | 31 |
 | Öntözés | 23 | 0 | 23 |
@@ -175,6 +175,9 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `solenoid-valve` | Mágnesszelep | Solenoid valve | Műszaki helyőrző |
 | `motor-valve-2` | Kétjáratú motoros szelep | Two-way motor valve | Műszaki helyőrző |
 | `motor-valve-3` | Háromjáratú motoros szelep | Three-way motor valve | Műszaki helyőrző |
+| `black-rotary-valve-3` | Forgatómotoros háromjáratú – menetes | Rotary three-way – threaded | [Egyedi kép](../../assets/elements/universal/black-rotary-valve-3.png) |
+| `black-union-rotary-valve-3` | Forgatómotoros háromjáratú – hollanderes | Rotary three-way – union | [Egyedi kép](../../assets/elements/universal/black-union-rotary-valve-3.png) |
+| `black-flanged-rotary-valve-3` | Forgatómotoros háromjáratú – karimás | Rotary three-way – flanged | [Egyedi kép](../../assets/elements/universal/black-flanged-rotary-valve-3.png) |
 | `mixing-valve` | Keverőszelep | Mixing valve | Műszaki helyőrző |
 | `diverting-valve` | Váltószelep | Diverting valve | Műszaki helyőrző |
 | `thermostatic-valve` | Termosztatikus szelep | Thermostatic valve | Műszaki helyőrző |

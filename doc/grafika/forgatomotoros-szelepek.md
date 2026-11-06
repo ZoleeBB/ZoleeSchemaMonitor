@@ -36,3 +36,9 @@ Határérték-, tartomány-, irányfordítás- és adathiány-tesztesetek kész�
 A szerkesztőben külön állásforrás választható a meglévő helyiség-/funkciószűrős értékválasztóval. Hozzárendelés után alsó/felső határ és mutatóirány állítható. A `position` mező opcionális, a korábbi oldalak mező nélkül is elfogadhatók; az új mező mentéssel és oldalexporttal együtt megmarad. A C és JavaScript importellenőrzés csak érvényes kötést, növekvő véges tartományt és logikai irányjelzőt fogad el, tetszőleges további mezőt nem.
 
 A felület jelzi, hogy a mutató rajzolása még fejlesztés alatt. A készülékes élő olvasás és a két rajzoló bekötése továbbra is hátravan. A tesztesetek bővültek, futtatásuk és az Actions ellenőrzése továbbra is halasztva.
+
+## Élő rajzolás bekötése – 2026. november 6.
+
+A három fekete házas változat külön katalóguselemként regisztrálva lett. A böngésző és a P4 rajzolója a képenként megadott gombközéphez igazítja a piros mutatót és a százalékfeliratot. A mutató −45…+45° között követi az önálló állásértéket, az elem elforgatásával együtt; a felirat olvasható irányban marad. A P4 a kijelzőzáron kívül olvas RAM-adatot; a rajzolási ciklusban nincs hálózati/SD-munka vagy új objektumfoglalás. Változatlan százalékfeliratot és mutatóállást nem ír vissza. A szelepállás továbbra sem módosít aktivitást vagy csőáramlást.
+
+A grafikai csomag újragenerálva (320 katalógustípus). Az új mezőket és típusokat használó oldalhoz az ezt ismerő firmware szükséges. Gazdagépes és P4-fordítás, tesztfuttatás, vizuális és fizikai panelpróba még nem történt; a képkészlet utáni összevont ellenőrzés feladata. A korábbi fejlesztési állapotok a munkalépések történetét mutatják; a fenti három fekete változat élő rajzolásának kódja most már bekötve, de még nem igazolt.

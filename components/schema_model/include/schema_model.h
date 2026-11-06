@@ -19,7 +19,7 @@ typedef struct
     const char *family;
     unsigned port_count;
     sm_point_t ports[16];
-    unsigned animation; /* 0: nincs, 1: rotor, 2: vízpermet, 3: üzemjelző. */
+    unsigned animation; /* 0: nincs, 1: rotor, 2: vízpermet, 3: üzemjelző, 4: állásmutató. */
     float animation_x, animation_y, animation_radius;
 } sm_asset_t;
 

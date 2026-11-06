@@ -31,6 +31,16 @@ class CatalogArtworkTests(unittest.TestCase):
         valve = next(item for item in elements if item['id'] == 'changeover-valve-6')
         self.assertEqual(len(valve['ports']), 6)
 
+    def test_rotary_valves_have_independent_position_overlay(self):
+        ids = {'black-rotary-valve-3', 'black-union-rotary-valve-3', 'black-flanged-rotary-valve-3'}
+        valves = [item for item in catalog.elements() if item['id'] in ids]
+        self.assertEqual(len(valves), 3)
+        for valve in valves:
+            self.assertEqual(len(valve['ports']), 3)
+            self.assertEqual(valve['animation']['kind'], 'position')
+            self.assertEqual(valve['artwork'], valve['id'])
+            self.assertTrue(0 < valve['animation']['radius'] < .2)
+
     def test_real_sources_are_registered_rgba_and_allow_theme_dedup(self):
         elements = [item for item in catalog.elements() if 'artwork' in item]
         self.assertGreaterEqual(len(elements), 15)
@@ -61,7 +71,7 @@ class CatalogArtworkTests(unittest.TestCase):
             validate_release_graphics(invalid, elements)
 
     def test_full_size_release_manifest_is_within_device_limits(self):
-        # A tényleges generálást a CI csomaglépése végzi. Itt a 317 típusnyi
+        # A tényleges generálást a CI csomaglépése végzi. Itt a teljes katalógusnyi
         # maximális bejegyzésszámot is ellenőrizzük, nem csak a már bekötött képeket.
         entries = []
         for item in catalog.elements():

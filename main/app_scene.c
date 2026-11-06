@@ -33,7 +33,13 @@ static lv_obj_t *s_root;
 static atomic_bool s_diagnostics;
 typedef struct
 {
-    sm_binding_t value, activity, power;
+    sm_binding_t value, activity, power, position;
+    double position_minimum, position_maximum, position_x, position_y, position_radius, position_rotation;
+    bool position_reverse;
+    lv_obj_t *position_needle, *position_label;
+    lv_point_precise_t position_points[2];
+    char last_position[16];
+    int last_position_angle;
     double minimum, maximum, phase, length;
     unsigned point_count, decimals;
     int direction;
@@ -99,9 +105,12 @@ void app_scene_update(unsigned elapsed_ms)
     /* A következő Loxone-adapter RAM-pillanatképe; nincs IO vagy JSON az animációban. */
     static SCENE_BSS sm_signal_t values[SM_MAX_ELEMENTS], powers[SM_MAX_ELEMENTS];
     static SCENE_BSS sm_activity_t states[SM_MAX_ELEMENTS];
+    static SCENE_BSS sm_position_t positions[SM_MAX_ELEMENTS];
     for (unsigned i = 0; i < s_runtime_count; i++)
     {
         runtime_t *runtime = &s_runtime[i];
+        positions[i] = sm_position(signal_read(&runtime->position), runtime->position_minimum,
+                                   runtime->position_maximum, runtime->position_reverse);
         values[i] = signal_read(&runtime->value);
         powers[i] = signal_read(&runtime->power);
         states[i] = sm_activity(
@@ -137,6 +146,42 @@ void app_scene_update(unsigned elapsed_ms)
             {
                 snprintf(runtime->last_value, sizeof(runtime->last_value), "%s", text);
                 lv_label_set_text_static(runtime->value_label, runtime->last_value);
+            }
+        }
+        if (runtime->position_label)
+        {
+            sm_position_t position = positions[i];
+            char text[16];
+            if (position.known)
+                snprintf(text, sizeof(text), "%.0f%%", floor(position.percent + .5));
+            else
+                snprintf(text, sizeof(text), "—");
+            if (strcmp(text, runtime->last_position))
+            {
+                snprintf(runtime->last_position, sizeof(runtime->last_position), "%s", text);
+                lv_label_set_text_static(runtime->position_label, runtime->last_position);
+            }
+            int angle = position.known ? (int)lround(position.angle * 10) : 9999;
+            if (runtime->last_position_angle != angle)
+            {
+                if (!position.known)
+                    lv_obj_add_flag(runtime->position_needle, LV_OBJ_FLAG_HIDDEN);
+                else
+                {
+                    /* A régi és az új mutató területét is újrarajzoljuk. */
+                    lv_obj_invalidate(runtime->position_needle);
+                    double radians = (angle / 10.0 + runtime->position_rotation - 90) * 3.141592653589793 / 180;
+                    for (unsigned n = 0; n < 2; n++)
+                    {
+                        double radius = runtime->position_radius * (n ? 1 : .2);
+                        runtime->position_points[n] = (lv_point_precise_t){
+                            runtime->position_x + cos(radians) * radius,
+                            runtime->position_y + sin(radians) * radius};
+                    }
+                    lv_line_set_points(runtime->position_needle, runtime->position_points, 2);
+                    lv_obj_remove_flag(runtime->position_needle, LV_OBJ_FLAG_HIDDEN);
+                }
+                runtime->last_position_angle = angle;
             }
         }
         if (runtime->power_label)
@@ -440,6 +485,12 @@ void app_scene_poll(void)
         sm_binding_parse(cJSON_GetObjectItemCaseSensitive(power, "source"), &runtime->power);
         runtime->minimum = sm_json_number(power, "minimum", 0);
         runtime->maximum = sm_json_number(power, "maximum", 100);
+        const cJSON *position = cJSON_GetObjectItemCaseSensitive(element, "position");
+        sm_binding_parse(cJSON_GetObjectItemCaseSensitive(position, "source"), &runtime->position);
+        runtime->position_minimum = sm_json_number(position, "minimum", 0);
+        runtime->position_maximum = sm_json_number(position, "maximum", 100);
+        runtime->position_reverse = cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(position, "reverse"));
+        runtime->last_position_angle = 9998;
         runtime->decimals = sm_json_number(element, "decimals", 1);
         runtime->direction = sm_json_number(element, "direction", 1);
         runtime->last_opacity = -1;
@@ -532,6 +583,31 @@ void app_scene_poll(void)
                 lv_obj_set_style_bg_opa(runtime->indicator, LV_OPA_COVER, 0);
                 lv_obj_set_style_border_color(runtime->indicator, lv_color_hex(0xe5eff4), 0);
                 lv_obj_set_style_border_width(runtime->indicator, 1, 0);
+            }
+            if (asset && asset->animation == 4 && runtime->position.uuid[0] && s_pictures[index].bytes)
+            {
+                double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
+                runtime->position_rotation = sm_json_number(element, "rotation", 0);
+                double angle = runtime->position_rotation * 3.141592653589793 / 180;
+                runtime->position_x = x + w / 2.0 + px * cos(angle) - py * sin(angle);
+                runtime->position_y = y + h / 2.0 + px * sin(angle) + py * cos(angle);
+                runtime->position_radius = asset->animation_radius * side;
+                runtime->position_needle = lv_line_create(s_root);
+                lv_line_set_points(runtime->position_needle, runtime->position_points, 2);
+                lv_obj_set_style_line_color(runtime->position_needle, lv_color_hex(0xff3b30), 0);
+                lv_obj_set_style_line_width(runtime->position_needle, fmax(2, side * .018), 0);
+                lv_obj_set_style_line_rounded(runtime->position_needle, true, 0);
+                lv_obj_add_flag(runtime->position_needle, LV_OBJ_FLAG_HIDDEN);
+                /* A tördelés még a méretezés előtt történik: legyen hely a 100% feliratnak. */
+                int text_scale = fmax(8, side * .065) * 256 / 20;
+                int text_width = fmax(80, ceil(side * .24 * 256 / text_scale));
+                runtime->position_label = label(s_root, "—", runtime->position_x - text_width / 2.0,
+                                              runtime->position_y + side * .025, lv_color_white());
+                lv_obj_set_width(runtime->position_label, text_width);
+                lv_obj_set_style_text_align(runtime->position_label, LV_TEXT_ALIGN_CENTER, 0);
+                lv_obj_set_style_transform_pivot_x(runtime->position_label, text_width / 2, 0);
+                lv_obj_set_style_transform_pivot_y(runtime->position_label, 0, 0);
+                lv_obj_set_style_transform_scale(runtime->position_label, text_scale, 0);
             }
             if (asset && asset->animation == 1)
             {

@@ -1,4 +1,4 @@
-import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage} from './model.js';
+import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
@@ -269,6 +269,21 @@ export class Editor {
                             fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${index * 120},${cx},${cy})`}));
                         equipment.append(rotor);
                     }
+                    if (asset.animation?.kind === 'position' && element.position) {
+                        const cx = side * asset.animation.x, cy = side * asset.animation.y;
+                        const radius = side * asset.animation.radius;
+                        equipment.append(svgNode('line', {x1: cx, y1: cy - radius * 0.2,
+                            x2: cx, y2: cy - radius, stroke: '#ff3b30', 'stroke-width': Math.max(2, side * 0.018),
+                            'stroke-linecap': 'round', 'data-position-needle': '1', 'data-cx': cx, 'data-cy': cy,
+                            visibility: 'hidden'}));
+                        // A százalék az elforgatott gomb alatt is vízszintesen olvasható.
+                        const rotation = element.rotation * Math.PI / 180;
+                        const tx = cx + Math.sin(rotation) * side * 0.025;
+                        const ty = cy + Math.cos(rotation) * side * 0.025;
+                        equipment.append(svgNode('text', {x: tx, y: ty, 'dominant-baseline': 'hanging',
+                            fill: '#ffffff', 'text-anchor': 'middle', 'font-size': Math.max(8, side * 0.065),
+                            'data-position-label': '1', transform: `rotate(${-element.rotation},${tx},${ty})`}, '—'));
+                    }
                     if (asset.animation?.kind === 'status') {
                         equipment.append(svgNode('circle', {cx: side * asset.animation.x, cy: side * asset.animation.y,
                             r: Math.max(2, side * asset.animation.radius), fill: '#596674', stroke: '#e5eff4',
@@ -472,6 +487,16 @@ export class Editor {
             };
             const value = readBinding(element.value, this.state.values, this.state.device.connected);
             setText('[data-live-value]', value.valid ? `${value.value.toFixed(element.decimals)} ${element.unit}` : `— ${element.unit}`);
+            const position = positionState(element.position?.source, this.state.values,
+                element.position?.minimum, element.position?.maximum, element.position?.reverse,
+                this.state.device.connected);
+            setText('[data-position-label]', position.known ? `${Math.round(position.percent)}%` : '—');
+            const needle = group.querySelector('[data-position-needle]');
+            if (needle) {
+                needle.setAttribute('visibility', position.known ? 'visible' : 'hidden');
+                const transform = `rotate(${position.angle},${needle.dataset.cx},${needle.dataset.cy})`;
+                if (needle.getAttribute('transform') !== transform) needle.setAttribute('transform', transform);
+            }
             const power = readBinding(element.power?.source, this.state.values, this.state.device.connected);
             setText('[data-live-power]', power.valid ? `${power.value.toFixed(element.decimals)} ${element.unit || '%'}` : '—');
             group.style.opacity = live.known ? '1' : '0.55';

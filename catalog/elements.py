@@ -78,6 +78,9 @@ check-valve|Visszacsapó szelep|Check valve
 solenoid-valve|Mágnesszelep|Solenoid valve
 motor-valve-2|Kétjáratú motoros szelep|Two-way motor valve
 motor-valve-3|Háromjáratú motoros szelep|Three-way motor valve
+black-rotary-valve-3|Forgatómotoros háromjáratú – menetes|Rotary three-way – threaded
+black-union-rotary-valve-3|Forgatómotoros háromjáratú – hollanderes|Rotary three-way – union
+black-flanged-rotary-valve-3|Forgatómotoros háromjáratú – karimás|Rotary three-way – flanged
 mixing-valve|Keverőszelep|Mixing valve
 diverting-valve|Váltószelep|Diverting valve
 thermostatic-valve|Termosztatikus szelep|Thermostatic valve
@@ -434,6 +437,12 @@ ARTWORK.update({
     "hot-water-tank": ("hot-water-tank", [(0.714, 0.257), (0.714, 0.755), (0.265, 0.48), (0.265, 0.675)], ("none", 0, 0, 0)),
     "dual-coil-tank": ("dual-coil-tank", [(0.685, 0.257), (0.685, 0.74), (0.30, 0.322), (0.30, 0.45), (0.30, 0.55), (0.30, 0.69)], ("none", 0, 0, 0)),
     "horizontal-buffer": ("horizontal-buffer", [(0.105, 0.42), (0.875, 0.42), (0.105, 0.56), (0.875, 0.56)], ("none", 0, 0, 0)),
+})
+# A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
+ARTWORK.update({
+    "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),
+    "black-union-rotary-valve-3": ("black-union-rotary-valve-3", [(0.06, 0.43), (0.94, 0.43), (0.49, 0.87)], ("position", 0.39, 0.46, 0.12)),
+    "black-flanged-rotary-valve-3": ("black-flanged-rotary-valve-3", [(0.08, 0.46), (0.92, 0.46), (0.5, 0.85)], ("position", 0.385, 0.505, 0.12)),
 })
 ARTWORK["single-coil-tank"] = ARTWORK["hot-water-tank"]
 ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
