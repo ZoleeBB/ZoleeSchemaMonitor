@@ -63,6 +63,17 @@ typedef struct
 } head_runtime_t;
 static SCENE_BSS head_runtime_t s_heads[SM_MAX_ELEMENTS * 16];
 static unsigned s_head_count;
+typedef struct
+{
+    unsigned owner;
+    lv_obj_t *object;
+    lv_point_precise_t points[2];
+    double x, y, radius;
+    bool initialized;
+    int opacity;
+} extra_rotor_t;
+static SCENE_BSS extra_rotor_t s_extra_rotors[SM_MAX_ELEMENTS * 7];
+static unsigned s_extra_rotor_count;
 static unsigned s_runtime_count;
 static app_scene_read_fn s_reader;
 static void *s_reader_context;
@@ -294,6 +305,25 @@ void app_scene_update(unsigned elapsed_ms)
                                      runtime->rotor_y + sin(angle) * runtime->rotor_radius};
             lv_obj_invalidate(runtime->rotor);
             runtime->rotor_initialized = true;
+        }
+    }
+    for (unsigned n = 0; n < s_extra_rotor_count; n++)
+    {
+        extra_rotor_t *rotor = &s_extra_rotors[n];
+        sm_activity_t state = states[rotor->owner];
+        int opacity = state.known ? LV_OPA_COVER : LV_OPA_50;
+        if (rotor->opacity != opacity)
+        {
+            lv_obj_set_style_opa(rotor->object, opacity, 0);
+            rotor->opacity = opacity;
+        }
+        if (!rotor->initialized || state.active)
+        {
+            double angle = s_runtime[rotor->owner].phase * 6.283185307179586;
+            rotor->points[0] = (lv_point_precise_t){rotor->x - cos(angle)*rotor->radius, rotor->y - sin(angle)*rotor->radius};
+            rotor->points[1] = (lv_point_precise_t){rotor->x + cos(angle)*rotor->radius, rotor->y + sin(angle)*rotor->radius};
+            lv_obj_invalidate(rotor->object);
+            rotor->initialized = true;
         }
     }
     bsp_display_unlock();
@@ -657,6 +687,8 @@ void app_scene_poll(void)
     memset(s_runtime, 0, sizeof(s_runtime));
     memset(s_heads, 0, sizeof(s_heads));
     s_head_count = 0;
+    memset(s_extra_rotors, 0, sizeof(s_extra_rotors));
+    s_extra_rotor_count = 0;
     s_runtime_count = cJSON_GetArraySize(elements);
     s_root = lv_obj_create(lv_screen_active());
     lv_obj_remove_style_all(s_root);
@@ -826,6 +858,21 @@ void app_scene_poll(void)
                 lv_line_set_points(runtime->rotor, runtime->rotor_points, 2);
                 lv_obj_set_style_line_color(runtime->rotor, color, 0);
                 lv_obj_set_style_line_width(runtime->rotor, 3, 0);
+                for (unsigned n = 0; n < asset->extra_rotor_count && n < 7; n++)
+                {
+                    extra_rotor_t *rotor = &s_extra_rotors[s_extra_rotor_count++];
+                    double rx = (asset->extra_rotors[n].x - .5) * side;
+                    double ry = (asset->extra_rotors[n].y - .5) * side;
+                    rotor->owner = index;
+                    rotor->x = x + w/2.0 + rx*cos(angle) - ry*sin(angle);
+                    rotor->y = y + h/2.0 + rx*sin(angle) + ry*cos(angle);
+                    rotor->radius = asset->extra_rotors[n].radius * side;
+                    rotor->opacity = -1;
+                    rotor->object = lv_line_create(s_root);
+                    lv_line_set_points(rotor->object, rotor->points, 2);
+                    lv_obj_set_style_line_color(rotor->object, color, 0);
+                    lv_obj_set_style_line_width(rotor->object, 3, 0);
+                }
             }
         }
         else

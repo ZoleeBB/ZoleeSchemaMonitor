@@ -9,16 +9,16 @@ catalog = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(catalog)
 items = catalog.elements()
 ready = [item for item in items if 'artwork' in item]
-procedural = [item for item in items if item['family'] == 'configurable-manifold']
+procedural = [item for item in items if item['family'] == 'configurable-manifold' or item.get('proceduralManifold')]
 parameterized = Counter(item['category'] for item in procedural)
 counts = Counter(item['category'] for item in items)
 finished = Counter(item['category'] for item in ready)
 lines = ['# Grafikai készletnyilvántartás', '',
          f'**{len(items)} katalógustípus; {len(ready)} típushoz bekötött egyedi kép, '
-         f'{len({item["artwork"] for item in ready})} külön PNG-forrásból; {len(procedural)} paraméterezhető műszaki grafika.**', '',
+         f'{len({item["artwork"] for item in ready})} külön PNG-forrásból; {len(procedural)} számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**', '',
          'A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; '
          'az összes csoport végleges grafikája továbbra is MS1-feltétel.', '',
-         '| Csoport | Típus | Egyedi képpel | Paraméteres | Még helyőrző |', '| --- | ---: | ---: | ---: | ---: |']
+         '| Csoport | Típus | Egyedi képpel | Számított | Még helyőrző |', '| --- | ---: | ---: | ---: | ---: |']
 for category, names in catalog.CATEGORIES.items():
     lines.append(f'| {names["hu"]} | {counts[category]} | {finished[category]} | {parameterized[category]} | {counts[category] - finished[category] - parameterized[category]} |')
 lines += ['', 'A fűtési, szolár és általános keringető azonos fizikai szivattyúházat használhat. '

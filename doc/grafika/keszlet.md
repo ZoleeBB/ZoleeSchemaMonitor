@@ -1,14 +1,14 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 82 típushoz bekötött egyedi kép, 79 külön PNG-forrásból; 1 paraméterezhető műszaki grafika.**
+**333 katalógustípus; 132 típushoz bekötött egyedi kép, 129 külön PNG-forrásból; 1 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
-| Csoport | Típus | Egyedi képpel | Paraméteres | Még helyőrző |
+| Csoport | Típus | Egyedi képpel | Számított | Még helyőrző |
 | --- | ---: | ---: | ---: | ---: |
-| Fűtés / hűtés | 48 | 0 | 0 | 48 |
+| Fűtés / hűtés | 48 | 48 | 0 | 0 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
-| Hidraulika / vízellátás | 64 | 32 | 0 | 32 |
+| Hidraulika / vízellátás | 64 | 34 | 0 | 30 |
 | Szelepek | 55 | 22 | 1 | 32 |
 | Szellőzés / légtechnika | 51 | 0 | 0 | 51 |
 | Medencetechnika | 33 | 4 | 0 | 29 |
@@ -21,54 +21,54 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `gas-boiler` | Gázkazán | Gas boiler | Műszaki helyőrző |
-| `electric-boiler` | Elektromos kazán | Electric boiler | Műszaki helyőrző |
-| `solid-fuel-boiler` | Vegyes tüzelésű kazán | Solid fuel boiler | Műszaki helyőrző |
-| `pellet-boiler` | Pelletkazán | Pellet boiler | Műszaki helyőrző |
-| `district-heating` | Távhő fogadóállomás | District heating station | Műszaki helyőrző |
-| `heat-pump` | Hőszivattyú kültéri | Outdoor heat pump | Műszaki helyőrző |
-| `heat-pump-dual` | Kétventilátoros hőszivattyú | Dual fan heat pump | Műszaki helyőrző |
-| `chiller` | Folyadékhűtő | Chiller | Műszaki helyőrző |
-| `air-conditioner-outdoor` | Klíma kültéri egység | Outdoor AC unit | Műszaki helyőrző |
-| `heat-pump-indoor` | Hőszivattyú beltéri | Indoor heat pump | Műszaki helyőrző |
-| `hydrobox` | Hidrobox | Hydrobox | Műszaki helyőrző |
-| `electric-heater` | Elektromos fűtőbetét | Electric immersion heater | Műszaki helyőrző |
-| `radiator` | Radiátor | Radiator | Műszaki helyőrző |
-| `towel-radiator` | Törölközőszárító | Towel radiator | Műszaki helyőrző |
-| `convector` | Konvektor | Convector | Műszaki helyőrző |
-| `fan-coil` | Fan-coil | Fan coil | Műszaki helyőrző |
-| `air-conditioner-indoor` | Klíma beltéri egység | Indoor AC unit | Műszaki helyőrző |
-| `underfloor-heating` | Padlófűtés | Underfloor heating | Műszaki helyőrző |
-| `wall-heating` | Falfűtés | Wall heating | Műszaki helyőrző |
-| `ceiling-heating` | Mennyezetfűtés | Ceiling heating | Műszaki helyőrző |
-| `ceiling-cooling` | Mennyezethűtés | Ceiling cooling | Műszaki helyőrző |
-| `heating-circuit` | Fűtési kör | Heating circuit | Műszaki helyőrző |
-| `cooling-circuit` | Hűtési kör | Cooling circuit | Műszaki helyőrző |
-| `solar-collector` | Napkollektor | Solar thermal collector | Műszaki helyőrző |
-| `monobloc-heat-pump` | Monoblokk levegő-víz hőszivattyú | Monobloc air-to-water heat pump | Műszaki helyőrző |
-| `split-heat-pump` | Split levegő-víz hőszivattyú | Split air-to-water heat pump | Műszaki helyőrző |
-| `high-temperature-heat-pump` | Magas hőmérsékletű hőszivattyú | High temperature heat pump | Műszaki helyőrző |
-| `reversible-heat-pump` | Reverzibilis hőszivattyú | Reversible heat pump | Műszaki helyőrző |
-| `ground-source-heat-pump` | Talajszondás hőszivattyú | Ground source heat pump | Műszaki helyőrző |
-| `water-source-heat-pump` | Víz-víz hőszivattyú | Water source heat pump | Műszaki helyőrző |
-| `absorption-chiller` | Abszorpciós folyadékhűtő | Absorption chiller | Műszaki helyőrző |
-| `rooftop-chiller` | Tetőre telepített folyadékhűtő | Rooftop chiller | Műszaki helyőrző |
-| `dry-cooler` | Szárazhűtő | Dry cooler | Műszaki helyőrző |
-| `floor-standing-boiler` | Álló gázkazán | Floor standing gas boiler | Műszaki helyőrző |
-| `oil-boiler` | Olajtüzelésű kazán | Oil boiler | Műszaki helyőrző |
-| `condensing-boiler` | Kondenzációs kazán | Condensing boiler | Műszaki helyőrző |
-| `wood-gasification-boiler` | Faelgázosító kazán | Wood gasification boiler | Műszaki helyőrző |
-| `wood-chip-boiler` | Aprítéktüzelésű kazán | Wood chip boiler | Műszaki helyőrző |
-| `biomass-boiler` | Biomassza kazán | Biomass boiler | Műszaki helyőrző |
-| `micro-chp` | Mikro kapcsolt hő- és áramtermelő | Micro CHP unit | Műszaki helyőrző |
-| `steam-boiler` | Gőzkazán | Steam boiler | Műszaki helyőrző |
-| `panel-radiator` | Acéllemez lapradiátor | Steel panel radiator | Műszaki helyőrző |
-| `column-radiator` | Oszlopradiátor | Column radiator | Műszaki helyőrző |
-| `cast-iron-radiator` | Öntöttvas radiátor | Cast iron radiator | Műszaki helyőrző |
-| `trench-convector` | Padlókonvektor | Trench convector | Műszaki helyőrző |
-| `cassette-fan-coil` | Kazettás fan-coil | Cassette fan coil | Műszaki helyőrző |
-| `ducted-fan-coil` | Légcsatornás fan-coil | Ducted fan coil | Műszaki helyőrző |
-| `cassette-air-conditioner` | Kazettás klíma beltéri | Cassette AC indoor unit | Műszaki helyőrző |
+| `gas-boiler` | Gázkazán | Gas boiler | [Egyedi kép](../../assets/elements/universal/gas-boiler.png) |
+| `electric-boiler` | Elektromos kazán | Electric boiler | [Egyedi kép](../../assets/elements/universal/electric-boiler.png) |
+| `solid-fuel-boiler` | Vegyes tüzelésű kazán | Solid fuel boiler | [Egyedi kép](../../assets/elements/universal/solid-fuel-boiler.png) |
+| `pellet-boiler` | Pelletkazán | Pellet boiler | [Egyedi kép](../../assets/elements/universal/pellet-boiler.png) |
+| `district-heating` | Távhő fogadóállomás | District heating station | [Egyedi kép](../../assets/elements/universal/district-heating.png) |
+| `heat-pump` | Hőszivattyú kültéri | Outdoor heat pump | [Egyedi kép](../../assets/elements/universal/heat-pump.png) |
+| `heat-pump-dual` | Kétventilátoros hőszivattyú | Dual fan heat pump | [Egyedi kép](../../assets/elements/universal/heat-pump-dual.png) |
+| `chiller` | Folyadékhűtő | Chiller | [Egyedi kép](../../assets/elements/universal/chiller.png) |
+| `air-conditioner-outdoor` | Klíma kültéri egység | Outdoor AC unit | [Egyedi kép](../../assets/elements/universal/air-conditioner-outdoor.png) |
+| `heat-pump-indoor` | Hőszivattyú beltéri | Indoor heat pump | [Egyedi kép](../../assets/elements/universal/heat-pump-indoor.png) |
+| `hydrobox` | Hidrobox | Hydrobox | [Egyedi kép](../../assets/elements/universal/hydrobox.png) |
+| `electric-heater` | Elektromos fűtőbetét | Electric immersion heater | [Egyedi kép](../../assets/elements/universal/electric-heater.png) |
+| `radiator` | Radiátor | Radiator | [Egyedi kép](../../assets/elements/universal/radiator.png) |
+| `towel-radiator` | Törölközőszárító | Towel radiator | [Egyedi kép](../../assets/elements/universal/towel-radiator.png) |
+| `convector` | Konvektor | Convector | [Egyedi kép](../../assets/elements/universal/convector.png) |
+| `fan-coil` | Fan-coil | Fan coil | [Egyedi kép](../../assets/elements/universal/fan-coil.png) |
+| `air-conditioner-indoor` | Klíma beltéri egység | Indoor AC unit | [Egyedi kép](../../assets/elements/universal/air-conditioner-indoor.png) |
+| `underfloor-heating` | Padlófűtés | Underfloor heating | [Egyedi kép](../../assets/elements/universal/underfloor-heating.png) |
+| `wall-heating` | Falfűtés | Wall heating | [Egyedi kép](../../assets/elements/universal/wall-heating.png) |
+| `ceiling-heating` | Mennyezetfűtés | Ceiling heating | [Egyedi kép](../../assets/elements/universal/ceiling-heating.png) |
+| `ceiling-cooling` | Mennyezethűtés | Ceiling cooling | [Egyedi kép](../../assets/elements/universal/ceiling-cooling.png) |
+| `heating-circuit` | Fűtési kör | Heating circuit | [Egyedi kép](../../assets/elements/universal/heating-circuit.png) |
+| `cooling-circuit` | Hűtési kör | Cooling circuit | [Egyedi kép](../../assets/elements/universal/cooling-circuit.png) |
+| `solar-collector` | Napkollektor | Solar thermal collector | [Egyedi kép](../../assets/elements/universal/solar-collector.png) |
+| `monobloc-heat-pump` | Monoblokk levegő-víz hőszivattyú | Monobloc air-to-water heat pump | [Egyedi kép](../../assets/elements/universal/monobloc-heat-pump.png) |
+| `split-heat-pump` | Split levegő-víz hőszivattyú | Split air-to-water heat pump | [Egyedi kép](../../assets/elements/universal/split-heat-pump.png) |
+| `high-temperature-heat-pump` | Magas hőmérsékletű hőszivattyú | High temperature heat pump | [Egyedi kép](../../assets/elements/universal/high-temperature-heat-pump.png) |
+| `reversible-heat-pump` | Reverzibilis hőszivattyú | Reversible heat pump | [Egyedi kép](../../assets/elements/universal/reversible-heat-pump.png) |
+| `ground-source-heat-pump` | Talajszondás hőszivattyú | Ground source heat pump | [Egyedi kép](../../assets/elements/universal/ground-source-heat-pump.png) |
+| `water-source-heat-pump` | Víz-víz hőszivattyú | Water source heat pump | [Egyedi kép](../../assets/elements/universal/water-source-heat-pump.png) |
+| `absorption-chiller` | Abszorpciós folyadékhűtő | Absorption chiller | [Egyedi kép](../../assets/elements/universal/absorption-chiller.png) |
+| `rooftop-chiller` | Tetőre telepített folyadékhűtő | Rooftop chiller | [Egyedi kép](../../assets/elements/universal/rooftop-chiller.png) |
+| `dry-cooler` | Szárazhűtő | Dry cooler | [Egyedi kép](../../assets/elements/universal/dry-cooler.png) |
+| `floor-standing-boiler` | Álló gázkazán | Floor standing gas boiler | [Egyedi kép](../../assets/elements/universal/floor-standing-boiler.png) |
+| `oil-boiler` | Olajtüzelésű kazán | Oil boiler | [Egyedi kép](../../assets/elements/universal/oil-boiler.png) |
+| `condensing-boiler` | Kondenzációs kazán | Condensing boiler | [Egyedi kép](../../assets/elements/universal/condensing-boiler.png) |
+| `wood-gasification-boiler` | Faelgázosító kazán | Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/wood-gasification-boiler.png) |
+| `wood-chip-boiler` | Aprítéktüzelésű kazán | Wood chip boiler | [Egyedi kép](../../assets/elements/universal/wood-chip-boiler.png) |
+| `biomass-boiler` | Biomassza kazán | Biomass boiler | [Egyedi kép](../../assets/elements/universal/biomass-boiler.png) |
+| `micro-chp` | Mikro kapcsolt hő- és áramtermelő | Micro CHP unit | [Egyedi kép](../../assets/elements/universal/micro-chp.png) |
+| `steam-boiler` | Gőzkazán | Steam boiler | [Egyedi kép](../../assets/elements/universal/steam-boiler.png) |
+| `panel-radiator` | Acéllemez lapradiátor | Steel panel radiator | [Egyedi kép](../../assets/elements/universal/panel-radiator.png) |
+| `column-radiator` | Oszlopradiátor | Column radiator | [Egyedi kép](../../assets/elements/universal/column-radiator.png) |
+| `cast-iron-radiator` | Öntöttvas radiátor | Cast iron radiator | [Egyedi kép](../../assets/elements/universal/cast-iron-radiator.png) |
+| `trench-convector` | Padlókonvektor | Trench convector | [Egyedi kép](../../assets/elements/universal/trench-convector.png) |
+| `cassette-fan-coil` | Kazettás fan-coil | Cassette fan coil | [Egyedi kép](../../assets/elements/universal/cassette-fan-coil.png) |
+| `ducted-fan-coil` | Légcsatornás fan-coil | Ducted fan coil | [Egyedi kép](../../assets/elements/universal/ducted-fan-coil.png) |
+| `cassette-air-conditioner` | Kazettás klíma beltéri | Cassette AC indoor unit | [Egyedi kép](../../assets/elements/universal/cassette-air-conditioner.png) |
 
 ## Tárolás / HMV
 
@@ -114,8 +114,8 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `sewage-pump` | Szennyvízszivattyú | Sewage pump | [Egyedi kép](../../assets/elements/universal/sewage-pump.png) |
 | `solar-pump` | Szolárszivattyú | Solar pump | [Egyedi kép](../../assets/elements/universal/circulation-pump.png) |
 | `plate-exchanger` | Lemezes hőcserélő | Plate heat exchanger | [Egyedi kép](../../assets/elements/universal/plate-exchanger.png) |
-| `tubular-exchanger` | Csöves hőcserélő | Tubular heat exchanger | Műszaki helyőrző |
-| `hydraulic-separator` | Hidraulikus váltó | Hydraulic separator | Műszaki helyőrző |
+| `tubular-exchanger` | Csöves hőcserélő | Tubular heat exchanger | [Egyedi kép](../../assets/elements/universal/tubular-exchanger.png) |
+| `hydraulic-separator` | Hidraulikus váltó | Hydraulic separator | [Egyedi kép](../../assets/elements/universal/hydraulic-separator.png) |
 | `mixing-unit` | Keverőegység | Mixing unit | Műszaki helyőrző |
 | `manifold-2` | Osztó-gyűjtő 2 kör | 2 circuit manifold | Műszaki helyőrző |
 | `manifold-4` | Osztó-gyűjtő 4 kör | 4 circuit manifold | Műszaki helyőrző |

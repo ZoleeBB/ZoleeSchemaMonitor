@@ -12,9 +12,11 @@ lines = ["/* Generált fájl: tools/generate_catalog.py. Kézzel nem szerkeszten
 for item in module.elements():
     ports = ", ".join("{%sf, %sf}" % (float(p["x"]), float(p["y"])) for p in item["ports"])
     animation = item["animation"] or {"kind": "none", "x": 0, "y": 0, "radius": 0}
-    lines.append("    {%s, %s, %s, %s, %d, {%s}, %d, %sf, %sf, %sf}," % (
+    extra = animation.get("rotors", [])[1:]
+    markers = ", ".join("{%sf, %sf, %sf}" % (float(m["x"]), float(m["y"]), float(m["radius"])) for m in extra) or "{0, 0, 0}"
+    lines.append("    {%s, %s, %s, %s, %d, {%s}, %d, %sf, %sf, %sf, %d, {%s}}," % (
         quote(item["id"]), quote(item["name"]["hu"]), quote(item["name"]["en"]), quote(item["family"]),
         len(item["ports"]), ports, {"none": 0, "rotor": 1, "spray": 2, "status": 3, "position": 4}[animation["kind"]],
-        float(animation["x"]), float(animation["y"]), float(animation["radius"])))
+        float(animation["x"]), float(animation["y"]), float(animation["radius"]), len(extra), markers))
 lines += ["};", "const unsigned sm_catalog_count = sizeof(sm_catalog) / sizeof(sm_catalog[0]);", ""]
 (ROOT / "components/schema_model/schema_catalog.inc").write_text("\n".join(lines))

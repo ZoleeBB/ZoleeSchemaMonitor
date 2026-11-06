@@ -1,0 +1,1041 @@
+{
+    "gas-boiler": {
+        "ports": [
+            [
+                0.4,
+                0.85
+            ],
+            [
+                0.6,
+                0.85
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "A középső gázcsonk és a füstgázkivezetés nem vízport."
+    },
+    "electric-boiler": {
+        "ports": [
+            [
+                0.415,
+                0.83
+            ],
+            [
+                0.575,
+                0.83
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "solid-fuel-boiler": {
+        "ports": [
+            [
+                0.25,
+                0.7
+            ],
+            [
+                0.72,
+                0.7
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "pellet-boiler": {
+        "ports": [
+            [
+                0.25,
+                0.7
+            ],
+            [
+                0.72,
+                0.7
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "district-heating": {
+        "ports": [
+            [
+                0.12,
+                0.245
+            ],
+            [
+                0.875,
+                0.24
+            ],
+            [
+                0.12,
+                0.74
+            ],
+            [
+                0.875,
+                0.74
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "heat-pump": {
+        "ports": [
+            [
+                0.9,
+                0.445
+            ],
+            [
+                0.9,
+                0.535
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.35,
+            0.49,
+            0.15
+        ]
+    },
+    "heat-pump-dual": {
+        "ports": [
+            [
+                0.76,
+                0.85
+            ],
+            [
+                0.83,
+                0.85
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.4,
+            0.325,
+            0.15
+        ],
+        "rotors": [
+            [
+                0.4,
+                0.325,
+                0.15
+            ],
+            [
+                0.4,
+                0.655,
+                0.15
+            ]
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "chiller": {
+        "ports": [
+            [
+                0.87,
+                0.545
+            ],
+            [
+                0.87,
+                0.615
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.295,
+            0.54,
+            0.14
+        ],
+        "rotors": [
+            [
+                0.295,
+                0.54,
+                0.14
+            ],
+            [
+                0.61,
+                0.54,
+                0.14
+            ]
+        ]
+    },
+    "air-conditioner-outdoor": {
+        "ports": [
+            [
+                0.9,
+                0.51
+            ],
+            [
+                0.9,
+                0.61
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.495,
+            0.555,
+            0.22
+        ],
+        "note": "A két oldalsó csonk hűtőközeg-csatlakozó; a villamos bekötés nem port."
+    },
+    "heat-pump-indoor": {
+        "ports": [
+            [
+                0.455,
+                0.09
+            ],
+            [
+                0.54,
+                0.09
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "hydrobox": {
+        "ports": [
+            [
+                0.365,
+                0.85
+            ],
+            [
+                0.5,
+                0.85
+            ],
+            [
+                0.63,
+                0.85
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "electric-heater": {
+        "ports": [],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Merülő fűtőbetét: nem átfolyó készülék, nincs két mesterséges vízport."
+    },
+    "radiator": {
+        "ports": [
+            [
+                0.07,
+                0.27
+            ],
+            [
+                0.92,
+                0.27
+            ],
+            [
+                0.07,
+                0.64
+            ],
+            [
+                0.92,
+                0.64
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "towel-radiator": {
+        "ports": [
+            [
+                0.25,
+                0.85
+            ],
+            [
+                0.73,
+                0.85
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "convector": {
+        "ports": [
+            [
+                0.075,
+                0.67
+            ],
+            [
+                0.075,
+                0.735
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "fan-coil": {
+        "ports": [
+            [
+                0.09,
+                0.76
+            ],
+            [
+                0.09,
+                0.82
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "air-conditioner-indoor": {
+        "ports": [
+            [
+                0.88,
+                0.635
+            ],
+            [
+                0.91,
+                0.675
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hátsó hűtőközeg-pontok; az előlapi légnyílás nem folyadékport."
+    },
+    "underfloor-heating": {
+        "ports": [
+            [
+                0.13,
+                0.225
+            ],
+            [
+                0.865,
+                0.605
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "wall-heating": {
+        "ports": [
+            [
+                0.285,
+                0.88
+            ],
+            [
+                0.66,
+                0.88
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "ceiling-heating": {
+        "ports": [
+            [
+                0.925,
+                0.44
+            ],
+            [
+                0.88,
+                0.53
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "ceiling-cooling": {
+        "ports": [
+            [
+                0.92,
+                0.42
+            ],
+            [
+                0.92,
+                0.61
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "heating-circuit": {
+        "ports": [
+            [
+                0.34,
+                0.885
+            ],
+            [
+                0.66,
+                0.885
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "cooling-circuit": {
+        "ports": [
+            [
+                0.105,
+                0.285
+            ],
+            [
+                0.105,
+                0.76
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "solar-collector": {
+        "ports": [
+            [
+                0.055,
+                0.64
+            ],
+            [
+                0.93,
+                0.32
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "monobloc-heat-pump": {
+        "ports": [
+            [
+                0.095,
+                0.42
+            ],
+            [
+                0.095,
+                0.46
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.64,
+            0.525,
+            0.2
+        ]
+    },
+    "split-heat-pump": {
+        "ports": [
+            [
+                0.7,
+                0.75
+            ],
+            [
+                0.755,
+                0.75
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.48,
+            0.415,
+            0.21
+        ]
+    },
+    "high-temperature-heat-pump": {
+        "ports": [
+            [
+                0.83,
+                0.665
+            ],
+            [
+                0.83,
+                0.74
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.335,
+            0.38,
+            0.16
+        ],
+        "rotors": [
+            [
+                0.335,
+                0.38,
+                0.16
+            ],
+            [
+                0.7,
+                0.38,
+                0.16
+            ]
+        ]
+    },
+    "reversible-heat-pump": {
+        "ports": [
+            [
+                0.52,
+                0.735
+            ],
+            [
+                0.625,
+                0.735
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.37,
+            0.39,
+            0.19
+        ]
+    },
+    "ground-source-heat-pump": {
+        "ports": [
+            [
+                0.225,
+                0.065
+            ],
+            [
+                0.305,
+                0.065
+            ],
+            [
+                0.385,
+                0.065
+            ],
+            [
+                0.465,
+                0.065
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "water-source-heat-pump": {
+        "ports": [
+            [
+                0.14,
+                0.2
+            ],
+            [
+                0.14,
+                0.28
+            ],
+            [
+                0.14,
+                0.39
+            ],
+            [
+                0.14,
+                0.46
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "absorption-chiller": {
+        "ports": [
+            [
+                0.19,
+                0.275
+            ],
+            [
+                0.19,
+                0.355
+            ],
+            [
+                0.86,
+                0.275
+            ],
+            [
+                0.86,
+                0.355
+            ],
+            [
+                0.19,
+                0.695
+            ],
+            [
+                0.86,
+                0.695
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "rooftop-chiller": {
+        "ports": [
+            [
+                0.75,
+                0.75
+            ],
+            [
+                0.85,
+                0.75
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.325,
+            0.245,
+            0.115
+        ],
+        "rotors": [
+            [
+                0.325,
+                0.245,
+                0.115
+            ],
+            [
+                0.66,
+                0.245,
+                0.115
+            ]
+        ]
+    },
+    "dry-cooler": {
+        "ports": [
+            [
+                0.895,
+                0.52
+            ],
+            [
+                0.895,
+                0.64
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.24,
+            0.41,
+            0.09
+        ],
+        "rotors": [
+            [
+                0.24,
+                0.41,
+                0.09
+            ],
+            [
+                0.49,
+                0.41,
+                0.09
+            ],
+            [
+                0.745,
+                0.41,
+                0.09
+            ]
+        ]
+    },
+    "floor-standing-boiler": {
+        "ports": [
+            [
+                0.225,
+                0.36
+            ],
+            [
+                0.225,
+                0.47
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "oil-boiler": {
+        "ports": [
+            [
+                0.25,
+                0.7
+            ],
+            [
+                0.72,
+                0.7
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "condensing-boiler": {
+        "ports": [
+            [
+                0.35,
+                0.745
+            ],
+            [
+                0.64,
+                0.745
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "A köztes gáz- és kondenzvízcsonk nem a fűtőkör két vízportja."
+    },
+    "wood-gasification-boiler": {
+        "ports": [
+            [
+                0.25,
+                0.7
+            ],
+            [
+                0.72,
+                0.7
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "wood-chip-boiler": {
+        "ports": [
+            [
+                0.25,
+                0.7
+            ],
+            [
+                0.72,
+                0.7
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "biomass-boiler": {
+        "ports": [
+            [
+                0.25,
+                0.7
+            ],
+            [
+                0.72,
+                0.7
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "micro-chp": {
+        "ports": [
+            [
+                0.11,
+                0.325
+            ],
+            [
+                0.11,
+                0.41
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "steam-boiler": {
+        "ports": [
+            [
+                0.5,
+                0.145
+            ],
+            [
+                0.275,
+                0.78
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Gőzoldali kivezetés és tápvíz sematikus pontja; a füstgázcsonk és az égő nem port."
+    },
+    "panel-radiator": {
+        "ports": [
+            [
+                0.78,
+                0.72
+            ],
+            [
+                0.85,
+                0.72
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "column-radiator": {
+        "ports": [
+            [
+                0.12,
+                0.175
+            ],
+            [
+                0.87,
+                0.825
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "cast-iron-radiator": {
+        "ports": [
+            [
+                0.105,
+                0.2
+            ],
+            [
+                0.9,
+                0.8
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
+    },
+    "trench-convector": {
+        "ports": [
+            [
+                0.09,
+                0.54
+            ],
+            [
+                0.09,
+                0.59
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "cassette-fan-coil": {
+        "ports": [
+            [
+                0.225,
+                0.11
+            ],
+            [
+                0.305,
+                0.11
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "ducted-fan-coil": {
+        "ports": [
+            [
+                0.075,
+                0.51
+            ],
+            [
+                0.075,
+                0.59
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "cassette-air-conditioner": {
+        "ports": [
+            [
+                0.15,
+                0.18
+            ],
+            [
+                0.2,
+                0.18
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus hátsó hűtőközeg-pontok; a befúvórácsok nem vízportok."
+    },
+    "tubular-exchanger": {
+        "ports": [
+            [
+                0.08,
+                0.52
+            ],
+            [
+                0.8,
+                0.25
+            ],
+            [
+                0.225,
+                0.69
+            ],
+            [
+                0.66,
+                0.69
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "hydraulic-separator": {
+        "ports": [
+            [
+                0.27,
+                0.34
+            ],
+            [
+                0.73,
+                0.34
+            ],
+            [
+                0.27,
+                0.65
+            ],
+            [
+                0.73,
+                0.65
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    }
+}

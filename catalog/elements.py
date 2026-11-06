@@ -1,5 +1,8 @@
 """A firmware által ismert elemkészlet. Új típus csak forrásmódosítással kerülhet ide."""
 
+import json
+from pathlib import Path
+
 # Kategória, rajzcsalád, majd stabil azonosító és a két felhasználói név.
 GROUPS = [
     ("heating", "boiler", """
@@ -575,6 +578,13 @@ ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
 ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]
 
 
+# Az öt ötvenes csomag tételesen felülvizsgált csatlakozásai.
+INTEGRATED_ARTWORK = json.loads(Path(__file__).with_name("artwork-bindings.json").read_text())
+for identifier, entry in INTEGRATED_ARTWORK.items():
+    if "procedural" not in entry:
+        ARTWORK[identifier] = (entry.get("source", identifier), entry["ports"], entry["motion"])
+
+
 def elements():
     result = []
     for category, family, rows in GROUPS:
@@ -594,20 +604,28 @@ def elements():
                 animation = {"kind": "rotor", "x": 0.5, "y": 0.55, "radius": 0.16}
             if family == "sprinkler":
                 animation = {"kind": "spray", "x": 0.5, "y": 0.28, "radius": 0.3}
+            registration = INTEGRATED_ARTWORK.get(identifier, {})
             artwork = ARTWORK.get(identifier)
             if artwork:
                 source, anchors, motion = artwork
                 ports = [{"x": x, "y": y} for x, y in anchors]
                 kind, x, y, radius = motion
                 animation = {"kind": kind, "x": x, "y": y, "radius": radius}
-            if identifier in {"thermostatic-mixing-valve", "thermostatic-diverting-valve", "automatic-multiport-valve"}:
+            if not artwork and identifier in {"thermostatic-mixing-valve", "thermostatic-diverting-valve", "automatic-multiport-valve"}:
                 ports.append({"x": 0.5, "y": 0.95})
-            if identifier == "mixing-valve-4":
+            if not artwork and identifier == "mixing-valve-4":
                 ports += [{"x": 0.5, "y": 0.05}, {"x": 0.5, "y": 0.95}]
-            if identifier == "changeover-valve-6":
+            if not artwork and identifier == "changeover-valve-6":
                 ports = [{"x": x, "y": y} for x, y in [(0.05, 0.3), (0.05, 0.7), (0.95, 0.3), (0.95, 0.7), (0.5, 0.05), (0.5, 0.95)]]
+            if registration.get("procedural"):
+                ports = [{"x": x, "y": y} for x, y in registration["ports"]]
+                animation = {"kind": "none", "x": 0, "y": 0, "radius": 0}
+            if "rotors" in registration:
+                animation["rotors"] = [{"x": x, "y": y, "radius": radius} for x, y, radius in registration["rotors"]]
             result.append({"id": identifier, "name": {"hu": hu, "en": en}, "category": category,
                            "family": family, "ports": ports, "animation": animation,
+                           **({"proceduralManifold": registration["procedural"]} if registration.get("procedural") else {}),
+                           **({"portNote": registration["note"]} if registration.get("note") else {}),
                            **({"artwork": artwork[0]} if artwork else {})})
     result.append({"id": "configurable-manifold", "name": {
         "hu": "Termofejes osztó-gyűjtő (2–16 kör)", "en": "Actuated manifold (2–16 circuits)"},

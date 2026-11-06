@@ -28,13 +28,14 @@ def illustration(element, dark):
              '<linearGradient id="blue"><stop stop-color="#62d7f1"/><stop offset=".5" stop-color="#1489bf"/><stop offset="1" stop-color="#17476f"/></linearGradient>'
              '<linearGradient id="brass"><stop stop-color="#795b28"/><stop offset=".25" stop-color="#f4d893"/><stop offset=".6" stop-color="#c9a455"/><stop offset="1" stop-color="#85622c"/></linearGradient>'
              f'</defs><g stroke="{edge}" stroke-width="2" stroke-linejoin="round">']
-    if family == "configurable-manifold":
+    if family == "configurable-manifold" or element.get("proceduralManifold"):
         parts += ['<rect x="12" y="43" width="142" height="12" rx="4" fill="url(#metal)"/>',
                   '<rect x="12" y="111" width="142" height="12" rx="4" fill="url(#metal)"/>']
-        for x in [38,72,106,140]:
+        count = element.get("proceduralManifold", 4)
+        for x in [25 + 120 * (i + .5) / count for i in range(count)]:
             parts += [f'<path d="M{x} 55V74M{x} 123V151" stroke="#c9a455" stroke-width="7"/>',
                       f'<rect x="{x-7}" y="23" width="14" height="20" rx="3" fill="#b9d9e5"/>',
-                      f'<rect x="{x-10}" y="80" width="20" height="27" rx="5" fill="url(#metal)"/>',
+                      f'<rect x="{x-min(10,45/count)}" y="80" width="{min(20,90/count)}" height="27" rx="5" fill="url(#metal)"/>',
                       f'<rect x="{x-4}" y="88" width="8" height="5" fill="#26333d"/>']
     elif family == "pump":
         parts += ['<path d="M8 72H152V104H8Z" fill="url(#red)"/><rect x="8" y="63" width="10" height="50" rx="3" fill="url(#metal)"/>',
@@ -135,7 +136,7 @@ def build(output, png=False, version="0.1.0-ms1"):
     for element in elements:
         element["graphics"] = {}
         source = element.pop("artwork", None)
-        element["graphicsStatus"] = "ready" if source or element["family"] == "configurable-manifold" else "placeholder"
+        element["graphicsStatus"] = "ready" if source or element["family"] == "configurable-manifold" or element.get("proceduralManifold") else "placeholder"
         raster = None
         if source:
             from image_policy import png_size

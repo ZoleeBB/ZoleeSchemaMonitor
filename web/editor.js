@@ -310,10 +310,10 @@ export class Editor {
                     const side = Math.min(width, height), offsetX = (width - side) / 2, offsetY = (height - side) / 2;
                     const equipment = svgNode('g', {transform: `translate(${offsetX},${offsetY})`});
                     equipment.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width: side, height: side}));
-                    if (asset.animation?.kind === 'rotor') {
-                        const cx = side * asset.animation.x, cy = side * asset.animation.y;
+                    if (asset.animation?.kind === 'rotor') for (const marker of asset.animation.rotors || [asset.animation]) {
+                        const cx = side * marker.x, cy = side * marker.y;
                         const rotor = svgNode('g', {'data-rotor': '1', 'data-cx': cx, 'data-cy': cy});
-                        const radius = side * asset.animation.radius;
+                        const radius = side * marker.radius;
                         for (let index = 0; index < 3; index++) rotor.append(svgNode('path', {
                             d: `M${cx} ${cy}q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,
                             fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${index * 120},${cx},${cy})`}));
@@ -616,10 +616,10 @@ export class Editor {
             const live = activityState(element, this.state.values, this.state.device.connected);
             const motion = this.motion.get(element.id) || {angle: 0, phase: 0};
             this.motion.set(element.id, motion);
-            const rotor = group.querySelector('[data-rotor]');
-            if (rotor && live.active) {
+            const rotors = group.querySelectorAll('[data-rotor]');
+            if (rotors.length && live.active) {
                 motion.angle = (motion.angle + 18 * live.speed) % 360;
-                rotor.setAttribute('transform', `rotate(${motion.angle},${rotor.dataset.cx},${rotor.dataset.cy})`);
+                for (const rotor of rotors) rotor.setAttribute('transform', `rotate(${motion.angle},${rotor.dataset.cx},${rotor.dataset.cy})`);
             }
             const indicator = group.querySelector('[data-status-indicator]');
             if (indicator) {
