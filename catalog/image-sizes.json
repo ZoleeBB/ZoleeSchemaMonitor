@@ -1091,6 +1091,16 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/rooftop-air-handler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/supply-air-unit.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
