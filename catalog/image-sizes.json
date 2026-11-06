@@ -1531,6 +1531,41 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/ph-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/redox-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/rain-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/soil-moisture-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/leak-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/frost-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/filter-pressure-switch.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }

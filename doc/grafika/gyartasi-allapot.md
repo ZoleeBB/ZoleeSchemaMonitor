@@ -1,5 +1,11 @@
 # Képkészítés állapota – 2026. november 6.
 
+## Aktuális összesítés
+
+**299 külön PNG-forrás készült el; még 20 érzékelőkép hiányzik.** A korábban megkezdett 21 képes csomag teljes. A futásidejű katalógusbekötés ettől külön állapot: 60 típus / 57 forrás. A további bekötés, firmware-fordítás és fizikai panelpróba hátravan.
+
+Az alábbi táblázatok és bejegyzések a korábbi csomagok időrendben megőrzött állapotait mutatják.
+
 A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis csomagokban. A katalógushoz illesztés és az animációs rétegek regisztrálása kisebb csomagokban halad; az összevont ellenőrzés a teljes képkészlet elkészülte után következik. A forráskép megléte nem jelenti, hogy a firmware már ezt jeleníti meg.
 
 | Csoport | Külön PNG-forrás | Lefedett katalógustípus | Állapot |
@@ -220,3 +226,10 @@ Elkészült: irrigation-zone, bubbler-emitter, drip-tape, porous-hose, irrigatio
 Elkészült: pressure-sensor, flow-sensor, water-meter, heat-meter, level-sensor, humidity-sensor, co2-sensor. Mindegyik 160×160-as, átlátszó PNG. A nyomástávadó villamos DIN-csatlakozója nem vízport; az átfolyásmérő és vízóra két tengelyazonos folyadékcsatlakozót kapott. A hőmennyiségmérő két külön hőmérőszondával látható, külső hidraulikai átkötés nélkül. A szintkapcsoló úszója statikus. A falérzékelők és mérők kijelzőjén nincs beégetett érték. A rajzok szemléltető ikonok, nem szerelési rajzok.
 
 Összesen 292 forráskép készült el; még 27 érzékelőkép hiányzik. A megkezdett 21 képes csomagból 14 kész. A futásidejű integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/21-kep-2.md). A képelőkészítés és méretjegyzék hat célzott gazdagépes tesztje sikeres; firmware-fordítás és fizikai panelpróba nem történt.
+
+
+## 21 képes gyártás — 3. hétképes rész, csomag lezárva
+
+Elkészült: ph-sensor, redox-sensor, rain-sensor, soil-moisture-sensor, leak-sensor, frost-sensor, filter-pressure-switch. Mindegyik 160×160-as, átlátszó PNG. A pH-üveggömb és a redoxszonda kis fémelektródája különbözik. A talajszonda három egyenes mérőrudat, a szivárgásérzékelő két alsó érintkezőt kapott. A fagyvédelmi kapcsoló kapillárisa és érzékelővége zárt, nem vízcsatlakozó. A szűrő nyomáskapcsolóján két külön tömlőcsonk van, külső összekötés nélkül. A képeken nincs beégetett mérési érték vagy effekt.
+
+Az első kör nem négyzetes, feliratos vagy háttérfátylas változatai helyett új generálás készült; vágás és nyújtás nem történt. A repóba csak a végleges kis képek kerültek. Összesen 299 forráskép kész; a teljes forráskészletből még 20 érzékelőkép hiányzik. A megkezdett 21 képes csomag mindhárom hétképes része elkészült. [Generálási leírások](promptok/21-kep-3.md). A hat célzott képelőkészítési/méretjegyzék-teszt és a Git-index képméret-ellenőrzése sikeres. Firmware-fordítás és fizikai panelpróba nem történt; az új képek katalógus- és animációs bekötése hátravan.
