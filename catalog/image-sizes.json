@@ -931,6 +931,16 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/rotary-motor-valve-3.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/union-rotary-motor-valve-3.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
