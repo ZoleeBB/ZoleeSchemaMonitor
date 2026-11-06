@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 60 típushoz bekötött egyedi kép, 57 külön PNG-forrásból.**
+**332 katalógustípus; 72 típushoz bekötött egyedi kép, 69 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,8 +8,8 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 61 | 29 | 32 |
-| Szelepek | 45 | 3 | 42 |
+| Hidraulika / vízellátás | 64 | 32 | 32 |
+| Szelepek | 54 | 12 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 4 | 29 |
 | Öntözés | 23 | 0 | 23 |
@@ -104,6 +104,8 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
 | `circulation-pump` | Keringetőszivattyú | Circulation pump | [Egyedi kép](../../assets/elements/universal/circulation-pump.png) |
+| `red-ecm-circulation-pump` | Elektronikus keringető – piros kompakt | Compact electronic circulator – red | [Egyedi kép](../../assets/elements/universal/red-ecm-circulation-pump.png) |
+| `green-ecm-circulation-pump` | Elektronikus keringető – zöld kompakt | Compact electronic circulator – green | [Egyedi kép](../../assets/elements/universal/green-ecm-circulation-pump.png) |
 | `heating-pump` | Fűtési szivattyú | Heating pump | [Egyedi kép](../../assets/elements/universal/circulation-pump.png) |
 | `dhw-pump` | HMV cirkulációs szivattyú | DHW circulation pump | [Egyedi kép](../../assets/elements/universal/dhw-pump.png) |
 | `well-pump` | Kútszivattyú | Well pump | [Egyedi kép](../../assets/elements/universal/well-pump.png) |
@@ -121,6 +123,7 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `manifold-8` | Osztó-gyűjtő 8 kör | 8 circuit manifold | Műszaki helyőrző |
 | `manifold-10` | Osztó-gyűjtő 10 kör | 10 circuit manifold | Műszaki helyőrző |
 | `manifold-12` | Osztó-gyűjtő 12 kör | 12 circuit manifold | Műszaki helyőrző |
+| `electrothermal-manifold-4` | Osztó-gyűjtő 4 kör – termoelektromos fejekkel | 4 circuit manifold with electrothermal heads | [Egyedi kép](../../assets/elements/universal/electrothermal-manifold-4.png) |
 | `strainer` | Y-szűrő | Y strainer | Műszaki helyőrző |
 | `dirt-separator` | Iszapleválasztó | Dirt separator | Műszaki helyőrző |
 | `magnetic-filter` | Mágneses szűrő | Magnetic filter | Műszaki helyőrző |
@@ -178,6 +181,15 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `black-rotary-valve-3` | Forgatómotoros háromjáratú – menetes | Rotary three-way – threaded | [Egyedi kép](../../assets/elements/universal/black-rotary-valve-3.png) |
 | `black-union-rotary-valve-3` | Forgatómotoros háromjáratú – hollanderes | Rotary three-way – union | [Egyedi kép](../../assets/elements/universal/black-union-rotary-valve-3.png) |
 | `black-flanged-rotary-valve-3` | Forgatómotoros háromjáratú – karimás | Rotary three-way – flanged | [Egyedi kép](../../assets/elements/universal/black-flanged-rotary-valve-3.png) |
+| `orange-motor-ball-valve-2` | Motoros golyóscsap – kétjáratú, narancs hajtás | Two-way ball valve – orange actuator | [Egyedi kép](../../assets/elements/universal/orange-motor-ball-valve-2.png) |
+| `orange-motor-ball-valve-3` | Motoros golyóscsap – háromjáratú, narancs hajtás | Three-way ball valve – orange actuator | [Egyedi kép](../../assets/elements/universal/orange-motor-ball-valve-3.png) |
+| `spring-return-ball-valve-2` | Rugó-visszatérítéses motoros golyóscsap | Spring-return motorized ball valve | [Egyedi kép](../../assets/elements/universal/spring-return-ball-valve-2.png) |
+| `compact-motor-ball-valve-2` | Kompakt motoros zónagolyóscsap | Compact motorized zone ball valve | [Egyedi kép](../../assets/elements/universal/compact-motor-ball-valve-2.png) |
+| `cartridge-zone-valve-3` | Patronos háromjáratú motoros zónaszelep | Three-way cartridge motorized zone valve | [Egyedi kép](../../assets/elements/universal/cartridge-zone-valve-3.png) |
+| `electrothermal-zone-valve-2` | Termoelektromos kétjáratú zónaszelep | Two-way electrothermal zone valve | [Egyedi kép](../../assets/elements/universal/electrothermal-zone-valve-2.png) |
+| `compact-linear-control-valve-2` | Kompakt lineáris hajtású szabályozószelep | Compact linear-actuated control valve | [Egyedi kép](../../assets/elements/universal/compact-linear-control-valve-2.png) |
+| `radiator-thermostatic-valve-straight` | Termosztatikus radiátorszelep – egyenes | Straight thermostatic radiator valve | [Egyedi kép](../../assets/elements/universal/radiator-thermostatic-valve-straight.png) |
+| `radiator-thermostatic-valve-angle` | Termosztatikus radiátorszelep – sarok | Angle thermostatic radiator valve | [Egyedi kép](../../assets/elements/universal/radiator-thermostatic-valve-angle.png) |
 | `mixing-valve` | Keverőszelep | Mixing valve | Műszaki helyőrző |
 | `diverting-valve` | Váltószelep | Diverting valve | Műszaki helyőrző |
 | `thermostatic-valve` | Termosztatikus szelep | Thermostatic valve | Műszaki helyőrző |

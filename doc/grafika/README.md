@@ -90,3 +90,8 @@ Az álló puffer, az egyspirálos HMV-tároló, a kétspirálos tároló és a f
 A jelenleg bekötött készültség **15 típus, 12 külön PNG-forrás**. A képkészítés azóta továbbhaladt: [gyártási állapot és további csoportlátványtervek](gyartasi-allapot.md). A forrásképek elkészülése és a futásidejű bekötés külön állapot; a 317-es katalógus nem kész 317-es képkészlet.
 
 A firmware csomagolója minden típushoz világos és sötét PNG-t követel meg. A generált vektoros típusok SVG-jei is kötelezők; a kész PNG-forrásokhoz nem készítünk fölösleges SVG-burkolatot. Hiányzó téma, hiányzó szükséges SVG vagy váratlan fájl esetén a csomagolás elutasítja a készletet. A vegyes készlet ellenőrzését külön teszt fedi.
+
+
+## Teljes vizuális felülvizsgálat
+
+[A 319 kiinduló kép és a 12 új típus tételes ellenőrzése](vizualis-felulvizsgalat.md), a lecserélt képek indoklásával és a hazai termékcsaládok gyártói tájékozódási alapjaival. A legfrissebb összesített bekötési állapotot a [készletnyilvántartás](keszlet.md) mutatja.

@@ -49,6 +49,8 @@ water-tank|Víztartály|Water tank
 """),
     ("hydraulics", "pump", """
 circulation-pump|Keringetőszivattyú|Circulation pump
+red-ecm-circulation-pump|Elektronikus keringető – piros kompakt|Compact electronic circulator – red
+green-ecm-circulation-pump|Elektronikus keringető – zöld kompakt|Compact electronic circulator – green
 heating-pump|Fűtési szivattyú|Heating pump
 dhw-pump|HMV cirkulációs szivattyú|DHW circulation pump
 well-pump|Kútszivattyú|Well pump
@@ -70,6 +72,7 @@ manifold-6|Osztó-gyűjtő 6 kör|6 circuit manifold
 manifold-8|Osztó-gyűjtő 8 kör|8 circuit manifold
 manifold-10|Osztó-gyűjtő 10 kör|10 circuit manifold
 manifold-12|Osztó-gyűjtő 12 kör|12 circuit manifold
+electrothermal-manifold-4|Osztó-gyűjtő 4 kör – termoelektromos fejekkel|4 circuit manifold with electrothermal heads
 """),
     ("valves", "valve", """
 ball-valve|Golyóscsap|Ball valve
@@ -81,6 +84,15 @@ motor-valve-3|Háromjáratú motoros szelep|Three-way motor valve
 black-rotary-valve-3|Forgatómotoros háromjáratú – menetes|Rotary three-way – threaded
 black-union-rotary-valve-3|Forgatómotoros háromjáratú – hollanderes|Rotary three-way – union
 black-flanged-rotary-valve-3|Forgatómotoros háromjáratú – karimás|Rotary three-way – flanged
+orange-motor-ball-valve-2|Motoros golyóscsap – kétjáratú, narancs hajtás|Two-way ball valve – orange actuator
+orange-motor-ball-valve-3|Motoros golyóscsap – háromjáratú, narancs hajtás|Three-way ball valve – orange actuator
+spring-return-ball-valve-2|Rugó-visszatérítéses motoros golyóscsap|Spring-return motorized ball valve
+compact-motor-ball-valve-2|Kompakt motoros zónagolyóscsap|Compact motorized zone ball valve
+cartridge-zone-valve-3|Patronos háromjáratú motoros zónaszelep|Three-way cartridge motorized zone valve
+electrothermal-zone-valve-2|Termoelektromos kétjáratú zónaszelep|Two-way electrothermal zone valve
+compact-linear-control-valve-2|Kompakt lineáris hajtású szabályozószelep|Compact linear-actuated control valve
+radiator-thermostatic-valve-straight|Termosztatikus radiátorszelep – egyenes|Straight thermostatic radiator valve
+radiator-thermostatic-valve-angle|Termosztatikus radiátorszelep – sarok|Angle thermostatic radiator valve
 mixing-valve|Keverőszelep|Mixing valve
 diverting-valve|Váltószelep|Diverting valve
 thermostatic-valve|Termosztatikus szelep|Thermostatic valve
@@ -425,7 +437,7 @@ CATEGORIES = {
 ARTWORK = {
     "circulation-pump": ("circulation-pump", [(0.05, 0.58), (0.93, 0.58)], ("rotor", 0.484, 0.572, 0.14)),
     "dhw-pump": ("dhw-pump", [(0.08, 0.61), (0.90, 0.61)], ("rotor", 0.489, 0.608, 0.13)),
-    "well-pump": ("well-pump", [(0.49, 0.09), (0.49, 0.87)], ("status", 0.55, 0.19, 0.025)),
+    "well-pump": ("well-pump", [(0.49, 0.045), (0.50, 0.56)], ("status", 0.53, 0.82, 0.025)),
     "submersible-pump": ("submersible-pump", [(0.45, 0.84), (0.74, 0.46)], ("status", 0.45, 0.24, 0.025)),
     "booster-pump": ("booster-pump", [(0.08, 0.51), (0.36, 0.33)], ("status", 0.65, 0.31, 0.025)),
     "sewage-pump": ("sewage-pump", [(0.43, 0.85), (0.80, 0.61)], ("status", 0.43, 0.22, 0.025)),
@@ -524,6 +536,26 @@ ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),
     "black-union-rotary-valve-3": ("black-union-rotary-valve-3", [(0.06, 0.43), (0.94, 0.43), (0.49, 0.87)], ("position", 0.39, 0.46, 0.12)),
     "black-flanged-rotary-valve-3": ("black-flanged-rotary-valve-3", [(0.08, 0.46), (0.92, 0.46), (0.5, 0.85)], ("position", 0.385, 0.505, 0.12)),
+})
+# A villamos kábelek, kézi karok és rögzítőfülek nem folyadékcsatlakozók.
+# A zárt elektronikus keringetőkön nincs külső forgórész.
+ARTWORK.update({
+    "orange-motor-ball-valve-2": ("orange-motor-ball-valve-2", [(0.22, 0.82), (0.60, 0.68)], ("none", 0, 0, 0)),
+    "orange-motor-ball-valve-3": ("orange-motor-ball-valve-3", [(0.23, 0.72), (0.64, 0.67), (0.42, 0.88)], ("none", 0, 0, 0)),
+    "spring-return-ball-valve-2": ("spring-return-ball-valve-2", [(0.24, 0.71), (0.60, 0.71)], ("none", 0, 0, 0)),
+    "compact-motor-ball-valve-2": ("compact-motor-ball-valve-2", [(0.05, 0.77), (0.88, 0.77)], ("none", 0, 0, 0)),
+    "cartridge-zone-valve-3": ("cartridge-zone-valve-3", [(0.25, 0.62), (0.73, 0.62), (0.49, 0.90)], ("none", 0, 0, 0)),
+    "electrothermal-zone-valve-2": ("electrothermal-zone-valve-2", [(0.07, 0.80), (0.93, 0.80)], ("none", 0, 0, 0)),
+    "compact-linear-control-valve-2": ("compact-linear-control-valve-2", [(0.28, 0.74), (0.78, 0.74)], ("none", 0, 0, 0)),
+    "radiator-thermostatic-valve-straight": ("radiator-thermostatic-valve-straight", [(0.12, 0.82), (0.87, 0.82)], ("none", 0, 0, 0)),
+    "radiator-thermostatic-valve-angle": ("radiator-thermostatic-valve-angle", [(0.38, 0.92), (0.79, 0.69)], ("none", 0, 0, 0)),
+    "red-ecm-circulation-pump": ("red-ecm-circulation-pump", [(0.045, 0.47), (0.95, 0.47)], ("status", 0.50, 0.66, 0.025)),
+    "green-ecm-circulation-pump": ("green-ecm-circulation-pump", [(0.04, 0.45), (0.96, 0.45)], ("status", 0.50, 0.64, 0.025)),
+    "electrothermal-manifold-4": ("electrothermal-manifold-4", [
+        (0.055, 0.27), (0.055, 0.72),
+        (0.28, 0.38), (0.43, 0.38), (0.58, 0.38), (0.73, 0.38),
+        (0.28, 0.87), (0.43, 0.87), (0.58, 0.87), (0.73, 0.87),
+    ], ("none", 0, 0, 0)),
 })
 ARTWORK["single-coil-tank"] = ARTWORK["hot-water-tank"]
 ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]

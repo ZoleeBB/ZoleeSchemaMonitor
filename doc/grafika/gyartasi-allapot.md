@@ -2,7 +2,7 @@
 
 ## Aktuális összesítés
 
-**319 külön PNG-forrás készült el; minden jelenlegi katalógustípushoz megvan a képi alap.** A katalógus 320 típust tartalmaz. A forráskészlet készítése lezárult, a grafikai integráció még folyamatban van. A futásidejű katalógusbekötés ettől külön állapot: 60 típus / 57 forrás. A további bekötés, firmware-fordítás és fizikai panelpróba hátravan.
+**331 külön PNG-forrás, 332 katalógustípus.** A teljes vizuális felülvizsgálat során 8 elemkép új generálást kapott, 12 hazai kínálathoz igazított új típus bekerült. A futásidejű integráció 72 típus / 69 forrás; a többi 260 korábbi helyőrző bekötése hátravan. [Tételes felülvizsgálat és gyártói alapok](vizualis-felulvizsgalat.md). A fizikai panelpróba és az összevont animációs ellenőrzés továbbra is nyitott.
 
 Az alábbi táblázatok és bejegyzések a korábbi csomagok időrendben megőrzött állapotait mutatják.
 

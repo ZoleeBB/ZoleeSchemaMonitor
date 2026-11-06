@@ -133,6 +133,45 @@ class CatalogArtworkTests(unittest.TestCase):
             self.assertEqual(valve['artwork'], valve['id'])
             self.assertTrue(0 < valve['animation']['radius'] < .2)
 
+    def test_local_valve_families_keep_fluid_ports_separate_from_actuators(self):
+        elements = {item['id']: item for item in catalog.elements()}
+        expected = {
+            'orange-motor-ball-valve-2': 2, 'orange-motor-ball-valve-3': 3,
+            'spring-return-ball-valve-2': 2, 'compact-motor-ball-valve-2': 2,
+            'cartridge-zone-valve-3': 3, 'electrothermal-zone-valve-2': 2,
+            'compact-linear-control-valve-2': 2,
+            'radiator-thermostatic-valve-straight': 2,
+            'radiator-thermostatic-valve-angle': 2,
+        }
+        for identifier, count in expected.items():
+            with self.subTest(identifier=identifier):
+                valve = elements[identifier]
+                self.assertEqual(valve['artwork'], identifier)
+                self.assertEqual(len(valve['ports']), count)
+                self.assertEqual(valve['animation']['kind'], 'none')
+                # A hajtás felső része és a kábel nem fogadhat vízcsövet.
+                self.assertTrue(all(port['y'] > .6 for port in valve['ports']))
+        angle = elements['radiator-thermostatic-valve-angle']['ports']
+        self.assertGreater(abs(angle[0]['x'] - angle[1]['x']), .3)
+        self.assertGreater(abs(angle[0]['y'] - angle[1]['y']), .2)
+
+    def test_ecm_rotors_are_enclosed_and_well_intake_is_not_motor_end(self):
+        elements = {item['id']: item for item in catalog.elements()}
+        for identifier in ['red-ecm-circulation-pump', 'green-ecm-circulation-pump']:
+            self.assertEqual(elements[identifier]['animation']['kind'], 'status')
+            self.assertEqual(len(elements[identifier]['ports']), 2)
+        well = elements['well-pump']['ports']
+        self.assertLess(well[0]['y'], .1)
+        self.assertTrue(.45 < well[1]['y'] < .7)
+
+    def test_thermal_manifold_has_four_supply_and_four_return_loop_ends(self):
+        item = next(item for item in catalog.elements() if item['id'] == 'electrothermal-manifold-4')
+        self.assertEqual(len(item['ports']), 10)
+        loops = item['ports'][2:]
+        self.assertEqual(len({port['x'] for port in loops}), 4)
+        self.assertEqual(len({port['y'] for port in loops}), 2)
+        self.assertEqual(len({(port['x'], port['y']) for port in loops}), 8)
+
     def test_real_sources_are_registered_rgba_and_allow_theme_dedup(self):
         elements = [item for item in catalog.elements() if 'artwork' in item]
         self.assertGreaterEqual(len(elements), 15)
