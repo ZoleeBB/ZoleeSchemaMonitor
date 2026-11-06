@@ -190,3 +190,12 @@ Elkészült: multiport-valve, automatic-multiport-valve, top-mount-sand-filter, 
 A bypass két T-elágazást, három szelepet és négy szabad csatlakozóvéget tartalmaz. A piros karos változat háttérmaradványai miatt a végleges ikon új, grafitszürke karos változat lett, azonos csőtopológiával. A képek szemléltető ikonok, nem gyártói szerelési rajzok; a mutatók és szelepek most statikusak.
 
 Összesen 258 forráskép készült el. Az eredeti katalógushoz még 61 típus képe hiányzik (medence 3, öntözés 23, érzékelők 35). Az új képek katalógus- és animációs bekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/medence-szurok-takarok-10-es-csomag.md). Tesztet és Actions-ellenőrzést nem futtattunk.
+
+
+## Medencealapok és öntözési szórófejek — tízképes csomag
+
+Elkészült: pool, overflow-pool, spa, rotor-sprinkler, spray-sprinkler, micro-sprinkler, rotary-nozzle, impact-sprinkler, drip-line, dripper. Mindegyik 160×160-as átlátszó PNG. A szkimmeres medencén külön vízszint és szkimmernyílás látszik; a feszített víztükrűn körbefutó túlfolyórács. A spa külön ülőhelyeket és masszázsfúvókákat kapott. A rotoros és spray szórófej külön fúvókakialakítású; a mikroszórófejen oldalsó tömlőcsonk van. A forgó fúvóka önálló patron. A csepegtetőcsövön integrált kibocsátónyílások, két szabad csővég, külső csőhíd nélkül; a pontcsepegtető külön elem. A túlfolyós medence első nem négyzetes, háttérfátylas változata és a csepegtetőcső első háttérfátylas változata nem került a repóba; a szkimmeres medence éleihez javító generálás készült.
+
+Az öntözési csoport [látványterve](latvanytervek/11-ontozestechnika.jpg) a gyártás előtt bemutatva. A látványterv stílusminta; nem csőkapcsolási terv és nem futásidejű elemkép.
+
+Összesen 268 forráskép készült el. Az eredeti katalógushoz még 51 típus képe hiányzik (öntözés 16, érzékelők 35). A medencetechnika valamennyi eredeti típusához van forráskép. Az új képek katalógus- és animációs bekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/medence-ontozes-10-es-csomag.md). Tesztet és Actions-ellenőrzést nem futtattunk.

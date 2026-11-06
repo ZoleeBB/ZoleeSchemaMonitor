@@ -1351,6 +1351,61 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/pool.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/overflow-pool.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/spa.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/rotor-sprinkler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/spray-sprinkler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/micro-sprinkler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/rotary-nozzle.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/impact-sprinkler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/drip-line.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/dripper.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "doc/grafika/latvanytervek/11-ontozestechnika.jpg": {
+            "role": "preview",
+            "width": 960,
+            "height": 960
         }
     }
 }
