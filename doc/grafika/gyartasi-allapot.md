@@ -144,3 +144,9 @@ A szivattyúcsalád mind a 29 típusa saját képpel regisztrálva, 27 külön f
 A lemezes, forrasztott lemezes, tömítéses lemezes és cső-a-csőben hőcserélő négy meglévő forrása bekötve. Mindegyik négy külön külső végpontot kapott; a leszorító rudak, csavarok és tartólábak nem csatlakozók. A cső-a-csőben változat két tengelyirányú és két köpenyoldali csonkja külön pont. Nincs beégetett külső összekötés vagy forgó animáció. A csatlakozók nincsenek automatikusan párosítva, a sémát a felhasználó rajzolja meg.
 
 Összesen 60 típushoz 57 külön PNG-forrás van bekötve. A teljes forráskészlet továbbra is 209 kép. A tesztesetek bővültek; tesztfuttatás, fordítás, Actions-ellenőrzés és készülékes próba még hátravan.
+
+## Új szellőzési forrásképek – folytatás
+
+Elkészült a decentralizált falátvezetéses hővisszanyerő, moduláris légkezelő és elszívó légkezelő három forrásképe. A Gitbe kizárólag 160×160-as átlátszó PNG kerül. A decentralizált egység kerámiabetétes metszetet mutat; a moduláris légkezelő két légoldali nyílással és két külön vízcsonkkal készült; az elszívó egységen két légcsatlakozó van. A ventilátorok zárt házban maradnak, külső lapát nincs. A metszeti ablakok szemléltető elemek, nem további légcsatlakozók.
+
+A teljes forráskészlet most 212 PNG. Az eredeti katalógushoz még 107 típus képe hiányzik (szellőzés 22, medence 27, öntözés 23, érzékelők 35). A mostani három forrás még nincs a katalógushoz bekötve; a futásidejű integráció továbbra is 60 típus / 57 forrás. Következő képek: steam-humidifier, ultrasonic-humidifier, desiccant-dehumidifier, majd légoldali szerelvények. Tesztet és Actions-ellenőrzést nem futtattunk.

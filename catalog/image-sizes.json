@@ -1101,6 +1101,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/decentralized-heat-recovery.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/modular-air-handler.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/extract-air-unit.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
