@@ -12,9 +12,10 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 | Hidraulikai hőcserélők, egységek, osztók és szűrők | 36 | 36 | Minden forrás elkészült; bekötés később |
 | Szelepek és visszafolyásgátlók | 42 | 42 | Minden forrás elkészült; bekötés később |
 | Szellőzési ventilátorok | 12 | 12 | Minden ventilátorforrás elkészült; bekötés később |
-| **Összesen** | **190** | **193** | **15 típus bekötve; további 178 típushoz a PNG már megvan** |
+| Légkezelők, hővisszanyerők és légkezelési modulok | 12 | 12 | Részben elkészült; bekötés később |
+| **Összesen** | **202** | **205** | **15 típus bekötve; további 190 típushoz a PNG már megvan** |
 
-Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 124. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
+Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 112. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
 ## Csoportlátványtervek
 
@@ -36,11 +37,11 @@ A fűtés/hűtés kategória mind a 48 típusához, a tárolók mind a 24 típus
 | --- | ---: | --- |
 | Hidraulika | 0 | A teljes képi alap elkészült |
 | Szelepek | 0 | A teljes képi alap elkészült |
-| Szellőzés és légtechnika | 39 | A 12 ventilátor kész; légkezelők és légoldali szerelvények következnek |
+| Szellőzés és légtechnika | 27 | A 12 ventilátor és 12 légkezelési modul kész; további gépváltozatok és légoldali szerelvények következnek |
 | Medencetechnika | 27 | A szivattyúk és hőszivattyúk már elkészültek; a többi szerelvény még hátravan |
 | Öntözés | 23 | Szórófejek, zónák és szerelvények |
 | Érzékelők | 35 | Érték- és állapotérzékelők |
-| **Összesen** | **124** | **A legalább 300 eszközös teljes induló készlet még nincs kész** |
+| **Összesen** | **112** | **A legalább 300 eszközös teljes induló készlet még nincs kész** |
 
 ## Műszaki felülvizsgálat és hátralévő bekötés
 
@@ -58,8 +59,14 @@ A felhasználó kérésére a képkészítés közben nem futtatunk teszteket é
 
 ## Kiegészítés – forgatómotoros szelepek
 
-További öt 160×160-as forráskép elkészült: összesen 195 PNG. Ezek új, a jelenlegi 317 típuson felüli változatjelöltek; a katalógusregisztrációjuk még hátravan, ezért a fenti lefedettségi táblázat nem számolja őket kész katalógustípusként. [Látványtervek és az élő mutató követelményei](forgatomotoros-szelepek.md).
+További öt 160×160-as forráskép elkészült: összesen 207 PNG. Ezek új, a jelenlegi 317 típuson felüli változatjelöltek; a katalógusregisztrációjuk még hátravan, ezért a fenti lefedettségi táblázat nem számolja őket kész katalógustípusként. [Látványtervek és az élő mutató követelményei](forgatomotoros-szelepek.md).
 
 ## Ventilátorok animációs bekötése – hátralévő
 
 A látható forgórészű ventilátorok alapképe sötét üres felületet tartalmaz; a lapátok külön futásidejű réteget igényelnek. A fali, cső-, befúvó, elszívó, radiál-, EC-, félradiális, füstelvezető és légrétegződést megszüntető változatnál a forgórész középpontját és két tengelyét képenként kell felvenni a végleges 160×160-as vásznon. A perspektivikus nyílások ellipszisek; kör alakú közös sablon nem feltétlenül illeszkedik. A doboz-, tető- és konyhai ventilátor járókereke zárt burkolat mögött van, ezek állapotjelzést igényelnek, nem kívülre rajzolt lapátokat. A csoportlátványterven látható lapátok szemléltető animációs rétegek. A Loxone-aktivitás, fordulatszámhoz igazított sebesség és adathiány viselkedésének bekötése, ellenőrzése még hátravan.
+
+## Légkezelési modulok – hátralévő bekötés
+
+A hővisszanyerős szellőztető, forgódobos, ellenáramú, keresztáramú és entalpiás modul négy külön légcsatlakozót igényel. A metszeti ablakok az alkatrészek felismerését szolgálják, nem gyártói szerelési rajzok. A forgódobos alap üres körfelületére külön forgó hőcserélőmátrix-réteg szükséges; ventilátorlapát nem használható helyette. A lemezes és membrános betétek nem forognak.
+
+A kaloriferek két légcsatlakozója mellett két külön vízcsatlakozó van; a hűtőkaloriferen kondenzvíz-elvezető is található. A párásítón külön kis vízbetáp és ürítő van, a párátlanítón kondenzvízcsonk. A csonkok médiumát és pontos helyét az integrációkor képenként kell megadni. A rögzítőcsavarok és szervizfedelek nem csatlakozási pontok. Zárt burkolatú légkezelőre nem kerülhet kívül látható általános rotor.
