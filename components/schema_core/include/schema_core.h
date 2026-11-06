@@ -37,3 +37,13 @@ bool sm_numeric_events(const uint8_t *data,
                        size_t length,
                        sm_numeric_event_fn callback,
                        void *context);
+
+/* A szelepállás nem aktivitás: adathiánynál a mutatót el kell rejteni. */
+typedef struct
+{
+    bool known;
+    double percent;
+    double angle;
+} sm_position_t;
+
+sm_position_t sm_position(sm_signal_t position, double minimum, double maximum, bool reverse);

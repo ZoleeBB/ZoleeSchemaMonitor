@@ -16,6 +16,23 @@ bool sm_power_range_valid(double minimum, double maximum)
            isfinite(maximum - minimum);
 }
 
+sm_position_t sm_position(sm_signal_t position, double minimum, double maximum, bool reverse)
+{
+    sm_position_t result = {0};
+    if (!position.configured || !position.valid || !isfinite(position.value) ||
+        !sm_power_range_valid(minimum, maximum))
+        return result;
+
+    /* Előbb korlátozunk: szélsőséges bemenetnél sem csordul túl a kivonás. */
+    double fraction = position.value <= minimum ? 0 : position.value >= maximum ? 1 :
+                      (position.value - minimum) / (maximum - minimum);
+    result.known = true;
+    result.percent = fraction * 100;
+    /* Az irányfordítás a mutatót érinti, a mért nyitottságot nem. */
+    result.angle = (reverse ? 1 - fraction : fraction) * 90 - 45;
+    return result;
+}
+
 sm_activity_t sm_activity(sm_signal_t activity, sm_signal_t power, double minimum, double maximum)
 {
     sm_activity_t result = {.known = true, .active = false, .speed = 0};

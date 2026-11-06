@@ -152,3 +152,18 @@ export function exportPage(project, pageId) {
     if (!page) throw Error('page.id');
     return clone({...project, pages: [page]});
 }
+
+/* A szelepállás külön adat; ebből nem következtetünk szivattyúra vagy áramlásra. */
+export function positionState(binding, values, minimum = 0, maximum = 100,
+                              reverse = false, connected = true) {
+    const signal = readBinding(binding, values, connected);
+    if (!signal.valid || !Number.isFinite(minimum) || !Number.isFinite(maximum) ||
+        maximum <= minimum || !Number.isFinite(maximum - minimum)) {
+        return {known: false, percent: 0, angle: 0};
+    }
+    // Korlátozás a kivonás előtt, a firmware számításával azonos módon.
+    const fraction = signal.value <= minimum ? 0 : signal.value >= maximum ? 1 :
+        (signal.value - minimum) / (maximum - minimum);
+    return {known: true, percent: fraction * 100,
+        angle: (reverse ? 1 - fraction : fraction) * 90 - 45};
+}

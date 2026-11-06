@@ -24,3 +24,9 @@ A helyiség- és funkciószűrős Loxone-választóban külön állásérték le
 Ismeretlen vagy érvénytelen adat esetén a mutató rejtett, az érték „—”; ez nem 0%. Az állás nem azonos a folyadékárammal vagy hőteljesítménnyel. Az aktivitás külön jel marad, pusztán a nyitottságból ne induljon csőáramlás. Bekötéskor ellenőrizendő 0/50/100%, fordított irány, más bemeneti tartomány, adathiány, méretezés és mindkét téma. Teszt és fizikai P4-próba még nem történt.
 
 Tájékozódási alap: [ESBE VRG130 + ARA600](https://esbe.eu/group/products/rotary-units/vrg130-ara600-3-point). A grafikák saját illusztrációk, nem gyártói szerelési rajzok.
+
+## Fejlesztési állapot – állásszámítás
+
+A böngészős `positionState` és a firmware hordozható `sm_position` függvénye elkészült. Külön kötésből, az aktivitás módosítása nélkül számítanak 0–100%-os nyitottságot és −45…+45° mutatószöget. Az irányfordítás a szöget fordítja, a nyitottsági értéket nem. Hiányzó, érvénytelen vagy megszakadt kapcsolatból származó adatnál `known=false`; ilyenkor a rajzoló feladata a mutató elrejtése és a „—” felirat. A nulla százalék érvényes, ismert állapot.
+
+Határérték-, tartomány-, irányfordítás- és adathiány-tesztesetek készültek C és JavaScript nyelven. Futtatásuk a felhasználó korábbi kérésére a teljes képkészlet utáni összevont ellenőrzésre marad. A szerkesztő beállítómezői, a projektformátum állásmezője, a Loxone-előfizetés és a két rajzoló bekötése még hátravan; ez a változás önmagában nem kapcsolja be az élő mutatót.

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {newProject, newElement, validateProject, canvasSize, activityState, exportPage} from '../web/model.js';
+import {newProject, newElement, validateProject, canvasSize, activityState, exportPage, positionState} from '../web/model.js';
 
 const uuid = '12345678-1234-5678-0102030405060708';
 const binding = {uuid, scale: 1, offset: 0};
@@ -61,4 +61,27 @@ test('single-page export is detached and round-trips', () => {
     validateProject(JSON.parse(JSON.stringify(exported)), catalog);
     exported.pages[0].name = 'Changed';
     assert.equal(project.pages[0].name, 'Gépészet');
+});
+
+test('valve position maps ranges and reverses needle independently of activity', () => {
+    assert.deepEqual(positionState(binding, {[uuid]: 0}), {known: true, percent: 0, angle: -45});
+    assert.deepEqual(positionState(binding, {[uuid]: 50}), {known: true, percent: 50, angle: 0});
+    assert.deepEqual(positionState(binding, {[uuid]: 100}, 0, 100, true),
+        {known: true, percent: 100, angle: -45});
+    assert.equal(positionState(binding, {[uuid]: -200}).percent, 0);
+    assert.equal(positionState(binding, {[uuid]: 200}).percent, 100);
+    assert.equal(positionState(binding, {[uuid]: 6}, 2, 10).percent, 50);
+    assert.equal(positionState({...binding, scale: 2, offset: 10}, {[uuid]: 20}).percent, 50);
+    for (const result of [positionState(null, {}), positionState(binding, {}),
+        positionState(binding, {[uuid]: NaN}), positionState(binding, {[uuid]: Infinity}),
+        positionState(binding, {[uuid]: 50}, 0, 100, false, false),
+        positionState(binding, {[uuid]: 50}, 100, 100),
+        positionState(binding, {[uuid]: 50}, 100, 0),
+        positionState(binding, {[uuid]: 50}, -Number.MAX_VALUE, Number.MAX_VALUE)]) {
+        assert.deepEqual(result, {known: false, percent: 0, angle: 0});
+    }
+    // A pozíció olvasása nem módosítja az elemet és nem kapcsol be áramlást.
+    const element = newElement('equipment', 'pump');
+    positionState(binding, {[uuid]: 100});
+    assert.equal(activityState(element, {[uuid]: 100}).active, false);
 });

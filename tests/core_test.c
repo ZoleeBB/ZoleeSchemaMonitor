@@ -26,6 +26,22 @@ int main(void)
     assert(sm_activity(none, half, 0, 40).speed == 1);
     assert(!sm_power_range_valid(100, 0));
     assert(!sm_power_range_valid(NAN, 100));
+    /* A mutató adathiánya nem azonos a nulla százalékos állással. */
+    assert(!sm_position(none, 0, 100, false).known);
+    assert(!sm_position(unknown, 0, 100, false).known);
+    assert(!sm_position(half, 100, 100, false).known);
+    assert(!sm_position(half, -INFINITY, 100, false).known);
+    assert(!sm_position((sm_signal_t){true, true, NAN}, 0, 100, false).known);
+    sm_position_t position = sm_position(off, 0, 100, false);
+    assert(position.known && position.percent == 0 && position.angle == -45);
+    position = sm_position(half, 0, 100, false);
+    assert(position.known && position.percent == 50 && position.angle == 0);
+    position = sm_position((sm_signal_t){true, true, 200}, 0, 100, true);
+    assert(position.percent == 100 && position.angle == -45);
+    position = sm_position((sm_signal_t){true, true, -200}, 0, 100, true);
+    assert(position.percent == 0 && position.angle == 45);
+    position = sm_position((sm_signal_t){true, true, 6}, 2, 10, false);
+    assert(position.percent == 50 && position.angle == 0);
     unsigned w, h;
     sm_canvas_size(0, &w, &h);
     assert(w == 800 && h == 1280);
