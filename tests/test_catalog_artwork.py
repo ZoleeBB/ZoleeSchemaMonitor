@@ -31,6 +31,17 @@ class CatalogArtworkTests(unittest.TestCase):
         valve = next(item for item in elements if item['id'] == 'changeover-valve-6')
         self.assertEqual(len(valve['ports']), 6)
 
+    def test_closed_pump_housings_have_status_and_two_water_ports(self):
+        identifiers = ['end-suction-pump', 'long-coupled-pump',
+                       'vertical-multistage-pump', 'horizontal-multistage-pump']
+        elements = {item['id']: item for item in catalog.elements()}
+        for identifier in identifiers:
+            with self.subTest(identifier=identifier):
+                item = elements[identifier]
+                self.assertEqual(item['artwork'], identifier)
+                self.assertEqual(len(item['ports']), 2)
+                self.assertEqual(item['animation']['kind'], 'status')
+
     def test_storage_ports_exclude_air_valves_and_service_caps(self):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.
         expected = {'electric-water-heater': 2, 'expansion-vessel': 1,

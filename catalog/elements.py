@@ -474,6 +474,14 @@ ARTWORK.update({
     "brine-tank": ("brine-tank", [(0.79, 0.25)], ("none", 0, 0, 0)),
     "underground-cistern": ("underground-cistern", [(0.04, 0.42), (0.96, 0.42)], ("none", 0, 0, 0)),
 })
+# Zárt járókerékházaknál az aktivitást a motoron elhelyezett fény jelzi.
+# A tengelykapcsoló és a villamos csatlakozódoboz nem vízoldali csonk.
+ARTWORK.update({
+    "end-suction-pump": ("end-suction-pump", [(0.15, 0.59), (0.315, 0.205)], ("status", 0.69, 0.34, 0.025)),
+    "long-coupled-pump": ("long-coupled-pump", [(0.07, 0.555), (0.235, 0.31)], ("status", 0.81, 0.395, 0.025)),
+    "vertical-multistage-pump": ("vertical-multistage-pump", [(0.30, 0.825), (0.70, 0.825)], ("status", 0.61, 0.20, 0.025)),
+    "horizontal-multistage-pump": ("horizontal-multistage-pump", [(0.105, 0.55), (0.505, 0.315)], ("status", 0.745, 0.345, 0.025)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

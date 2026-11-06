@@ -4,7 +4,7 @@
 
 **Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, a készülékes integráció és a végleges teljes grafikai készlet még nincs kész.
 
-A **B, térhatásosabb grafikai irány kiválasztva**. A webszerkesztő, a 320 típusú törzskatalógus, a natív animált nézet, a Loxone-kliens, az SD-mentés és a közös firmware–grafika frissítés bekötve. 37 típushoz 34 egyedi PNG-forrás már bekötve (szivattyúk, tárolók és forgatómotoros szelepek); [készletnyilvántartás](doc/grafika/keszlet.md). A további egyedi grafikák, a valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
+A **B, térhatásosabb grafikai irány kiválasztva**. A webszerkesztő, a 320 típusú törzskatalógus, a natív animált nézet, a Loxone-kliens, az SD-mentés és a közös firmware–grafika frissítés bekötve. 41 típushoz 38 egyedi PNG-forrás már bekötve (szivattyúk, tárolók és forgatómotoros szelepek); [készletnyilvántartás](doc/grafika/keszlet.md). A további egyedi grafikák, a valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
 
 A kipróbálható számítógépes előnézet indítása:
 

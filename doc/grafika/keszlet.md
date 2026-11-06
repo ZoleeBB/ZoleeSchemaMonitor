@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 37 típushoz bekötött egyedi kép, 34 külön PNG-forrásból.**
+**320 katalógustípus; 41 típushoz bekötött egyedi kép, 38 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,7 +8,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 61 | 8 | 53 |
+| Hidraulika / vízellátás | 61 | 12 | 49 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 2 | 31 |
@@ -128,10 +128,10 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `automatic-air-vent` | Automata légtelenítő | Automatic air vent | Műszaki helyőrző |
 | `water-filter` | Vízszűrő | Water filter | Műszaki helyőrző |
 | `water-softener` | Vízlágyító | Water softener | Műszaki helyőrző |
-| `end-suction-pump` | Végszívású centrifugálszivattyú | End suction centrifugal pump | Műszaki helyőrző |
-| `long-coupled-pump` | Hosszú tengelykapcsolós szivattyú | Long coupled pump | Műszaki helyőrző |
-| `vertical-multistage-pump` | Függőleges többfokozatú szivattyú | Vertical multistage pump | Műszaki helyőrző |
-| `horizontal-multistage-pump` | Vízszintes többfokozatú szivattyú | Horizontal multistage pump | Műszaki helyőrző |
+| `end-suction-pump` | Végszívású centrifugálszivattyú | End suction centrifugal pump | [Egyedi kép](../../assets/elements/universal/end-suction-pump.png) |
+| `long-coupled-pump` | Hosszú tengelykapcsolós szivattyú | Long coupled pump | [Egyedi kép](../../assets/elements/universal/long-coupled-pump.png) |
+| `vertical-multistage-pump` | Függőleges többfokozatú szivattyú | Vertical multistage pump | [Egyedi kép](../../assets/elements/universal/vertical-multistage-pump.png) |
+| `horizontal-multistage-pump` | Vízszintes többfokozatú szivattyú | Horizontal multistage pump | [Egyedi kép](../../assets/elements/universal/horizontal-multistage-pump.png) |
 | `twin-inline-pump` | Iker inline szivattyú | Twin inline pump | Műszaki helyőrző |
 | `jet-pump` | Jet rendszerű szivattyú | Jet pump | Műszaki helyőrző |
 | `self-priming-pump` | Önfelszívó szivattyú | Self priming pump | Műszaki helyőrző |
