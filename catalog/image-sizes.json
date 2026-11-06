@@ -1116,6 +1116,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/steam-humidifier.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/ultrasonic-humidifier.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/desiccant-dehumidifier.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }

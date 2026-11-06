@@ -150,3 +150,9 @@ A lemezes, forrasztott lemezes, tömítéses lemezes és cső-a-csőben hőcser�
 Elkészült a decentralizált falátvezetéses hővisszanyerő, moduláris légkezelő és elszívó légkezelő három forrásképe. A Gitbe kizárólag 160×160-as átlátszó PNG kerül. A decentralizált egység kerámiabetétes metszetet mutat; a moduláris légkezelő két légoldali nyílással és két külön vízcsonkkal készült; az elszívó egységen két légcsatlakozó van. A ventilátorok zárt házban maradnak, külső lapát nincs. A metszeti ablakok szemléltető elemek, nem további légcsatlakozók.
 
 A teljes forráskészlet most 212 PNG. Az eredeti katalógushoz még 107 típus képe hiányzik (szellőzés 22, medence 27, öntözés 23, érzékelők 35). A mostani három forrás még nincs a katalógushoz bekötve; a futásidejű integráció továbbra is 60 típus / 57 forrás. Következő képek: steam-humidifier, ultrasonic-humidifier, desiccant-dehumidifier, majd légoldali szerelvények. Tesztet és Actions-ellenőrzést nem futtattunk.
+
+## Párásítás és párátlanítás – új forráscsomag
+
+Elkészült a gőzös párásító, ultrahangos párásító és adszorpciós párátlanító három forrásképe. A gőzös készüléken egy felső gőzkivezetés, külön alsó vízbetáp és ürítő van; az ultrahangoson a párakivezetés és az oldalsó víz-/ürítőcsonk különálló. A párátlanító négy légnyílása a technológiai és regeneráló légágakhoz tartozik; nincs külső csőhíd vagy kitalált vízcsonk. A belső metszeti ablak nem külső csatlakozó. Az adszorpciós kerék a mostani képen statikus; külön animációs réteg még nem készült.
+
+A három 160×160-as átlátszó PNG-vel összesen 215 forráskép van. Az eredeti katalógushoz még 104 típus képe hiányzik (szellőzés 19, medence 27, öntözés 23, érzékelők 35). Az új három kép katalógusbekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/parasitas-paratlanitas.md). Tesztet és Actions-ellenőrzést nem futtattunk.
