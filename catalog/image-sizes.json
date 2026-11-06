@@ -956,6 +956,16 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "doc/grafika/latvanytervek/08a-forgatomotoros-szelepek.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
+        },
+        "doc/grafika/latvanytervek/08b-fekete-forgatomotoros-szelepek.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
         }
     }
 }
