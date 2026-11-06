@@ -213,3 +213,10 @@ Elkészült: irrigation-valve, master-valve, angle-irrigation-valve, latching-ir
 Elkészült: irrigation-zone, bubbler-emitter, drip-tape, porous-hose, irrigation-hydrant, irrigation-controller, temperature-sensor. Mindegyik 160×160-as átlátszó PNG. Az öntözési zóna három szórófeje egy közös vezetékre csatlakozik. A lapos csepegtetőszalag és a porózus szivárogtató tömlő külön képet kapott, beégetett víz nélkül. Az öntözővíz-csatlakozón külön látszik a doboz, a fedél és a vízbetáp. A vezérlő kijelzője üres; kábelbevezetései nem vízcsatlakozók. A hőmérőszonda és villamos csatlakozója külön kivehető. Az érzékelőcsoport látványtervét gyártás előtt bemutattuk.
 
 Összesen 285 forráskép készült el. Az eredeti katalógushoz még 34 típus képe hiányzik, mind az érzékelőcsoportban. Az öntözési csoport valamennyi eredeti típusához van forráskép. Az új képek katalógus- és animációs bekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/21-kep-1.md). Tesztet és Actions-ellenőrzést nem futtattunk.
+
+
+## 21 képes gyártás — 2. hétképes rész
+
+Elkészült: pressure-sensor, flow-sensor, water-meter, heat-meter, level-sensor, humidity-sensor, co2-sensor. Mindegyik 160×160-as, átlátszó PNG. A nyomástávadó villamos DIN-csatlakozója nem vízport; az átfolyásmérő és vízóra két tengelyazonos folyadékcsatlakozót kapott. A hőmennyiségmérő két külön hőmérőszondával látható, külső hidraulikai átkötés nélkül. A szintkapcsoló úszója statikus. A falérzékelők és mérők kijelzőjén nincs beégetett érték. A rajzok szemléltető ikonok, nem szerelési rajzok.
+
+Összesen 292 forráskép készült el; még 27 érzékelőkép hiányzik. A megkezdett 21 képes csomagból 14 kész. A futásidejű integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/21-kep-2.md). A képelőkészítés és méretjegyzék hat célzott gazdagépes tesztje sikeres; firmware-fordítás és fizikai panelpróba nem történt.
