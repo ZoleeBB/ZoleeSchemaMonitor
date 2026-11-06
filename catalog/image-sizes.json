@@ -966,6 +966,11 @@
             "role": "preview",
             "width": 1280,
             "height": 853
+        },
+        "doc/grafika/latvanytervek/09-szellozes-legtechnika.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 853
         }
     }
 }
