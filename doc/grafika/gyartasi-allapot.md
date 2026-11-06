@@ -90,3 +90,9 @@ A katalógus továbbra is 320 típusú, az elkészült források száma 209; a b
 A fűtési membrános és ivóvizes tágulási tartály, nyitott tágulási tartály és esővíztartály saját PNG-je bekötve. A membrános tartályokon csak a vízoldali csatlakozás köthető: a fűtésin alul, az ivóvizesen felül; az előtöltő légszelep kimarad. A nyitott és esővíztartály két-két külső csatlakozási pontot kapott, a belső úszószelep és a fedél nem külön vízcsonk. Nincs rájuk rajzolt forgó animáció.
 
 Összesen 26 típushoz 23 külön forrás van bekötve; ebből 13 tárolótípushoz 12 PNG. A teljes forráskészlet változatlanul 209 képes. A tesztfuttatás, fordítás, Actions-ellenőrzés és fizikai illeszkedéspróba még hátravan.
+
+## Tartályok integrációja – negyedik csomag
+
+Az indirekt, tartály-a-tartályban, szolár és rozsdamentes HMV-tároló saját képe bekötve. Az indirekt, belső tartályos és rozsdamentes változat négy-négy, a szolártároló hat külső csatlakozási pontot kapott. A belső spirál rajza nem alakít ki beégetett külső csőkapcsolatot. A hőmérő, érzékelőhüvely és szervizfedél nem vízcsatlakozás; egyik képre sem kerül forgó animáció.
+
+A bekötés összesen 30 típust fed le 27 külön PNG-ből; a tárolócsoportban 17 típushoz 16 forrás használható. A teljes kész PNG-forráskészlet továbbra is 209 képes. A generálás elkészült, de tesztek, fordítás, Actions-ellenőrzés és készülékes vizuális próba még nem történt.

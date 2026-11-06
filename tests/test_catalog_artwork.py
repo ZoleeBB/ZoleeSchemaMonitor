@@ -35,7 +35,9 @@ class CatalogArtworkTests(unittest.TestCase):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.
         expected = {'electric-water-heater': 2, 'expansion-vessel': 1,
                     'hydrophore': 1, 'combi-storage': 4, 'heating-expansion-vessel': 1,
-                    'potable-expansion-vessel': 1, 'open-expansion-tank': 2, 'rainwater-tank': 2}
+                    'potable-expansion-vessel': 1, 'open-expansion-tank': 2, 'rainwater-tank': 2,
+                    'indirect-water-heater': 4, 'tank-in-tank': 4,
+                    'solar-hot-water-tank': 6, 'stainless-hot-water-tank': 4}
         elements = {item['id']: item for item in catalog.elements()}
         for identifier, count in expected.items():
             with self.subTest(identifier=identifier):

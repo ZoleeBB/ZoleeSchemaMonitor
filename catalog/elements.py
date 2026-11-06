@@ -453,6 +453,13 @@ ARTWORK.update({
     "open-expansion-tank": ("open-expansion-tank", [(0.91, 0.42), (0.50, 0.81)], ("none", 0, 0, 0)),
     "rainwater-tank": ("rainwater-tank", [(0.215, 0.27), (0.82, 0.81)], ("none", 0, 0, 0)),
 })
+# A HMV-csonkok és a hőcserélő körei külön pontok; a metszeti ablak nem külső cső.
+ARTWORK.update({
+    "indirect-water-heater": ("indirect-water-heater", [(0.84, 0.335), (0.84, 0.70), (0.165, 0.46), (0.165, 0.65)], ("none", 0, 0, 0)),
+    "tank-in-tank": ("tank-in-tank", [(0.42, 0.08), (0.58, 0.08), (0.75, 0.365), (0.75, 0.65)], ("none", 0, 0, 0)),
+    "solar-hot-water-tank": ("solar-hot-water-tank", [(0.30, 0.23), (0.30, 0.78), (0.70, 0.245), (0.70, 0.325), (0.70, 0.615), (0.70, 0.745)], ("none", 0, 0, 0)),
+    "stainless-hot-water-tank": ("stainless-hot-water-tank", [(0.42, 0.055), (0.58, 0.055), (0.27, 0.445), (0.735, 0.445)], ("none", 0, 0, 0)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

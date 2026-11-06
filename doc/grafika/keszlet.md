@@ -1,13 +1,13 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 26 típushoz bekötött egyedi kép, 23 külön PNG-forrásból.**
+**320 katalógustípus; 30 típushoz bekötött egyedi kép, 27 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
 | Csoport | Típus | Egyedi képpel | Még helyőrző |
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
-| Tárolás / HMV | 24 | 13 | 11 |
+| Tárolás / HMV | 24 | 17 | 7 |
 | Hidraulika / vízellátás | 61 | 8 | 53 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
@@ -87,11 +87,11 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `rectangular-buffer` | Szögletes puffertartály | Rectangular buffer tank | Műszaki helyőrző |
 | `stratified-buffer` | Rétegtárolós puffer | Stratified buffer tank | Műszaki helyőrző |
 | `combi-storage` | Kombinált hőtároló | Combined thermal store | [Egyedi kép](../../assets/elements/universal/combi-storage.png) |
-| `indirect-water-heater` | Indirekt HMV tároló | Indirect water heater | Műszaki helyőrző |
-| `tank-in-tank` | Tartály a tartályban tároló | Tank-in-tank store | Műszaki helyőrző |
-| `solar-hot-water-tank` | Szolár HMV tároló | Solar hot water tank | Műszaki helyőrző |
+| `indirect-water-heater` | Indirekt HMV tároló | Indirect water heater | [Egyedi kép](../../assets/elements/universal/indirect-water-heater.png) |
+| `tank-in-tank` | Tartály a tartályban tároló | Tank-in-tank store | [Egyedi kép](../../assets/elements/universal/tank-in-tank.png) |
+| `solar-hot-water-tank` | Szolár HMV tároló | Solar hot water tank | [Egyedi kép](../../assets/elements/universal/solar-hot-water-tank.png) |
 | `heat-pump-water-heater` | Hőszivattyús vízmelegítő | Heat pump water heater | Műszaki helyőrző |
-| `stainless-hot-water-tank` | Rozsdamentes HMV tartály | Stainless hot water cylinder | Műszaki helyőrző |
+| `stainless-hot-water-tank` | Rozsdamentes HMV tartály | Stainless hot water cylinder | [Egyedi kép](../../assets/elements/universal/stainless-hot-water-tank.png) |
 | `heating-expansion-vessel` | Fűtési membrános tágulási tartály | Heating membrane expansion vessel | [Egyedi kép](../../assets/elements/universal/heating-expansion-vessel.png) |
 | `potable-expansion-vessel` | Ivóvizes tágulási tartály | Potable water expansion vessel | [Egyedi kép](../../assets/elements/universal/potable-expansion-vessel.png) |
 | `open-expansion-tank` | Nyitott tágulási tartály | Open expansion tank | [Egyedi kép](../../assets/elements/universal/open-expansion-tank.png) |
