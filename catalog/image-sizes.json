@@ -941,6 +941,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/black-rotary-valve-3.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/black-union-rotary-valve-3.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/black-flanged-rotary-valve-3.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
