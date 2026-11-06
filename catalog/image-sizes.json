@@ -1031,6 +1031,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/heat-recovery.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/air-handling-unit.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/rotary-heat-recovery.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/air-filter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
