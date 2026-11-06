@@ -1131,6 +1131,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/damper.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/motor-damper.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/fire-damper.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }

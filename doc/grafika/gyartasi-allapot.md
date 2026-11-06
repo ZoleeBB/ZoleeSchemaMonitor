@@ -156,3 +156,9 @@ A teljes forráskészlet most 212 PNG. Az eredeti katalógushoz még 107 típus 
 Elkészült a gőzös párásító, ultrahangos párásító és adszorpciós párátlanító három forrásképe. A gőzös készüléken egy felső gőzkivezetés, külön alsó vízbetáp és ürítő van; az ultrahangoson a párakivezetés és az oldalsó víz-/ürítőcsonk különálló. A párátlanító négy légnyílása a technológiai és regeneráló légágakhoz tartozik; nincs külső csőhíd vagy kitalált vízcsonk. A belső metszeti ablak nem külső csatlakozó. Az adszorpciós kerék a mostani képen statikus; külön animációs réteg még nem készült.
 
 A három 160×160-as átlátszó PNG-vel összesen 215 forráskép van. Az eredeti katalógushoz még 104 típus képe hiányzik (szellőzés 19, medence 27, öntözés 23, érzékelők 35). Az új három kép katalógusbekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/parasitas-paratlanitas.md). Tesztet és Actions-ellenőrzést nem futtattunk.
+
+## Légoldali szerelvények – első forráscsomag
+
+Elkészült a kézi körzsalu, motoros többlamellás légzsalu és tűzcsappantyú három 160×160-as átlátszó PNG-je. A kézi körzsalu egy pillangólapot és külső állítókart kapott. A motoros négyszögletes zsalu lamellái párhuzamosak; a hajtómotor kívül, a tengelynél helyezkedik el. A tűzcsappantyú egy vastag sötét zárólappal, külön narancsos rugó-visszatérítéses hajtással és külső kioldóházzal különül el. Nincs külső légcsatornahíd vagy vízcsonk. Ezek szemléltető ikonok, nem gyártói szerelési rajzok; a lapok és mutatók most a forráskép részei, élő állásanimáció még nincs bekötve.
+
+Összesen 218 forráskép készült el. Az eredeti katalógushoz még 101 típus képe hiányzik (szellőzés 16, medence 27, öntözés 23, érzékelők 35). A mostani képek katalógusbekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/legzsaluk.md). Tesztet és Actions-ellenőrzést nem futtattunk.
