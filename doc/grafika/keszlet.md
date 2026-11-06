@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 45 típushoz bekötött egyedi kép, 42 külön PNG-forrásból.**
+**320 katalógustípus; 49 típushoz bekötött egyedi kép, 46 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,7 +8,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 61 | 16 | 45 |
+| Hidraulika / vízellátás | 61 | 20 | 41 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 2 | 31 |
@@ -137,10 +137,10 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `self-priming-pump` | Önfelszívó szivattyú | Self priming pump | [Egyedi kép](../../assets/elements/universal/self-priming-pump.png) |
 | `piston-pump` | Dugattyús szivattyú | Piston pump | [Egyedi kép](../../assets/elements/universal/piston-pump.png) |
 | `diaphragm-pump` | Membránszivattyú | Diaphragm pump | [Egyedi kép](../../assets/elements/universal/diaphragm-pump.png) |
-| `gear-pump` | Fogaskerék-szivattyú | Gear pump | Műszaki helyőrző |
-| `condensate-pump` | Kondenzvízszivattyú | Condensate pump | Műszaki helyőrző |
-| `sewage-lifting-station` | Szennyvízátemelő telep | Sewage lifting station | Műszaki helyőrző |
-| `macerator-pump` | Darálós szennyvízszivattyú | Macerator pump | Műszaki helyőrző |
+| `gear-pump` | Fogaskerék-szivattyú | Gear pump | [Egyedi kép](../../assets/elements/universal/gear-pump.png) |
+| `condensate-pump` | Kondenzvízszivattyú | Condensate pump | [Egyedi kép](../../assets/elements/universal/condensate-pump.png) |
+| `sewage-lifting-station` | Szennyvízátemelő telep | Sewage lifting station | [Egyedi kép](../../assets/elements/universal/sewage-lifting-station.png) |
+| `macerator-pump` | Darálós szennyvízszivattyú | Macerator pump | [Egyedi kép](../../assets/elements/universal/macerator-pump.png) |
 | `vertical-sump-pump` | Függőleges aknaszivattyú | Vertical sump pump | Műszaki helyőrző |
 | `hydraulic-ram-pump` | Vízütéses szivattyú | Hydraulic ram pump | Műszaki helyőrző |
 | `split-case-pump` | Osztott házas szivattyú | Split case pump | Műszaki helyőrző |

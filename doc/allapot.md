@@ -9,7 +9,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
-| Grafika | B irány, 320 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 45 típushoz 42 bekötött egyedi PNG; Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
+| Grafika | B irány, 320 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 49 típushoz 46 bekötött egyedi PNG; Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
@@ -87,7 +87,7 @@ A tároló/HMV látványterv bemutatása után további 4 átlátszó PNG kész�
 
 ### Aktuális grafikai integráció – 2026. november 6.
 
-A három fekete házas forgatómotoros szeleppel 320 típusra bővült a katalógus. Az állásuk külön Loxone-értékhez köthető; a piros mutató és százalékjelzés a böngészős és P4-rajzolóban bekötve, próbája még hátravan. A második tartálycsomag a villanybojler, tágulási tartály, hidrofor és kombinált tároló saját képét regisztrálja. Összesen 45 típushoz 42 PNG-forrás van bekötve; további 275 típus műszaki helyőrzővel jelenik meg. A repóban összesen 209 kész PNG-forrás van, ezért a képkészítés és a futásidejű integráció készültségét külön vezetjük. A tesztek, fordítás és Actions-vizsgálat a teljes képkészlet utáni összevont ellenőrzésre halasztva; fizikai P4-próba továbbra is szükséges.
+A három fekete házas forgatómotoros szeleppel 320 típusra bővült a katalógus. Az állásuk külön Loxone-értékhez köthető; a piros mutató és százalékjelzés a böngészős és P4-rajzolóban bekötve, próbája még hátravan. A második tartálycsomag a villanybojler, tágulási tartály, hidrofor és kombinált tároló saját képét regisztrálja. Összesen 49 típushoz 46 PNG-forrás van bekötve; további 271 típus műszaki helyőrzővel jelenik meg. A repóban összesen 209 kész PNG-forrás van, ezért a képkészítés és a futásidejű integráció készültségét külön vezetjük. A tesztek, fordítás és Actions-vizsgálat a teljes képkészlet utáni összevont ellenőrzésre halasztva; fizikai P4-próba továbbra is szükséges.
 
 A harmadik tárolócsomag a fűtési és ivóvizes membrános tágulási tartály, a nyitott tágulási tartály és az esővíztartály meglévő képét köti be. A légoldali előtöltő szelepek nem kapnak csőcsatlakozót.
 
@@ -102,3 +102,5 @@ A hatodik tárolócsomaggal a sóoldattartály, föld alatti ciszterna és hősz
 A végszívású, hosszú tengelykapcsolós, függőleges és vízszintes többfokozatú szivattyú saját képpel és két-két vízoldali csonkkal bekötve. A zárt járókerékházakon a motoron elhelyezett aktivitásjelző használja a meglévő Loxone-aktivitás és opcionális teljesítmény logikáját; kívülre rajzolt forgólapát nincs. A tengelykapcsoló és kábelcsatlakozó nem vízport. A vizuális és készülékes próba még hátravan.
 
 A jet-, önfelszívó, dugattyús és membránszivattyú is saját képpel, folyadékoldali végpontokkal és állapotjelzővel regisztrálva. A dugattyús gép hajtótengelye és olajsapkája, illetve a membránszivattyú középső levegős szerelvénye nem vízcsatlakozó. A képeken nincs külső forgórész.
+
+A fogaskerék-, kondenzvíz-, szennyvízátemelő és darálós szivattyú saját grafikával, két-két folyadékoldali végponttal és állapotjelzővel bekötve. Az átemelőn az egyetlen hozzárendelt aktivitásjel a teljes egység állapotát jelzi, nem a két motor külön üzemét.

@@ -490,6 +490,14 @@ ARTWORK.update({
     "piston-pump": ("piston-pump", [(0.68, 0.32), (0.96, 0.585)], ("status", 0.38, 0.45, 0.025)),
     "diaphragm-pump": ("diaphragm-pump", [(0.51, 0.09), (0.51, 0.91)], ("status", 0.50, 0.38, 0.025)),
 })
+# A fogaskerék-szivattyú bal oldali tengelye nem vízcsatlakozó.
+# Az átemelő zárt fedelei és a darálós egység lezárt oldalsó sapkája kimaradnak.
+ARTWORK.update({
+    "gear-pump": ("gear-pump", [(0.89, 0.37), (0.89, 0.585)], ("status", 0.50, 0.225, 0.025)),
+    "condensate-pump": ("condensate-pump", [(0.27, 0.40), (0.815, 0.24)], ("status", 0.61, 0.31, 0.025)),
+    "sewage-lifting-station": ("sewage-lifting-station", [(0.125, 0.64), (0.90, 0.315)], ("status", 0.52, 0.525, 0.025)),
+    "macerator-pump": ("macerator-pump", [(0.22, 0.55), (0.87, 0.17)], ("status", 0.56, 0.63, 0.025)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),
