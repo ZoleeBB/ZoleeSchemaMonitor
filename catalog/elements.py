@@ -446,6 +446,13 @@ ARTWORK.update({
     "hydrophore": ("hydrophore", [(0.50, 0.89)], ("none", 0, 0, 0)),
     "combi-storage": ("combi-storage", [(0.29, 0.245), (0.29, 0.625), (0.71, 0.415), (0.71, 0.755)], ("none", 0, 0, 0)),
 })
+# A membrános tartály előtöltő szelepe nem a rajzolt vízkör része.
+ARTWORK.update({
+    "heating-expansion-vessel": ("heating-expansion-vessel", [(0.50, 0.94)], ("none", 0, 0, 0)),
+    "potable-expansion-vessel": ("potable-expansion-vessel", [(0.50, 0.085)], ("none", 0, 0, 0)),
+    "open-expansion-tank": ("open-expansion-tank", [(0.91, 0.42), (0.50, 0.81)], ("none", 0, 0, 0)),
+    "rainwater-tank": ("rainwater-tank", [(0.215, 0.27), (0.82, 0.81)], ("none", 0, 0, 0)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

@@ -1,13 +1,13 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 22 típushoz bekötött egyedi kép, 19 külön PNG-forrásból.**
+**320 katalógustípus; 26 típushoz bekötött egyedi kép, 23 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
 | Csoport | Típus | Egyedi képpel | Még helyőrző |
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
-| Tárolás / HMV | 24 | 9 | 15 |
+| Tárolás / HMV | 24 | 13 | 11 |
 | Hidraulika / vízellátás | 61 | 8 | 53 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
@@ -81,7 +81,7 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `electric-water-heater` | Villanybojler | Electric water heater | [Egyedi kép](../../assets/elements/universal/electric-water-heater.png) |
 | `expansion-vessel` | Tágulási tartály | Expansion vessel | [Egyedi kép](../../assets/elements/universal/expansion-vessel.png) |
 | `hydrophore` | Hidrofor tartály | Pressure vessel | [Egyedi kép](../../assets/elements/universal/hydrophore.png) |
-| `rainwater-tank` | Esővíztartály | Rainwater tank | Műszaki helyőrző |
+| `rainwater-tank` | Esővíztartály | Rainwater tank | [Egyedi kép](../../assets/elements/universal/rainwater-tank.png) |
 | `water-tank` | Víztartály | Water tank | Műszaki helyőrző |
 | `horizontal-buffer` | Fekvő puffertartály | Horizontal buffer tank | [Egyedi kép](../../assets/elements/universal/horizontal-buffer.png) |
 | `rectangular-buffer` | Szögletes puffertartály | Rectangular buffer tank | Műszaki helyőrző |
@@ -92,9 +92,9 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `solar-hot-water-tank` | Szolár HMV tároló | Solar hot water tank | Műszaki helyőrző |
 | `heat-pump-water-heater` | Hőszivattyús vízmelegítő | Heat pump water heater | Műszaki helyőrző |
 | `stainless-hot-water-tank` | Rozsdamentes HMV tartály | Stainless hot water cylinder | Műszaki helyőrző |
-| `heating-expansion-vessel` | Fűtési membrános tágulási tartály | Heating membrane expansion vessel | Műszaki helyőrző |
-| `potable-expansion-vessel` | Ivóvizes tágulási tartály | Potable water expansion vessel | Műszaki helyőrző |
-| `open-expansion-tank` | Nyitott tágulási tartály | Open expansion tank | Műszaki helyőrző |
+| `heating-expansion-vessel` | Fűtési membrános tágulási tartály | Heating membrane expansion vessel | [Egyedi kép](../../assets/elements/universal/heating-expansion-vessel.png) |
+| `potable-expansion-vessel` | Ivóvizes tágulási tartály | Potable water expansion vessel | [Egyedi kép](../../assets/elements/universal/potable-expansion-vessel.png) |
+| `open-expansion-tank` | Nyitott tágulási tartály | Open expansion tank | [Egyedi kép](../../assets/elements/universal/open-expansion-tank.png) |
 | `condensate-receiver` | Kondenzátumgyűjtő tartály | Condensate receiver | Műszaki helyőrző |
 | `brine-tank` | Sóoldattartály | Brine tank | Műszaki helyőrző |
 | `underground-cistern` | Föld alatti víztároló | Underground cistern | Műszaki helyőrző |

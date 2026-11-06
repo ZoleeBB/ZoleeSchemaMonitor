@@ -34,7 +34,8 @@ class CatalogArtworkTests(unittest.TestCase):
     def test_storage_ports_exclude_air_valves_and_service_caps(self):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.
         expected = {'electric-water-heater': 2, 'expansion-vessel': 1,
-                    'hydrophore': 1, 'combi-storage': 4}
+                    'hydrophore': 1, 'combi-storage': 4, 'heating-expansion-vessel': 1,
+                    'potable-expansion-vessel': 1, 'open-expansion-tank': 2, 'rainwater-tank': 2}
         elements = {item['id']: item for item in catalog.elements()}
         for identifier, count in expected.items():
             with self.subTest(identifier=identifier):
@@ -42,7 +43,8 @@ class CatalogArtworkTests(unittest.TestCase):
                 self.assertEqual(item['artwork'], identifier)
                 self.assertEqual(len(item['ports']), count)
                 self.assertEqual(item['animation']['kind'], 'none')
-        for identifier in ['expansion-vessel', 'hydrophore']:
+        self.assertLess(elements['potable-expansion-vessel']['ports'][0]['y'], .1)
+        for identifier in ['expansion-vessel', 'hydrophore', 'heating-expansion-vessel']:
             self.assertGreater(elements[identifier]['ports'][0]['y'], .8)
 
     def test_rotary_valves_have_independent_position_overlay(self):
