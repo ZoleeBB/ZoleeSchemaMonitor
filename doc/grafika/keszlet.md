@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 56 típushoz bekötött egyedi kép, 53 külön PNG-forrásból.**
+**320 katalógustípus; 60 típushoz bekötött egyedi kép, 57 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,7 +8,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 61 | 25 | 36 |
+| Hidraulika / vízellátás | 61 | 29 | 32 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 4 | 29 |
@@ -111,7 +111,7 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `booster-pump` | Nyomásfokozó szivattyú | Booster pump | [Egyedi kép](../../assets/elements/universal/booster-pump.png) |
 | `sewage-pump` | Szennyvízszivattyú | Sewage pump | [Egyedi kép](../../assets/elements/universal/sewage-pump.png) |
 | `solar-pump` | Szolárszivattyú | Solar pump | [Egyedi kép](../../assets/elements/universal/circulation-pump.png) |
-| `plate-exchanger` | Lemezes hőcserélő | Plate heat exchanger | Műszaki helyőrző |
+| `plate-exchanger` | Lemezes hőcserélő | Plate heat exchanger | [Egyedi kép](../../assets/elements/universal/plate-exchanger.png) |
 | `tubular-exchanger` | Csöves hőcserélő | Tubular heat exchanger | Műszaki helyőrző |
 | `hydraulic-separator` | Hidraulikus váltó | Hydraulic separator | Műszaki helyőrző |
 | `mixing-unit` | Keverőegység | Mixing unit | Műszaki helyőrző |
@@ -145,11 +145,11 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `hydraulic-ram-pump` | Vízütéses szivattyú | Hydraulic ram pump | [Egyedi kép](../../assets/elements/universal/hydraulic-ram-pump.png) |
 | `split-case-pump` | Osztott házas szivattyú | Split case pump | [Egyedi kép](../../assets/elements/universal/split-case-pump.png) |
 | `vortex-pump` | Örvénykerekes szivattyú | Vortex pump | [Egyedi kép](../../assets/elements/universal/vortex-pump.png) |
-| `brazed-plate-exchanger` | Forrasztott lemezes hőcserélő | Brazed plate exchanger | Műszaki helyőrző |
-| `gasketed-plate-exchanger` | Tömítéses lemezes hőcserélő | Gasketed plate exchanger | Műszaki helyőrző |
+| `brazed-plate-exchanger` | Forrasztott lemezes hőcserélő | Brazed plate exchanger | [Egyedi kép](../../assets/elements/universal/brazed-plate-exchanger.png) |
+| `gasketed-plate-exchanger` | Tömítéses lemezes hőcserélő | Gasketed plate exchanger | [Egyedi kép](../../assets/elements/universal/gasketed-plate-exchanger.png) |
 | `shell-and-tube-exchanger` | Csőköteges hőcserélő | Shell and tube exchanger | Műszaki helyőrző |
 | `coil-exchanger` | Csőkígyós hőcserélő | Coil heat exchanger | Műszaki helyőrző |
-| `tube-in-tube-exchanger` | Cső a csőben hőcserélő | Tube in tube exchanger | Műszaki helyőrző |
+| `tube-in-tube-exchanger` | Cső a csőben hőcserélő | Tube in tube exchanger | [Egyedi kép](../../assets/elements/universal/tube-in-tube-exchanger.png) |
 | `freshwater-station` | Frissvízmodul | Fresh water station | Műszaki helyőrző |
 | `manifold-3` | Osztó-gyűjtő 3 kör | 3 circuit manifold | Műszaki helyőrző |
 | `manifold-5` | Osztó-gyűjtő 5 kör | 5 circuit manifold | Műszaki helyőrző |

@@ -13,7 +13,7 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 | Szelepek és visszafolyásgátlók | 42 | 42 | Minden forrás elkészült; bekötés később |
 | Szellőzési ventilátorok | 12 | 12 | Minden ventilátorforrás elkészült; bekötés később |
 | Légkezelők, hővisszanyerők és légkezelési modulok | 14 | 14 | Részben elkészült; bekötés később |
-| **Összesen** | **204** | **207** | **Az eredeti katalógusból 53 típus bekötve; további 154 típushoz a PNG már megvan** |
+| **Összesen** | **204** | **207** | **Az eredeti katalógusból 57 típus bekötve; további 150 típushoz a PNG már megvan** |
 
 Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 110. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
@@ -138,3 +138,9 @@ A függőleges akna-, vízütéses, osztott házas és örvénykerekes szivatty�
 Az iker inline, membrános adagoló és szabályozható medenceszivattyú három meglévő képe bekötve. Mindegyiken két folyadékcsatlakozó és egy állapotjelző van. Az iker gép közös jelzője az egész egység egy hozzárendelt aktivitásjelét követi; két külön motorállapotot nem állít. A teljesítményhez igazított pulzálás és az adathiány-kezelés a meglévő futásidejű logika része. A zárt burkolatokra külső forgólapát nem kerül.
 
 A szivattyúcsalád mind a 29 típusa saját képpel regisztrálva, 27 külön forrásból. Az összesített integráció 56 típust fed le 53 PNG-ből. A teljes katalógus 320 típus, a kész forráskészlet változatlanul 209 kép. A család teljes regisztrációját ellenőrző teszteset elkészült; futtatása, a fordítás, Actions-ellenőrzés és fizikai próba még hátravan.
+
+## Hőcserélők integrációja – első csomag
+
+A lemezes, forrasztott lemezes, tömítéses lemezes és cső-a-csőben hőcserélő négy meglévő forrása bekötve. Mindegyik négy külön külső végpontot kapott; a leszorító rudak, csavarok és tartólábak nem csatlakozók. A cső-a-csőben változat két tengelyirányú és két köpenyoldali csonkja külön pont. Nincs beégetett külső összekötés vagy forgó animáció. A csatlakozók nincsenek automatikusan párosítva, a sémát a felhasználó rajzolja meg.
+
+Összesen 60 típushoz 57 külön PNG-forrás van bekötve. A teljes forráskészlet továbbra is 209 kép. A tesztesetek bővültek; tesztfuttatás, fordítás, Actions-ellenőrzés és készülékes próba még hátravan.

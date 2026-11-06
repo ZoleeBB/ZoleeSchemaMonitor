@@ -512,6 +512,13 @@ ARTWORK.update({
     "diaphragm-dosing-pump": ("diaphragm-dosing-pump", [(0.50, 0.38), (0.50, 0.91)], ("status", 0.39, 0.255, 0.025)),
     "variable-speed-pool-pump": ("variable-speed-pool-pump", [(0.085, 0.585), (0.50, 0.32)], ("status", 0.76, 0.37, 0.025)),
 })
+# A hőcserélők négy külső csonkja külön végpont; a leszorító rudak nem portok.
+ARTWORK.update({
+    "plate-exchanger": ("plate-exchanger", [(0.275, 0.265), (0.51, 0.265), (0.275, 0.725), (0.51, 0.725)], ("none", 0, 0, 0)),
+    "brazed-plate-exchanger": ("brazed-plate-exchanger", [(0.34, 0.24), (0.59, 0.24), (0.34, 0.81), (0.59, 0.81)], ("none", 0, 0, 0)),
+    "gasketed-plate-exchanger": ("gasketed-plate-exchanger", [(0.285, 0.275), (0.50, 0.275), (0.285, 0.73), (0.50, 0.73)], ("none", 0, 0, 0)),
+    "tube-in-tube-exchanger": ("tube-in-tube-exchanger", [(0.065, 0.53), (0.94, 0.53), (0.275, 0.32), (0.735, 0.74)], ("none", 0, 0, 0)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

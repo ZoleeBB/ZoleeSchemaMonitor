@@ -9,7 +9,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
-| Grafika | B irány, 320 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 56 típushoz 53 bekötött egyedi PNG; Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
+| Grafika | B irány, 320 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 60 típushoz 57 bekötött egyedi PNG; Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |
@@ -87,7 +87,7 @@ A tároló/HMV látványterv bemutatása után további 4 átlátszó PNG kész�
 
 ### Aktuális grafikai integráció – 2026. november 6.
 
-A három fekete házas forgatómotoros szeleppel 320 típusra bővült a katalógus. Az állásuk külön Loxone-értékhez köthető; a piros mutató és százalékjelzés a böngészős és P4-rajzolóban bekötve, próbája még hátravan. A második tartálycsomag a villanybojler, tágulási tartály, hidrofor és kombinált tároló saját képét regisztrálja. Összesen 56 típushoz 53 PNG-forrás van bekötve; további 264 típus műszaki helyőrzővel jelenik meg. A repóban összesen 209 kész PNG-forrás van, ezért a képkészítés és a futásidejű integráció készültségét külön vezetjük. A tesztek, fordítás és Actions-vizsgálat a teljes képkészlet utáni összevont ellenőrzésre halasztva; fizikai P4-próba továbbra is szükséges.
+A három fekete házas forgatómotoros szeleppel 320 típusra bővült a katalógus. Az állásuk külön Loxone-értékhez köthető; a piros mutató és százalékjelzés a böngészős és P4-rajzolóban bekötve, próbája még hátravan. A második tartálycsomag a villanybojler, tágulási tartály, hidrofor és kombinált tároló saját képét regisztrálja. Összesen 60 típushoz 57 PNG-forrás van bekötve; további 260 típus műszaki helyőrzővel jelenik meg. A repóban összesen 209 kész PNG-forrás van, ezért a képkészítés és a futásidejű integráció készültségét külön vezetjük. A tesztek, fordítás és Actions-vizsgálat a teljes képkészlet utáni összevont ellenőrzésre halasztva; fizikai P4-próba továbbra is szükséges.
 
 A harmadik tárolócsomag a fűtési és ivóvizes membrános tágulási tartály, a nyitott tágulási tartály és az esővíztartály meglévő képét köti be. A légoldali előtöltő szelepek nem kapnak csőcsatlakozót.
 
@@ -108,3 +108,5 @@ A fogaskerék-, kondenzvíz-, szennyvízátemelő és darálós szivattyú sajá
 A függőleges akna-, vízütéses, osztott házas és örvénykerekes szivattyú saját képpel bekötve. A merülőgépek alsó szívónyílása és nyomócsonkja külön pont; a vízütéses gép hulladékvíz-kilépése harmadik végpont. A vízütéses gép állapotjelzője a hozzárendelt üzem/áramlás jel szemléltetése, nem villanymotor állapota.
 
 Az iker inline, membrános adagoló és szabályozható medenceszivattyú bekötésével a szivattyúcsalád mind a 29 típusa saját grafikát használ, 27 PNG-forrásból. Az iker inline közös jelzője a teljes egység egy aktivitásforrását követi. A teljesítményhez igazított jelzőpulzálás a meglévő opcionális teljesítménykötést használja. Ez integrációs kódállapot, tesztfuttatás és készülékes próba még hátravan.
+
+A lemezes, forrasztott lemezes, tömítéses lemezes és cső-a-csőben hőcserélő saját grafikával, négy-négy külön külső csatlakozóval bekötve. A képek statikusak, a csövek aktivitása külön rendelhető hozzá; a katalógus nem köt össze belsőleg végpontokat. A vizuális és készülékes próba még hátravan.

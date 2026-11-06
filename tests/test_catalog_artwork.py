@@ -82,6 +82,16 @@ class CatalogArtworkTests(unittest.TestCase):
         twin = next(item for item in pumps if item['id'] == 'twin-inline-pump')
         self.assertEqual(twin['animation']['kind'], 'status')
 
+    def test_registered_exchangers_keep_four_distinct_external_ports(self):
+        elements = {item['id']: item for item in catalog.elements()}
+        for identifier in ['plate-exchanger', 'brazed-plate-exchanger',
+                           'gasketed-plate-exchanger', 'tube-in-tube-exchanger']:
+            with self.subTest(identifier=identifier):
+                item = elements[identifier]
+                self.assertEqual(item['artwork'], identifier)
+                self.assertEqual(len({(p['x'], p['y']) for p in item['ports']}), 4)
+                self.assertEqual(item['animation']['kind'], 'none')
+
     def test_storage_ports_exclude_air_valves_and_service_caps(self):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.
         expected = {'electric-water-heater': 2, 'expansion-vessel': 1,
