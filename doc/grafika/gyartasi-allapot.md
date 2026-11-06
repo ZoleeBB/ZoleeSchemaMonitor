@@ -199,3 +199,10 @@ Elkészült: pool, overflow-pool, spa, rotor-sprinkler, spray-sprinkler, micro-s
 Az öntözési csoport [látványterve](latvanytervek/11-ontozestechnika.jpg) a gyártás előtt bemutatva. A látványterv stílusminta; nem csőkapcsolási terv és nem futásidejű elemkép.
 
 Összesen 268 forráskép készült el. Az eredeti katalógushoz még 51 típus képe hiányzik (öntözés 16, érzékelők 35). A medencetechnika valamennyi eredeti típusához van forráskép. Az új képek katalógus- és animációs bekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/medence-ontozes-10-es-csomag.md). Tesztet és Actions-ellenőrzést nem futtattunk.
+
+
+## Öntözési szelepek és csatlakozók — tízképes csomag
+
+Elkészült: irrigation-valve, master-valve, angle-irrigation-valve, latching-irrigation-valve, quick-coupling-valve, compressor-port, valve-box, garden-tap, hose, fertigation-injector. Mindegyik 160×160-as átlátszó PNG. Az egyenes műanyag és réztestű szelepek két tengelyazonos vízcsatlakozóval, a sarokszelep alsó betáppal és oldalsó kimenettel készült. A bistabil szelep piros tekercse a katalóguson belüli megkülönböztetést segíti, nem gyártói színszabvány. A kompresszoradapter vízoldali menete és levegős csatlakozója külön látható. A zöld fedeles gyorscsatlakozó szelep kulcs nélkül szerepel. A szelepdoboz nyitott, üres belsejű; alsó kivágásai nem vízcsonkok. A kerti csap két csatlakozós; a tömlő két szabad végén külön csatlakozó van. A Venturi-bekeverő két vízportot és egy középső szívócsonkot kapott, külső csőhíd nélkül. A Venturi és a kompresszoradapter első nem négyzetes munkaképe helyett új négyzetes változat készült; nyújtás vagy vágás nem történt.
+
+Összesen 278 forráskép készült el. Az eredeti katalógushoz még 41 típus képe hiányzik (öntözés 6, érzékelők 35). Az új képek katalógus- és animációs bekötése hátravan; az integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/ontozes-szelepek-10-es-csomag.md). Tesztet és Actions-ellenőrzést nem futtattunk.
