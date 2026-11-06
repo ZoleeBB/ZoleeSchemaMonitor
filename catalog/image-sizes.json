@@ -1566,6 +1566,56 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/outdoor-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/duct-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/immersion-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/strap-on-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/infrared-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/room-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/combined-climate-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/air-differential-pressure-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/water-differential-pressure-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/differential-temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }

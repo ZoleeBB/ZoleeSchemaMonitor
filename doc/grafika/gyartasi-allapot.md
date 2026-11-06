@@ -2,7 +2,7 @@
 
 ## Aktuális összesítés
 
-**299 külön PNG-forrás készült el; még 20 érzékelőkép hiányzik.** A korábban megkezdett 21 képes csomag teljes. A futásidejű katalógusbekötés ettől külön állapot: 60 típus / 57 forrás. A további bekötés, firmware-fordítás és fizikai panelpróba hátravan.
+**309 külön PNG-forrás készült el; még 10 érzékelőkép hiányzik.** A korábban megkezdett 21 képes csomag teljes. A futásidejű katalógusbekötés ettől külön állapot: 60 típus / 57 forrás. A további bekötés, firmware-fordítás és fizikai panelpróba hátravan.
 
 Az alábbi táblázatok és bejegyzések a korábbi csomagok időrendben megőrzött állapotait mutatják.
 
@@ -233,3 +233,10 @@ Elkészült: pressure-sensor, flow-sensor, water-meter, heat-meter, level-sensor
 Elkészült: ph-sensor, redox-sensor, rain-sensor, soil-moisture-sensor, leak-sensor, frost-sensor, filter-pressure-switch. Mindegyik 160×160-as, átlátszó PNG. A pH-üveggömb és a redoxszonda kis fémelektródája különbözik. A talajszonda három egyenes mérőrudat, a szivárgásérzékelő két alsó érintkezőt kapott. A fagyvédelmi kapcsoló kapillárisa és érzékelővége zárt, nem vízcsatlakozó. A szűrő nyomáskapcsolóján két külön tömlőcsonk van, külső összekötés nélkül. A képeken nincs beégetett mérési érték vagy effekt.
 
 Az első kör nem négyzetes, feliratos vagy háttérfátylas változatai helyett új generálás készült; vágás és nyújtás nem történt. A repóba csak a végleges kis képek kerültek. Összesen 299 forráskép kész; a teljes forráskészletből még 20 érzékelőkép hiányzik. A megkezdett 21 képes csomag mindhárom hétképes része elkészült. [Generálási leírások](promptok/21-kep-3.md). A hat célzott képelőkészítési/méretjegyzék-teszt és a Git-index képméret-ellenőrzése sikeres. Firmware-fordítás és fizikai panelpróba nem történt; az új képek katalógus- és animációs bekötése hátravan.
+
+
+## Érzékelők — hőmérséklet és nyomáskülönbség, tízképes csomag
+
+Elkészült: outdoor-temperature-sensor, duct-temperature-sensor, immersion-temperature-sensor, strap-on-temperature-sensor, infrared-temperature-sensor, room-temperature-sensor, combined-climate-sensor, air-differential-pressure-sensor, water-differential-pressure-sensor, differential-temperature-sensor. Mindegyik 160×160-as, átlátszó PNG. A csőre szerelt érzékelő nyitott bilincse nem folyadékport. A vízoldali differenciálnyomás-távadó két külön menetes nyomáscsatlakozót, a légoldali két külön tömlőcsonkot kapott. A hőmérséklet-különbség mérő két önálló szondája két külön kábellel kapcsolódik a készülékhez; az első, hibás kábelágazású munkakép helyett új generálás készült. Nincs beégetett számérték vagy mutató.
+
+Összesen 309 forráskép kész; még 10 érzékelőkép hiányzik. A futásidejű integráció továbbra is 60 típus / 57 forrás. [Generálási leírások](promptok/erzekelok-homerseklet-nyomas-10.md). A hat célzott képelőkészítési/méretjegyzék-teszt sikeres; firmware-fordítás és fizikai panelpróba nem történt.
