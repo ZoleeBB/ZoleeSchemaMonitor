@@ -39,7 +39,8 @@ class CatalogArtworkTests(unittest.TestCase):
                     'indirect-water-heater': 4, 'tank-in-tank': 4,
                     'solar-hot-water-tank': 6, 'stainless-hot-water-tank': 4,
                     'rectangular-buffer': 4, 'stratified-buffer': 6,
-                    'water-tank': 1, 'condensate-receiver': 3}
+                    'water-tank': 1, 'condensate-receiver': 3,
+                    'brine-tank': 1, 'underground-cistern': 2}
         elements = {item['id']: item for item in catalog.elements()}
         for identifier, count in expected.items():
             with self.subTest(identifier=identifier):
@@ -50,6 +51,16 @@ class CatalogArtworkTests(unittest.TestCase):
         self.assertLess(elements['potable-expansion-vessel']['ports'][0]['y'], .1)
         for identifier in ['expansion-vessel', 'hydrophore', 'heating-expansion-vessel']:
             self.assertGreater(elements[identifier]['ports'][0]['y'], .8)
+
+    def test_storage_group_uses_artwork_and_closed_fan_has_status_only(self):
+        storage = [item for item in catalog.elements() if item['category'] == 'storage']
+        self.assertTrue(all('artwork' in item for item in storage))
+        heater = next(item for item in storage if item['id'] == 'heat-pump-water-heater')
+        self.assertEqual(heater['animation']['kind'], 'status')
+        # A víz- és légoldal külön végpontokkal szerkeszthető; nincs belső csőkapcsolat.
+        self.assertEqual(len(heater['ports']), 4)
+        self.assertTrue(all(p['y'] < .1 for p in heater['ports'][:2]))
+        self.assertTrue(all(p['y'] > .7 for p in heater['ports'][2:]))
 
     def test_rotary_valves_have_independent_position_overlay(self):
         ids = {'black-rotary-valve-3', 'black-union-rotary-valve-3', 'black-flanged-rotary-valve-3'}

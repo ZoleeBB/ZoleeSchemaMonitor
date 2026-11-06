@@ -467,6 +467,13 @@ ARTWORK.update({
     "water-tank": ("water-tank", [(0.87, 0.825)], ("none", 0, 0, 0)),
     "condensate-receiver": ("condensate-receiver", [(0.065, 0.56), (0.935, 0.56), (0.50, 0.30)], ("none", 0, 0, 0)),
 })
+# A vízmelegítő ventilátora zárt házban van: csak az előlap állapotjelzője animált.
+# A felső két pont légcsatorna, az alsó oldalpár vízkör; nincs belső összekötés.
+ARTWORK.update({
+    "heat-pump-water-heater": ("heat-pump-water-heater", [(0.415, 0.07), (0.585, 0.07), (0.69, 0.775), (0.69, 0.855)], ("status", 0.44, 0.40, 0.015)),
+    "brine-tank": ("brine-tank", [(0.79, 0.25)], ("none", 0, 0, 0)),
+    "underground-cistern": ("underground-cistern", [(0.04, 0.42), (0.96, 0.42)], ("none", 0, 0, 0)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

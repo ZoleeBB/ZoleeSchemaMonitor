@@ -5,7 +5,7 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 | Csoport | Külön PNG-forrás | Lefedett katalógustípus | Állapot |
 | --- | ---: | ---: | --- |
 | Szivattyúk | 27 | 29 | Minden forrás elkészült; első 8 forrás/10 típus bekötve |
-| Tárolók és HMV | 23 | 24 | Minden forrás elkészült; első 4 forrás/5 típus bekötve |
+| Tárolók és HMV | 23 | 24 | Mind a 23 forrás / 24 típus bekötve; vizuális és készülékes próba hátravan |
 | Hőtermelők, hőszivattyúk és hűtők | 31 | 31 | Minden forrás elkészült; bekötés később |
 | Radiátorok, konvektorok és klímabeltérik | 12 | 12 | Minden forrás elkészült; bekötés később |
 | Felületi hőleadók, körök és napkollektor | 7 | 7 | Minden forrás elkészült; bekötés később |
@@ -13,7 +13,7 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 | Szelepek és visszafolyásgátlók | 42 | 42 | Minden forrás elkészült; bekötés később |
 | Szellőzési ventilátorok | 12 | 12 | Minden ventilátorforrás elkészült; bekötés később |
 | Légkezelők, hővisszanyerők és légkezelési modulok | 14 | 14 | Részben elkészült; bekötés később |
-| **Összesen** | **204** | **207** | **15 típus bekötve; további 192 típushoz a PNG már megvan** |
+| **Összesen** | **204** | **207** | **Az eredeti katalógusból 34 típus bekötve; további 173 típushoz a PNG már megvan** |
 
 Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 110. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
@@ -102,3 +102,9 @@ A bekötés összesen 30 típust fed le 27 külön PNG-ből; a tárolócsoportba
 A szögletes puffer, rétegtárolós puffer, víztartály és kondenzátumgyűjtő négy meglévő grafikája bekötve. A szögletes puffer négy, a rétegtároló három szinten hat külön csatlakozót kapott. A víztartály egy látható alsó kivezetése köthető; a zárt fedél nem port. A kondenzátumgyűjtő két oldalsó és egy felső csonkja külön pont. Nincs külső összekötés vagy forgó réteg.
 
 A bekötés 34 típust fed le 31 külön PNG-ből; a tárolócsoportban 21 típushoz 20 forrás van bekötve. A teljes forráskészlet változatlanul 209 képes. Tesztfuttatás, fordítás, Actions-ellenőrzés és készülékes vizuális próba még hátravan.
+
+## Tartályok integrációja – hatodik csomag
+
+A sóoldattartály, föld alatti ciszterna és hőszivattyús vízmelegítő bekötve, így a tárolócsoport mind a 24 típusa saját PNG-t használ, 23 külön forrásból. A sóoldattartály egy felső oldalsó kivezetést, a ciszterna két oldalsó végpontot kapott; a zárt fedelek kimaradnak. A vízmelegítőn két felső légcsatlakozó és két alsó oldalsó vízcsonk külön pont. A szerkesztő nem ellenőrzi a médiumok egyezését, és nem köt össze automatikusan semmilyen pontot. A ventilátor zárt burkolata miatt csak az előlapi állapotjelző animált, külső forgó lapát nincs.
+
+Az összesített integráció 37 típust fed le 34 külön PNG-ből. A teljes katalógus 320 típusú, az elkészült forráskészlet változatlanul 209 képes. A fenti korábbi csomagbejegyzések történeti állapotok. A tesztek, fordítás, Actions-ellenőrzés és fizikai illeszkedéspróba továbbra is hátravan.
