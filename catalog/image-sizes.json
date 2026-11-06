@@ -1456,6 +1456,46 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/irrigation-zone.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/bubbler-emitter.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/drip-tape.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/porous-hose.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/irrigation-hydrant.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/irrigation-controller.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/temperature-sensor.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "doc/grafika/latvanytervek/12-erzekelok.jpg": {
+            "role": "preview",
+            "width": 1050,
+            "height": 960
         }
     }
 }
