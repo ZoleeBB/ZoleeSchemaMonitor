@@ -4,7 +4,7 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 
 | Csoport | Külön PNG-forrás | Lefedett katalógustípus | Állapot |
 | --- | ---: | ---: | --- |
-| Szivattyúk | 27 | 29 | Minden forrás elkészült; 20 forrás/22 típus bekötve |
+| Szivattyúk | 27 | 29 | Minden forrás elkészült; 24 forrás/26 típus bekötve |
 | Tárolók és HMV | 23 | 24 | Mind a 23 forrás / 24 típus bekötve; vizuális és készülékes próba hátravan |
 | Hőtermelők, hőszivattyúk és hűtők | 31 | 31 | Minden forrás elkészült; bekötés később |
 | Radiátorok, konvektorok és klímabeltérik | 12 | 12 | Minden forrás elkészült; bekötés később |
@@ -13,7 +13,7 @@ A gyártás közben a végleges, kicsinyített forrásképek kerülnek fel kis c
 | Szelepek és visszafolyásgátlók | 42 | 42 | Minden forrás elkészült; bekötés később |
 | Szellőzési ventilátorok | 12 | 12 | Minden ventilátorforrás elkészült; bekötés később |
 | Légkezelők, hővisszanyerők és légkezelési modulok | 14 | 14 | Részben elkészült; bekötés később |
-| **Összesen** | **204** | **207** | **Az eredeti katalógusból 46 típus bekötve; további 161 típushoz a PNG már megvan** |
+| **Összesen** | **204** | **207** | **Az eredeti katalógusból 50 típus bekötve; további 157 típushoz a PNG már megvan** |
 
 Az induló katalógus 317 típust tartalmaz. A még hiányzó egyedi források száma 110. A három valódi közös kialakítás: a fűtési és szolár keringető a keringetőszivattyú képét, az egyspirálos tároló a HMV-tároló képét használja. Ezekkel a teljes készlet várhatóan 314 külön PNG-ből áll.
 
@@ -126,3 +126,9 @@ A jet-, önfelszívó, dugattyús és membránszivattyú négy meglévő képe b
 A fogaskerék-, kondenzvíz-, szennyvízátemelő és darálós szivattyú meglévő képe bekötve. Két-két folyadékoldali pontot és állapotjelzőt kaptak. A fogaskerék-szivattyún csak a két jobb oldali rézcsonk köthető, a bal tengely nem. A darálós egységen az elülső nyílás és felső könyök köthető, a lezárt alsó oldalsó sapka kimarad. A kétmotoros átemelő közös jelzője a teljes egység egyetlen aktivitásforrását követi, nem külön motorállapotokat.
 
 Összesen 49 típushoz 46 külön PNG van bekötve, ebből 22 szivattyútípushoz 20 forrás. A teljes kész forráskészlet változatlanul 209 kép. Teszt, fordítás, Actions-ellenőrzés és fizikai próba továbbra is hátravan.
+
+## Szivattyúváltozatok integrációja – negyedik csomag
+
+A függőleges akna-, vízütéses, osztott házas és örvénykerekes szivattyú képe regisztrálva. Az akna- és örvénykerekes gépen az alsó szívónyílás és a nyomócsonk külön pont. Az osztott házas gépen csak a két oldalsó karima köthető, az elülső tengely nem. A vízütéses szivattyún két csőcsonk és a hulladékvíz-kilépés három külön végpont, a zárt légüst teteje kimarad. Állapotjelzője a hozzárendelt üzem/áramlás jelet jelzi, nem feltételez villanymotort. A hulladékvíz-kilépés nem menetes csőcsatlakozó; a pont a sémán az elfolyó ág jelölésére használható.
+
+Összesen 53 típushoz 50 külön PNG van bekötve; a szivattyúcsalád 26 típusa 24 forrásból jelenik meg. Teszt, fordítás, Actions-ellenőrzés és fizikai illeszkedéspróba továbbra is hátravan.

@@ -35,7 +35,8 @@ class CatalogArtworkTests(unittest.TestCase):
         identifiers = ['end-suction-pump', 'long-coupled-pump',
                        'vertical-multistage-pump', 'horizontal-multistage-pump',
                        'jet-pump', 'self-priming-pump', 'piston-pump', 'diaphragm-pump',
-                       'gear-pump', 'condensate-pump', 'sewage-lifting-station', 'macerator-pump']
+                       'gear-pump', 'condensate-pump', 'sewage-lifting-station', 'macerator-pump',
+                       'vertical-sump-pump', 'split-case-pump', 'vortex-pump']
         elements = {item['id']: item for item in catalog.elements()}
         for identifier in identifiers:
             with self.subTest(identifier=identifier):
@@ -58,6 +59,17 @@ class CatalogArtworkTests(unittest.TestCase):
         self.assertTrue(all(p['x'] > .8 for p in elements['gear-pump']['ports']))
         # Az alsó jobb oldali lezárt sapka helyett az elülső beömlő és felső könyök köthető.
         self.assertTrue(all(p['y'] < .6 for p in elements['macerator-pump']['ports']))
+
+    def test_ram_waste_outlet_and_submerged_intakes_remain_separate(self):
+        elements = {item['id']: item for item in catalog.elements()}
+        ram = elements['hydraulic-ram-pump']
+        self.assertEqual(ram['animation']['kind'], 'status')
+        self.assertEqual(len(ram['ports']), 3)
+        self.assertLess(ram['ports'][2]['y'], min(p['y'] for p in ram['ports'][:2]))
+        for identifier in ['vertical-sump-pump', 'vortex-pump']:
+            self.assertGreater(elements[identifier]['ports'][0]['y'], .9)
+        self.assertTrue(all(p['x'] < .15 or p['x'] > .9
+                            for p in elements['split-case-pump']['ports']))
 
     def test_storage_ports_exclude_air_valves_and_service_caps(self):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.

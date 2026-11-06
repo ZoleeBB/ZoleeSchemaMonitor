@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**320 katalógustípus; 49 típushoz bekötött egyedi kép, 46 külön PNG-forrásból.**
+**320 katalógustípus; 53 típushoz bekötött egyedi kép, 50 külön PNG-forrásból.**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,7 +8,7 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 0 | 48 |
 | Tárolás / HMV | 24 | 24 | 0 |
-| Hidraulika / vízellátás | 61 | 20 | 41 |
+| Hidraulika / vízellátás | 61 | 24 | 37 |
 | Szelepek | 45 | 3 | 42 |
 | Szellőzés / légtechnika | 51 | 0 | 51 |
 | Medencetechnika | 33 | 2 | 31 |
@@ -141,10 +141,10 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `condensate-pump` | Kondenzvízszivattyú | Condensate pump | [Egyedi kép](../../assets/elements/universal/condensate-pump.png) |
 | `sewage-lifting-station` | Szennyvízátemelő telep | Sewage lifting station | [Egyedi kép](../../assets/elements/universal/sewage-lifting-station.png) |
 | `macerator-pump` | Darálós szennyvízszivattyú | Macerator pump | [Egyedi kép](../../assets/elements/universal/macerator-pump.png) |
-| `vertical-sump-pump` | Függőleges aknaszivattyú | Vertical sump pump | Műszaki helyőrző |
-| `hydraulic-ram-pump` | Vízütéses szivattyú | Hydraulic ram pump | Műszaki helyőrző |
-| `split-case-pump` | Osztott házas szivattyú | Split case pump | Műszaki helyőrző |
-| `vortex-pump` | Örvénykerekes szivattyú | Vortex pump | Műszaki helyőrző |
+| `vertical-sump-pump` | Függőleges aknaszivattyú | Vertical sump pump | [Egyedi kép](../../assets/elements/universal/vertical-sump-pump.png) |
+| `hydraulic-ram-pump` | Vízütéses szivattyú | Hydraulic ram pump | [Egyedi kép](../../assets/elements/universal/hydraulic-ram-pump.png) |
+| `split-case-pump` | Osztott házas szivattyú | Split case pump | [Egyedi kép](../../assets/elements/universal/split-case-pump.png) |
+| `vortex-pump` | Örvénykerekes szivattyú | Vortex pump | [Egyedi kép](../../assets/elements/universal/vortex-pump.png) |
 | `brazed-plate-exchanger` | Forrasztott lemezes hőcserélő | Brazed plate exchanger | Műszaki helyőrző |
 | `gasketed-plate-exchanger` | Tömítéses lemezes hőcserélő | Gasketed plate exchanger | Műszaki helyőrző |
 | `shell-and-tube-exchanger` | Csőköteges hőcserélő | Shell and tube exchanger | Műszaki helyőrző |

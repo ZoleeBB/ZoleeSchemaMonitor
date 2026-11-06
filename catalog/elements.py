@@ -498,6 +498,14 @@ ARTWORK.update({
     "sewage-lifting-station": ("sewage-lifting-station", [(0.125, 0.64), (0.90, 0.315)], ("status", 0.52, 0.525, 0.025)),
     "macerator-pump": ("macerator-pump", [(0.22, 0.55), (0.87, 0.17)], ("status", 0.56, 0.63, 0.025)),
 })
+# A merülőgépek alsó nyílása folyadékbelépés; a fogantyú nem csatlakozó.
+# A vízütéses gépen a két csőcsonk mellett a szabad hulladékvíz-kilépés is külön végpont.
+ARTWORK.update({
+    "vertical-sump-pump": ("vertical-sump-pump", [(0.48, 0.96), (0.71, 0.20)], ("status", 0.48, 0.17, 0.025)),
+    "hydraulic-ram-pump": ("hydraulic-ram-pump", [(0.145, 0.64), (0.94, 0.66), (0.335, 0.495)], ("status", 0.64, 0.75, 0.025)),
+    "split-case-pump": ("split-case-pump", [(0.09, 0.675), (0.94, 0.675)], ("status", 0.50, 0.38, 0.025)),
+    "vortex-pump": ("vortex-pump", [(0.49, 0.95), (0.79, 0.735)], ("status", 0.49, 0.35, 0.025)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),
