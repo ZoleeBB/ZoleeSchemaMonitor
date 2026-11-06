@@ -506,6 +506,12 @@ ARTWORK.update({
     "split-case-pump": ("split-case-pump", [(0.09, 0.675), (0.94, 0.675)], ("status", 0.50, 0.38, 0.025)),
     "vortex-pump": ("vortex-pump", [(0.49, 0.95), (0.79, 0.735)], ("status", 0.49, 0.35, 0.025)),
 })
+# Az iker inline gép közös aktivitásforrást használ, nem két független motorjelet.
+ARTWORK.update({
+    "twin-inline-pump": ("twin-inline-pump", [(0.09, 0.70), (0.94, 0.70)], ("status", 0.50, 0.79, 0.025)),
+    "diaphragm-dosing-pump": ("diaphragm-dosing-pump", [(0.50, 0.38), (0.50, 0.91)], ("status", 0.39, 0.255, 0.025)),
+    "variable-speed-pool-pump": ("variable-speed-pool-pump", [(0.085, 0.585), (0.50, 0.32)], ("status", 0.76, 0.37, 0.025)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),

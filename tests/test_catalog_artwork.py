@@ -36,7 +36,8 @@ class CatalogArtworkTests(unittest.TestCase):
                        'vertical-multistage-pump', 'horizontal-multistage-pump',
                        'jet-pump', 'self-priming-pump', 'piston-pump', 'diaphragm-pump',
                        'gear-pump', 'condensate-pump', 'sewage-lifting-station', 'macerator-pump',
-                       'vertical-sump-pump', 'split-case-pump', 'vortex-pump']
+                       'vertical-sump-pump', 'split-case-pump', 'vortex-pump',
+                       'twin-inline-pump', 'diaphragm-dosing-pump', 'variable-speed-pool-pump']
         elements = {item['id']: item for item in catalog.elements()}
         for identifier in identifiers:
             with self.subTest(identifier=identifier):
@@ -70,6 +71,16 @@ class CatalogArtworkTests(unittest.TestCase):
             self.assertGreater(elements[identifier]['ports'][0]['y'], .9)
         self.assertTrue(all(p['x'] < .15 or p['x'] > .9
                             for p in elements['split-case-pump']['ports']))
+
+    def test_all_pump_types_have_registered_artwork_and_explicit_animation(self):
+        pumps = [item for item in catalog.elements() if item['family'] == 'pump']
+        self.assertGreaterEqual(len(pumps), 29)
+        self.assertTrue(all('artwork' in item for item in pumps))
+        for pump in pumps:
+            self.assertIn(pump['animation']['kind'], ['rotor', 'status'])
+        # A közös elosztóházas egységhez a jelenlegi modell egy aktivitásjelet ad.
+        twin = next(item for item in pumps if item['id'] == 'twin-inline-pump')
+        self.assertEqual(twin['animation']['kind'], 'status')
 
     def test_storage_ports_exclude_air_valves_and_service_caps(self):
         # A zárt tágulási tartályon egy vízcsatlakozó van; a felső sapka nem második ág.
