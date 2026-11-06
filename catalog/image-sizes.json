@@ -841,6 +841,26 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/gate-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/globe-control-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/diaphragm-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/needle-valve.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }
