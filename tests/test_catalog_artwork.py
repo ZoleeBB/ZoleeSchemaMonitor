@@ -37,7 +37,9 @@ class CatalogArtworkTests(unittest.TestCase):
                     'hydrophore': 1, 'combi-storage': 4, 'heating-expansion-vessel': 1,
                     'potable-expansion-vessel': 1, 'open-expansion-tank': 2, 'rainwater-tank': 2,
                     'indirect-water-heater': 4, 'tank-in-tank': 4,
-                    'solar-hot-water-tank': 6, 'stainless-hot-water-tank': 4}
+                    'solar-hot-water-tank': 6, 'stainless-hot-water-tank': 4,
+                    'rectangular-buffer': 4, 'stratified-buffer': 6,
+                    'water-tank': 1, 'condensate-receiver': 3}
         elements = {item['id']: item for item in catalog.elements()}
         for identifier, count in expected.items():
             with self.subTest(identifier=identifier):

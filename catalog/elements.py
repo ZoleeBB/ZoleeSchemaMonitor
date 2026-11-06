@@ -460,6 +460,13 @@ ARTWORK.update({
     "solar-hot-water-tank": ("solar-hot-water-tank", [(0.30, 0.23), (0.30, 0.78), (0.70, 0.245), (0.70, 0.325), (0.70, 0.615), (0.70, 0.745)], ("none", 0, 0, 0)),
     "stainless-hot-water-tank": ("stainless-hot-water-tank", [(0.42, 0.055), (0.58, 0.055), (0.27, 0.445), (0.735, 0.445)], ("none", 0, 0, 0)),
 })
+# A rétegtároló három magasságban vezet ki külön csonkpárt.
+ARTWORK.update({
+    "rectangular-buffer": ("rectangular-buffer", [(0.28, 0.265), (0.72, 0.265), (0.28, 0.68), (0.72, 0.68)], ("none", 0, 0, 0)),
+    "stratified-buffer": ("stratified-buffer", [(0.315, 0.29), (0.69, 0.29), (0.315, 0.50), (0.69, 0.50), (0.315, 0.71), (0.69, 0.71)], ("none", 0, 0, 0)),
+    "water-tank": ("water-tank", [(0.87, 0.825)], ("none", 0, 0, 0)),
+    "condensate-receiver": ("condensate-receiver", [(0.065, 0.56), (0.935, 0.56), (0.50, 0.30)], ("none", 0, 0, 0)),
+})
 # A gombközép és a csonkok a végleges négyzetes PNG vászonhoz tartoznak.
 ARTWORK.update({
     "black-rotary-valve-3": ("black-rotary-valve-3", [(0.06, 0.44), (0.94, 0.44), (0.49, 0.87)], ("position", 0.385, 0.49, 0.12)),
