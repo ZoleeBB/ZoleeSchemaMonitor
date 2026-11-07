@@ -5,6 +5,34 @@
 #include <stdio.h>
 #include <string.h>
 
+bool sm_spray_prepare(unsigned drop, double direction, sm_spray_ray_t *ray)
+{
+    if (!ray || !isfinite(direction) || drop >= SM_SPRAY_DROPS)
+        return false;
+    double angle = (fmod(direction, 360) + ((double)drop - 1.5) * 18) * 3.141592653589793 / 180;
+    *ray = (sm_spray_ray_t){cos(angle), sin(angle)};
+    return true;
+}
+
+bool sm_spray_sample(double phase, unsigned drop, const sm_spray_ray_t *ray, double *x, double *y)
+{
+    if (!ray || !x || !y || !isfinite(phase) || !isfinite(ray->x) || !isfinite(ray->y) ||
+        drop >= SM_SPRAY_DROPS)
+        return false;
+    double t = phase - floor(phase);
+    t = fmod(t + (double)drop / SM_SPRAY_DROPS, 1);
+    double distance = .12 + .88 * t;
+    *x = ray->x * distance;
+    *y = ray->y * distance + .3 * t * t;
+    return true;
+}
+
+bool sm_spray_point(double phase, unsigned drop, double direction, double *x, double *y)
+{
+    sm_spray_ray_t ray;
+    return sm_spray_prepare(drop, direction, &ray) && sm_spray_sample(phase, drop, &ray, x, y);
+}
+
 static double clamp(double value)
 {
     return value < 0 ? 0 : value > 1 ? 1 : value;

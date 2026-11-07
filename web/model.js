@@ -156,6 +156,17 @@ export function newElement(type, asset = '') {
         points: [{x: 0.1, y: 0.1}, {x: 0.4, y: 0.1}], width: 6, direction: 1, source: null, target: null};
 }
 
+export const SPRAY_DROPS = 4;
+// Ugyanaz a sugárarányos pálya, mint a hordozható C-magban.
+export function sprayPoint(phase, drop, direction = -90) {
+    if (!Number.isFinite(phase) || !Number.isFinite(direction) ||
+        !Number.isInteger(drop) || drop < 0 || drop >= SPRAY_DROPS) throw Error('spray.point');
+    const t = (phase - Math.floor(phase) + drop / SPRAY_DROPS) % 1;
+    const angle = (direction % 360 + (drop - 1.5) * 18) * Math.PI / 180;
+    const distance = .12 + .88 * t;
+    return {x: Math.cos(angle) * distance, y: Math.sin(angle) * distance + .3 * t * t};
+}
+
 export function readBinding(binding, values, connected = true) {
     if (!binding || !connected) return {configured: !!binding, valid: false, value: 0};
     const raw = values[binding.uuid.toLowerCase()];

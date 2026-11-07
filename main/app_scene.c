@@ -74,6 +74,17 @@ typedef struct
 } extra_rotor_t;
 static SCENE_BSS extra_rotor_t s_extra_rotors[SM_MAX_ELEMENTS * 7];
 static unsigned s_extra_rotor_count;
+typedef struct
+{
+    unsigned owner;
+    lv_obj_t *drops[SM_SPRAY_DROPS];
+    double x, y, radius, rotation, direction, half;
+    double cosine, sine;
+    sm_spray_ray_t rays[SM_SPRAY_DROPS];
+    bool visible;
+} spray_runtime_t;
+static SCENE_BSS spray_runtime_t s_sprays[SM_MAX_ELEMENTS];
+static unsigned s_spray_count;
 static unsigned s_runtime_count;
 static app_scene_read_fn s_reader;
 static void *s_reader_context;
@@ -308,6 +319,31 @@ void app_scene_update(unsigned elapsed_ms)
             lv_obj_invalidate(runtime->rotor);
             runtime->rotor_initialized = true;
         }
+    }
+    for (unsigned n = 0; n < s_spray_count; n++)
+    {
+        spray_runtime_t *spray = &s_sprays[n];
+        bool active = states[spray->owner].active;
+        for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
+        {
+            lv_obj_t *object = spray->drops[drop];
+            if (active != spray->visible)
+            {
+                if (active)
+                    lv_obj_remove_flag(object, LV_OBJ_FLAG_HIDDEN);
+                else
+                    lv_obj_add_flag(object, LV_OBJ_FLAG_HIDDEN);
+            }
+            if (!active)
+                continue;
+            double dx, dy;
+            if (!sm_spray_sample(s_runtime[spray->owner].phase, drop, &spray->rays[drop], &dx, &dy))
+                continue;
+            double rx = (dx * spray->cosine - dy * spray->sine) * spray->radius;
+            double ry = (dx * spray->sine + dy * spray->cosine) * spray->radius;
+            lv_obj_set_pos(object, spray->x + rx - spray->half, spray->y + ry - spray->half);
+        }
+        spray->visible = active;
     }
     for (unsigned n = 0; n < s_extra_rotor_count; n++)
     {
@@ -695,6 +731,8 @@ void app_scene_poll(void)
     s_head_count = 0;
     memset(s_extra_rotors, 0, sizeof(s_extra_rotors));
     s_extra_rotor_count = 0;
+    memset(s_sprays, 0, sizeof(s_sprays));
+    s_spray_count = 0;
     s_runtime_count = cJSON_GetArraySize(elements);
     s_root = lv_obj_create(lv_screen_active());
     lv_obj_remove_style_all(s_root);
@@ -812,11 +850,11 @@ void app_scene_poll(void)
             if (cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(element, "showPower")))
                 runtime->power_label = label(s_root, "— %", x, y + h + 24, color);
             const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
-            if (asset && asset->animation == 3)
+            if (asset && (asset->animation == 3 || asset->animation == 2))
             {
                 double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
                 double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
-                int radius = fmax(2, asset->animation_radius * side);
+                int radius = fmax(2, (asset->animation == 2 ? .025 : asset->animation_radius) * side);
                 runtime->indicator = lv_obj_create(s_root);
                 lv_obj_remove_style_all(runtime->indicator);
                 lv_obj_set_size(runtime->indicator, radius * 2, radius * 2);
@@ -827,6 +865,35 @@ void app_scene_poll(void)
                 lv_obj_set_style_bg_opa(runtime->indicator, LV_OPA_COVER, 0);
                 lv_obj_set_style_border_color(runtime->indicator, lv_color_hex(0xe5eff4), 0);
                 lv_obj_set_style_border_width(runtime->indicator, 1, 0);
+            }
+            if (asset && asset->animation == 2)
+            {
+                spray_runtime_t *spray = &s_sprays[s_spray_count++];
+                double px = (asset->animation_x - .5) * side;
+                double py = (asset->animation_y - .5) * side;
+                spray->owner = index;
+                spray->rotation = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
+                spray->cosine = cos(spray->rotation);
+                spray->sine = sin(spray->rotation);
+                spray->x = x + w / 2.0 + px * spray->cosine - py * spray->sine;
+                spray->y = y + h / 2.0 + px * spray->sine + py * spray->cosine;
+                spray->radius = asset->animation_radius * side;
+                spray->direction = asset->spray_direction;
+                int diameter = fmax(3, side * .025);
+                spray->half = diameter / 2.0;
+                for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
+                {
+                    sm_spray_prepare(drop, spray->direction, &spray->rays[drop]);
+                    lv_obj_t *object = lv_obj_create(s_root);
+                    spray->drops[drop] = object;
+                    lv_obj_remove_style_all(object);
+                    lv_obj_set_size(object, diameter, diameter);
+                    lv_obj_set_style_radius(object, LV_RADIUS_CIRCLE, 0);
+                    lv_obj_set_style_bg_color(object, lv_color_hex(0x249bd0), 0);
+                    lv_obj_set_style_bg_opa(object, LV_OPA_COVER, 0);
+                    lv_obj_add_flag(object, LV_OBJ_FLAG_HIDDEN);
+                    lv_obj_remove_flag(object, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);
+                }
             }
             if (asset && asset->animation == 4 && runtime->position.uuid[0] && s_pictures[index].bytes)
             {

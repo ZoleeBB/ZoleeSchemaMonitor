@@ -623,6 +623,8 @@ def elements():
                 animation = {"kind": "none", "x": 0, "y": 0, "radius": 0}
             if "scale" in registration:
                 animation["scaleX"], animation["scaleY"] = registration["scale"]
+            if "sprayDirection" in registration:
+                animation["direction"] = registration["sprayDirection"]
             if "rotors" in registration:
                 animation["rotors"] = [{"x": x, "y": y, "radius": radius} for x, y, radius in registration["rotors"]]
             result.append({"id": identifier, "name": {"hu": hu, "en": en}, "category": category,

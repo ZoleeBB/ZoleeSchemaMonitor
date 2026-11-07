@@ -20,6 +20,18 @@ from build_assets import illustration
 
 
 class FullGraphicsTests(unittest.TestCase):
+    def test_spray_is_registered_only_for_the_five_reviewed_spraying_heads(self):
+        items=catalog.elements()
+        sprays=[e for e in items if (e.get('animation') or {}).get('kind')=='spray']
+        self.assertEqual({e['id'] for e in sprays}, {'rotor-sprinkler','spray-sprinkler',
+                         'micro-sprinkler','rotary-nozzle','impact-sprinkler'})
+        for e in sprays:
+            a=e['animation']
+            self.assertTrue(0<a['radius']<=.3)
+            self.assertTrue(0<=a['x']<=1 and 0<=a['y']<=1)
+            self.assertTrue(-180<=a['direction']<=180)
+            self.assertEqual(len(e['ports']),1)
+
     def test_no_catalog_type_is_left_as_a_placeholder(self):
         items = catalog.elements()
         self.assertEqual(len(items), 333)

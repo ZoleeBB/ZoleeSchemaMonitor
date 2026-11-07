@@ -396,6 +396,83 @@ int main(void)
     s_test_valid = false;
     app_scene_update(100);
     assert(s_extra_rotors[0].opacity == LV_OPA_50 && s_extra_rotors[1].opacity == LV_OPA_50);
+    const char *sprinklers[] = {"rotor-sprinkler", "spray-sprinkler", "micro-sprinkler",
+                                "rotary-nozzle", "impact-sprinkler"};
+    cJSON_DeleteItemFromObject(equipment, "activity");
+    cJSON_AddItemToObject(equipment, "activity", cJSON_Parse(
+        "{\"uuid\":\"12345678-1234-5678-0102030405060708\",\"scale\":1,\"offset\":0}"));
+    for (unsigned kind = 0; kind < 5; kind++)
+        for (unsigned rotation = 0; rotation < 360; rotation += 90)
+        {
+            cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString(sprinklers[kind]));
+            cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(rotation));
+            s_test_revision++;
+            app_scene_poll();
+            assert(s_spray_count == 1 && s_extra_rotor_count == 0);
+            spray_runtime_t *spray = &s_sprays[0];
+            assert(spray->owner == 148 && !spray->visible);
+            s_test_valid = true;
+            s_test_activity = 1;
+            s_test_power = 100;
+            app_scene_update(100);
+            lv_obj_update_layout(s_root);
+            assert(spray->visible && s_runtime[148].last_indicator_color == 0x36c678);
+            for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
+            {
+                assert(!lv_obj_has_flag(spray->drops[drop], LV_OBJ_FLAG_HIDDEN));
+                double dx, dy;
+                assert(sm_spray_point(s_runtime[148].phase, drop, spray->direction, &dx, &dy));
+                double x = spray->x + spray->radius * (dx * cos(spray->rotation) - dy * sin(spray->rotation));
+                double y = spray->y + spray->radius * (dx * sin(spray->rotation) + dy * cos(spray->rotation));
+                assert(fabs(lv_obj_get_x(spray->drops[drop]) + spray->half - x) < 1.01);
+                assert(fabs(lv_obj_get_y(spray->drops[drop]) + spray->half - y) < 1.01);
+            }
+            double frozen_phase = s_runtime[148].phase;
+            atomic_store(&s_diagnostics, true);
+            app_scene_update(100);
+            assert(s_runtime[148].phase == frozen_phase);
+            atomic_store(&s_diagnostics, false);
+            s_test_activity = 0; // Az explicit kikapcsolás a pozitív teljesítményt is felülírja.
+            app_scene_update(100);
+            assert(!spray->visible && s_runtime[148].phase == frozen_phase);
+            for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
+                assert(lv_obj_has_flag(spray->drops[drop], LV_OBJ_FLAG_HIDDEN));
+            assert(s_runtime[148].last_indicator_color == 0x596674);
+            s_test_valid = false;
+            app_scene_update(100);
+            assert(!spray->visible && s_runtime[148].last_indicator_color == 0xd9a23a);
+        }
+    cJSON_DeleteItemFromObject(equipment, "activity");
+    s_test_revision++;
+    app_scene_poll();
+    s_test_valid = true;
+    s_test_power = 55;
+    app_scene_update(100);
+    assert(s_sprays[0].visible && fabs(s_runtime[148].phase - .05) < 1e-12);
+    s_test_power = 10;
+    app_scene_update(100);
+    assert(!s_sprays[0].visible);
+    cJSON *spray_elements = cJSON_GetObjectItem(second, "elements");
+    for (unsigned index = 0; index < SM_MAX_ELEMENTS; index++)
+        cJSON_ReplaceItemInArray(spray_elements, index, cJSON_Parse(
+            "{\"type\":\"equipment\",\"asset\":\"spray-sprinkler\",\"x\":0.2,\"y\":0.2,"
+            "\"w\":0.1,\"h\":0.1,\"color\":\"#ff0000\",\"activity\":{"
+            "\"uuid\":\"12345678-1234-5678-0102030405060708\",\"scale\":1,\"offset\":0}}"));
+    s_test_revision++;
+    app_scene_poll();
+    s_test_activity = 1;
+    app_scene_update(100);
+    assert(s_spray_count == SM_MAX_ELEMENTS);
+    lv_obj_t *last_drop = s_sprays[SM_MAX_ELEMENTS - 1].drops[SM_SPRAY_DROPS - 1];
+    for (unsigned tick = 0; tick < 20; tick++)
+        app_scene_update(50);
+    assert(last_drop == s_sprays[SM_MAX_ELEMENTS - 1].drops[SM_SPRAY_DROPS - 1]);
+    assert(!lv_obj_has_flag(last_drop, LV_OBJ_FLAG_HIDDEN));
+    s_test_valid = false;
+    app_scene_update(50);
+    for (unsigned index = 0; index < SM_MAX_ELEMENTS; index++)
+        for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
+            assert(lv_obj_has_flag(s_sprays[index].drops[drop], LV_OBJ_FLAG_HIDDEN));
     puts("LVGL scene: geometry, paging, activity precedence, power thresholds, reverse flow, "
          "rotor, values, disconnect, theme, brightness and shared PNG cache OK");
     return 0;

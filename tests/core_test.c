@@ -14,6 +14,21 @@ static void received(const char *uuid, double value, bool valid, void *context)
 
 int main(void)
 {
+    double spray_x = 99, spray_y = 99;
+    assert(!sm_spray_point(NAN, 0, -90, &spray_x, &spray_y));
+    assert(!sm_spray_point(0, SM_SPRAY_DROPS, -90, &spray_x, &spray_y));
+    assert(!sm_spray_point(0, 0, INFINITY, &spray_x, &spray_y));
+    assert(!sm_spray_point(0, 0, -90, NULL, &spray_y));
+    assert(spray_x == 99 && spray_y == 99);
+    for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
+        for (unsigned tick = 0; tick < 20; tick++)
+        {
+            double repeated_x, repeated_y;
+            assert(sm_spray_point(tick / 20.0, drop, -90, &spray_x, &spray_y));
+            assert(sm_spray_point(1 + tick / 20.0, drop, 270, &repeated_x, &repeated_y));
+            assert(fabs(spray_x - repeated_x) < 1e-12 && fabs(spray_y - repeated_y) < 1e-12);
+            assert(hypot(spray_x, spray_y) <= 1.3);
+        }
     sm_signal_t none = {0}, on = {true, true, 1}, off = {true, true, 0};
     sm_signal_t unknown = {true, false, 90}, half = {true, true, 50};
     assert(sm_activity(none, half, 0, 100).active);

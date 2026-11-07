@@ -10,6 +10,32 @@ int main(int argc, char **argv)
         return 2;
     size_t size = fread(data, 1, SM_PROJECT_BYTES + 32769, stdin);
     cJSON *json = sm_json_parse(data, size);
+    if (json && cJSON_IsArray(json) && argc > 1 && !strcmp(argv[1], "spray"))
+    {
+        cJSON *output = cJSON_CreateArray(), *entry;
+        cJSON_ArrayForEach(entry, json)
+        {
+            double x, y;
+            bool valid = sm_spray_point(cJSON_GetArrayItem(entry, 0)->valuedouble,
+                                       cJSON_GetArrayItem(entry, 1)->valueint,
+                                       cJSON_GetArrayItem(entry, 2)->valuedouble, &x, &y);
+            cJSON *point = cJSON_CreateArray();
+            cJSON_AddItemToArray(point, cJSON_CreateBool(valid));
+            if (valid)
+            {
+                cJSON_AddItemToArray(point, cJSON_CreateNumber(x));
+                cJSON_AddItemToArray(point, cJSON_CreateNumber(y));
+            }
+            cJSON_AddItemToArray(output, point);
+        }
+        char *encoded = cJSON_PrintUnformatted(output);
+        puts(encoded);
+        free(encoded);
+        cJSON_Delete(output);
+        cJSON_Delete(json);
+        free(data);
+        return 0;
+    }
     char error[SM_ERROR_SIZE] = "json";
     bool valid =
         json && (argc > 1 && !strcmp(argv[1], "settings") ? sm_settings_validate(json, error)

@@ -1,4 +1,4 @@
-import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement} from './model.js';
+import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement, SPRAY_DROPS, sprayPoint} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
@@ -352,10 +352,19 @@ export class Editor {
                             fill: '#ffffff', 'text-anchor': 'middle', 'font-size': Math.max(8, side * 0.065),
                             'data-position-label': '1', transform: `rotate(${-element.rotation},${tx},${ty})`}, '—'));
                     }
-                    if (asset.animation?.kind === 'status') {
+                    if (['status', 'spray'].includes(asset.animation?.kind)) {
                         equipment.append(svgNode('circle', {cx: side * asset.animation.x, cy: side * asset.animation.y,
-                            r: Math.max(2, side * asset.animation.radius), fill: '#596674', stroke: '#e5eff4',
+                            r: Math.max(2, side * (asset.animation.kind === 'spray' ? .025 : asset.animation.radius)), fill: '#596674', stroke: '#e5eff4',
                             'stroke-width': 1, 'data-status-indicator': '1'}));
+                    }
+                    if (asset.animation?.kind === 'spray') {
+                        for (let drop = 0; drop < SPRAY_DROPS; drop++) equipment.append(svgNode('circle', {
+                            cx: side * asset.animation.x, cy: side * asset.animation.y,
+                            r: Math.max(1.5, side * .0125), fill: '#249bd0', class: 'flow-dot',
+                            'data-spray': drop, 'data-x': side * asset.animation.x, 'data-y': side * asset.animation.y,
+                            'data-radius': side * asset.animation.radius, 'data-direction': asset.animation.direction,
+                            style: 'display:none',
+                        }));
                     }
                     if (!this.preview) asset.ports.forEach((port, index) => equipment.append(svgNode('circle', {cx: port.x * side, cy: port.y * side,
                         r: 5, class: 'port', 'data-port': index})));
@@ -652,6 +661,16 @@ export class Editor {
                 if (indicator.getAttribute('fill') !== color) indicator.setAttribute('fill', color);
                 if (indicator.getAttribute('opacity') !== String(opacity)) indicator.setAttribute('opacity', opacity);
             }
+            const drops = group.querySelectorAll('[data-spray]');
+            if (drops.length && live.active) motion.phase = (motion.phase + .05 * live.speed) % 1;
+            drops.forEach((dot, index) => {
+                const display = live.active ? '' : 'none';
+                if (dot.style.display !== display) dot.style.display = display;
+                if (!live.active) return;
+                const point = sprayPoint(motion.phase, index, Number(dot.dataset.direction));
+                dot.setAttribute('cx', Number(dot.dataset.x) + point.x * Number(dot.dataset.radius));
+                dot.setAttribute('cy', Number(dot.dataset.y) + point.y * Number(dot.dataset.radius));
+            });
             if (element.type === 'pipe') {
                 const path = group.querySelector('polyline'), length = path.getTotalLength();
                 if (live.active && length > 0) motion.phase = (motion.phase + 2.5 * live.speed * element.direction / length + 1) % 1;

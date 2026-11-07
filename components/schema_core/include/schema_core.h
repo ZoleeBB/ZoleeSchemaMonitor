@@ -7,6 +7,17 @@
 #define SM_MAX_PAGES 10
 #define SM_MAX_ELEMENTS 150
 #define SM_UUID_SIZE 36
+#define SM_SPRAY_DROPS 4
+
+typedef struct
+{
+    double x, y;
+} sm_spray_ray_t;
+/* Az állandó szögeket csak jelenetépítéskor kell kiszámolni. */
+bool sm_spray_prepare(unsigned drop, double direction, sm_spray_ray_t *ray);
+bool sm_spray_sample(double phase, unsigned drop, const sm_spray_ray_t *ray, double *x, double *y);
+/* Permetcsepp relatív pályája; a megjelenítő méretezi és forgatja. Nincs memóriafoglalás. */
+bool sm_spray_point(double phase, unsigned drop, double direction, double *x, double *y);
 
 typedef struct
 {

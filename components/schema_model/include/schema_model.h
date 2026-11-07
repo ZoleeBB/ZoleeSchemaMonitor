@@ -27,6 +27,7 @@ typedef struct
     {
         float x, y, radius;
     } extra_rotors[7];
+    float spray_direction;
 } sm_asset_t;
 
 extern const sm_asset_t sm_catalog[];

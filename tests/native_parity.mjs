@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
-import {newProject, newElement, validateProject, elementPorts} from '../web/model.js';
+import {newProject, newElement, validateProject, elementPorts, sprayPoint, SPRAY_DROPS} from '../web/model.js';
 const catalog = JSON.parse(readFileSync('web/catalog.json'));
 const cli = process.argv[2];
 let count = 0;
@@ -88,3 +88,19 @@ for (const type of ['text', 'value', 'pipe', 'equipment']) {
     }
 }
 console.log(`Native/browser alignment parity: ${count} cases OK`);
+
+// A permetpálya geometriáját ugyanazokon a bemeneteken számolja a C és a JS.
+const sprayCases = [];
+for (const phase of [0, .1, .75, 1, -1.25, 1e308])
+    for (const direction of [-150, -90, 0, 270, 1e308])
+        for (let drop=0; drop<SPRAY_DROPS; drop++) sprayCases.push([phase, drop, direction]);
+const sprayResult = spawnSync(cli, ['spray'], {input: JSON.stringify(sprayCases), encoding:'utf8'});
+assert.equal(sprayResult.status, 0, sprayResult.stderr);
+const sprayPoints = JSON.parse(sprayResult.stdout);
+assert.equal(sprayPoints.length, sprayCases.length);
+sprayCases.forEach(([phase, drop, direction], index) => {
+    const point = sprayPoint(phase, drop, direction), [valid, x, y] = sprayPoints[index];
+    assert.equal(valid, true);
+    assert.ok(Math.abs(point.x-x)<1e-12 && Math.abs(point.y-y)<1e-12);
+});
+console.log(`Native/browser spray geometry: ${sprayCases.length} cases OK`);

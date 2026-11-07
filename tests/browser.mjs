@@ -348,6 +348,26 @@ try {
         const text = page.locator('svg [data-element]').last().locator('text');
         assert.equal(await text.getAttribute('text-anchor'), 'end');
     }
+    // Minden permetező fej: ténylegesen mozgó cseppek, nulla és adathiány külön állapot.
+    for (const asset of ['rotor-sprinkler', 'spray-sprinkler', 'micro-sprinkler', 'rotary-nozzle', 'impact-sprinkler']) {
+        await page.locator(`[data-asset="${asset}"]`).click();
+        await page.locator('[data-binding="activity"]').click();
+        await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+        await page.locator('#binding-apply').click();
+        const spray = page.locator('svg [data-element]').last();
+        assert.equal(await spray.locator('[data-spray]').count(), 4);
+        pumpLive.connected=true;pumpLive.values['12345678-1234-5678-0102030405060708']=1;
+        await page.waitForFunction(()=>[...document.querySelectorAll('svg [data-element]')].at(-1).querySelector('[data-spray]').style.display==='');
+        const first = await spray.locator('[data-spray="0"]').getAttribute('cx');
+        await page.waitForFunction(old=>[...document.querySelectorAll('svg [data-element]')].at(-1).querySelector('[data-spray="0"]').getAttribute('cx')!==old,first);
+        for (const rotation of ['90','180','270','0']) await page.locator('#element-rotation').selectOption(rotation);
+        pumpLive.values['12345678-1234-5678-0102030405060708']=0;
+        await page.waitForFunction(()=>{const group=[...document.querySelectorAll('svg [data-element]')].at(-1);return group.dataset.active==='false' && group.dataset.known==='true' && group.querySelector('[data-status-indicator]').getAttribute('fill')==='#596674';});
+        assert.ok(await spray.locator('[data-spray]').evaluateAll(nodes=>nodes.every(n=>n.style.display==='none')));
+        delete pumpLive.values['12345678-1234-5678-0102030405060708'];
+        await page.waitForFunction(()=>{const group=[...document.querySelectorAll('svg [data-element]')].at(-1);return group.dataset.known==='false' && group.querySelector('[data-status-indicator]').getAttribute('fill')==='#d9a23a';});
+        assert.ok(await spray.locator('[data-spray]').evaluateAll(nodes=>nodes.every(n=>n.style.display==='none')));
+    }
     // Valós elrendezés hat szélességen, minden oldalon, külső erőforrások nélkül.
     const responsive = await browser.newPage();
     const externalRequests = [];
@@ -389,7 +409,7 @@ try {
     assert.deepEqual(externalRequests, []);
     await responsive.close();
     assert.deepEqual(errors, []);
-    console.log('Chromium: 2–16 circuit manifolds, ports, bindings, save/reload, export, rotation, 48 responsive route/viewport cases, dark mobile HU/EN, no external resources, device capabilities, updates and diagnostics OK');
+    console.log('Chromium: 2–16 circuit manifolds, ports, bindings, save/reload, export, rotation, five animated spray heads with off/unknown states, 48 responsive route/viewport cases, dark mobile HU/EN, no external resources, device capabilities, updates and diagnostics OK');
 } finally {
     await browser?.close();
     server.kill();

@@ -4398,12 +4398,13 @@
             ]
         ],
         "motion": [
-            "none",
-            0,
-            0,
-            0
+            "spray",
+            0.5,
+            0.08,
+            0.26
         ],
-        "note": "Egy betápport; a szabadba szóró fúvóka nem második csőcsatlakozás."
+        "note": "Egy betápport; a szabadba szóró fúvóka nem második csőcsatlakozás.",
+        "sprayDirection": -90
     },
     "spray-sprinkler": {
         "ports": [
@@ -4413,12 +4414,13 @@
             ]
         ],
         "motion": [
-            "none",
-            0,
-            0,
-            0
+            "spray",
+            0.5,
+            0.04,
+            0.26
         ],
-        "note": "Egy betápport; a szabadba szóró fúvóka nem második csőcsatlakozás."
+        "note": "Egy betápport; a szabadba szóró fúvóka nem második csőcsatlakozás.",
+        "sprayDirection": -90
     },
     "micro-sprinkler": {
         "ports": [
@@ -4428,12 +4430,13 @@
             ]
         ],
         "motion": [
-            "none",
-            0,
-            0,
-            0
+            "spray",
+            0.5,
+            0.1,
+            0.23
         ],
-        "note": "Oldalsó tömlőbetáp; a talajtüske nem vízport."
+        "note": "Oldalsó tömlőbetáp; a talajtüske nem vízport.",
+        "sprayDirection": -90
     },
     "drip-line": {
         "ports": [
@@ -4582,11 +4585,12 @@
             ]
         ],
         "motion": [
-            "none",
-            0,
-            0,
-            0
-        ]
+            "spray",
+            0.5,
+            0.12,
+            0.26
+        ],
+        "sprayDirection": -90
     },
     "impact-sprinkler": {
         "ports": [
@@ -4596,11 +4600,12 @@
             ]
         ],
         "motion": [
-            "none",
-            0,
-            0,
-            0
-        ]
+            "spray",
+            0.1,
+            0.26,
+            0.3
+        ],
+        "sprayDirection": -150
     },
     "bubbler-emitter": {
         "ports": [
