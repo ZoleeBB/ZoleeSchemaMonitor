@@ -1,7 +1,8 @@
 /* A nézet az egyszer felépített mezőket frissíti; nincs másodpercenkénti DOM-csere. */
 const words = {
     hu: {
-        title: 'Rendszerdiagnosztika', unknown: 'Nem mért', connected: 'Kapcsolódva', offline: 'Nincs kapcsolat',
+        title: 'Rendszerdiagnosztika', remount: 'SD újracsatolása újraindítással',
+        insert: 'Helyezd be a kártyát, majd indítsd újra a kijelzőt.', restarting: 'Újraindítás folyamatban.', retryFailed: 'Az újraindítás nem indult el.', unknown: 'Nem mért', connected: 'Kapcsolódva', offline: 'Nincs kapcsolat',
         free: 'szabad', minimum: 'Mélypont', cpu: 'CPU-terhelés', internal: 'Belső RAM', psram: 'PSRAM', sd: 'SD-kártya',
         wifi: 'Wi-Fi / web', loxone: 'Loxone', numeric: 'Számszerű Loxone-adat', dma: 'DMA-memória',
         system: 'Rendszer', stack: 'Feladatok / verem', update: 'Kiadásfrissítés', recovery: 'Beállító Wi-Fi',
@@ -14,7 +15,8 @@ const words = {
         fps: 'A fizikai megjelenítési sebesség még nem mért.'
     },
     en: {
-        title: 'System diagnostics', unknown: 'Not measured', connected: 'Connected', offline: 'Disconnected',
+        title: 'System diagnostics', remount: 'Restart to remount SD card',
+        insert: 'Insert the card, then restart the display.', restarting: 'Restarting the display.', retryFailed: 'Could not start the restart.', unknown: 'Not measured', connected: 'Connected', offline: 'Disconnected',
         free: 'free', minimum: 'Minimum', cpu: 'CPU load', internal: 'Internal RAM', psram: 'PSRAM', sd: 'SD card',
         wifi: 'Wi-Fi / web', loxone: 'Loxone', numeric: 'Numeric Loxone data', dma: 'DMA memory',
         system: 'System', stack: 'Tasks / stack', update: 'Release update', recovery: 'Setup Wi-Fi',
@@ -52,9 +54,25 @@ export class DiagnosticPanel {
                 <p class="diagnostic-value" data-diag="${key}">${t.unknown}</p>
                 ${['cpu', 'internal', 'psram', 'sd'].includes(key) ? `<progress data-meter="${key}" max="100" value="0" aria-label="${t[key]}" hidden></progress>` : ''}
                 ${key === 'cpu' ? '<progress data-meter="cpu1" max="100" value="0" aria-label="CPU1" hidden></progress>' : ''}
+                ${key === 'sd' ? '<div id="sd-recovery" hidden><p></p><button type="button"></button><span role="status"></span></div>' : ''}
                 </article>`).join('')}</div>
             <section><h2>${t.events}</h2><p class="hint">${t.eventHint}</p><ol id="diagnostic-events" class="diagnostic-events"></ol></section>
             <p class="hint">${t.fps}</p>`;
+        this.recovery = root.querySelector('#sd-recovery');
+        this.recovery.querySelector('p').textContent = t.insert;
+        const button = this.recovery.querySelector('button');
+        button.textContent = t.remount;
+        button.onclick = async () => {
+            button.disabled = true;
+            const message = this.recovery.querySelector('span');
+            try {
+                await this.api('/api/storage/remount', {});
+                message.textContent = t.restarting;
+            } catch {
+                message.textContent = t.retryFailed;
+                button.disabled = false;
+            }
+        };
     }
     value(key, text) {
         const node = this.root.querySelector(`[data-diag="${key}"]`);
@@ -94,6 +112,7 @@ export class DiagnosticPanel {
         }
         const sdValid = measured && data.sdSpaceValid === true;
         this.value('sd', `${sdValid ? `${this.bytes(data.sdFree, 'GiB')} / ${this.bytes(data.sdTotal, 'GiB')} ${t.free}` : (data.sdMounted === false ? t.offline : t.unknown)}${data.storageRecovery === true ? `\n${t.recovered}` : ''}`);
+        this.recovery.hidden = !(measured && (data.sdMounted === false || data.sdSpaceValid === false));
         this.meter('sd', sdValid ? usedPercent(data.sdTotal, data.sdFree) : null);
         this.value('wifi', `${this.connected(measured ? wifi.connected : null)}${wifi.ssid ? `\n${wifi.ssid}` : ''}${wifi.ip ? `\nhttp://${wifi.ip}/` : ''}${wifi.connected === true && finite(wifi.rssi) ? `\n${wifi.rssi} dBm` : ''}`);
         this.value('loxone', this.connected(measured ? loxone.connected : null));

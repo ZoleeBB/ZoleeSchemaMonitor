@@ -31,3 +31,9 @@ Frissítés vagy függő újraindítás alatt az eszközmentés nem indítható.
 ## Ellenőrzés
 
 A natív teszt valódi, a firmware-rel azonos Mbed TLS-forrást használ. Független PBKDF2-vektort, véletlen só/nonce eltérést, helyes visszafejtést, hibás jelszót, só/nonce/tag/adat módosítását és méretkorlátot ellenőriz. Az állapottárteszt validálási hibát, revíziókonfliktust és írás közben eltűnő SD-könyvtárat vizsgál. A HTTP-teszt külön NVS-kulcsú célkészüléket modellez, ellenőrzi a visszaállítást, újraindításkérést és a nyilvános válaszok titokmentességét. A Chromium-próba a jelszóismétlést, a fájlletöltést és a hibás/sikeres visszaállítás kezelőfelületét ellenőrzi; a böngészős API-válaszok helyettesítettek, a kriptográfiát a natív teszt méri.
+
+## Helyreállítás SD-hiba után
+
+Helyezd vissza az SD-kártyát. A webes Diagnosztika oldal SD-kártya mezőjén válaszd az **SD újracsatolása újraindítással** gombot. A művelet akkor érhető el, ha a készülék hiányzó kártyát vagy sikertelen kapacitásolvasást jelzett. A mintavétel akár tíz másodpercet igénybe vehet. Kártya nélküli induláskor a készülék kijelzőjén látható helyreállító Wi-Fi adatokkal érhető el a felület.
+
+Újraindításkor a firmware a normál csatolási és journal-ellenőrzési útvonalon olvassa be a kártyát. A kártyán lévő legutóbbi érvényes projekt és a hozzá tartozó hálózati beállítások lépnek életbe. Üres kártyával az alapbeállítások töltődnek be, majd a Mentés oldalon visszatölthető a hordozható mentés. A fizikai kártyakivétel és a Waveshare SD-meghajtó visszatérése panelpróbát igényel.

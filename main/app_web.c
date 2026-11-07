@@ -390,6 +390,31 @@ static esp_err_t post(httpd_req_t *request)
     if (!permitted_host(request, host) ||
         !permitted_write(request, host, !strcmp(request->uri, "/api/update")))
         return failure(request, "403 Forbidden", "origin/header");
+    if (app_network_restart_pending())
+        return failure(request, "423 Locked", "restart.pending");
+    if (!strcmp(request->uri, "/api/storage/remount"))
+    {
+        cJSON *json = body(request);
+        bool valid = cJSON_IsObject(json) && cJSON_GetArraySize(json) == 0;
+        cJSON_Delete(json);
+        if (!valid)
+            return failure(request, "400 Bad Request", "request.fields");
+        app_diagnostics_t metrics;
+        app_diagnostics_capture(&metrics);
+        if (app_store_ready() && (!metrics.sampled || metrics.sd_space_valid))
+            return failure(request, "400 Bad Request", "storage.available");
+        cJSON *update = app_release_status();
+        bool busy = !update || cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(update, "busy"));
+        cJSON_Delete(update);
+        if (busy)
+            return failure(request, "423 Locked", "update.busy");
+        /* A normál boot útvonal tölti be együtt a kártyát, hálózatot és grafikát. */
+        cJSON *response = cJSON_CreateObject();
+        cJSON_AddBoolToObject(response, "restart", true);
+        esp_err_t sent = answer(request, "202 Accepted", response);
+        app_network_restart_later();
+        return sent;
+    }
     if (!strcmp(request->uri, "/api/backup/export") || !strcmp(request->uri, "/api/backup/restore"))
         return backup_post(request, !strcmp(request->uri, "/api/backup/restore"));
     if (!strcmp(request->uri, "/api/update"))

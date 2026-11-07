@@ -29,6 +29,12 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
         assert image["headers"]["Content-Type"] == mime
     for invalid in ["circulation-pump.jpg", "unknown.png", "../circulation-pump.png"]:
         assert call("/graphics/light/" + invalid)["status"].startswith("404")
+    assert call("/api/storage/remount", {})["status"].startswith("400")
+    assert call("/api/storage/remount", {"path":"other"}, SD_FAIL="1")["status"].startswith("400")
+    assert call("/api/storage/remount", {}, SD_FAIL="1", BACKUP_BUSY="1")["status"].startswith("423")
+    assert call("/api/storage/remount", {}, {**headers, "Origin":"http://evil.example"}, SD_FAIL="1")["status"].startswith("403")
+    retry = call("/api/storage/remount", {}, SD_FAIL="1")
+    assert retry["status"] == "202 Accepted" and retry["restart"]
     assert call("/editor")["status"] == "200 OK"
     assert b"new Editor" in call("/app.js")["body"]
     for resource, marker in [("/common.css", b"box-sizing"), ("/schema.css", b".editor-layout")]:

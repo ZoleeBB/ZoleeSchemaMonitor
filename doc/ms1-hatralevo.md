@@ -4,9 +4,9 @@ Az MS1 nyitott. A grafikai készlet (333 típus), a szerkesztő, osztó-gyűjtő
 
 | Hátralévő terület | Konkrét következő igazolás vagy feladat |
 | --- | --- |
-| Szoftveres végek | SD-visszatérés/újracsatolás és kártya nélküli helyreállítási út; szövegtördelés és betűméret vizuális egyezése a web és az LVGL között. A numerikus formázást a mostani javítás egységesíti. |
+| Szoftveres végek | [SD-helyreállítás vezérelt újraindítással](mentes.md) elkészült, fizikai kártyapróba szükséges. Hátravan a szövegtördelés és betűméret vizuális egyezése a web és az LVGL között. A numerikus formázást a mostani javítás egységesíti. |
 | Valódi P4 és Loxone | Indulás, Wi-Fi és helyreállító AP; Gen2/17.x bejelentkezés, TLS, tokenmegújítás, megszakadás/újracsatlakozás; grafika, fényerő, mind a négy tájolás és érintés; szerkesztés–mentés–újraindítás–import/export. |
-| Terhelés és tartós üzem | [Hat tesztprojekt és gazdagépes képkocka-, memória- és veremmérés](../tests/schemas/README.md) elkészült.  150 elemes, sok aktív csöves oldal képkockaidői és a 20 FPS cél tényleges mérése; legalább 24 órás járatás, memória-mélypont, SD-hiba és hálózati hiba. |
+| Terhelés és tartós üzem | [Hat tesztprojekt és gazdagépes képkocka-, memória- és veremmérés](../tests/schemas/README.md) elkészült. 150 elemes, sok aktív csöves oldal képkockaidői és a 20 FPS cél tényleges mérése; legalább 24 órás járatás, memória-mélypont, SD-hiba és hálózati hiba. |
 | OTA és első kiadás | Valódi letöltésből végzett megszakítás/újrapróbálás, sérült grafika javítása, firmware rollback és a régi grafika megtartása; első main-merge kiadás és a publikált firmware/manifest letölthetősége. |
 | Lezárás | Végleges telepítési/használati leírás, első PR-verziódokumentum, mérési jegyzőkönyv, majd a teljes [elfogadási lista](ms1.md) lezárása. |
 

@@ -429,6 +429,17 @@ try {
     assert.ok(await responsive.locator('#binding-dialog').evaluate(el => el.getBoundingClientRect().right <= innerWidth));
     await responsive.locator('#binding-cancel').click();
     assert.deepEqual(externalRequests, []);
+    await responsive.route('**/api/diagnostics', route => route.fulfill({json: {
+        measured: true, sdMounted: false, sdSpaceValid: false
+    }}));
+    await responsive.route('**/api/storage/remount', route => {
+        assert.equal(route.request().method(), 'POST');
+        return route.fulfill({status: 202, json: {restart: true}});
+    });
+    await responsive.goto(url + '/diagnostics');
+    await responsive.locator('#sd-recovery button').click();
+    await responsive.waitForFunction(() => document.querySelector('#sd-recovery span').textContent === 'Restarting the display.');
+    assert.equal(await responsive.locator('#sd-recovery button').isDisabled(), true);
     await responsive.close();
     assert.deepEqual(errors, []);
     console.log('Chromium: 2–16 circuit manifolds, ports, bindings, save/reload, export, rotation, five animated spray heads with off/unknown states, 48 responsive route/viewport cases, dark mobile HU/EN, no external resources, device capabilities, updates and diagnostics OK');
