@@ -1,8 +1,8 @@
 # Teljes grafikai bekötés: öt ötvenes csomag
 
-Elkészült csomag: **4/5**. A kiinduló 250 helyőrzőből 200 típus bekötve; 50 maradt. A katalógus továbbra is 333 típus.
+Elkészült csomag: **5/5**. A kiinduló 250 helyőrzőből 250 típus bekötve; 0 maradt. A katalógus továbbra is 333 típus.
 
-Aktuális készlet: **272 típus egyedi PNG-vel, 269 külön használt PNG-forrásból; 11 számított osztógrafika**. A két tartalék forgatómotoros PNG nem külön katalógustípus.
+Aktuális készlet: **322 típus egyedi PNG-vel, 319 külön használt PNG-forrásból; 11 számított osztógrafika**. A két tartalék forgatómotoros PNG nem külön katalógustípus.
 
 A hőtermelők, hőleadók és légtechnikai készülékek rejtett hátoldali kötéseit sematikus pont jelöli; ez nem a képre rajzolt új alkatrész. Az ilyen esetek megjegyzése az `artwork-bindings.json` fájlban és a katalógus `portNote` mezőjében található. Gáz-, füstgáz- és villamos csatlakozó nem kerül a hidraulikai pontok közé. A későbbi lég- és hűtőközeg-pontok saját közeget jelentenek; a szerkesztő továbbra sem végez médium szerinti kompatibilitás-ellenőrzést.
 
@@ -27,4 +27,8 @@ Az automatizált ellenőrzések a felhasználó kérésére csak mind az öt cso
 ## 4. csomag
 
 ![4. ötvenes csomag](latvanytervek/13-bekotes-04.jpg)
+
+## 5. csomag
+
+![5. ötvenes csomag](latvanytervek/13-bekotes-05.jpg)
 

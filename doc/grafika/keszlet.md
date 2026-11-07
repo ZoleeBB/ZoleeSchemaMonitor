@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 272 típushoz bekötött egyedi kép, 269 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**333 katalógustípus; 322 típushoz bekötött egyedi kép, 319 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -12,8 +12,8 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | Szelepek | 55 | 54 | 1 | 0 |
 | Szellőzés / légtechnika | 51 | 51 | 0 | 0 |
 | Medencetechnika | 33 | 33 | 0 | 0 |
-| Öntözés | 23 | 8 | 0 | 15 |
-| Mérések / érzékelők | 35 | 0 | 0 | 35 |
+| Öntözés | 23 | 23 | 0 | 0 |
+| Mérések / érzékelők | 35 | 35 | 0 | 0 |
 
 A fűtési, szolár és általános keringető azonos fizikai szivattyúházat használhat. Ezt a három szerepet külön típusnév jelöli, a közös képet egyszer tároljuk.
 
@@ -334,60 +334,60 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `garden-tap` | Kerti csap | Garden tap | [Egyedi kép](../../assets/elements/universal/garden-tap.png) |
 | `hose` | Locsolótömlő | Garden hose | [Egyedi kép](../../assets/elements/universal/hose.png) |
 | `irrigation-valve` | Öntözési mágnesszelep | Irrigation solenoid valve | [Egyedi kép](../../assets/elements/universal/irrigation-valve.png) |
-| `master-valve` | Mesterszelep | Master valve | Műszaki helyőrző |
-| `valve-box` | Szelepdoboz | Valve box | Műszaki helyőrző |
-| `compressor-port` | Kompresszor csatlakozás | Compressor port | Műszaki helyőrző |
-| `rotary-nozzle` | Forgó fúvóka | Rotary nozzle | Műszaki helyőrző |
-| `impact-sprinkler` | Kalapácsos szórófej | Impact sprinkler | Műszaki helyőrző |
-| `bubbler-emitter` | Buborékoltató öntöző | Bubbler emitter | Műszaki helyőrző |
-| `dripper` | Pontszerű csepegtető | Point drip emitter | Műszaki helyőrző |
-| `drip-tape` | Csepegtető szalag | Drip tape | Műszaki helyőrző |
-| `porous-hose` | Szivárogtató tömlő | Porous soaker hose | Műszaki helyőrző |
-| `irrigation-hydrant` | Öntözővíz-csatlakozó | Irrigation hydrant | Műszaki helyőrző |
-| `irrigation-controller` | Öntözésvezérlő | Irrigation controller | Műszaki helyőrző |
-| `angle-irrigation-valve` | Sarok öntözőszelep | Angle irrigation valve | Műszaki helyőrző |
-| `latching-irrigation-valve` | Bistabil öntözőszelep | Latching irrigation valve | Műszaki helyőrző |
-| `quick-coupling-valve` | Gyorscsatlakozó szelep | Quick coupling valve | Műszaki helyőrző |
-| `fertigation-injector` | Venturi tápoldatbekeverő | Venturi fertilizer injector | Műszaki helyőrző |
+| `master-valve` | Mesterszelep | Master valve | [Egyedi kép](../../assets/elements/universal/master-valve.png) |
+| `valve-box` | Szelepdoboz | Valve box | [Egyedi kép](../../assets/elements/universal/valve-box.png) |
+| `compressor-port` | Kompresszor csatlakozás | Compressor port | [Egyedi kép](../../assets/elements/universal/compressor-port.png) |
+| `rotary-nozzle` | Forgó fúvóka | Rotary nozzle | [Egyedi kép](../../assets/elements/universal/rotary-nozzle.png) |
+| `impact-sprinkler` | Kalapácsos szórófej | Impact sprinkler | [Egyedi kép](../../assets/elements/universal/impact-sprinkler.png) |
+| `bubbler-emitter` | Buborékoltató öntöző | Bubbler emitter | [Egyedi kép](../../assets/elements/universal/bubbler-emitter.png) |
+| `dripper` | Pontszerű csepegtető | Point drip emitter | [Egyedi kép](../../assets/elements/universal/dripper.png) |
+| `drip-tape` | Csepegtető szalag | Drip tape | [Egyedi kép](../../assets/elements/universal/drip-tape.png) |
+| `porous-hose` | Szivárogtató tömlő | Porous soaker hose | [Egyedi kép](../../assets/elements/universal/porous-hose.png) |
+| `irrigation-hydrant` | Öntözővíz-csatlakozó | Irrigation hydrant | [Egyedi kép](../../assets/elements/universal/irrigation-hydrant.png) |
+| `irrigation-controller` | Öntözésvezérlő | Irrigation controller | [Egyedi kép](../../assets/elements/universal/irrigation-controller.png) |
+| `angle-irrigation-valve` | Sarok öntözőszelep | Angle irrigation valve | [Egyedi kép](../../assets/elements/universal/angle-irrigation-valve.png) |
+| `latching-irrigation-valve` | Bistabil öntözőszelep | Latching irrigation valve | [Egyedi kép](../../assets/elements/universal/latching-irrigation-valve.png) |
+| `quick-coupling-valve` | Gyorscsatlakozó szelep | Quick coupling valve | [Egyedi kép](../../assets/elements/universal/quick-coupling-valve.png) |
+| `fertigation-injector` | Venturi tápoldatbekeverő | Venturi fertilizer injector | [Egyedi kép](../../assets/elements/universal/fertigation-injector.png) |
 
 ## Mérések / érzékelők
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `temperature-sensor` | Hőmérséklet-érzékelő | Temperature sensor | Műszaki helyőrző |
-| `pressure-sensor` | Nyomásérzékelő | Pressure sensor | Műszaki helyőrző |
-| `flow-sensor` | Térfogatáram-érzékelő | Flow sensor | Műszaki helyőrző |
-| `water-meter` | Vízóra | Water meter | Műszaki helyőrző |
-| `heat-meter` | Hőmennyiségmérő | Heat meter | Műszaki helyőrző |
-| `level-sensor` | Szintérzékelő | Level sensor | Műszaki helyőrző |
-| `humidity-sensor` | Páratartalom-érzékelő | Humidity sensor | Műszaki helyőrző |
-| `co2-sensor` | CO₂-érzékelő | CO2 sensor | Műszaki helyőrző |
-| `ph-sensor` | pH-érzékelő | pH sensor | Műszaki helyőrző |
-| `redox-sensor` | Redox érzékelő | Redox sensor | Műszaki helyőrző |
-| `rain-sensor` | Esőérzékelő | Rain sensor | Műszaki helyőrző |
-| `soil-moisture-sensor` | Talajnedvesség-érzékelő | Soil moisture sensor | Műszaki helyőrző |
-| `leak-sensor` | Szivárgásérzékelő | Leak sensor | Műszaki helyőrző |
-| `frost-sensor` | Fagyérzékelő | Frost sensor | Műszaki helyőrző |
-| `filter-pressure-switch` | Szűrő nyomáskapcsoló | Filter pressure switch | Műszaki helyőrző |
-| `outdoor-temperature-sensor` | Külső hőmérséklet-érzékelő | Outdoor temperature sensor | Műszaki helyőrző |
-| `duct-temperature-sensor` | Légcsatorna-hőmérséklet érzékelő | Duct temperature sensor | Műszaki helyőrző |
-| `immersion-temperature-sensor` | Merülő hőmérséklet-érzékelő | Immersion temperature sensor | Műszaki helyőrző |
-| `strap-on-temperature-sensor` | Csőre szerelt hőmérséklet-érzékelő | Strap-on temperature sensor | Műszaki helyőrző |
-| `infrared-temperature-sensor` | Infravörös hőmérséklet-érzékelő | Infrared temperature sensor | Műszaki helyőrző |
-| `room-temperature-sensor` | Szobahőmérséklet-érzékelő | Room temperature sensor | Műszaki helyőrző |
-| `combined-climate-sensor` | Kombinált hőmérséklet-páratartalom érzékelő | Combined temperature and humidity sensor | Műszaki helyőrző |
-| `air-differential-pressure-sensor` | Levegő nyomáskülönbség-érzékelő | Air differential pressure sensor | Műszaki helyőrző |
-| `water-differential-pressure-sensor` | Víz nyomáskülönbség-érzékelő | Water differential pressure sensor | Műszaki helyőrző |
-| `differential-temperature-sensor` | Hőmérséklet-különbség érzékelő | Differential temperature sensor | Műszaki helyőrző |
-| `ultrasonic-flow-meter` | Ultrahangos térfogatárammérő | Ultrasonic flow meter | Műszaki helyőrző |
-| `magnetic-flow-meter` | Elektromágneses térfogatárammérő | Electromagnetic flow meter | Műszaki helyőrző |
-| `turbidity-sensor` | Zavarosságérzékelő | Turbidity sensor | Műszaki helyőrző |
-| `conductivity-sensor` | Vezetőképesség-érzékelő | Conductivity sensor | Műszaki helyőrző |
-| `salinity-sensor` | Sótartalom-érzékelő | Salinity sensor | Műszaki helyőrző |
-| `free-chlorine-sensor` | Szabadklór-érzékelő | Free chlorine sensor | Műszaki helyőrző |
-| `dissolved-oxygen-sensor` | Oldottoxigén-érzékelő | Dissolved oxygen sensor | Műszaki helyőrző |
-| `carbon-monoxide-sensor` | Szén-monoxid-érzékelő | Carbon monoxide sensor | Műszaki helyőrző |
-| `air-velocity-sensor` | Légsebesség-érzékelő | Air velocity sensor | Műszaki helyőrző |
-| `gas-meter` | Gázmérő | Gas meter | Műszaki helyőrző |
+| `temperature-sensor` | Hőmérséklet-érzékelő | Temperature sensor | [Egyedi kép](../../assets/elements/universal/temperature-sensor.png) |
+| `pressure-sensor` | Nyomásérzékelő | Pressure sensor | [Egyedi kép](../../assets/elements/universal/pressure-sensor.png) |
+| `flow-sensor` | Térfogatáram-érzékelő | Flow sensor | [Egyedi kép](../../assets/elements/universal/flow-sensor.png) |
+| `water-meter` | Vízóra | Water meter | [Egyedi kép](../../assets/elements/universal/water-meter.png) |
+| `heat-meter` | Hőmennyiségmérő | Heat meter | [Egyedi kép](../../assets/elements/universal/heat-meter.png) |
+| `level-sensor` | Szintérzékelő | Level sensor | [Egyedi kép](../../assets/elements/universal/level-sensor.png) |
+| `humidity-sensor` | Páratartalom-érzékelő | Humidity sensor | [Egyedi kép](../../assets/elements/universal/humidity-sensor.png) |
+| `co2-sensor` | CO₂-érzékelő | CO2 sensor | [Egyedi kép](../../assets/elements/universal/co2-sensor.png) |
+| `ph-sensor` | pH-érzékelő | pH sensor | [Egyedi kép](../../assets/elements/universal/ph-sensor.png) |
+| `redox-sensor` | Redox érzékelő | Redox sensor | [Egyedi kép](../../assets/elements/universal/redox-sensor.png) |
+| `rain-sensor` | Esőérzékelő | Rain sensor | [Egyedi kép](../../assets/elements/universal/rain-sensor.png) |
+| `soil-moisture-sensor` | Talajnedvesség-érzékelő | Soil moisture sensor | [Egyedi kép](../../assets/elements/universal/soil-moisture-sensor.png) |
+| `leak-sensor` | Szivárgásérzékelő | Leak sensor | [Egyedi kép](../../assets/elements/universal/leak-sensor.png) |
+| `frost-sensor` | Fagyérzékelő | Frost sensor | [Egyedi kép](../../assets/elements/universal/frost-sensor.png) |
+| `filter-pressure-switch` | Szűrő nyomáskapcsoló | Filter pressure switch | [Egyedi kép](../../assets/elements/universal/filter-pressure-switch.png) |
+| `outdoor-temperature-sensor` | Külső hőmérséklet-érzékelő | Outdoor temperature sensor | [Egyedi kép](../../assets/elements/universal/outdoor-temperature-sensor.png) |
+| `duct-temperature-sensor` | Légcsatorna-hőmérséklet érzékelő | Duct temperature sensor | [Egyedi kép](../../assets/elements/universal/duct-temperature-sensor.png) |
+| `immersion-temperature-sensor` | Merülő hőmérséklet-érzékelő | Immersion temperature sensor | [Egyedi kép](../../assets/elements/universal/immersion-temperature-sensor.png) |
+| `strap-on-temperature-sensor` | Csőre szerelt hőmérséklet-érzékelő | Strap-on temperature sensor | [Egyedi kép](../../assets/elements/universal/strap-on-temperature-sensor.png) |
+| `infrared-temperature-sensor` | Infravörös hőmérséklet-érzékelő | Infrared temperature sensor | [Egyedi kép](../../assets/elements/universal/infrared-temperature-sensor.png) |
+| `room-temperature-sensor` | Szobahőmérséklet-érzékelő | Room temperature sensor | [Egyedi kép](../../assets/elements/universal/room-temperature-sensor.png) |
+| `combined-climate-sensor` | Kombinált hőmérséklet-páratartalom érzékelő | Combined temperature and humidity sensor | [Egyedi kép](../../assets/elements/universal/combined-climate-sensor.png) |
+| `air-differential-pressure-sensor` | Levegő nyomáskülönbség-érzékelő | Air differential pressure sensor | [Egyedi kép](../../assets/elements/universal/air-differential-pressure-sensor.png) |
+| `water-differential-pressure-sensor` | Víz nyomáskülönbség-érzékelő | Water differential pressure sensor | [Egyedi kép](../../assets/elements/universal/water-differential-pressure-sensor.png) |
+| `differential-temperature-sensor` | Hőmérséklet-különbség érzékelő | Differential temperature sensor | [Egyedi kép](../../assets/elements/universal/differential-temperature-sensor.png) |
+| `ultrasonic-flow-meter` | Ultrahangos térfogatárammérő | Ultrasonic flow meter | [Egyedi kép](../../assets/elements/universal/ultrasonic-flow-meter.png) |
+| `magnetic-flow-meter` | Elektromágneses térfogatárammérő | Electromagnetic flow meter | [Egyedi kép](../../assets/elements/universal/magnetic-flow-meter.png) |
+| `turbidity-sensor` | Zavarosságérzékelő | Turbidity sensor | [Egyedi kép](../../assets/elements/universal/turbidity-sensor.png) |
+| `conductivity-sensor` | Vezetőképesség-érzékelő | Conductivity sensor | [Egyedi kép](../../assets/elements/universal/conductivity-sensor.png) |
+| `salinity-sensor` | Sótartalom-érzékelő | Salinity sensor | [Egyedi kép](../../assets/elements/universal/salinity-sensor.png) |
+| `free-chlorine-sensor` | Szabadklór-érzékelő | Free chlorine sensor | [Egyedi kép](../../assets/elements/universal/free-chlorine-sensor.png) |
+| `dissolved-oxygen-sensor` | Oldottoxigén-érzékelő | Dissolved oxygen sensor | [Egyedi kép](../../assets/elements/universal/dissolved-oxygen-sensor.png) |
+| `carbon-monoxide-sensor` | Szén-monoxid-érzékelő | Carbon monoxide sensor | [Egyedi kép](../../assets/elements/universal/carbon-monoxide-sensor.png) |
+| `air-velocity-sensor` | Légsebesség-érzékelő | Air velocity sensor | [Egyedi kép](../../assets/elements/universal/air-velocity-sensor.png) |
+| `gas-meter` | Gázmérő | Gas meter | [Egyedi kép](../../assets/elements/universal/gas-meter.png) |
 
 A nyilvántartást a `python3 tools/generate_catalog_report.py` frissíti a firmware-katalógusból.
