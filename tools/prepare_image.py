@@ -17,6 +17,9 @@ def prepare(source, role, image_format="PNG"):
                 raise ValueError("Animált forrás nem használható statikus elemképként")
             image = ImageOps.exif_transpose(original).convert("RGBA")
     profile = PROFILES[role]
+    extension = {"PNG": ".png", "JPEG": ".jpg"}.get(image_format)
+    if extension not in profile["extensions"]:
+        raise ValueError("Ehhez a képszerephez nem engedélyezett a kimeneti formátum")
     target = (profile["width"], profile["height"])
     if role == "element":
         # A mozgó réteg és a csatlakozók a teljes vászonhoz regisztráltak.
@@ -30,8 +33,8 @@ def prepare(source, role, image_format="PNG"):
     clean.paste(image)
     output = BytesIO()
     if image_format == "JPEG":
-        if role != "preview" or clean.getchannel("A").getextrema() != (255, 255):
-            raise ValueError("JPEG csak teljesen fedő dokumentációs látványtervhez használható")
+        if clean.getchannel("A").getextrema() != (255, 255):
+            raise ValueError("JPEG csak teljesen fedő képből készíthető")
         clean.convert("RGB").save(output, format="JPEG", quality=90, optimize=True, subsampling=0)
     elif image_format == "PNG":
         clean.save(output, format="PNG", optimize=True, compress_level=9)

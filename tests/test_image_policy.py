@@ -103,6 +103,18 @@ class ImagePolicyTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             prepare(BytesIO(png(640, 640)), "preview", "JPEG")
 
+    def test_schema_screenshot_preparation_matches_index_policy(self):
+        source = BytesIO()
+        Image.new("RGB", (1600, 1180), "white").save(source, format="PNG")
+        source.seek(0)
+        data, size = prepare(source, "schema-screenshot", "JPEG")
+        path = "tests/schemas/kazan/szerkeszto.jpg"
+        files = {POLICY_PATH: policy(path, *size, role="schema-screenshot"), path: data}
+        self.assertEqual(check_images(set(files), files.__getitem__), 1)
+        source.seek(0)
+        with self.assertRaises(ValueError):
+            prepare(source, "schema-screenshot", "PNG")
+
     def test_indexed_large_file_cannot_hide_behind_small_working_copy(self):
         with tempfile.TemporaryDirectory(prefix="schema-image-policy-") as directory:
             root = Path(directory)
