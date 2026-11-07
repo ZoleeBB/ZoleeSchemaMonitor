@@ -187,6 +187,22 @@ int main(void)
     }
 
     assert(!strcmp(lv_label_get_text(s_runtime[148].power_label), "39 %"));
+    cJSON *value_binding = cJSON_GetObjectItem(aligned_value, "value");
+    cJSON_ReplaceItemInObject(value_binding, "scale", cJSON_CreateNumber(1));
+    cJSON_ReplaceItemInObject(value_binding, "offset", cJSON_CreateNumber(0));
+    cJSON_ReplaceItemInObject(aligned_value, "decimals", cJSON_CreateNumber(2));
+    s_test_revision++;
+    app_scene_poll();
+    s_test_power = -.0001;
+    app_scene_update(0);
+    assert(!strcmp(lv_label_get_text(s_runtime[149].value_label), "0.00 °C"));
+    s_test_power = 1e12;
+    app_scene_update(0);
+    assert(!strcmp(lv_label_get_text(s_runtime[149].value_label), "1e+12 °C"));
+    assert(!strcmp(lv_label_get_text(s_runtime[148].power_label), "100 %"));
+    cJSON_ReplaceItemInArray(cJSON_GetObjectItem(second, "elements"), 149, cJSON_Parse(value_json));
+    s_test_revision++;
+    app_scene_poll();
     s_test_valid = false;
     app_scene_update(100);
     assert(!strcmp(lv_label_get_text(s_runtime[148].power_label), "— %"));

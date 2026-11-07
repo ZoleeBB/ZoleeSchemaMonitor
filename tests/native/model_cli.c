@@ -10,6 +10,26 @@ int main(int argc, char **argv)
         return 2;
     size_t size = fread(data, 1, SM_PROJECT_BYTES + 32769, stdin);
     cJSON *json = sm_json_parse(data, size);
+    if (json && cJSON_IsArray(json) && argc > 1 && !strcmp(argv[1], "format"))
+    {
+        cJSON *output = cJSON_CreateArray(), *entry;
+        cJSON_ArrayForEach(entry, json)
+        {
+            cJSON *value = cJSON_GetArrayItem(entry, 0);
+            sm_signal_t signal = {true, cJSON_IsNumber(value), value->valuedouble};
+            char text[160];
+            bool valid = sm_value_text(signal, cJSON_GetArrayItem(entry, 1)->valueint,
+                                      cJSON_GetArrayItem(entry, 2)->valuestring, text, sizeof(text));
+            cJSON_AddItemToArray(output, valid ? cJSON_CreateString(text) : cJSON_CreateNull());
+        }
+        char *encoded = cJSON_PrintUnformatted(output);
+        puts(encoded);
+        free(encoded);
+        cJSON_Delete(output);
+        cJSON_Delete(json);
+        free(data);
+        return 0;
+    }
     if (json && cJSON_IsArray(json) && argc > 1 && !strcmp(argv[1], "spray"))
     {
         cJSON *output = cJSON_CreateArray(), *entry;

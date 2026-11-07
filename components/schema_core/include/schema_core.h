@@ -26,6 +26,9 @@ typedef struct
     double value;
 } sm_signal_t;
 
+/* Egységes kijelzett szám: 0–6 tizedes, negatív nulla nélkül, nagy értéknél 6 számjegy. */
+bool sm_value_text(sm_signal_t signal, unsigned decimals, const char *unit, char *output, size_t capacity);
+
 typedef struct
 {
     bool known;

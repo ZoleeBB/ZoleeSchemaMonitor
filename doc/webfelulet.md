@@ -35,3 +35,11 @@ Az igazítás mentésen, oldal-/projektexporton és újratöltésen át megmarad
 A `tests/browser.mjs` 360, 390, 768, 1024, 1280 és 1920 px szélességen mind a nyolc útvonalat betölti, és ellenőrzi a dokumentum szélességét, aktív navigációját és a beállításcsoportokat. Külön angol, sötét mobilpróba nyit meg 16 körös osztót és Loxone-párosító párbeszédablakot. A teszt tiltja és hibának tekinti a külső erőforráskéréseket. A korábbi mentési, exportálási, párosítási és forgatási munkafolyamatok is lefutnak.
 
 A natív HTTP-próba ellenőrzi a két stíluslap tényleges beágyazását, kibontását és CSS MIME-típusát. A gazdagépes böngésző-/HTTP-próba nem fizikai P4- vagy iOS Safari-próba; az MS1 hardveres és tartósüzemi feltételei nyitva maradnak.
+
+## Egységes numerikus feliratok
+
+A numerikus értékek és mértékegységek most azonos szabályokkal készülnek a weben és az LVGL-nézetben: 0–6 tizedes; félértéknél a nullától elfelé kerekítés; a kijelzett negatív nulla elhagyása; adathiánynál `—` a megtartott mértékegységgel. Üres egységnél nincs felesleges szóköz. 10⁹ abszolút értéktől hat értékes számjegyű exponenciális alak jelenik meg, így a szélsőséges bejövő számok felirata is korlátozott hosszú.
+
+A Teljesítmény megjelenítése (%) felirat a megadott alsó/felső határhoz képesti, 0–100 közé korlátozott százalékot mutatja. Például 10–100 határ és 45-ös forrás esetén mindkét felület `39 %`-ot ír. Korábban a web a nyers forrásértéket írta, miközben a natív kijelző százalékot számolt. A kijelzett százalék nem változtat az explicit aktivitás elsőbbségén; a forrás leválasztása/adathiánya `— %`-ot eredményez.
+
+A formázás 616 közös C/JS határesettel, a kerekítési/előjel/nagyságrendi szabályok egységtesztjével, tényleges böngészős és natív LVGL-feliratokkal ellenőrzött. Ez a numerikus szöveget egységesíti; a betűkészlet, sortördelés és pixelpontos függőleges elhelyezés külön vizuális regresszió marad.

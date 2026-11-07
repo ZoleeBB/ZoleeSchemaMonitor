@@ -14,6 +14,18 @@ static void received(const char *uuid, double value, bool valid, void *context)
 
 int main(void)
 {
+    char formatted[160];
+    assert(sm_value_text((sm_signal_t){true, true, -2.55}, 1, "°C", formatted, sizeof(formatted)));
+    assert(!strcmp(formatted, "-2.6 °C"));
+    assert(sm_value_text((sm_signal_t){true, true, -.0001}, 2, "", formatted, sizeof(formatted)));
+    assert(!strcmp(formatted, "0.00"));
+    assert(sm_value_text((sm_signal_t){true, true, 1e308}, 6, "Wh", formatted, sizeof(formatted)));
+    assert(!strcmp(formatted, "1e+308 Wh"));
+    assert(sm_value_text((sm_signal_t){true, true, NAN}, 1, NULL, formatted, sizeof(formatted)));
+    assert(!strcmp(formatted, "—"));
+    assert(!sm_value_text((sm_signal_t){0}, 7, "", formatted, sizeof(formatted)));
+    assert(!sm_value_text((sm_signal_t){0}, 1, "", NULL, 0));
+    assert(!sm_value_text((sm_signal_t){true, true, 123}, 1, "", formatted, 2));
     double spray_x = 99, spray_y = 99;
     assert(!sm_spray_point(NAN, 0, -90, &spray_x, &spray_y));
     assert(!sm_spray_point(0, SM_SPRAY_DROPS, -90, &spray_x, &spray_y));

@@ -5,6 +5,60 @@
 #include <stdio.h>
 #include <string.h>
 
+bool sm_value_text(sm_signal_t signal, unsigned decimals, const char *unit, char *output, size_t capacity)
+{
+    if (!output || !capacity || decimals > 6)
+        return false;
+    char number[64];
+    if (!signal.valid || !isfinite(signal.value))
+        snprintf(number, sizeof(number), "—");
+    else if (fabs(signal.value) < 1e9)
+    {
+        static const uint64_t scales[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
+        uint64_t scale = scales[decimals];
+        uint64_t rounded = (uint64_t)floor(fabs(signal.value) * scale + .5);
+        const char *sign = signal.value < 0 && rounded ? "-" : "";
+        if (decimals)
+            snprintf(number, sizeof(number), "%s%llu.%0*llu", sign,
+                     (unsigned long long)(rounded / scale), (int)decimals,
+                     (unsigned long long)(rounded % scale));
+        else
+            snprintf(number, sizeof(number), "%s%llu", sign, (unsigned long long)rounded);
+    }
+    else
+    {
+        double absolute = fabs(signal.value);
+        int exponent = (int)floor(log10(absolute));
+        double magnitude = pow(10, exponent);
+        if (magnitude > absolute)
+        {
+            exponent--;
+            magnitude /= 10;
+        }
+        else if (absolute / magnitude >= 10)
+        {
+            exponent++;
+            magnitude *= 10;
+        }
+        unsigned rounded = (unsigned)floor(absolute / magnitude * 100000 + .5);
+        if (rounded >= 1000000)
+        {
+            rounded /= 10;
+            exponent++;
+        }
+        char fraction[6];
+        snprintf(fraction, sizeof(fraction), "%05u", rounded % 100000);
+        size_t length = strlen(fraction);
+        while (length && fraction[length - 1] == '0')
+            fraction[--length] = 0;
+        snprintf(number, sizeof(number), "%s%u%s%se+%02d", signal.value < 0 ? "-" : "",
+                 rounded / 100000, length ? "." : "", fraction, exponent);
+    }
+    const char *suffix = unit ? unit : "";
+    int written = snprintf(output, capacity, "%s%s%s", number, *suffix ? " " : "", suffix);
+    return written >= 0 && (size_t)written < capacity;
+}
+
 bool sm_spray_prepare(unsigned drop, double direction, sm_spray_ray_t *ray)
 {
     if (!ray || !isfinite(direction) || drop >= SM_SPRAY_DROPS)

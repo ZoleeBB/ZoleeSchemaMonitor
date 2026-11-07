@@ -193,17 +193,7 @@ void app_scene_update(unsigned elapsed_ms)
         if (runtime->value_label)
         {
             char text[160];
-            if (!values[i].valid)
-                snprintf(text, sizeof(text), "— %s", runtime->unit);
-            else if (fabs(values[i].value) >= 1e9)
-                snprintf(text, sizeof(text), "%.6g %s", values[i].value, runtime->unit);
-            else
-                snprintf(text,
-                         sizeof(text),
-                         "%.*f %s",
-                         runtime->decimals,
-                         values[i].value,
-                         runtime->unit);
+            sm_value_text(values[i], runtime->decimals, runtime->unit, text, sizeof(text));
             if (strcmp(text, runtime->last_value))
             {
                 snprintf(runtime->last_value, sizeof(runtime->last_value), "%s", text);
@@ -249,13 +239,8 @@ void app_scene_update(unsigned elapsed_ms)
         if (runtime->power_label)
         {
             char text[64];
-            double percent = powers[i].valid
-                               ? fmax(0,
-                                      fmin(100,
-                                           (powers[i].value - runtime->minimum) * 100 /
-                                               (runtime->maximum - runtime->minimum)))
-                               : 0;
-            snprintf(text, sizeof(text), powers[i].valid ? "%.0f %%" : "— %%", percent);
+            sm_position_t power = sm_position(powers[i], runtime->minimum, runtime->maximum, false);
+            sm_value_text((sm_signal_t){true, power.known, power.percent}, 0, "%", text, sizeof(text));
             if (strcmp(text, runtime->last_power))
             {
                 snprintf(runtime->last_power, sizeof(runtime->last_power), "%s", text);

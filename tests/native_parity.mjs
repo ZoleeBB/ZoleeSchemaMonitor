@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
-import {newProject, newElement, validateProject, elementPorts, sprayPoint, SPRAY_DROPS} from '../web/model.js';
+import {newProject, newElement, validateProject, elementPorts, sprayPoint, SPRAY_DROPS, valueText} from '../web/model.js';
 const catalog = JSON.parse(readFileSync('web/catalog.json'));
 const cli = process.argv[2];
 let count = 0;
@@ -104,3 +104,17 @@ sprayCases.forEach(([phase, drop, direction], index) => {
     assert.ok(Math.abs(point.x-x)<1e-12 && Math.abs(point.y-y)<1e-12);
 });
 console.log(`Native/browser spray geometry: ${sprayCases.length} cases OK`);
+
+// Azonos kijelzett szöveg a kerekítési és nagyságrendi határokon, mind a hét pontossággal.
+const formattingCases = [];
+for (const value of [null,0,-0,.0001,-.0001,.5,-.5,2.55,-2.55,9.999,24.5,123456789.125,
+    999999999.999999,1e9,-1e9,1.234565e10,1.234567e10,9.999999e9,1e20,1e100,1e308,Number.MAX_VALUE])
+    for (let decimals=0; decimals<=6; decimals++)
+        for (const unit of ['', '°C', '%', 'm³/h']) formattingCases.push([value,decimals,unit]);
+const formattingResult = spawnSync(cli, ['format'], {input:JSON.stringify(formattingCases),encoding:'utf8'});
+assert.equal(formattingResult.status,0,formattingResult.stderr);
+const formatted = JSON.parse(formattingResult.stdout);
+assert.equal(formatted.length,formattingCases.length);
+formattingCases.forEach(([value,decimals,unit],index)=>
+    assert.equal(formatted[index],valueText({valid:value!==null,value},decimals,unit),JSON.stringify(formattingCases[index])));
+console.log(`Native/browser numeric formatting: ${formattingCases.length} cases OK`);

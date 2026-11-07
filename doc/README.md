@@ -3,6 +3,7 @@
 - [Követelmények és rögzített döntések](kovetelmenyek.md)
 - [Architektúra](architektura.md)
 - [MS1 és ellenőrzési lista](ms1.md)
+- [MS1 rövid hátralévő lista](ms1-hatralevo.md)
 - [Fejlesztés és helyi előnézet](fejlesztes.md)
 - [Webfelület és Bootstrap/CDN-döntés](webfelulet.md)
 - [Készülékes fejlesztői build és helyreállítás](keszulek.md)

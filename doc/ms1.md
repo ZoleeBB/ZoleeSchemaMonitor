@@ -1,16 +1,16 @@
 # MS1 – kipróbálható teljes első változat
 
-Állapot: **nyitott**. Az alapozó commitok és az automatikus ellenőrzések sikere nem zárja a mérföldkövet.
+Állapot: **nyitott**. Az alapozó commitok és az automatikus ellenőrzések sikere nem zárja a mérföldkövet. [Rövid, aktuális hátralévő lista](ms1-hatralevo.md).
 
 ## Elfogadási feltételek
 
-- [ ] P4 firmware sikeresen fordul, flash/OTA partícióméretek ellenőrizve.
+- [x] P4 firmware sikeresen fordul, flash/OTA partícióméretek ellenőrizve (CI-fordítás és csomagoló; nem fizikai telepítési próba).
 - [ ] Indulás, Wi-Fi, közvetlen Gen2/17.x Loxone, hitelesítés és tokenmegújítás fizikai eszközön működik.
 - [ ] Legfeljebb 10 oldal szerkesztése, tartós mentése, oldalak/projektek exportja és importja működik.
 - [ ] Húzás, méretezés, forgatás, csőrajzolás, csatlakozópontok, szöveg- és értékmezők működnek.
 - [ ] Helyiség/funkció szűrés és minden elem Loxone-párosítása működik.
 - [ ] Szivattyú aktivitási elsőbbség és teljesítményhatárok tesztelve.
-- [ ] Jóváhagyott grafikai stílus és **teljes** HVAC/medence/öntözés/vízellátási készlet elkészült.
+- [x] Jóváhagyott grafikai stílus és **teljes** HVAC/medence/öntözés/vízellátási készlet elkészült (333 típus, nulla helyőrző; a fizikai vizuális próba külön feltétel).
 - [ ] Világos/sötét grafika, 0/90/180/270° kép és érintés fizikai panelen ellenőrizve.
 - [ ] Oldallapozás és átemelt diagnosztikai ablak működik.
 - [ ] Kezdőlap, támogatási blokk új ikonnal, beállítások, diagnosztika, mentés/visszaállítás és OTA működik HU/EN nyelven.

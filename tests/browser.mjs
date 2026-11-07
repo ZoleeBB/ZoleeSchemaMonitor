@@ -368,6 +368,28 @@ try {
         await page.waitForFunction(()=>{const group=[...document.querySelectorAll('svg [data-element]')].at(-1);return group.dataset.known==='false' && group.querySelector('[data-status-indicator]').getAttribute('fill')==='#d9a23a';});
         assert.ok(await spray.locator('[data-spray]').evaluateAll(nodes=>nodes.every(n=>n.style.display==='none')));
     }
+    // A teljesítményfelirat a megadott tartományhoz képesti százalék, nem a nyers forrás.
+    await page.locator('[data-asset="circulation-pump"]').click();
+    await page.locator('[data-binding="power"]').click();
+    await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+    await page.locator('#binding-apply').click();
+    await page.locator('#power-min').fill('10');await page.locator('#power-min').blur();
+    await page.locator('#power-max').fill('100');await page.locator('#power-max').blur();
+    await page.locator('#show-power').check();
+    for (const [raw, expected] of [[45,'39 %'],[150,'100 %'],[0,'0 %'],[undefined,'— %']]) {
+        if (raw === undefined) delete pumpLive.values['12345678-1234-5678-0102030405060708'];
+        else pumpLive.values['12345678-1234-5678-0102030405060708']=raw;
+        await page.waitForFunction(expected=>[...document.querySelectorAll('svg [data-element]')].at(-1).querySelector('[data-live-power]').textContent===expected,expected);
+    }
+    await page.locator('#add-value').click();
+    await page.locator('[data-property="unit"]').fill('°C');await page.locator('[data-property="unit"]').blur();
+    await page.locator('[data-binding="value"]').click();
+    await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+    await page.locator('#binding-apply').click();
+    for (const [raw, expected] of [[-.0001,'0.0 °C'],[2.55,'2.6 °C'],[1e12,'1e+12 °C']]) {
+        pumpLive.values['12345678-1234-5678-0102030405060708']=raw;
+        await page.waitForFunction(expected=>[...document.querySelectorAll('svg [data-element]')].at(-1).querySelector('[data-live-value]').textContent===expected,expected);
+    }
     // Valós elrendezés hat szélességen, minden oldalon, külső erőforrások nélkül.
     const responsive = await browser.newPage();
     const externalRequests = [];

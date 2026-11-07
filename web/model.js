@@ -167,6 +167,32 @@ export function sprayPoint(phase, drop, direction = -90) {
     return {x: Math.cos(angle) * distance, y: Math.sin(angle) * distance + .3 * t * t};
 }
 
+// A natív sm_value_text szabályai: félértékek a nullától elfelé, negatív nulla nélkül.
+export function valueText(signal, decimals = 1, unit = '') {
+    if (!Number.isInteger(decimals) || decimals < 0 || decimals > 6) throw Error('decimals');
+    let number = '—';
+    if (signal.valid && Number.isFinite(signal.value)) {
+        const absolute = Math.abs(signal.value);
+        if (absolute < 1e9) {
+            const scale = 10 ** decimals;
+            const rounded = Math.floor(absolute * scale + .5);
+            const sign = signal.value < 0 && rounded ? '-' : '';
+            number = sign + Math.floor(rounded / scale);
+            if (decimals) number += '.' + String(rounded % scale).padStart(decimals, '0');
+        } else {
+            let exponent = Math.floor(Math.log10(absolute)), magnitude = 10 ** exponent;
+            if (magnitude > absolute) { exponent--; magnitude /= 10; }
+            else if (absolute / magnitude >= 10) { exponent++; magnitude *= 10; }
+            let rounded = Math.floor(absolute / magnitude * 100000 + .5);
+            if (rounded >= 1000000) { rounded /= 10; exponent++; }
+            const fraction = String(rounded % 100000).padStart(5, '0').replace(/0+$/, '');
+            number = (signal.value < 0 ? '-' : '') + Math.floor(rounded / 100000) +
+                (fraction ? '.' + fraction : '') + 'e+' + String(exponent).padStart(2, '0');
+        }
+    }
+    return number + (unit ? ' ' + unit : '');
+}
+
 export function readBinding(binding, values, connected = true) {
     if (!binding || !connected) return {configured: !!binding, valid: false, value: 0};
     const raw = values[binding.uuid.toLowerCase()];

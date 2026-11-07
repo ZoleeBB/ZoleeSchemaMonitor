@@ -1,4 +1,4 @@
-import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement, SPRAY_DROPS, sprayPoint} from './model.js';
+import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
@@ -616,7 +616,7 @@ export class Editor {
                 if (node && node.textContent !== text) node.textContent = text;
             };
             const value = readBinding(element.value, this.state.values, this.state.device.connected);
-            setText('[data-live-value]', value.valid ? `${value.value.toFixed(element.decimals)} ${element.unit}` : `— ${element.unit}`);
+            setText('[data-live-value]', valueText(value, element.decimals, element.unit));
             const position = positionState(element.position?.source, this.state.values,
                 element.position?.minimum, element.position?.maximum, element.position?.reverse,
                 this.state.device.connected);
@@ -634,8 +634,9 @@ export class Editor {
                 const color = !state.known ? '#d9a23a' : state.active ? '#36c678' : '#26333d';
                 if (indicator && indicator.getAttribute('fill') !== color) indicator.setAttribute('fill',color);
             });
-            const power = readBinding(element.power?.source, this.state.values, this.state.device.connected);
-            setText('[data-live-power]', power.valid ? `${power.value.toFixed(element.decimals)} ${element.unit || '%'}` : '—');
+            const power = positionState(element.power?.source, this.state.values,
+                element.power?.minimum, element.power?.maximum, false, this.state.device.connected);
+            setText('[data-live-power]', valueText({valid: power.known, value: power.percent}, 0, '%'));
             group.style.opacity = element.manifold || live.known ? '1' : '0.55';
         }
     }
