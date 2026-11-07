@@ -13,6 +13,7 @@ RASTER_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".t
 # A látványterv dokumentáció; a panel kizárólag a kis elemképeket kapja.
 PROFILES = {
     "element": {"prefix": "assets/elements/", "width": 160, "height": 160, "bytes": 128 * 1024},
+    "schema-screenshot": {"prefix": "tests/schemas/", "width": 1600, "height": 1180, "bytes": 512 * 1024},
     "preview": {"prefix": "doc/grafika/latvanytervek/", "width": 1280, "height": 960, "bytes": 2 * 1024 * 1024},
 }
 
@@ -45,7 +46,8 @@ def read_policy(data):
                 not isinstance(entry["role"], str) or entry["role"] not in PROFILES):
             raise ValueError(f"Hiányos képméret: {path}")
         profile = PROFILES[entry["role"]]
-        if (not path.startswith(profile["prefix"]) or not path.endswith((".png", ".jpg") if entry["role"] == "preview" else ".png") or
+        extensions = {"element": (".png",), "preview": (".png", ".jpg"), "schema-screenshot": (".jpg",)}
+        if (not path.startswith(profile["prefix"]) or not path.endswith(extensions[entry["role"]]) or
                 "\\" in path or ".." in PurePosixPath(path).parts or
                 str(PurePosixPath(path)) != path):
             raise ValueError(f"Nem engedélyezett képútvonal: {path}")

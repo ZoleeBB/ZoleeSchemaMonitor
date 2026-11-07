@@ -1716,6 +1716,66 @@
             "role": "preview",
             "width": 1280,
             "height": 960
+        },
+        "tests/schemas/kazan/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/kazan/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
+        },
+        "tests/schemas/legtechnika/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/legtechnika/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
+        },
+        "tests/schemas/medence/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/medence/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
+        },
+        "tests/schemas/ontozes/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/ontozes/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
+        },
+        "tests/schemas/osztok/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/osztok/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
+        },
+        "tests/schemas/terheles/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/terheles/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
         }
     }
 }

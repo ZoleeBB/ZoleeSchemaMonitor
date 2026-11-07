@@ -11,6 +11,19 @@ A mappákban a `projekt.json` a teljes projekt, a `lap-N.json` egyetlen önáll�
 | Padlófűtési osztók | 4 × 80 | 36,58 ms | 36,76 ms |
 | Vegyes terhelés | 10 × 150 | 28,02 ms | 31,23 ms |
 
+## Képernyőképek
+
+Mindkét kép ugyanazon projekt első oldalát és a 65%-os demójelet mutatja. A szerkesztőkép Chromiumban készült. A kijelzőkép a firmware LVGL-rajzolójának 1280×800 pixeles RGB565 képpufferéből származik.
+
+| Projekt | Webszerkesztő | Kijelző |
+| --- | --- | --- |
+| Kazánház | [Szerkesztő](kazan/szerkeszto.jpg) | [LVGL](kazan/kijelzo.jpg) |
+| Medence | [Szerkesztő](medence/szerkeszto.jpg) | [LVGL](medence/kijelzo.jpg) |
+| Öntözés | [Szerkesztő](ontozes/szerkeszto.jpg) | [LVGL](ontozes/kijelzo.jpg) |
+| Légtechnika | [Szerkesztő](legtechnika/szerkeszto.jpg) | [LVGL](legtechnika/kijelzo.jpg) |
+| Padlófűtési osztók | [Szerkesztő](osztok/szerkeszto.jpg) | [LVGL](osztok/kijelzo.jpg) |
+| Vegyes terhelés | [Szerkesztő](terheles/szerkeszto.jpg) | [LVGL](terheles/kijelzo.jpg) |
+
 ## Kipróbálás
 
 Indítsd el a [fejlesztői szervert](../../doc/fejlesztes.md) a `--demo` kapcsolóval, majd a szerkesztő Import gombjával válassz fájlt. A próbák a demószerver generált numerikus jelét használják az aktivitáshoz, teljesítményhez, szelepálláshoz és kijelzett értékhez. Saját Miniserveren a kötéseket a saját jelforrásokhoz kell társítani.
