@@ -28,6 +28,10 @@ Bekapcsolt csőbekötésnél a színes csonkok a menetes végektől indulnak. A 
 
 ![Osztó-gyűjtők világos és sötét háttéren](grafika/latvanytervek/08d-parameterezheto-osztok.jpg)
 
+A natív rajzoló 1280×800-as képpufferéből mentett példában a felső osztó 16 fűtési kört, az alsó 8 hűtési kört mutat. Mindkét osztó harmadik termofeje 65%-os szimulált élő értéket kap.
+
+![16 körös fűtési és 8 körös hűtési osztó az LVGL-kijelzőn](grafika/latvanytervek/08e-osztok-lvgl.jpg)
+
 Az előnézet a szerkesztő tényleges rajzelemeiből készül: `python3 tools/build_manifold_preview.py`. A 331 korábbi PNG-forrást tartalmazó [vizuális felülvizsgálat](grafika/vizualis-felulvizsgalat.md) ettől külön nyilvántartás.
 
 A JavaScript-tesztek minden körszámot és felhasználást, a körönkénti állapotot és a csőforgatás pixelgeometriáját ellenőrzik. A C/JS validálás 214 paritásesete és a valódi LVGL-lel futó gazdagépes próba sikeres. A Chromium-próba ellenőrizte mind a 15 körszámot, a 34. port tényleges bekötését, a jelzőket, a forgatást, a csőleválasztást és a mentést/visszatöltést. Ezek gazdagépes ellenőrzések; fizikai P4-, Miniserver- és 20 FPS-mérés még szükséges.

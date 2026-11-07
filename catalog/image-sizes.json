@@ -1781,6 +1781,11 @@
             "role": "manifold-module",
             "width": 152,
             "height": 224
+        },
+        "doc/grafika/latvanytervek/08e-osztok-lvgl.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 800
         }
     }
 }
