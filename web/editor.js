@@ -366,7 +366,10 @@ export class Editor {
                         'text-anchor': 'middle', fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': element.fontSize, 'data-live-power': '1'}));
                 } else {
                     drawing.append(svgNode('rect', {width, height, fill: 'transparent'}));
-                    drawing.append(svgNode('text', {x: 0, y: element.fontSize, fill: this.dark && element.color === '#456172' ? '#d5e6f0' : element.color,
+                    const align = element.align || 'left';
+                    drawing.append(svgNode('text', {x: align === 'center' ? width / 2 : align === 'right' ? width : 0,
+                        'text-anchor': align === 'center' ? 'middle' : align === 'right' ? 'end' : 'start',
+                        y: element.fontSize, fill: this.dark && element.color === '#456172' ? '#d5e6f0' : element.color,
                         'font-size': element.fontSize, ...(element.type === 'value' ? {'data-live-value': '1'} : {})}, element.text || '—'));
                 }
                 group.append(drawing);
@@ -475,6 +478,7 @@ export class Editor {
             ${e.type === 'text' ? field('text', 'text') : ''}${field('color', 'color', 'color')}
             <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>
             ${e.type !== 'pipe' ? `<div class="small-grid">${field('w', 'width', 'number')}${field('h', 'height', 'number')}</div>` : this.button('reverse-pipe', 'reverse')}
+            ${['text', 'value'].includes(e.type) ? `<label>${t('alignment')}<select data-property="align">${['left', 'center', 'right'].map(value => `<option value="${value}" ${(e.align || 'left') === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label>` : ''}
             <label>${t('rotate')}<select id="element-rotation">${[0,90,180,270].map(n => `<option value="${n}" ${n === e.rotation ? 'selected' : ''}>${n}°</option>`).join('')}</select></label></fieldset>
             ${e.type === 'value' ? `<fieldset><legend>${t('value')}</legend>` + `${field('unit', 'unit')}${field('decimals', 'decimals', 'number')}<button class="binding-button" data-binding="value">${t('source')}: ${this.escape(e.value?.uuid || t('none'))}</button></fieldset>` : ''}
             ${['equipment', 'pipe'].includes(e.type) && !e.manifold ? `<fieldset><legend>${t('signals')}</legend><label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(e.activity?.uuid || t('none'))}</button></label>

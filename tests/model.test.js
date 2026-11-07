@@ -104,3 +104,29 @@ test('optional independent position binding survives page export and rejects mal
     valve.type = 'text';
     assert.throws(() => validateProject(project, catalog));
 });
+
+test('optional text alignment keeps old schemas valid, round-trips and rejects other types', () => {
+    for (const type of ['text', 'value']) {
+        const project = newProject(), element = newElement(type);
+        project.pages[0].elements.push(element);
+        assert.equal(element.align, 'left');
+        delete element.align;
+        validateProject(project, catalog);
+        for (const align of ['left', 'center', 'right']) {
+            element.align = align;
+            validateProject(project, catalog);
+            const exported = JSON.parse(JSON.stringify(exportPage(project, project.pages[0].id)));
+            assert.equal(exported.pages[0].elements[0].align, align);
+        }
+        for (const align of ['', 'start', 'LEFT', null, false, 1, {}, []]) {
+            element.align = align;
+            assert.throws(() => validateProject(project, catalog));
+        }
+    }
+    for (const type of ['pipe', 'equipment']) {
+        const project = newProject(), element = newElement(type, type === 'equipment' ? 'pump' : '');
+        project.pages[0].elements.push(element);
+        element.align = 'left';
+        assert.throws(() => validateProject(project, catalog));
+    }
+});

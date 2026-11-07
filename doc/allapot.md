@@ -7,7 +7,7 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 
 | Terület | Bekötött működés | Még szükséges |
 | --- | --- | --- |
-| Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték, import/export, undo, HU/EN | [Reszponzív webelrendezés elkészült](webfelulet.md); készülékes és érintéses regresszió szükséges |
+| Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték bal/közép/jobb igazítással, import/export, undo, HU/EN | [Reszponzív webelrendezés elkészült](webfelulet.md); készülékes és érintéses regresszió szükséges |
 | Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások, hordozható jelszavas teljes eszközmentés és atomi visszaállítás | Kártya nélküli helyreállítás és SD újracsatolás |
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |

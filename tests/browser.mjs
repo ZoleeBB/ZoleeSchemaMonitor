@@ -317,6 +317,37 @@ try {
     assert.equal(transforms.length,3);
     await page.locator('[data-asset="pool-light"]').click();
     assert.equal(await page.locator('svg [data-element]').last().locator('[data-port]').count(),0);
+    // Az igazítás a mező szélességéhez kötött, forgatáskor is a helyi koordinátáiban marad.
+    for (const type of ['text', 'value']) {
+        await page.locator(type === 'text' ? '#add-text' : '#add-value').click();
+        if (type === 'text') {
+            await page.locator('[data-property="text"]').fill('Igazítás <teszt>');
+            await page.locator('[data-property="text"]').blur();
+        } else {
+            await page.locator('[data-binding="value"]').click();
+            await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+            await page.locator('#binding-apply').click();
+        }
+        for (const [align, anchor, fraction] of [['left', 'start', 0], ['center', 'middle', .5], ['right', 'end', 1]]) {
+            await page.locator('[data-property="align"]').selectOption(align);
+            for (const rotation of ['0', '90', '180', '270']) {
+                await page.locator('#element-rotation').selectOption(rotation);
+                const geometry = await page.locator('svg .selected text').evaluate(node => ({
+                    anchor: node.getAttribute('text-anchor'), x: Number(node.getAttribute('x')),
+                    width: Number(node.closest('[data-element]').querySelector('.selected-box').getAttribute('width')),
+                }));
+                assert.equal(geometry.anchor, anchor);
+                assert.ok(Math.abs(geometry.x - geometry.width * fraction) < 1e-8);
+            }
+        }
+        await saveProjectAndWait();
+        const savedAlignment = await (await page.request.get(url + '/api/project')).json();
+        assert.equal(savedAlignment.project.pages[0].elements.at(-1).align, 'right');
+        await page.reload();
+        await page.waitForSelector('svg [data-element]');
+        const text = page.locator('svg [data-element]').last().locator('text');
+        assert.equal(await text.getAttribute('text-anchor'), 'end');
+    }
     // Valós elrendezés hat szélességen, minden oldalon, külső erőforrások nélkül.
     const responsive = await browser.newPage();
     const externalRequests = [];

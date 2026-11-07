@@ -186,7 +186,7 @@ static bool element_valid(const cJSON *element, char *error)
 {
     if (!fields(element,
                 "|id|type|asset|x|y|w|h|rotation|label|text|color|fontSize|unit|decimals|value|"
-                "activity|power|showPower|points|width|direction|source|target|position|manifold|"))
+                "activity|power|showPower|points|width|direction|source|target|position|manifold|align|"))
         return fail(error, "element.fields");
     const char *type = sm_json_string(element, "type");
     if (!identifier(sm_json_string(element, "id")) ||
@@ -206,6 +206,12 @@ static bool element_valid(const cJSON *element, char *error)
         return fail(error, "element.rotation");
     if (!text(element, "label", 120) || !text(element, "text", 1000) || !text(element, "unit", 24))
         return fail(error, "element.text");
+    const cJSON *alignment = cJSON_GetObjectItemCaseSensitive(element, "align");
+    if (alignment &&
+        ((strcmp(type, "text") && strcmp(type, "value")) || !cJSON_IsString(alignment) ||
+         (strcmp(alignment->valuestring, "left") && strcmp(alignment->valuestring, "center") &&
+          strcmp(alignment->valuestring, "right"))))
+        return fail(error, "element.align");
     const char *color = sm_json_string(element, "color");
     if (strlen(color) != 7 || color[0] != '#')
         return fail(error, "element.color");

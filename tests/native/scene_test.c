@@ -149,6 +149,31 @@ int main(void)
     s_test_power = 45;
     app_scene_update(100);
     assert(!strcmp(lv_label_get_text(s_runtime[149].value_label), "24.5 °C"));
+    cJSON *aligned_value = cJSON_GetArrayItem(cJSON_GetObjectItem(second, "elements"), 149);
+    const char *alignments[] = {NULL, "left", "center", "right"};
+    const lv_text_align_t expected_alignments[] = {
+        LV_TEXT_ALIGN_LEFT, LV_TEXT_ALIGN_LEFT, LV_TEXT_ALIGN_CENTER, LV_TEXT_ALIGN_RIGHT};
+    const unsigned font_sizes[] = {10, 20, 64};
+    for (unsigned a = 0; a < 4; a++)
+        for (unsigned f = 0; f < 3; f++)
+            for (unsigned rotation = 0; rotation < 360; rotation += 90)
+            {
+                cJSON_DeleteItemFromObject(aligned_value, "align");
+                if (alignments[a])
+                    cJSON_AddStringToObject(aligned_value, "align", alignments[a]);
+                cJSON_DeleteItemFromObject(aligned_value, "fontSize");
+                cJSON_AddNumberToObject(aligned_value, "fontSize", font_sizes[f]);
+                cJSON_DeleteItemFromObject(aligned_value, "rotation");
+                cJSON_AddNumberToObject(aligned_value, "rotation", rotation);
+                s_test_revision++;
+                app_scene_poll();
+                app_scene_update(0);
+                lv_obj_t *label = s_runtime[149].value_label;
+                assert(lv_obj_get_style_text_align(label, 0) == expected_alignments[a]);
+                assert(lv_obj_get_style_transform_rotation(lv_obj_get_parent(label), 0) ==
+                       (int)rotation * 10);
+                assert(!strcmp(lv_label_get_text(label), "24.5 °C"));
+            }
     assert(s_runtime[148].rotor && s_runtime[148].rotor_initialized);
     lv_obj_update_layout(s_root);
     assert(lv_obj_get_width(s_runtime[148].rotor) > 20);

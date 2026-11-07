@@ -918,6 +918,13 @@ void app_scene_poll(void)
             if (!strcmp(type, "value"))
                 runtime->value_label = object;
             lv_obj_set_width(object, w * 20 / sm_json_number(element, "fontSize", 20));
+            const char *alignment = sm_json_string(element, "align");
+            lv_text_align_t text_alignment = LV_TEXT_ALIGN_LEFT;
+            if (!strcmp(alignment, "center"))
+                text_alignment = LV_TEXT_ALIGN_CENTER;
+            else if (!strcmp(alignment, "right"))
+                text_alignment = LV_TEXT_ALIGN_RIGHT;
+            lv_obj_set_style_text_align(object, text_alignment, 0);
             lv_obj_set_style_transform_pivot_x(object, 0, 0);
             lv_obj_set_style_transform_pivot_y(object, 0, 0);
             lv_obj_set_style_transform_scale(

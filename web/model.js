@@ -41,7 +41,7 @@ export function validateBinding(binding, path = 'binding') {
 
 function validateElement(element, assets) {
     object(element, ['id', 'type', 'asset', 'x', 'y', 'w', 'h', 'rotation', 'label', 'text',
-        'color', 'fontSize', 'unit', 'decimals', 'value', 'activity', 'power', 'showPower',
+        'color', 'fontSize', 'unit', 'decimals', 'value', 'activity', 'power', 'showPower', 'align',
         'points', 'width', 'direction', 'source', 'target', 'position', 'manifold'], 'element');
     if (typeof element.id !== 'string' || !ID.test(element.id) || !['equipment', 'text', 'value', 'pipe'].includes(element.type)) throw Error('element.id/type');
     text(element.asset, 64, 'asset');
@@ -55,6 +55,9 @@ function validateElement(element, assets) {
     text(element.unit, 24, 'unit');
     if (!COLOR.test(element.color)) throw Error('color');
     number(element.fontSize, 10, 64, 'fontSize');
+    // Hiányzó mező a régi exportokban: balra igazítás.
+    if (element.align !== undefined && (!['text', 'value'].includes(element.type) ||
+        !['left', 'center', 'right'].includes(element.align))) throw Error('align');
     if (!Number.isInteger(element.decimals) || element.decimals < 0 || element.decimals > 6) throw Error('decimals');
     if (typeof element.showPower !== 'boolean') throw Error('showPower');
     validateBinding(element.value, 'value');
@@ -146,7 +149,8 @@ export function newProject() {
 }
 
 export function newElement(type, asset = '') {
-    return {...(type === 'equipment' && asset === 'configurable-manifold' ? {manifold: newManifold()} : {}), id: newId(), type, asset, x: 0.1, y: 0.1, w: 0.12, h: 0.16,
+    return {...(['text', 'value'].includes(type) ? {align: 'left'} : {}),
+        ...(type === 'equipment' && asset === 'configurable-manifold' ? {manifold: newManifold()} : {}), id: newId(), type, asset, x: 0.1, y: 0.1, w: 0.12, h: 0.16,
         rotation: 0, label: '', text: '', color: '#e34d4d', fontSize: 20, unit: '', decimals: 1,
         value: null, activity: null, power: null, showPower: false,
         points: [{x: 0.1, y: 0.1}, {x: 0.4, y: 0.1}], width: 6, direction: 1, source: null, target: null};

@@ -76,3 +76,15 @@ for(const asset of catalog.elements) {
     pipe.source={element:e.id,port:ports.length};check(p);
 }
 console.log(`Full catalogue native/browser parity: ${count} cases OK`);
+
+// Az igazítás régi exportokban hiányozhat; az új mező csak szöveg/érték típusra érvényes.
+for (const type of ['text', 'value', 'pipe', 'equipment']) {
+    for (const align of [undefined, 'left', 'center', 'right', '', 'start', 'LEFT', null, false, 1, {}, []]) {
+        const p = newProject(), e = newElement(type, type === 'equipment' ? pump.asset : '');
+        if (align === undefined) delete e.align;
+        else e.align = align;
+        p.pages[0].elements.push(e);
+        check(p);
+    }
+}
+console.log(`Native/browser alignment parity: ${count} cases OK`);

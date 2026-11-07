@@ -22,6 +22,14 @@ Források: [Bootstrap – bevezetés és CDN](https://getbootstrap.com/docs/5.3/
 - A beállítások Projekt, Kijelző és Wi-Fi csoportba kerültek. Az aktív navigációs pont minden oldalon megjelölt, képernyőolvasónak is.
 - A fejléc, kártyák, mezők és támogatási blokk keskeny képernyőn is tördelődnek. A meglévő színpaletta és a rendszer sötét módja megmaradt.
 
+## Szöveg- és értékmezők igazítása
+
+A kijelölt Szöveg vagy Érték elemnél a Tulajdonságok → Megjelenés és méret → Szövegigazítás mezőben Balra, Középre és Jobbra választható. Az igazítás az elem saját szélességén belül érvényes, a teljes megjelenített értékre és mértékegységre együtt. A mező 90°-os forgatásakor az igazított szöveg is vele fordul. HU/EN feliratokkal a web és az LVGL-nézet egyaránt használja.
+
+A projekt opcionális `align` mezője `left`, `center` vagy `right`. Hiányában a korábbi balra igazítás marad; a régi import nem kap kötelező új mezőt. A mező csak `text` és `value` elemen érvényes. Hibás érték, `null`, illetve csőre vagy készülékre tett igazítás a JS- és C-validátorban is elutasított. Az új igazítást tartalmazó exporthoz ezt támogató firmware szükséges; korábbi firmware az ismeretlen mezőt elutasítja.
+
+Az igazítás mentésen, oldal-/projektexporton és újratöltésen át megmarad. Külön modellteszt, 48 új C/JS elfogadási/elutasítási eset, valódi Chromiumban mindkét elemtípus három igazítása és négy forgatása, valamint natív LVGL-ben az örökölt és három új igazítás 10/20/64-es betűmérettel és négy forgatással ellenőrzött. A meglévő betűkészlet, sortördelés és függőleges elhelyezés szabályai változatlanok.
+
 ## Ellenőrzés
 
 A `tests/browser.mjs` 360, 390, 768, 1024, 1280 és 1920 px szélességen mind a nyolc útvonalat betölti, és ellenőrzi a dokumentum szélességét, aktív navigációját és a beállításcsoportokat. Külön angol, sötét mobilpróba nyit meg 16 körös osztót és Loxone-párosító párbeszédablakot. A teszt tiltja és hibának tekinti a külső erőforráskéréseket. A korábbi mentési, exportálási, párosítási és forgatási munkafolyamatok is lefutnak.

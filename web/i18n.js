@@ -1,6 +1,7 @@
 /* A közös feliratok azonos kulcsokkal szerepelnek mindkét nyelven. */
 export const messages = {
     hu: {
+        alignment: 'Szövegigazítás', left: 'Balra', center: 'Középre', right: 'Jobbra',
         appearance: 'Megjelenés és méret', signals: 'Loxone-adatok', valvePosition: 'Szelepállás',
         projectFiles: 'Projekt és fájlok', editTools: 'Elem szerkesztése', addElement: 'Új elem',
         pageSettings: 'Oldal beállításai', schemaCanvas: 'Séma rajzterülete', navigation: 'Navigáció',
@@ -40,6 +41,7 @@ export const messages = {
         catalogInfo: 'Az elemfajtákat a firmware határozza meg. A fájlok SHA-256 szerint frissülnek; a változatlanokat nem töltjük le újra.',
     },
     en: {
+        alignment: 'Text alignment', left: 'Left', center: 'Center', right: 'Right',
         appearance: 'Appearance and size', signals: 'Loxone data', valvePosition: 'Valve position',
         projectFiles: 'Project and files', editTools: 'Edit element', addElement: 'Add element',
         pageSettings: 'Page settings', schemaCanvas: 'Schema canvas', navigation: 'Navigation',
