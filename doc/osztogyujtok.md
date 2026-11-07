@@ -1,6 +1,6 @@
 # Termofejes osztó-gyűjtők és forgatás
 
-A szerkesztőben a **Termofejes osztó-gyűjtő (2–16 kör)** elemet válaszd. Egyetlen paraméterezhető elemtípus minden egész körszámot támogat 2 és 16 között. A két sín, az átfolyásmérők és a termofejek száma a körszámból készül; nincs tizenöt külön, eltérő pontosságú generált kép.
+A szerkesztőben a **Termofejes osztó-gyűjtő (2–16 kör)** elemet válaszd. Egyetlen paraméterezhető elemtípus minden egész körszámot támogat 2 és 16 között. A két sárgaréz sínen minden körhöz egy átfolyásmérő, egy termofej és két menetes csonk tartozik.
 
 | Beállítás | Működés |
 | --- | --- |
@@ -22,7 +22,9 @@ Minden eszköz, szöveg, értékmező és cső **0°, 90°, 180° vagy 270°** �
 
 ## Grafika és ellenőrzés
 
-Ez sematikus, pontos darabszámú műszaki grafika, nem egy konkrét márkájú osztó termékfotója. A firmware és a web ugyanazt a normalizált geometriát használja. A natív nézet a részeket LVGL-objektumokkal rajzolja; az SD-ről nem kell körszámonként külön képet betölteni.
+A bal és jobb végdarab között egy 56 pixel széles, generált termékfotóból kivágott modult ismétlünk. A grafikai csomag készítésekor minden körszámhoz elkészül a fűtési és hűtési PNG. A képek szélessége 208–992 pixel, magasságuk 224 pixel. A szerkesztő és az LVGL ugyanazt a PNG-t illeszti aránytartóan az elem keretébe. A jelző és a nyitási százalék a fehér termofejre kerül. Kis keretben a felirat is arányosan kicsinyül.
+
+Bekapcsolt csőbekötésnél a színes csonkok a menetes végektől indulnak. A két főcsatlakozás a bal szélen, a körök előremenő és visszatérő pontjai a megfelelő csonk végén vannak. A rajzoló és a portok ugyanazt a középpont körüli forgatást és méretarányt használják. Az új firmware-hez a hozzá tartozó SD-grafikai csomag szükséges.
 
 ![Osztó-gyűjtők világos és sötét háttéren](grafika/latvanytervek/08d-parameterezheto-osztok.jpg)
 
@@ -34,4 +36,4 @@ A körönkénti futásidejű állapotok a P4 PSRAM-jában vannak; az animáció 
 
 ## Rögzített körszámú korábbi osztótípusok
 
-A `manifold-2`–`manifold-10` és `manifold-12` stabil azonosítók megmaradnak. A hibás körszámú régi PNG-k helyett csomagoláskor pontos darabszámú statikus rajz készül. Két főcsonk után a korábbi sorrendű visszatérő pontok, majd az előremenő pontok következnek. A külön körönkénti százalékhoz és termofejjelzéshez továbbra is a **Termofejes osztó-gyűjtő (2–16 kör)** elemet válaszd.
+A `manifold-2`–`manifold-10` és `manifold-12` stabil azonosítók megmaradnak. Ezek a típusok is a fotómodulokból összeállított képet kapják. Két főcsonk után a korábbi sorrendű visszatérő pontok, majd az előremenő pontok következnek. A külön körönkénti százalékhoz és termofejjelzéshez továbbra is a **Termofejes osztó-gyűjtő (2–16 kör)** elemet válaszd.

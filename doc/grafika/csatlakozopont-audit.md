@@ -6,11 +6,11 @@ A `catalog/port-calibration.json` az érvényes koordinátaforrás. A raszter SH
 
 A hátoldalon takart csatlakozások és a tengelyirányból mutatott karimák pontjai sematikus vetületek. Ezeknél a meglévő képen nem látható minden csonk; nem állítjuk, hogy látható nyíláshoz illeszkednek. Az érzékelők kábelei, rögzítőfülek, zárt sapkák és villamos csatlakozók nem új csőportok.
 
-A 11 számított osztónál az ágak és a pontok azonos paraméterekből készülnek; a szabadon állítható osztó minden 2–16 körszámmal külön ellenőrzött.
+Az osztók új kalibrációja a sorban megadott, szélesebb forrásvászonra vonatkozik; a szabadon állítható osztó minden 2–16 körszámmal külön ellenőrzött.
 
 Csővastagság: **1–30 kijelzőpixel**, csövenként a Tulajdonságok panelen. A felirat tartalmazza az egységet és a tartományt. Chromiumban 1/12/30 px rajzolás és tartós mentés, valódi LVGL-objektumon ugyanezek vonalvastagsága ellenőrzött. Minden katalógusport négy forgatásban, fekvő/álló vásznon kap geometriai ellenőrzést. Ez gazdagépes ellenőrzés, a fizikai panelpróbát nem helyettesíti.
 
-| Típus | Ellenőrzés | Portok (160 px vászon, indexsorrend) | Javítva |
+| Típus | Ellenőrzés | Portok (forráspixel, indexsorrend) | Javítva |
 | --- | --- | --- | --- |
 | `gas-boiler` | Látható csonk / nyílás | 64,140; 96,140 | igen |
 | `electric-boiler` | Látható csonk / nyílás | 66,137; 93,137 | igen |
@@ -59,12 +59,12 @@ Csővastagság: **1–30 kijelzőpixel**, csövenként a Tulajdonságok panelen.
 | `tubular-exchanger` | Látható csonk / nyílás | 8,80; 151,80; 47,52; 102,107 | igen |
 | `hydraulic-separator` | Látható csonk / nyílás | 41,53; 121,53; 41,106; 121,106 | igen |
 | `mixing-unit` | Látható csonk / nyílás | 11,61; 149,61; 12,120; 149,120 | igen |
-| `manifold-2` | Számított osztó | 12,49; 12,117; 55,151; 115,151; 55,74; 115,74 | — |
-| `manifold-4` | Számított osztó | 12,49; 12,117; 40,151; 70,151; 100,151; 130,151; 40,74; 70,74; 100,74; 130,74 | — |
-| `manifold-6` | Számított osztó | 12,49; 12,117; 35,151; 55,151; 75,151; 95,151; 115,151; 135,151; 35,74; 55,74; 75,74; 95,74; 115,74; 135,74 | — |
-| `manifold-8` | Számított osztó | 12,49; 12,117; 32.5,151; 47.5,151; 62.5,151; 77.5,151; 92.5,151; 107.5,151; 122.5,151; 137.5,151; 32.5,74; 47.5,74; 62.5,74; 77.5,74; 92.5,74; 107.5,74; 122.5,74; 137.5,74 | — |
-| `manifold-10` | Számított osztó | 12,49; 12,117; 31,151; 43,151; 55,151; 67,151; 79,151; 91,151; 103,151; 115,151; 127,151; 139,151; 31,74; 43,74; 55,74; 67,74; 79,74; 91,74; 103,74; 115,74; 127,74; 139,74 | — |
-| `manifold-12` | Számított osztó | 12,49; 12,117; 30,151; 40,151; 50,151; 60,151; 70,151; 80,151; 90,151; 100,151; 110,151; 120,151; 130,151; 140,151; 30,74; 40,74; 50,74; 60,74; 70,74; 80,74; 90,74; 100,74; 110,74; 120,74; 130,74; 140,74 | — |
+| `manifold-2` | Fotómodulok · 208×224 | 4,99; 4,191; 84,217; 140,217; 84,124; 140,124 | igen |
+| `manifold-4` | Fotómodulok · 320×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 84,124; 140,124; 196,124; 252,124 | igen |
+| `manifold-6` | Fotómodulok · 432×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 364,217; 84,124; 140,124; 196,124; 252,124; 308,124; 364,124 | igen |
+| `manifold-8` | Fotómodulok · 544×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 364,217; 420,217; 476,217; 84,124; 140,124; 196,124; 252,124; 308,124; 364,124; 420,124; 476,124 | igen |
+| `manifold-10` | Fotómodulok · 656×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 364,217; 420,217; 476,217; 532,217; 588,217; 84,124; 140,124; 196,124; 252,124; 308,124; 364,124; 420,124; 476,124; 532,124; 588,124 | igen |
+| `manifold-12` | Fotómodulok · 768×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 364,217; 420,217; 476,217; 532,217; 588,217; 644,217; 700,217; 84,124; 140,124; 196,124; 252,124; 308,124; 364,124; 420,124; 476,124; 532,124; 588,124; 644,124; 700,124 | igen |
 | `electrothermal-manifold-4` | Látható csonk / nyílás | 12,55; 12,127; 44,72; 68,72; 93,72; 117,72; 44,143; 68,143; 93,143; 117,143 | igen |
 | `ball-valve` | Látható csonk / nyílás | 26,97; 127,97 | igen |
 | `shutoff-valve` | Látható csonk / nyílás | 27,120; 132,120 | igen |
@@ -227,10 +227,10 @@ Csővastagság: **1–30 kijelzőpixel**, csövenként a Tulajdonságok panelen.
 | `coil-exchanger` | Látható csonk / nyílás | 36,13; 124,148 | igen |
 | `tube-in-tube-exchanger` | Látható csonk / nyílás | 8,84; 153,84; 44,51.2; 117,115 | igen |
 | `freshwater-station` | Látható csonk / nyílás | 10,64; 10,114; 150,64; 150,114 | igen |
-| `manifold-3` | Számított osztó | 12,49; 12,117; 45,151; 85,151; 125,151; 45,74; 85,74; 125,74 | — |
-| `manifold-5` | Számított osztó | 12,49; 12,117; 37,151; 61,151; 85,151; 109,151; 133,151; 37,74; 61,74; 85,74; 109,74; 133,74 | — |
-| `manifold-7` | Számított osztó | 12,49; 12,117; 33.5714,151; 50.7143,151; 67.8571,151; 85,151; 102.143,151; 119.286,151; 136.429,151; 33.5714,74; 50.7143,74; 67.8571,74; 85,74; 102.143,74; 119.286,74; 136.429,74 | — |
-| `manifold-9` | Számított osztó | 12,49; 12,117; 31.6667,151; 45,151; 58.3333,151; 71.6667,151; 85,151; 98.3333,151; 111.667,151; 125,151; 138.333,151; 31.6667,74; 45,74; 58.3333,74; 71.6667,74; 85,74; 98.3333,74; 111.667,74; 125,74; 138.333,74 | — |
+| `manifold-3` | Fotómodulok · 264×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 84,124; 140,124; 196,124 | igen |
+| `manifold-5` | Fotómodulok · 376×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 84,124; 140,124; 196,124; 252,124; 308,124 | igen |
+| `manifold-7` | Fotómodulok · 488×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 364,217; 420,217; 84,124; 140,124; 196,124; 252,124; 308,124; 364,124; 420,124 | igen |
+| `manifold-9` | Fotómodulok · 600×224 | 4,99; 4,191; 84,217; 140,217; 196,217; 252,217; 308,217; 364,217; 420,217; 476,217; 532,217; 84,124; 140,124; 196,124; 252,124; 308,124; 364,124; 420,124; 476,124; 532,124 | igen |
 | `duplex-strainer` | Látható csonk / nyílás | 15,86; 148,86 | igen |
 | `basket-strainer` | Látható csonk / nyílás | 12,83.2; 144,83.2 | — |
 | `prefilter` | Látható csonk / nyílás | 24,41.6; 136,41.6 | — |
@@ -344,4 +344,4 @@ Csővastagság: **1–30 kijelzőpixel**, csövenként a Tulajdonságok panelen.
 | `carbon-monoxide-sensor` | Nincs csőport | — | — |
 | `air-velocity-sensor` | Nincs csőport | — | — |
 | `gas-meter` | Látható csonk / nyílás | 40,13; 120,13 | igen |
-| `configurable-manifold` | Számított osztó | 6.4,48; 6.4,115.2; 29.5,73.6; 29.5,152; 37.3,73.6; 37.3,152; 45.1,73.6; 45.1,152; 52.9,73.6; 52.9,152; 60.7,73.6; 60.7,152; 68.5,73.6; 68.5,152; 76.3,73.6; 76.3,152; 84.1,73.6; 84.1,152; 91.9,73.6; 91.9,152; 99.7,73.6; 99.7,152; 107.5,73.6; 107.5,152; 115.3,73.6; 115.3,152; 123.1,73.6; 123.1,152; 130.9,73.6; 130.9,152; 138.7,73.6; 138.7,152; 146.5,73.6; 146.5,152 | — |
+| `configurable-manifold` | Fotómodulok · 992×224 | 0,99; 0,191; 84,129; 84,222; 140,129; 140,222; 196,129; 196,222; 252,129; 252,222; 308,129; 308,222; 364,129; 364,222; 420,129; 420,222; 476,129; 476,222; 532,129; 532,222; 588,129; 588,222; 644,129; 644,222; 700,129; 700,222; 756,129; 756,222; 812,129; 812,222; 868,129; 868,222; 924,129; 924,222 | igen |

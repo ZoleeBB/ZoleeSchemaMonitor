@@ -5,6 +5,7 @@
 Python 3.12 és Node.js 22 vagy újabb szükséges. A szerkesztőnek nincs npm futásidejű függősége.
 
 ```sh
+python3 -m pip install -r tools/requirements-assets.txt
 python3 tools/build_assets.py
 python3 tools/dev_server.py --demo
 ```

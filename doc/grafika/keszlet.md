@@ -1,10 +1,10 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 322 típushoz bekötött egyedi kép, 319 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**333 katalógustípus; 322 típushoz bekötött egyedi kép, 319 külön PNG-forrásból; 11 fotómodulokból összeállított grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
-Minden katalógustípus képpel vagy pontos darabszámú számított grafikával megjeleníthető. A grafikai bekötés nem helyettesíti a fizikai P4-/Miniserver-próbát; az MS1 még nyitott.
+Minden katalógustípus képpel vagy körszám szerint összeállított fotóval megjeleníthető. A grafikai bekötés nem helyettesíti a fizikai P4-/Miniserver-próbát; az MS1 még nyitott.
 
-| Csoport | Típus | Egyedi képpel | Számított | Még helyőrző |
+| Csoport | Típus | Egyedi képpel | Fotómodulokból | Még helyőrző |
 | --- | ---: | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 48 | 0 | 0 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
@@ -117,12 +117,12 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `tubular-exchanger` | Csöves hőcserélő | Tubular heat exchanger | [Egyedi kép](../../assets/elements/universal/tubular-exchanger.png) |
 | `hydraulic-separator` | Hidraulikus váltó | Hydraulic separator | [Egyedi kép](../../assets/elements/universal/hydraulic-separator.png) |
 | `mixing-unit` | Keverőegység | Mixing unit | [Egyedi kép](../../assets/elements/universal/mixing-unit.png) |
-| `manifold-2` | Osztó-gyűjtő 2 kör | 2 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-4` | Osztó-gyűjtő 4 kör | 4 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-6` | Osztó-gyűjtő 6 kör | 6 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-8` | Osztó-gyűjtő 8 kör | 8 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-10` | Osztó-gyűjtő 10 kör | 10 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-12` | Osztó-gyűjtő 12 kör | 12 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
+| `manifold-2` | Osztó-gyűjtő 2 kör | 2 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-4` | Osztó-gyűjtő 4 kör | 4 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-6` | Osztó-gyűjtő 6 kör | 6 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-8` | Osztó-gyűjtő 8 kör | 8 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-10` | Osztó-gyűjtő 10 kör | 10 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-12` | Osztó-gyűjtő 12 kör | 12 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
 | `electrothermal-manifold-4` | Osztó-gyűjtő 4 kör – termoelektromos fejekkel | 4 circuit manifold with electrothermal heads | [Egyedi kép](../../assets/elements/universal/electrothermal-manifold-4.png) |
 | `strainer` | Y-szűrő | Y strainer | [Egyedi kép](../../assets/elements/universal/strainer.png) |
 | `dirt-separator` | Iszapleválasztó | Dirt separator | [Egyedi kép](../../assets/elements/universal/dirt-separator.png) |
@@ -154,10 +154,10 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `coil-exchanger` | Csőkígyós hőcserélő | Coil heat exchanger | [Egyedi kép](../../assets/elements/universal/coil-exchanger.png) |
 | `tube-in-tube-exchanger` | Cső a csőben hőcserélő | Tube in tube exchanger | [Egyedi kép](../../assets/elements/universal/tube-in-tube-exchanger.png) |
 | `freshwater-station` | Frissvízmodul | Fresh water station | [Egyedi kép](../../assets/elements/universal/freshwater-station.png) |
-| `manifold-3` | Osztó-gyűjtő 3 kör | 3 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-5` | Osztó-gyűjtő 5 kör | 5 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-7` | Osztó-gyűjtő 7 kör | 7 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
-| `manifold-9` | Osztó-gyűjtő 9 kör | 9 circuit manifold | [Számított osztógrafika](../osztogyujtok.md) |
+| `manifold-3` | Osztó-gyűjtő 3 kör | 3 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-5` | Osztó-gyűjtő 5 kör | 5 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-7` | Osztó-gyűjtő 7 kör | 7 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
+| `manifold-9` | Osztó-gyűjtő 9 kör | 9 circuit manifold | [Moduláris osztókép](../osztogyujtok.md) |
 | `duplex-strainer` | Iker kosaras szűrő | Duplex strainer | [Egyedi kép](../../assets/elements/universal/duplex-strainer.png) |
 | `basket-strainer` | Kosaras szűrő | Basket strainer | [Egyedi kép](../../assets/elements/universal/basket-strainer.png) |
 | `prefilter` | Előszűrő | Prefilter | [Egyedi kép](../../assets/elements/universal/prefilter.png) |
@@ -226,7 +226,7 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `reduced-pressure-backflow` | Csökkentett nyomású visszafolyásgátló | Reduced pressure backflow preventer | [Egyedi kép](../../assets/elements/universal/reduced-pressure-backflow.png) |
 | `sewage-backwater-valve` | Szennyvíz visszatorlódás-gátló | Sewage backwater valve | [Egyedi kép](../../assets/elements/universal/sewage-backwater-valve.png) |
 | `automatic-bypass-valve` | Automatikus bypass szelep | Automatic bypass valve | [Egyedi kép](../../assets/elements/universal/automatic-bypass-valve.png) |
-| `configurable-manifold` | Termofejes osztó-gyűjtő (2–16 kör) | Actuated manifold (2–16 circuits) | [Számított osztógrafika](../osztogyujtok.md) |
+| `configurable-manifold` | Termofejes osztó-gyűjtő (2–16 kör) | Actuated manifold (2–16 circuits) | [Moduláris osztókép](../osztogyujtok.md) |
 
 ## Szellőzés / légtechnika
 
