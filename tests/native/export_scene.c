@@ -101,10 +101,10 @@ uint32_t app_store_revision(void)
 {
     return revision;
 }
-cJSON *app_store_project(uint32_t *value)
+cJSON *app_store_page(int index, int *count, uint32_t *value)
 {
     *value = revision;
-    return cJSON_Duplicate(project, true);
+    return sm_project_page_copy(project, index, count);
 }
 uint32_t app_assets_revision(void)
 {
@@ -203,7 +203,6 @@ int main(int argc, char **argv)
     lv_display_set_buffers(display, draw, NULL, partial, LV_DISPLAY_RENDER_MODE_PARTIAL);
     lv_display_set_flush_cb(display, flush);
     app_scene_set_reader(demo_read, NULL);
-    puts("project,page,elements,width,p95_ms,main_stack_B,lvgl_stack_B,peak_heap_B");
     for (int arg = 3; arg < argc; arg++)
     {
         project = read_json(argv[arg]);

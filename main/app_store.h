@@ -8,6 +8,7 @@ bool app_store_ready(void);
 bool app_store_recovered(void);
 uint32_t app_store_revision(void);
 cJSON *app_store_project(uint32_t *revision);
+cJSON *app_store_page(int index, int *count, uint32_t *revision);
 cJSON *app_store_settings(bool public_view);
 esp_err_t app_store_save_project(const cJSON *project,
                                  uint32_t expected,

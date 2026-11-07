@@ -18,6 +18,14 @@ int main(int argc, char **argv)
         cJSON_AddBoolToObject(result, "recovered", app_store_recovered());
         cJSON_AddItemToObject(result, "settings", app_store_settings(true));
     }
+    else if (!strcmp(argv[1], "page"))
+    {
+        uint32_t revision;
+        int count;
+        cJSON_AddItemToObject(result, "page", app_store_page(atoi(argv[2]), &count, &revision));
+        cJSON_AddNumberToObject(result, "count", count);
+        cJSON_AddNumberToObject(result, "revision", revision);
+    }
     else if (!strcmp(argv[1], "snapshot"))
         cJSON_AddItemToObject(result, "state", app_store_snapshot());
     else

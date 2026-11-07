@@ -81,4 +81,9 @@ with tempfile.TemporaryDirectory(prefix="schema-store-") as directory:
                         assert math.isclose(point[key], original[key], rel_tol=0, abs_tol=1e-15), fixture
                         point[key] = original[key]
         assert loaded["project"] == exported, fixture
+        count = len(exported["pages"])
+        for index in (count - 1, count):
+            snapshot = call("page", revision=index)
+            assert snapshot["count"] == count and snapshot["revision"] == revision + 1
+            assert snapshot["page"]["id"] == exported["pages"][index % count]["id"]
 print("Native store: persistence, conflict, encryption, rollback, SD failure OK")

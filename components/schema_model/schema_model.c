@@ -418,6 +418,16 @@ cJSON *sm_settings_defaults(void)
         "false,\"ca_pem\":\"\",\"username\":\"\",\"password\":\"\"}}");
 }
 
+/* Érvénytelen lapindexnél az első lapra áll vissza a megjelenítő. */
+cJSON *sm_project_page_copy(const cJSON *project, int index, int *count)
+{
+    const cJSON *pages = cJSON_GetObjectItemCaseSensitive(project, "pages");
+    *count = cJSON_GetArraySize(pages);
+    if (index < 0 || index >= *count)
+        index = 0;
+    return cJSON_Duplicate(cJSON_GetArrayItem(pages, index), true);
+}
+
 cJSON *sm_project_defaults(void)
 {
     return cJSON_Parse(

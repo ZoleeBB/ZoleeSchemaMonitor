@@ -281,6 +281,15 @@ cJSON *app_store_project(uint32_t *revision)
     return copy;
 }
 
+cJSON *app_store_page(int index, int *count, uint32_t *revision)
+{
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    cJSON *copy = sm_project_page_copy(s_project, index, count);
+    *revision = s_revision;
+    xSemaphoreGive(s_lock);
+    return copy;
+}
+
 uint32_t app_store_revision(void)
 {
     xSemaphoreTake(s_lock, portMAX_DELAY);

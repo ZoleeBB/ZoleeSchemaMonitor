@@ -23,10 +23,10 @@ uint32_t app_store_revision(void)
 {
     return s_test_revision;
 }
-cJSON *app_store_project(uint32_t *revision)
+cJSON *app_store_page(int index, int *count, uint32_t *revision)
 {
     *revision = s_test_revision;
-    return cJSON_Duplicate(s_test_project, true);
+    return sm_project_page_copy(s_test_project, index, count);
 }
 
 static double s_test_activity, s_test_power;

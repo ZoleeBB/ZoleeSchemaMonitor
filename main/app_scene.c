@@ -655,28 +655,27 @@ void app_scene_poll(void)
         atomic_load(&s_page) == s_drawn_page)
         return;
     uint32_t revision;
-    cJSON *project = app_store_project(&revision);
-    if (!project)
+    int page = atomic_load(&s_page), count;
+    cJSON *selected = app_store_page(page, &count, &revision);
+    if (!selected)
         return;
-    const cJSON *pages = cJSON_GetObjectItemCaseSensitive(project, "pages");
-    int count = cJSON_GetArraySize(pages), page = atomic_load(&s_page);
     atomic_store(&s_count, count);
     if (page >= count)
     {
+        int requested = page;
+        atomic_compare_exchange_strong(&s_page, &requested, 0);
         page = 0;
-        atomic_store(&s_page, 0);
     }
     if (!appearance_changed && revision == s_revision && page == s_drawn_page)
     {
-        cJSON_Delete(project);
+        cJSON_Delete(selected);
         return;
     }
-    const cJSON *selected = cJSON_GetArrayItem(pages, page);
     const cJSON *elements = cJSON_GetObjectItemCaseSensitive(selected, "elements");
     picture_t *pictures = calloc(SM_MAX_ELEMENTS, sizeof(*pictures));
     if (!pictures)
     {
-        cJSON_Delete(project);
+        cJSON_Delete(selected);
         return;
     }
     cJSON *manifest = app_assets_manifest();
@@ -697,7 +696,7 @@ void app_scene_poll(void)
             if (pictures[i].owner == i)
                 free(pictures[i].bytes);
         free(pictures);
-        cJSON_Delete(project);
+        cJSON_Delete(selected);
         return;
     }
     if (s_root)
@@ -1012,7 +1011,7 @@ void app_scene_poll(void)
     s_revision = revision;
     s_drawn_page = page;
     bsp_display_unlock();
-    cJSON_Delete(project);
+    cJSON_Delete(selected);
 }
 
 bool app_scene_diagnostics_visible(void)
