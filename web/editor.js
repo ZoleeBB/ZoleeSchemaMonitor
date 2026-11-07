@@ -741,7 +741,7 @@ export class Editor {
     download(project, name) {
         try {
             const checked = validateProject(project, this.state.catalog);
-            const url = URL.createObjectURL(new Blob([JSON.stringify(checked, null, 2)], {type: 'application/json'}));
+            const url = URL.createObjectURL(new Blob([JSON.stringify(checked)], {type: 'application/json'}));
             const link = document.createElement('a');
             link.href = url; link.download = name; link.click();
             setTimeout(() => URL.revokeObjectURL(url), 1000);
