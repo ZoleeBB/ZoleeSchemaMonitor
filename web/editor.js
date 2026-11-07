@@ -1,6 +1,7 @@
 import {labelLines} from './text-layout.js';
 import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, manifoldCenter, manifoldWidth, equipmentImageSize, manifoldImage, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
 
+const searchText = value => value.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -35,6 +36,8 @@ export class Editor {
         this.dirty = !!state.editorDirty;
         this.dark = false;
         this.preview = false;
+        this.librarySearch = '';
+        this.libraryCategory = '';
         this.pipePoints = null;
         this.phase = 0;
         this.motion = new Map();
@@ -83,9 +86,9 @@ export class Editor {
             <div class="toolbar project-toolbar"><div class="tool-group" role="group" aria-label="${t('pages')}">${this.button('add-page', 'addPage')}${this.button('copy-page', 'copyPage')}${this.button('delete-page', 'deletePage')}</div>
             <div class="tool-group" role="group" aria-label="${t('projectFiles')}">${this.button('save-project', 'save')}${this.button('export-page', 'exportPage')}${this.button('export-project', 'exportProject')}${this.button('import-project', 'import')}</div>
             <input id="import-file" type="file" accept="application/json,.json" hidden></div>
-            <div class="editor-layout"><section class="library-panel" aria-labelledby="library-title"><h2 id="library-title">${t('available')}</h2><label>${t('search')}<input id="asset-search" type="search" placeholder="${t('search')}"></label>
-            <label>${t('category')}<select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select></label>
-            <div class="toolbar" role="group" aria-label="${t('addElement')}">${this.button('add-text', 'text')}${this.button('add-value', 'value')}${this.button('draw-pipe', 'pipe')}</div><div class="library" id="library"></div></section>
+            <div class="editor-layout"><section class="library-panel" aria-labelledby="library-title"><h2 id="library-title">${t('equipmentLibrary')}</h2><label>${t('search')}<input id="asset-search" type="search" placeholder="${t('search')}"></label>
+            <label>${t('declareCategory')}<select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select></label>
+            <div class="toolbar" role="group" aria-label="${t('addElement')}">${this.button('add-text', 'text')}${this.button('add-value', 'value')}${this.button('draw-pipe', 'pipe')}</div><p id="library-count" class="hint" role="status"></p><div class="library" id="library"></div></section>
             <div class="editor-stage"><div class="toolbar canvas-toolbar"><div class="tool-group" role="group" aria-label="${t('editTools')}">${this.button('undo', 'undo')}${this.button('redo', 'redo')}${this.button('duplicate', 'copy')}${this.button('delete', 'delete')}</div>
             <div class="tool-group" role="group" aria-label="${t('preview')}">${this.button('preview', this.preview ? 'edit' : 'preview')}${this.button('night', 'night')}</div></div>
             <div class="workspace ${this.preview ? 'preview-mode' : ''}" id="workspace"><svg id="canvas" xmlns="${NS}" viewBox="0 0 ${this.size.width} ${this.size.height}" class="${this.size.width < this.size.height ? 'portrait' : ''}" role="img" aria-label="${t('schemaCanvas')}"></svg></div>
@@ -128,8 +131,11 @@ export class Editor {
         on('duplicate', () => this.duplicate());
         on('preview', () => { this.preview = !this.preview; this.pipePoints = null; this.render(); });
         on('night', () => { this.dark = !this.dark; this.draw(); this.renderLibrary(); });
-        this.root.querySelector('#asset-search').oninput = () => this.renderLibrary();
-        this.root.querySelector('#asset-category').onchange = () => this.renderLibrary();
+        const search = this.root.querySelector('#asset-search'), category = this.root.querySelector('#asset-category');
+        search.value = this.librarySearch;
+        category.value = this.libraryCategory;
+        search.oninput = () => { this.librarySearch = search.value; this.renderLibrary(); };
+        category.onchange = () => { this.libraryCategory = category.value; this.renderLibrary(); };
         this.root.querySelector('#page-name').onchange = event => {
             this.remember(); this.page.name = event.target.value; this.render();
         };
@@ -155,42 +161,51 @@ export class Editor {
         if (this.dirty) this.root.querySelector('#save-project').classList.add('dirty');
     }
 
+    assetPicture(asset, manifold) {
+        const image = new Image();
+        image.src = manifold ? manifoldImage(manifold) : `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`;
+        image.alt = '';
+        const picture = document.createElement('span');
+        picture.className = 'library-picture';
+        picture.append(image);
+        if (asset.animation?.kind === 'rotor') {
+            // A választóban is az összeszerelt kép látszik, nyugalmi rotorral.
+            const overlay = svgNode('svg', {viewBox: '0 0 160 160', 'aria-hidden': 'true'});
+            for (const marker of asset.animation.rotors || [asset.animation]) {
+                const cx = marker.x*160, cy = marker.y*160, radius = marker.radius*160;
+                const rotor = svgNode('g', {transform: `translate(${cx},${cy}) scale(${asset.animation.scaleX || 1},${asset.animation.scaleY || 1})`});
+                for (let i=0; i<3; i++) rotor.append(svgNode('path', {
+                    d: `M0 0q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,
+                    fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${i*120})`}));
+                overlay.append(rotor);
+            }
+            picture.append(overlay);
+        }
+        return picture;
+    }
+
     renderLibrary() {
-        const search = this.root.querySelector('#asset-search').value.toLocaleLowerCase();
+        const terms = searchText(this.librarySearch).trim().split(/\s+/);
         const category = this.root.querySelector('#asset-category').value;
         const library = this.root.querySelector('#library');
         library.replaceChildren();
         for (const asset of this.state.catalog.elements) {
             if (category && asset.category !== category) continue;
-            if (!asset.name[this.language].toLocaleLowerCase().includes(search)) continue;
+            const keywords = searchText([asset.name.hu, asset.name.en, asset.id].join(' '));
+            if (!terms.every(term => keywords.includes(term))) continue;
             const button = document.createElement('button');
             button.type = 'button';
             button.draggable = true;
             button.dataset.asset = asset.id;
-            const image = new Image();
-            image.src = `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`;
-            image.alt = '';
-            const picture = document.createElement('span');
-            picture.className = 'library-picture';
-            picture.append(image);
-            if (asset.animation?.kind === 'rotor') {
-                // A választóban is az összeszerelt kép látszik, nyugalmi rotorral.
-                const overlay = svgNode('svg', {viewBox: '0 0 160 160', 'aria-hidden': 'true'});
-                for (const marker of asset.animation.rotors || [asset.animation]) {
-                    const cx = marker.x*160, cy = marker.y*160, radius = marker.radius*160;
-                    const rotor = svgNode('g', {transform: `translate(${cx},${cy}) scale(${asset.animation.scaleX || 1},${asset.animation.scaleY || 1})`});
-                    for (let i=0; i<3; i++) rotor.append(svgNode('path', {
-                        d: `M0 0q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,
-                        fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${i*120})`}));
-                    overlay.append(rotor);
-                }
-                picture.append(overlay);
-            }
+            const picture = this.assetPicture(asset);
             button.append(picture, document.createTextNode(asset.name[this.language]));
             button.onclick = () => this.add('equipment', asset.id);
             button.ondragstart = event => event.dataTransfer.setData('text/schema-asset', asset.id);
+            if (asset.id === this.element?.asset) button.classList.add('chosen-asset');
             library.append(button);
         }
+        this.root.querySelector('#library-count').textContent = library.childElementCount
+            ? `${library.childElementCount} ${this.tr('assetCount')}` : this.tr('noAssets');
     }
 
     add(type, asset = '', point = {x: 0.15, y: 0.15}) {
@@ -459,7 +474,6 @@ export class Editor {
         this.selected = group?.dataset.element || null;
         this.inspect();
         if (!this.element) { this.draw(); return; }
-        this.remember();
         this.drag = {start: this.point(event), original: clone(this.element), vertex: event.target.dataset.vertex,
             resize: !!event.target.dataset.resize};
         this.canvas.setPointerCapture(event.pointerId);
@@ -470,6 +484,11 @@ export class Editor {
         if (!this.drag || !this.element) return;
         const point = this.point(event), original = this.drag.original;
         const dx = point.x - this.drag.start.x, dy = point.y - this.drag.start.y;
+        if (!this.drag.moved) {
+            if (Math.hypot(dx*this.size.width, dy*this.size.height) < 2) return;
+            this.remember();
+            this.drag.moved = true;
+        }
         if (this.element.type === 'pipe') {
             if (this.drag.vertex !== undefined) {
                 const vertex = Number(this.drag.vertex);
@@ -504,6 +523,8 @@ export class Editor {
     inspect() {
         const panel = this.root.querySelector('#inspector');
         const e = this.element, t = this.tr;
+        this.root.querySelector('#library .chosen-asset')?.classList.remove('chosen-asset');
+        if (e?.asset) this.root.querySelector(`#library [data-asset="${CSS.escape(e.asset)}"]`)?.classList.add('chosen-asset');
         if (!e) { panel.textContent = t('select'); return; }
         const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
         const asset = this.state.catalog.elements.find(item => item.id === e.asset);
@@ -518,6 +539,7 @@ export class Editor {
             <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(e.power?.source.uuid || t('none'))}</button></label>
             ${e.power ? `<div class="small-grid"><label>${t('minimum')}<input id="power-min" type="number" step="any" value="${e.power.minimum}"></label><label>${t('maximum')}<input id="power-max" type="number" step="any" value="${e.power.maximum}"></label></div>
                 <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p></fieldset>` : ''}`;
+        if (asset) panel.querySelector('.element-caption').prepend(this.assetPicture(asset, e.manifold));
         panel.querySelector('#element-rotation').onchange = event => {
             const before = clone(this.state.project);
             this.remember();

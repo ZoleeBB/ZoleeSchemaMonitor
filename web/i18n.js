@@ -1,6 +1,7 @@
 /* A közös feliratok azonos kulcsokkal szerepelnek mindkét nyelven. */
 export const messages = {
     hu: {
+        equipmentLibrary: 'Eszköztár', assetCount: 'eszköz', noAssets: 'Nincs találat. Módosítsd a keresést vagy a kategóriát.', declareCategory: 'Kategória',
         alignment: 'Szövegigazítás', left: 'Balra', center: 'Középre', right: 'Jobbra',
         appearance: 'Megjelenés és méret', signals: 'Loxone-adatok', valvePosition: 'Szelepállás',
         projectFiles: 'Projekt és fájlok', editTools: 'Elem szerkesztése', addElement: 'Új elem',
@@ -41,6 +42,7 @@ export const messages = {
         catalogInfo: 'Az elemfajtákat a firmware határozza meg. A fájlok SHA-256 szerint frissülnek; a változatlanokat nem töltjük le újra.',
     },
     en: {
+        equipmentLibrary: 'Equipment library', assetCount: 'devices', noAssets: 'No matches. Change the search or category.', declareCategory: 'Category',
         alignment: 'Text alignment', left: 'Left', center: 'Center', right: 'Right',
         appearance: 'Appearance and size', signals: 'Loxone data', valvePosition: 'Valve position',
         projectFiles: 'Project and files', editTools: 'Edit element', addElement: 'Add element',
