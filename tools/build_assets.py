@@ -34,9 +34,9 @@ def illustration(element, dark):
         count = element.get("proceduralManifold", 4)
         for x in [25 + 120 * (i + .5) / count for i in range(count)]:
             parts += [f'<path d="M{x} 55V74M{x} 123V151" stroke="#c9a455" stroke-width="7"/>',
-                      f'<rect x="{x-7}" y="23" width="14" height="20" rx="3" fill="#b9d9e5"/>',
+                      f'<rect x="{x-min(7,35/count)}" y="23" width="{min(14,70/count)}" height="20" rx="3" fill="#b9d9e5"/>',
                       f'<rect x="{x-min(10,45/count)}" y="80" width="{min(20,90/count)}" height="27" rx="5" fill="url(#metal)"/>',
-                      f'<rect x="{x-4}" y="88" width="8" height="5" fill="#26333d"/>']
+                      f'<rect x="{x-min(4,20/count)}" y="88" width="{min(8,40/count)}" height="5" fill="#26333d"/>']
     elif family == "pump":
         parts += ['<path d="M8 72H152V104H8Z" fill="url(#red)"/><rect x="8" y="63" width="10" height="50" rx="3" fill="url(#metal)"/>',
                   '<rect x="142" y="63" width="10" height="50" rx="3" fill="url(#metal)"/><rect x="52" y="16" width="56" height="34" rx="5" fill="#303b45"/>',

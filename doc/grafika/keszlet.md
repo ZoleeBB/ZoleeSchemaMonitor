@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 132 típushoz bekötött egyedi kép, 129 külön PNG-forrásból; 1 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**333 katalógustípus; 172 típushoz bekötött egyedi kép, 169 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -8,8 +8,8 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | --- | ---: | ---: | ---: | ---: |
 | Fűtés / hűtés | 48 | 48 | 0 | 0 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
-| Hidraulika / vízellátás | 64 | 34 | 0 | 30 |
-| Szelepek | 55 | 22 | 1 | 32 |
+| Hidraulika / vízellátás | 64 | 54 | 10 | 0 |
+| Szelepek | 55 | 42 | 1 | 12 |
 | Szellőzés / légtechnika | 51 | 0 | 0 | 51 |
 | Medencetechnika | 33 | 4 | 0 | 29 |
 | Öntözés | 23 | 0 | 0 | 23 |
@@ -116,21 +116,21 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `plate-exchanger` | Lemezes hőcserélő | Plate heat exchanger | [Egyedi kép](../../assets/elements/universal/plate-exchanger.png) |
 | `tubular-exchanger` | Csöves hőcserélő | Tubular heat exchanger | [Egyedi kép](../../assets/elements/universal/tubular-exchanger.png) |
 | `hydraulic-separator` | Hidraulikus váltó | Hydraulic separator | [Egyedi kép](../../assets/elements/universal/hydraulic-separator.png) |
-| `mixing-unit` | Keverőegység | Mixing unit | Műszaki helyőrző |
-| `manifold-2` | Osztó-gyűjtő 2 kör | 2 circuit manifold | Műszaki helyőrző |
-| `manifold-4` | Osztó-gyűjtő 4 kör | 4 circuit manifold | Műszaki helyőrző |
-| `manifold-6` | Osztó-gyűjtő 6 kör | 6 circuit manifold | Műszaki helyőrző |
-| `manifold-8` | Osztó-gyűjtő 8 kör | 8 circuit manifold | Műszaki helyőrző |
-| `manifold-10` | Osztó-gyűjtő 10 kör | 10 circuit manifold | Műszaki helyőrző |
-| `manifold-12` | Osztó-gyűjtő 12 kör | 12 circuit manifold | Műszaki helyőrző |
+| `mixing-unit` | Keverőegység | Mixing unit | [Egyedi kép](../../assets/elements/universal/mixing-unit.png) |
+| `manifold-2` | Osztó-gyűjtő 2 kör | 2 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-4` | Osztó-gyűjtő 4 kör | 4 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-6` | Osztó-gyűjtő 6 kör | 6 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-8` | Osztó-gyűjtő 8 kör | 8 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-10` | Osztó-gyűjtő 10 kör | 10 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-12` | Osztó-gyűjtő 12 kör | 12 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
 | `electrothermal-manifold-4` | Osztó-gyűjtő 4 kör – termoelektromos fejekkel | 4 circuit manifold with electrothermal heads | [Egyedi kép](../../assets/elements/universal/electrothermal-manifold-4.png) |
-| `strainer` | Y-szűrő | Y strainer | Műszaki helyőrző |
-| `dirt-separator` | Iszapleválasztó | Dirt separator | Műszaki helyőrző |
-| `magnetic-filter` | Mágneses szűrő | Magnetic filter | Műszaki helyőrző |
-| `air-separator` | Légleválasztó | Air separator | Műszaki helyőrző |
-| `automatic-air-vent` | Automata légtelenítő | Automatic air vent | Műszaki helyőrző |
-| `water-filter` | Vízszűrő | Water filter | Műszaki helyőrző |
-| `water-softener` | Vízlágyító | Water softener | Műszaki helyőrző |
+| `strainer` | Y-szűrő | Y strainer | [Egyedi kép](../../assets/elements/universal/strainer.png) |
+| `dirt-separator` | Iszapleválasztó | Dirt separator | [Egyedi kép](../../assets/elements/universal/dirt-separator.png) |
+| `magnetic-filter` | Mágneses szűrő | Magnetic filter | [Egyedi kép](../../assets/elements/universal/magnetic-filter.png) |
+| `air-separator` | Légleválasztó | Air separator | [Egyedi kép](../../assets/elements/universal/air-separator.png) |
+| `automatic-air-vent` | Automata légtelenítő | Automatic air vent | [Egyedi kép](../../assets/elements/universal/automatic-air-vent.png) |
+| `water-filter` | Vízszűrő | Water filter | [Egyedi kép](../../assets/elements/universal/water-filter.png) |
+| `water-softener` | Vízlágyító | Water softener | [Egyedi kép](../../assets/elements/universal/water-softener.png) |
 | `end-suction-pump` | Végszívású centrifugálszivattyú | End suction centrifugal pump | [Egyedi kép](../../assets/elements/universal/end-suction-pump.png) |
 | `long-coupled-pump` | Hosszú tengelykapcsolós szivattyú | Long coupled pump | [Egyedi kép](../../assets/elements/universal/long-coupled-pump.png) |
 | `vertical-multistage-pump` | Függőleges többfokozatú szivattyú | Vertical multistage pump | [Egyedi kép](../../assets/elements/universal/vertical-multistage-pump.png) |
@@ -150,23 +150,23 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `vortex-pump` | Örvénykerekes szivattyú | Vortex pump | [Egyedi kép](../../assets/elements/universal/vortex-pump.png) |
 | `brazed-plate-exchanger` | Forrasztott lemezes hőcserélő | Brazed plate exchanger | [Egyedi kép](../../assets/elements/universal/brazed-plate-exchanger.png) |
 | `gasketed-plate-exchanger` | Tömítéses lemezes hőcserélő | Gasketed plate exchanger | [Egyedi kép](../../assets/elements/universal/gasketed-plate-exchanger.png) |
-| `shell-and-tube-exchanger` | Csőköteges hőcserélő | Shell and tube exchanger | Műszaki helyőrző |
-| `coil-exchanger` | Csőkígyós hőcserélő | Coil heat exchanger | Műszaki helyőrző |
+| `shell-and-tube-exchanger` | Csőköteges hőcserélő | Shell and tube exchanger | [Egyedi kép](../../assets/elements/universal/shell-and-tube-exchanger.png) |
+| `coil-exchanger` | Csőkígyós hőcserélő | Coil heat exchanger | [Egyedi kép](../../assets/elements/universal/coil-exchanger.png) |
 | `tube-in-tube-exchanger` | Cső a csőben hőcserélő | Tube in tube exchanger | [Egyedi kép](../../assets/elements/universal/tube-in-tube-exchanger.png) |
-| `freshwater-station` | Frissvízmodul | Fresh water station | Műszaki helyőrző |
-| `manifold-3` | Osztó-gyűjtő 3 kör | 3 circuit manifold | Műszaki helyőrző |
-| `manifold-5` | Osztó-gyűjtő 5 kör | 5 circuit manifold | Műszaki helyőrző |
-| `manifold-7` | Osztó-gyűjtő 7 kör | 7 circuit manifold | Műszaki helyőrző |
-| `manifold-9` | Osztó-gyűjtő 9 kör | 9 circuit manifold | Műszaki helyőrző |
-| `duplex-strainer` | Iker kosaras szűrő | Duplex strainer | Műszaki helyőrző |
-| `basket-strainer` | Kosaras szűrő | Basket strainer | Műszaki helyőrző |
-| `prefilter` | Előszűrő | Prefilter | Műszaki helyőrző |
-| `backwash-filter` | Visszamosható vízszűrő | Backwashing water filter | Műszaki helyőrző |
-| `activated-carbon-filter` | Aktívszén-szűrő | Activated carbon filter | Műszaki helyőrző |
-| `iron-removal-filter` | Vastalanító szűrő | Iron removal filter | Műszaki helyőrző |
-| `reverse-osmosis` | Fordított ozmózisos egység | Reverse osmosis unit | Műszaki helyőrző |
-| `hydrocyclone` | Hidrociklon | Hydrocyclone | Műszaki helyőrző |
-| `combined-air-dirt-separator` | Kombinált lég- és iszapleválasztó | Combined air and dirt separator | Műszaki helyőrző |
+| `freshwater-station` | Frissvízmodul | Fresh water station | [Egyedi kép](../../assets/elements/universal/freshwater-station.png) |
+| `manifold-3` | Osztó-gyűjtő 3 kör | 3 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-5` | Osztó-gyűjtő 5 kör | 5 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-7` | Osztó-gyűjtő 7 kör | 7 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `manifold-9` | Osztó-gyűjtő 9 kör | 9 circuit manifold | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
+| `duplex-strainer` | Iker kosaras szűrő | Duplex strainer | [Egyedi kép](../../assets/elements/universal/duplex-strainer.png) |
+| `basket-strainer` | Kosaras szűrő | Basket strainer | [Egyedi kép](../../assets/elements/universal/basket-strainer.png) |
+| `prefilter` | Előszűrő | Prefilter | [Egyedi kép](../../assets/elements/universal/prefilter.png) |
+| `backwash-filter` | Visszamosható vízszűrő | Backwashing water filter | [Egyedi kép](../../assets/elements/universal/backwash-filter.png) |
+| `activated-carbon-filter` | Aktívszén-szűrő | Activated carbon filter | [Egyedi kép](../../assets/elements/universal/activated-carbon-filter.png) |
+| `iron-removal-filter` | Vastalanító szűrő | Iron removal filter | [Egyedi kép](../../assets/elements/universal/iron-removal-filter.png) |
+| `reverse-osmosis` | Fordított ozmózisos egység | Reverse osmosis unit | [Egyedi kép](../../assets/elements/universal/reverse-osmosis.png) |
+| `hydrocyclone` | Hidrociklon | Hydrocyclone | [Egyedi kép](../../assets/elements/universal/hydrocyclone.png) |
+| `combined-air-dirt-separator` | Kombinált lég- és iszapleválasztó | Combined air and dirt separator | [Egyedi kép](../../assets/elements/universal/combined-air-dirt-separator.png) |
 
 ## Szelepek
 
@@ -190,30 +190,30 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `compact-linear-control-valve-2` | Kompakt lineáris hajtású szabályozószelep | Compact linear-actuated control valve | [Egyedi kép](../../assets/elements/universal/compact-linear-control-valve-2.png) |
 | `radiator-thermostatic-valve-straight` | Termosztatikus radiátorszelep – egyenes | Straight thermostatic radiator valve | [Egyedi kép](../../assets/elements/universal/radiator-thermostatic-valve-straight.png) |
 | `radiator-thermostatic-valve-angle` | Termosztatikus radiátorszelep – sarok | Angle thermostatic radiator valve | [Egyedi kép](../../assets/elements/universal/radiator-thermostatic-valve-angle.png) |
-| `mixing-valve` | Keverőszelep | Mixing valve | Műszaki helyőrző |
+| `mixing-valve` | Keverőszelep | Mixing valve | [Egyedi kép](../../assets/elements/universal/mixing-valve.png) |
 | `diverting-valve` | Váltószelep | Diverting valve | [Egyedi kép](../../assets/elements/universal/diverting-valve.png) |
 | `thermostatic-valve` | Termosztatikus szelep | Thermostatic valve | [Egyedi kép](../../assets/elements/universal/thermostatic-valve.png) |
 | `balancing-valve` | Beszabályozó szelep | Balancing valve | [Egyedi kép](../../assets/elements/universal/balancing-valve.png) |
 | `pressure-reducer` | Nyomáscsökkentő | Pressure reducing valve | [Egyedi kép](../../assets/elements/universal/pressure-reducer.png) |
-| `safety-valve` | Biztonsági szelep | Safety valve | Műszaki helyőrző |
-| `drain-valve` | Ürítőcsap | Drain valve | Műszaki helyőrző |
-| `fill-valve` | Töltőszelep | Fill valve | Műszaki helyőrző |
-| `zone-valve` | Zónaszelep | Zone valve | Műszaki helyőrző |
-| `backflow-preventer` | Visszafolyásgátló | Backflow preventer | Műszaki helyőrző |
-| `automatic-drain` | Automata ürítőszelep | Automatic drain valve | Műszaki helyőrző |
-| `butterfly-valve` | Kézi pillangószelep | Manual butterfly valve | Műszaki helyőrző |
-| `motor-butterfly-valve` | Motoros pillangószelep | Motorized butterfly valve | Műszaki helyőrző |
-| `wafer-check-valve` | Ostya visszacsapó szelep | Wafer check valve | Műszaki helyőrző |
-| `swing-check-valve` | Lengő visszacsapó szelep | Swing check valve | Műszaki helyőrző |
-| `spring-check-valve` | Rugós visszacsapó szelep | Spring check valve | Műszaki helyőrző |
-| `double-check-valve` | Kettős visszacsapó szelep | Double check valve | Műszaki helyőrző |
-| `angle-shutoff-valve` | Sarokelzáró | Angle shut-off valve | Műszaki helyőrző |
-| `gate-valve` | Tolózár | Gate valve | Műszaki helyőrző |
-| `globe-control-valve` | Ülékes szabályozószelep | Globe control valve | Műszaki helyőrző |
-| `diaphragm-valve` | Membránszelep | Diaphragm valve | Műszaki helyőrző |
-| `needle-valve` | Tűszelep | Needle valve | Műszaki helyőrző |
-| `pinch-valve` | Tömlős elzárószelep | Pinch valve | Műszaki helyőrző |
-| `thermostatic-mixing-valve` | Termosztatikus keverőszelep | Thermostatic mixing valve | Műszaki helyőrző |
+| `safety-valve` | Biztonsági szelep | Safety valve | [Egyedi kép](../../assets/elements/universal/safety-valve.png) |
+| `drain-valve` | Ürítőcsap | Drain valve | [Egyedi kép](../../assets/elements/universal/drain-valve.png) |
+| `fill-valve` | Töltőszelep | Fill valve | [Egyedi kép](../../assets/elements/universal/fill-valve.png) |
+| `zone-valve` | Zónaszelep | Zone valve | [Egyedi kép](../../assets/elements/universal/zone-valve.png) |
+| `backflow-preventer` | Visszafolyásgátló | Backflow preventer | [Egyedi kép](../../assets/elements/universal/backflow-preventer.png) |
+| `automatic-drain` | Automata ürítőszelep | Automatic drain valve | [Egyedi kép](../../assets/elements/universal/automatic-drain.png) |
+| `butterfly-valve` | Kézi pillangószelep | Manual butterfly valve | [Egyedi kép](../../assets/elements/universal/butterfly-valve.png) |
+| `motor-butterfly-valve` | Motoros pillangószelep | Motorized butterfly valve | [Egyedi kép](../../assets/elements/universal/motor-butterfly-valve.png) |
+| `wafer-check-valve` | Ostya visszacsapó szelep | Wafer check valve | [Egyedi kép](../../assets/elements/universal/wafer-check-valve.png) |
+| `swing-check-valve` | Lengő visszacsapó szelep | Swing check valve | [Egyedi kép](../../assets/elements/universal/swing-check-valve.png) |
+| `spring-check-valve` | Rugós visszacsapó szelep | Spring check valve | [Egyedi kép](../../assets/elements/universal/spring-check-valve.png) |
+| `double-check-valve` | Kettős visszacsapó szelep | Double check valve | [Egyedi kép](../../assets/elements/universal/double-check-valve.png) |
+| `angle-shutoff-valve` | Sarokelzáró | Angle shut-off valve | [Egyedi kép](../../assets/elements/universal/angle-shutoff-valve.png) |
+| `gate-valve` | Tolózár | Gate valve | [Egyedi kép](../../assets/elements/universal/gate-valve.png) |
+| `globe-control-valve` | Ülékes szabályozószelep | Globe control valve | [Egyedi kép](../../assets/elements/universal/globe-control-valve.png) |
+| `diaphragm-valve` | Membránszelep | Diaphragm valve | [Egyedi kép](../../assets/elements/universal/diaphragm-valve.png) |
+| `needle-valve` | Tűszelep | Needle valve | [Egyedi kép](../../assets/elements/universal/needle-valve.png) |
+| `pinch-valve` | Tömlős elzárószelep | Pinch valve | [Egyedi kép](../../assets/elements/universal/pinch-valve.png) |
+| `thermostatic-mixing-valve` | Termosztatikus keverőszelep | Thermostatic mixing valve | [Egyedi kép](../../assets/elements/universal/thermostatic-mixing-valve.png) |
 | `thermostatic-diverting-valve` | Termosztatikus váltószelep | Thermostatic diverting valve | Műszaki helyőrző |
 | `mixing-valve-4` | Négyjáratú keverőszelep | Four-way mixing valve | Műszaki helyőrző |
 | `changeover-valve-6` | Hatjáratú átváltószelep | Six-way changeover valve | Műszaki helyőrző |

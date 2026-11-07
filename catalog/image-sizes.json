@@ -587,56 +587,6 @@
             "width": 160,
             "height": 160
         },
-        "assets/elements/universal/manifold-2.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-3.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-4.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-5.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-6.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-7.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-8.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-9.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-10.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
-        "assets/elements/universal/manifold-12.png": {
-            "role": "element",
-            "width": 160,
-            "height": 160
-        },
         "assets/elements/universal/strainer.png": {
             "role": "element",
             "width": 160,
@@ -1743,6 +1693,11 @@
             "height": 960
         },
         "doc/grafika/latvanytervek/13-bekotes-01.jpg": {
+            "role": "preview",
+            "width": 1280,
+            "height": 960
+        },
+        "doc/grafika/latvanytervek/13-bekotes-02.jpg": {
             "role": "preview",
             "width": 1280,
             "height": 960
