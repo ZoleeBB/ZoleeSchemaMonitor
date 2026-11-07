@@ -58,7 +58,7 @@ IDF_PATH=/az/esp-idf/helye LVGL_HOST_BUILD=/az/lvgl/host/build bash tools/test_s
 Ez az éles `app_scene.c` rajzolót futtatja valódi LVGL objektumokon, virtuális kijelzővel; SD-PNG dekódolást és fizikai panelt nem helyettesít.
 
 
-A gazdagépes LVGL build és a teszt **azonos** `-DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB` fordítási definíciókat használjon. A P4 konfigurációja szintén a C könyvtár memóriafoglalóját választja. Az alapértelmezett kis belső LVGL-heap a 150 elemes animációs próbához nem megfelelő, és nem tükrözi a firmware működését. A CI ezért ezt explicit rögzíti; korábbi buildkönyvtár helyett szükség esetén tiszta host build készüljön.
+A gazdagépes LVGL build és a teszt **azonos** `-DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB` fordítási definíciókat használjon. A PNG-képes CI-buildhez a CMake és a `tools/test_scene.sh` azonos `LVGL_HOST_CFLAGS` értéket kap. A `-DLV_USE_LODEPNG=1 -DLV_CACHE_DEF_SIZE=4194304` további definíciókkal a hat exportált projekt is lefut a csomagoláskor előállított grafikákkal. A futás 40 oldal- és felbontáskombinációjának eredménye a `schema-scene-metrics` CSV-artefaktumban található. A P4 konfigurációja szintén a C könyvtár memóriafoglalóját választja. Az alapértelmezett kis belső LVGL-heap a 150 elemes animációs próbához nem megfelelő, és nem tükrözi a firmware működését. A CI ezért ezt explicit rögzíti; korábbi buildkönyvtár helyett szükség esetén tiszta host build készüljön.
 
 ## P4-fordítás és frissítőcsomag
 

@@ -4,12 +4,12 @@ A mappákban a `projekt.json` a teljes projekt, a `lap-N.json` egyetlen önáll�
 
 | Projekt | Oldal × elem | Leglassabb oldal P95, fekvő | Leglassabb oldal P95, álló |
 | --- | ---: | ---: | ---: |
-| Kazánház | 1 × 20 | 7,19 ms | 4,42 ms |
-| Medence | 1 × 40 | 8,15 ms | 8,38 ms |
-| Öntözés | 2 × 60 | 12,47 ms | 8,93 ms |
-| Légtechnika | 2 × 60 | 10,84 ms | 11,12 ms |
-| Padlófűtési osztók | 4 × 80 | 36,58 ms | 36,76 ms |
-| Vegyes terhelés | 10 × 150 | 28,02 ms | 31,23 ms |
+| Kazánház | 1 × 20 | 12,29 ms | 3,57 ms |
+| Medence | 1 × 40 | 10,54 ms | 5,78 ms |
+| Öntözés | 2 × 60 | 11,02 ms | 7,42 ms |
+| Légtechnika | 2 × 60 | 24,89 ms | 7,35 ms |
+| Padlófűtési osztók | 4 × 80 | 32,34 ms | 27,39 ms |
+| Vegyes terhelés | 10 × 150 | 28,18 ms | 21,29 ms |
 
 ## Képernyőképek
 
@@ -40,9 +40,11 @@ A 2026. november 7-i próba az éles C-rajzolót futtatta 1280×800 és 800×128
 
 | Erőforrás | Megfigyelt maximum | Viszonyítási keret |
 | --- | ---: | ---: |
-| Főfeladat megjelenítési útjának vereme | 3368 B | 10 240 B |
+| Főfeladat megjelenítési útjának vereme | 3352 B | 10 240 B |
 | LVGL rajzolási verem | 6520 B | 32 768 B |
-| Linkelt rajzoló, modell és LVGL dinamikus foglalásai, pufferekkel | 17,35 MiB | 32 MiB |
+| Linkelt rajzoló, modell és LVGL dinamikus foglalásai, pufferekkel | 12,71 MiB | 32 MiB |
+
+A tízoldalas projekt betöltésekor a rajzoló csak az aktív oldalt másolja. Ugyanazon 40 mérésben ez 17,35 MiB-ról 12,71 MiB-ra csökkentette a követett foglalások maximumát.
 
 A veremadat a Linux x86-64 hívási lánc festett vermének mélypontja. A heap-számláló a követett glibc-blokkok tényleges foglalását méri. A statikus adatok, hálózati feladatok, ESP-IDF, DMA és a belső RAM/PSRAM szerinti eloszlás a fizikai próbához tartoznak. Az 50 ms-os cél teljesülését a P4-en külön kell igazolni.
 

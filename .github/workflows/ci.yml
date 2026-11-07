@@ -76,9 +76,10 @@ jobs:
           MBEDTLS_PATH: ${{ github.workspace }}/.native-deps/mbedtls
           LVGL_SOURCE: .native-deps/lvgl
           LVGL_HOST_BUILD: /tmp/schema-lvgl-host
+          LVGL_HOST_CFLAGS: -DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB -DLV_USE_LODEPNG=1 -DLV_CACHE_DEF_SIZE=4194304
         run: |
           printf '#define LV_CONF_H\n' > /tmp/schema-lv-conf.h
-          cmake -S "$LVGL_SOURCE" -B "$LVGL_HOST_BUILD" -DLV_BUILD_CONF_PATH=/tmp/schema-lv-conf.h -DCONFIG_LV_BUILD_EXAMPLES=OFF -DCONFIG_LV_BUILD_DEMOS=OFF '-DCMAKE_C_FLAGS=-DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=LV_STDLIB_CLIB'
+          cmake -S "$LVGL_SOURCE" -B "$LVGL_HOST_BUILD" -DLV_BUILD_CONF_PATH=/tmp/schema-lv-conf.h -DCONFIG_LV_BUILD_EXAMPLES=OFF -DCONFIG_LV_BUILD_DEMOS=OFF -DCMAKE_BUILD_TYPE=Release -DCONFIG_LV_USE_THORVG_INTERNAL=OFF "-DCMAKE_C_FLAGS=$LVGL_HOST_CFLAGS"
           cmake --build "$LVGL_HOST_BUILD" -j4
           bash tools/test_scene.sh
       - name: Chromium telepítése
@@ -98,6 +99,20 @@ jobs:
         run: |
           python3 tools/build_assets.py --png --output dist/graphics --version "$ASSET_VERSION"
           python3 tools/package_preview.py
+      - name: Hat exportált projekt mindkét kijelzőméretben
+        env:
+          CJSON_PATH: ${{ github.workspace }}/.native-deps/cjson
+          MBEDTLS_PATH: ${{ github.workspace }}/.native-deps/mbedtls
+          LVGL_SOURCE: .native-deps/lvgl
+          LVGL_HOST_BUILD: /tmp/schema-lvgl-host
+        shell: bash
+        run: bash tools/test_export_scenes.sh dist/graphics | tee dist/scene-metrics.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: schema-scene-metrics
+          path: dist/scene-metrics.csv
+          retention-days: 7
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
           name: schema-sd-and-web

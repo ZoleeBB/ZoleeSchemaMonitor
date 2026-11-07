@@ -12,6 +12,7 @@ gcc -O2 -std=c11 -Wall -Wextra -Werror -DLV_CONF_SKIP=1 -DLV_USE_STDLIB_MALLOC=L
     components/schema_core/schema_core.c components/schema_model/{schema_model,schema_catalog}.c \
     "$CJSON_PATH/cJSON.c" "$MBEDTLS_PATH/library/"{sha256,platform_util}.c "$LVGL_HOST_BUILD/lib/liblvgl.a" \
     -Wl,--wrap=malloc,--wrap=calloc,--wrap=realloc,--wrap=aligned_alloc,--wrap=free -lm -o "$binary"
+echo 'project,page,elements,width,p95_ms,main_stack_B,lvgl_stack_B,peak_heap_B'
 for width in 1280 800; do
     LD_BIND_NOW=1 "$binary" "${1:?PNG-csomag könyvtára}" "$width" tests/schemas/*/projekt.json
 done
