@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 222 típushoz bekötött egyedi kép, 219 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**333 katalógustípus; 272 típushoz bekötött egyedi kép, 269 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -10,9 +10,9 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
 | Hidraulika / vízellátás | 64 | 54 | 10 | 0 |
 | Szelepek | 55 | 54 | 1 | 0 |
-| Szellőzés / légtechnika | 51 | 38 | 0 | 13 |
-| Medencetechnika | 33 | 4 | 0 | 29 |
-| Öntözés | 23 | 0 | 0 | 23 |
+| Szellőzés / légtechnika | 51 | 51 | 0 | 0 |
+| Medencetechnika | 33 | 33 | 0 | 0 |
+| Öntözés | 23 | 8 | 0 | 15 |
 | Mérések / érzékelők | 35 | 0 | 0 | 35 |
 
 A fűtési, szolár és általános keringető azonos fizikai szivattyúházat használhat. Ezt a három szerepet külön típusnév jelöli, a közös képet egyszer tároljuk.
@@ -270,70 +270,70 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `supply-air-unit` | Befúvó légkezelő | Supply air unit | [Egyedi kép](../../assets/elements/universal/supply-air-unit.png) |
 | `extract-air-unit` | Elszívó légkezelő | Extract air unit | [Egyedi kép](../../assets/elements/universal/extract-air-unit.png) |
 | `steam-humidifier` | Gőzpárásító | Steam humidifier | [Egyedi kép](../../assets/elements/universal/steam-humidifier.png) |
-| `ultrasonic-humidifier` | Ultrahangos párásító | Ultrasonic humidifier | Műszaki helyőrző |
-| `desiccant-dehumidifier` | Adszorpciós párátlanító | Desiccant dehumidifier | Műszaki helyőrző |
-| `constant-air-regulator` | Állandó térfogatáram-szabályozó | Constant air volume regulator | Műszaki helyőrző |
-| `circular-vav` | Kör keresztmetszetű VAV | Circular VAV box | Műszaki helyőrző |
-| `rectangular-vav` | Négyszögletes VAV | Rectangular VAV box | Műszaki helyőrző |
-| `smoke-damper` | Füstcsappantyú | Smoke damper | Műszaki helyőrző |
-| `pressure-relief-damper` | Túlnyomás-kiegyenlítő zsalu | Pressure relief damper | Műszaki helyőrző |
-| `backdraft-damper` | Visszacsapó légzsalu | Backdraft damper | Műszaki helyőrző |
-| `ceiling-diffuser` | Mennyezeti befúvó | Ceiling diffuser | Műszaki helyőrző |
-| `slot-diffuser` | Résbefúvó | Slot diffuser | Műszaki helyőrző |
-| `swirl-diffuser` | Örvénybefúvó | Swirl diffuser | Műszaki helyőrző |
-| `weather-louver` | Kültéri esővédő zsalu | Weather louver | Műszaki helyőrző |
-| `acoustic-air-terminal` | Akusztikus légszelep | Acoustic air terminal | Műszaki helyőrző |
+| `ultrasonic-humidifier` | Ultrahangos párásító | Ultrasonic humidifier | [Egyedi kép](../../assets/elements/universal/ultrasonic-humidifier.png) |
+| `desiccant-dehumidifier` | Adszorpciós párátlanító | Desiccant dehumidifier | [Egyedi kép](../../assets/elements/universal/desiccant-dehumidifier.png) |
+| `constant-air-regulator` | Állandó térfogatáram-szabályozó | Constant air volume regulator | [Egyedi kép](../../assets/elements/universal/constant-air-regulator.png) |
+| `circular-vav` | Kör keresztmetszetű VAV | Circular VAV box | [Egyedi kép](../../assets/elements/universal/circular-vav.png) |
+| `rectangular-vav` | Négyszögletes VAV | Rectangular VAV box | [Egyedi kép](../../assets/elements/universal/rectangular-vav.png) |
+| `smoke-damper` | Füstcsappantyú | Smoke damper | [Egyedi kép](../../assets/elements/universal/smoke-damper.png) |
+| `pressure-relief-damper` | Túlnyomás-kiegyenlítő zsalu | Pressure relief damper | [Egyedi kép](../../assets/elements/universal/pressure-relief-damper.png) |
+| `backdraft-damper` | Visszacsapó légzsalu | Backdraft damper | [Egyedi kép](../../assets/elements/universal/backdraft-damper.png) |
+| `ceiling-diffuser` | Mennyezeti befúvó | Ceiling diffuser | [Egyedi kép](../../assets/elements/universal/ceiling-diffuser.png) |
+| `slot-diffuser` | Résbefúvó | Slot diffuser | [Egyedi kép](../../assets/elements/universal/slot-diffuser.png) |
+| `swirl-diffuser` | Örvénybefúvó | Swirl diffuser | [Egyedi kép](../../assets/elements/universal/swirl-diffuser.png) |
+| `weather-louver` | Kültéri esővédő zsalu | Weather louver | [Egyedi kép](../../assets/elements/universal/weather-louver.png) |
+| `acoustic-air-terminal` | Akusztikus légszelep | Acoustic air terminal | [Egyedi kép](../../assets/elements/universal/acoustic-air-terminal.png) |
 
 ## Medencetechnika
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `pool` | Medence | Pool | Műszaki helyőrző |
-| `balance-tank` | Kiegyenlítő tartály | Balance tank | Műszaki helyőrző |
-| `skimmer` | Szkimmer | Skimmer | Műszaki helyőrző |
-| `pool-inlet` | Medence befúvó | Pool inlet | Műszaki helyőrző |
-| `bottom-drain` | Fenékürítő | Bottom drain | Műszaki helyőrző |
-| `pool-light` | Medencevilágítás | Pool light | Műszaki helyőrző |
-| `counter-current` | Ellenáramoltató | Counter-current unit | Műszaki helyőrző |
-| `sand-filter` | Homokszűrő | Sand filter | Műszaki helyőrző |
-| `cartridge-filter` | Patronos szűrő | Cartridge filter | Műszaki helyőrző |
-| `uv-disinfection` | UV fertőtlenítő | UV disinfection | Műszaki helyőrző |
-| `salt-electrolysis` | Sóbontó | Salt chlorinator | Műszaki helyőrző |
+| `pool` | Medence | Pool | [Egyedi kép](../../assets/elements/universal/pool.png) |
+| `balance-tank` | Kiegyenlítő tartály | Balance tank | [Egyedi kép](../../assets/elements/universal/balance-tank.png) |
+| `skimmer` | Szkimmer | Skimmer | [Egyedi kép](../../assets/elements/universal/skimmer.png) |
+| `pool-inlet` | Medence befúvó | Pool inlet | [Egyedi kép](../../assets/elements/universal/pool-inlet.png) |
+| `bottom-drain` | Fenékürítő | Bottom drain | [Egyedi kép](../../assets/elements/universal/bottom-drain.png) |
+| `pool-light` | Medencevilágítás | Pool light | [Egyedi kép](../../assets/elements/universal/pool-light.png) |
+| `counter-current` | Ellenáramoltató | Counter-current unit | [Egyedi kép](../../assets/elements/universal/counter-current.png) |
+| `sand-filter` | Homokszűrő | Sand filter | [Egyedi kép](../../assets/elements/universal/sand-filter.png) |
+| `cartridge-filter` | Patronos szűrő | Cartridge filter | [Egyedi kép](../../assets/elements/universal/cartridge-filter.png) |
+| `uv-disinfection` | UV fertőtlenítő | UV disinfection | [Egyedi kép](../../assets/elements/universal/uv-disinfection.png) |
+| `salt-electrolysis` | Sóbontó | Salt chlorinator | [Egyedi kép](../../assets/elements/universal/salt-electrolysis.png) |
 | `pool-pump` | Medenceszivattyú | Pool pump | [Egyedi kép](../../assets/elements/universal/pool-pump.png) |
 | `dosing-pump` | Vegyszeradagoló | Dosing pump | [Egyedi kép](../../assets/elements/universal/dosing-pump.png) |
-| `multiport-valve` | Hatállású váltószelep | Six-way multiport valve | Műszaki helyőrző |
-| `pool-bypass` | Medence bypass | Pool bypass | Műszaki helyőrző |
-| `pool-heat-pump` | Medence hőszivattyú | Pool heat pump | Műszaki helyőrző |
-| `overflow-pool` | Feszített víztükrű medence | Overflow pool | Műszaki helyőrző |
-| `spa` | Pezsgőmedence | Spa | Műszaki helyőrző |
-| `pool-cover` | Motoros medencetakaró | Motorized pool cover | Műszaki helyőrző |
-| `solar-pool-cover` | Szolár medencetakaró | Solar pool cover | Műszaki helyőrző |
-| `deck-jet` | Perem vízsugár | Deck jet | Műszaki helyőrző |
-| `waterfall` | Vízeséselem | Waterfall feature | Műszaki helyőrző |
-| `massage-jet` | Masszázsbefúvó | Massage jet | Műszaki helyőrző |
-| `pool-bubbler` | Levegőbefúvó élményelem | Pool bubbler | Műszaki helyőrző |
-| `top-mount-sand-filter` | Felsőszelepes homokszűrő | Top mount sand filter | Műszaki helyőrző |
-| `side-mount-sand-filter` | Oldalszelepes homokszűrő | Side mount sand filter | Műszaki helyőrző |
-| `diatomaceous-filter` | Kovaföldszűrő | Diatomaceous earth filter | Műszaki helyőrző |
-| `ozone-generator` | Ózonfertőtlenítő | Ozone generator | Műszaki helyőrző |
-| `chlorine-feeder` | Klóradagoló tartály | Chlorine feeder | Műszaki helyőrző |
+| `multiport-valve` | Hatállású váltószelep | Six-way multiport valve | [Egyedi kép](../../assets/elements/universal/multiport-valve.png) |
+| `pool-bypass` | Medence bypass | Pool bypass | [Egyedi kép](../../assets/elements/universal/pool-bypass.png) |
+| `pool-heat-pump` | Medence hőszivattyú | Pool heat pump | [Egyedi kép](../../assets/elements/universal/pool-heat-pump.png) |
+| `overflow-pool` | Feszített víztükrű medence | Overflow pool | [Egyedi kép](../../assets/elements/universal/overflow-pool.png) |
+| `spa` | Pezsgőmedence | Spa | [Egyedi kép](../../assets/elements/universal/spa.png) |
+| `pool-cover` | Motoros medencetakaró | Motorized pool cover | [Egyedi kép](../../assets/elements/universal/pool-cover.png) |
+| `solar-pool-cover` | Szolár medencetakaró | Solar pool cover | [Egyedi kép](../../assets/elements/universal/solar-pool-cover.png) |
+| `deck-jet` | Perem vízsugár | Deck jet | [Egyedi kép](../../assets/elements/universal/deck-jet.png) |
+| `waterfall` | Vízeséselem | Waterfall feature | [Egyedi kép](../../assets/elements/universal/waterfall.png) |
+| `massage-jet` | Masszázsbefúvó | Massage jet | [Egyedi kép](../../assets/elements/universal/massage-jet.png) |
+| `pool-bubbler` | Levegőbefúvó élményelem | Pool bubbler | [Egyedi kép](../../assets/elements/universal/pool-bubbler.png) |
+| `top-mount-sand-filter` | Felsőszelepes homokszűrő | Top mount sand filter | [Egyedi kép](../../assets/elements/universal/top-mount-sand-filter.png) |
+| `side-mount-sand-filter` | Oldalszelepes homokszűrő | Side mount sand filter | [Egyedi kép](../../assets/elements/universal/side-mount-sand-filter.png) |
+| `diatomaceous-filter` | Kovaföldszűrő | Diatomaceous earth filter | [Egyedi kép](../../assets/elements/universal/diatomaceous-filter.png) |
+| `ozone-generator` | Ózonfertőtlenítő | Ozone generator | [Egyedi kép](../../assets/elements/universal/ozone-generator.png) |
+| `chlorine-feeder` | Klóradagoló tartály | Chlorine feeder | [Egyedi kép](../../assets/elements/universal/chlorine-feeder.png) |
 | `diaphragm-dosing-pump` | Membrános vegyszeradagoló | Diaphragm dosing pump | [Egyedi kép](../../assets/elements/universal/diaphragm-dosing-pump.png) |
 | `variable-speed-pool-pump` | Változó fordulatú medenceszivattyú | Variable speed pool pump | [Egyedi kép](../../assets/elements/universal/variable-speed-pool-pump.png) |
-| `automatic-multiport-valve` | Automatikus hatállású szelep | Automatic multiport valve | Műszaki helyőrző |
-| `inverter-pool-heat-pump` | Inverteres medence hőszivattyú | Inverter pool heat pump | Műszaki helyőrző |
+| `automatic-multiport-valve` | Automatikus hatállású szelep | Automatic multiport valve | [Egyedi kép](../../assets/elements/universal/automatic-multiport-valve.png) |
+| `inverter-pool-heat-pump` | Inverteres medence hőszivattyú | Inverter pool heat pump | [Egyedi kép](../../assets/elements/universal/inverter-pool-heat-pump.png) |
 
 ## Öntözés
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `rotor-sprinkler` | Rotoros szórófej | Rotor sprinkler | Műszaki helyőrző |
-| `spray-sprinkler` | Spray szórófej | Spray sprinkler | Műszaki helyőrző |
-| `micro-sprinkler` | Mikroszórófej | Micro sprinkler | Műszaki helyőrző |
-| `drip-line` | Csepegtető kör | Drip irrigation | Műszaki helyőrző |
-| `irrigation-zone` | Öntözési zóna | Irrigation zone | Műszaki helyőrző |
-| `garden-tap` | Kerti csap | Garden tap | Műszaki helyőrző |
-| `hose` | Locsolótömlő | Garden hose | Műszaki helyőrző |
-| `irrigation-valve` | Öntözési mágnesszelep | Irrigation solenoid valve | Műszaki helyőrző |
+| `rotor-sprinkler` | Rotoros szórófej | Rotor sprinkler | [Egyedi kép](../../assets/elements/universal/rotor-sprinkler.png) |
+| `spray-sprinkler` | Spray szórófej | Spray sprinkler | [Egyedi kép](../../assets/elements/universal/spray-sprinkler.png) |
+| `micro-sprinkler` | Mikroszórófej | Micro sprinkler | [Egyedi kép](../../assets/elements/universal/micro-sprinkler.png) |
+| `drip-line` | Csepegtető kör | Drip irrigation | [Egyedi kép](../../assets/elements/universal/drip-line.png) |
+| `irrigation-zone` | Öntözési zóna | Irrigation zone | [Egyedi kép](../../assets/elements/universal/irrigation-zone.png) |
+| `garden-tap` | Kerti csap | Garden tap | [Egyedi kép](../../assets/elements/universal/garden-tap.png) |
+| `hose` | Locsolótömlő | Garden hose | [Egyedi kép](../../assets/elements/universal/hose.png) |
+| `irrigation-valve` | Öntözési mágnesszelep | Irrigation solenoid valve | [Egyedi kép](../../assets/elements/universal/irrigation-valve.png) |
 | `master-valve` | Mesterszelep | Master valve | Műszaki helyőrző |
 | `valve-box` | Szelepdoboz | Valve box | Műszaki helyőrző |
 | `compressor-port` | Kompresszor csatlakozás | Compressor port | Műszaki helyőrző |
