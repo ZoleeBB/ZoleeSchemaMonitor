@@ -179,6 +179,12 @@ def build(output, png=False, version="0.1.0-ms1"):
             atomic_write(blob, (output / entry["path"]).read_bytes())
     atomic_write(output / "manifest.json", canonical(manifest))
     atomic_write(output / "identity.txt", identity().encode())
+    # Újrageneráláskor a leváltott SVG/PNG és korábbi blob ne kerüljön a ZIP-be.
+    required = {entry["path"] for entry in files} | {"blobs/" + entry["sha256"] for entry in files}
+    for generated in output.rglob("*"):
+        relative = generated.relative_to(output)
+        if generated.is_file() and relative.parts[0] in {"light", "dark", "blobs"} and relative.as_posix() not in required:
+            generated.unlink()
     print(f'{len(elements)} elemtípus, {len(files)} fájl, {sum(item["size"] for item in files)} bájt')
 
 

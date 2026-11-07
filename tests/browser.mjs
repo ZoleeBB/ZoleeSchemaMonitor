@@ -27,6 +27,12 @@ try {
     browser = await chromium.launch({headless: true, executablePath: process.env.SCHEMA_CHROME_PATH || undefined,
         args: ['--no-sandbox', '--disable-dev-shm-usage', ...extraArgs]});
     const page = await browser.newPage({viewport: {width: 1600, height: 1100}});
+    const saveProjectAndWait = async () => {
+        const response = page.waitForResponse(r => r.url() === url + '/api/project' && r.request().method() === 'POST');
+        await page.locator('#save-project').click();
+        assert.equal((await response).status(), 200);
+        await page.waitForFunction(() => !document.querySelector('#save-project').classList.contains('dirty'));
+    };
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(url + '/editor');
@@ -46,7 +52,7 @@ try {
     await page.locator('#draw-pipe').click();
     await page.mouse.click(bounds.x + bounds.width * 0.4, bounds.y + bounds.height * 0.4);
     await page.mouse.dblclick(bounds.x + bounds.width * 0.7, bounds.y + bounds.height * 0.4);
-    await page.locator('#save-project').click();
+    await saveProjectAndWait();
     await page.waitForFunction(() => document.querySelector('#feedback').textContent === 'Tartósan elmentve.');
     const result = await page.request.get(url + '/api/project');
     const saved = await result.json();
@@ -246,7 +252,7 @@ try {
     await manifold.locator('[data-port="33"]').click();
     const pipeBounds = await page.locator('#canvas').boundingBox();
     await page.mouse.dblclick(pipeBounds.x+pipeBounds.width*.85,pipeBounds.y+pipeBounds.height*.65);
-    await page.locator('#save-project').click();
+    await saveProjectAndWait();
     await page.waitForFunction(()=>document.querySelector('#feedback').textContent==='Tartósan elmentve.');
     let manifoldSaved=await (await page.request.get(url+'/api/project')).json();
     const savedPipe=manifoldSaved.project.pages[0].elements.at(-1);
@@ -254,7 +260,7 @@ try {
     // Kijelölés csőkészítés után; kikapcsolás leválasztja a csövet, megőrzi a rajzot.
     await page.locator('svg [data-head-indicator="1"]').click();
     await page.locator('#element-rotation').selectOption('90');
-    await page.locator('#save-project').click();
+    await saveProjectAndWait();
     await page.waitForFunction(()=>document.querySelector('#feedback').textContent==='Tartósan elmentve.');
     const rotatedProject=await (await page.request.get(url+'/api/project')).json();
     const beforeRejectedResize=rotatedProject.project.pages[0].elements.at(-1).points;
@@ -262,7 +268,7 @@ try {
     await page.locator('[data-property="h"]').fill('0.9');
     await page.locator('[data-property="h"]').blur();
     assert.equal(await page.locator('[data-property="h"]').inputValue(),originalHeight);
-    await page.locator('#save-project').click();
+    await saveProjectAndWait();
     await page.waitForFunction(()=>document.querySelector('#feedback').textContent==='Tartósan elmentve.');
     const afterRejectedResize=await (await page.request.get(url+'/api/project')).json();
     assert.deepEqual(afterRejectedResize.project.pages[0].elements.at(-1).points,beforeRejectedResize);
@@ -274,13 +280,32 @@ try {
     await page.screenshot({path:'.browser-test/manifold-dark.png',fullPage:true});
     await page.locator('#night').click();
     await page.screenshot({path:'.browser-test/manifold-light.png',fullPage:true});
-    await page.locator('#save-project').click();
+    await saveProjectAndWait();
     await page.waitForFunction(()=>document.querySelector('#feedback').textContent==='Tartósan elmentve.');
     manifoldSaved=await (await page.request.get(url+'/api/project')).json();
     assert.equal(manifoldSaved.project.pages[0].elements.at(-1).source,null);
     await page.reload();
     await page.waitForSelector('[data-head-indicator="15"]');
     assert.equal(await page.locator('[data-head-label="1"]').textContent(),'25%');
+    // A teljes készlet valódi böngészőben is dekódolható, nem csupán létező fájl.
+    const decoded=await page.locator('#library img').evaluateAll(async images=>{
+        await Promise.all(images.map(image=>image.decode()));
+        return images.map(image=>[image.naturalWidth,image.naturalHeight]);
+    });
+    assert.equal(decoded.length,333);assert.ok(decoded.every(([w,h])=>w===160&&h===160));
+    await page.locator('[data-asset="dry-cooler"]').click();
+    const cooler=page.locator('svg [data-element]').last();
+    assert.equal(await cooler.locator('[data-rotor]').count(),3);
+    await page.locator('[data-binding="activity"]').click();
+    await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+    await page.locator('#binding-apply').click();
+    pumpLive.connected=true;pumpLive.values['12345678-1234-5678-0102030405060708']=1;
+    await page.waitForFunction(()=>[...document.querySelectorAll('svg [data-element]')].at(-1).dataset.active==='true');
+    await page.waitForFunction(()=>[...document.querySelectorAll('svg [data-element]')].at(-1).querySelectorAll('[data-rotor][transform]').length===3);
+    const transforms=await cooler.locator('[data-rotor]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform')));
+    assert.equal(transforms.length,3);
+    await page.locator('[data-asset="pool-light"]').click();
+    assert.equal(await page.locator('svg [data-element]').last().locator('[data-port]').count(),0);
     assert.deepEqual(errors, []);
     console.log('Chromium: 2–16 circuit manifolds, 34 ports, manual/live/unknown head state, pipe detach, quarter turns, editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry and diagnostic live refresh/HU-EN/escaping OK');
 } finally {

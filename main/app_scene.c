@@ -45,7 +45,7 @@ typedef struct
     int direction;
     lv_obj_t *value_label, *power_label, *body, *dots[3], *rotor, *indicator;
     lv_point_precise_t rotor_points[2];
-    double rotor_x, rotor_y, rotor_radius;
+    double rotor_x, rotor_y, rotor_radius, rotor_scale_x, rotor_scale_y, rotor_rotation;
     char unit[100], last_value[160], last_power[64];
     int last_opacity, last_indicator_color, last_indicator_opacity;
     bool rotor_initialized;
@@ -68,7 +68,7 @@ typedef struct
     unsigned owner;
     lv_obj_t *object;
     lv_point_precise_t points[2];
-    double x, y, radius;
+    double x, y, radius, scale_x, scale_y, rotation;
     bool initialized;
     int opacity;
 } extra_rotor_t;
@@ -297,12 +297,14 @@ void app_scene_update(unsigned elapsed_ms)
         if (runtime->rotor && (!runtime->rotor_initialized || state.active))
         {
             double angle = runtime->phase * 6.283185307179586;
+            double dx = cos(angle) * runtime->rotor_radius * runtime->rotor_scale_x;
+            double dy = sin(angle) * runtime->rotor_radius * runtime->rotor_scale_y;
+            double rx = dx * cos(runtime->rotor_rotation) - dy * sin(runtime->rotor_rotation);
+            double ry = dx * sin(runtime->rotor_rotation) + dy * cos(runtime->rotor_rotation);
             runtime->rotor_points[0] =
-                (lv_point_precise_t){runtime->rotor_x - cos(angle) * runtime->rotor_radius,
-                                     runtime->rotor_y - sin(angle) * runtime->rotor_radius};
+                (lv_point_precise_t){runtime->rotor_x - rx, runtime->rotor_y - ry};
             runtime->rotor_points[1] =
-                (lv_point_precise_t){runtime->rotor_x + cos(angle) * runtime->rotor_radius,
-                                     runtime->rotor_y + sin(angle) * runtime->rotor_radius};
+                (lv_point_precise_t){runtime->rotor_x + rx, runtime->rotor_y + ry};
             lv_obj_invalidate(runtime->rotor);
             runtime->rotor_initialized = true;
         }
@@ -320,8 +322,12 @@ void app_scene_update(unsigned elapsed_ms)
         if (!rotor->initialized || state.active)
         {
             double angle = s_runtime[rotor->owner].phase * 6.283185307179586;
-            rotor->points[0] = (lv_point_precise_t){rotor->x - cos(angle)*rotor->radius, rotor->y - sin(angle)*rotor->radius};
-            rotor->points[1] = (lv_point_precise_t){rotor->x + cos(angle)*rotor->radius, rotor->y + sin(angle)*rotor->radius};
+            double dx = cos(angle) * rotor->radius * rotor->scale_x;
+            double dy = sin(angle) * rotor->radius * rotor->scale_y;
+            double rx = dx * cos(rotor->rotation) - dy * sin(rotor->rotation);
+            double ry = dx * sin(rotor->rotation) + dy * cos(rotor->rotation);
+            rotor->points[0] = (lv_point_precise_t){rotor->x - rx, rotor->y - ry};
+            rotor->points[1] = (lv_point_precise_t){rotor->x + rx, rotor->y + ry};
             lv_obj_invalidate(rotor->object);
             rotor->initialized = true;
         }
@@ -854,6 +860,9 @@ void app_scene_poll(void)
                 runtime->rotor_x = x + w / 2.0 + px * cos(angle) - py * sin(angle);
                 runtime->rotor_y = y + h / 2.0 + px * sin(angle) + py * cos(angle);
                 runtime->rotor_radius = asset->animation_radius * side;
+                runtime->rotor_scale_x = asset->rotor_scale_x;
+                runtime->rotor_scale_y = asset->rotor_scale_y;
+                runtime->rotor_rotation = angle;
                 runtime->rotor = lv_line_create(s_root);
                 lv_line_set_points(runtime->rotor, runtime->rotor_points, 2);
                 lv_obj_set_style_line_color(runtime->rotor, color, 0);
@@ -864,9 +873,12 @@ void app_scene_poll(void)
                     double rx = (asset->extra_rotors[n].x - .5) * side;
                     double ry = (asset->extra_rotors[n].y - .5) * side;
                     rotor->owner = index;
-                    rotor->x = x + w/2.0 + rx*cos(angle) - ry*sin(angle);
-                    rotor->y = y + h/2.0 + rx*sin(angle) + ry*cos(angle);
+                    rotor->x = x + w / 2.0 + rx * cos(angle) - ry * sin(angle);
+                    rotor->y = y + h / 2.0 + rx * sin(angle) + ry * cos(angle);
                     rotor->radius = asset->extra_rotors[n].radius * side;
+                    rotor->scale_x = asset->rotor_scale_x;
+                    rotor->scale_y = asset->rotor_scale_y;
+                    rotor->rotation = angle;
                     rotor->opacity = -1;
                     rotor->object = lv_line_create(s_root);
                     lv_line_set_points(rotor->object, rotor->points, 2);

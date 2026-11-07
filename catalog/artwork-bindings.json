@@ -113,9 +113,9 @@
         ],
         "motion": [
             "rotor",
-            0.35,
-            0.49,
-            0.15
+            0.344,
+            0.469,
+            0.16
         ]
     },
     "heat-pump-dual": {
@@ -131,20 +131,20 @@
         ],
         "motion": [
             "rotor",
-            0.4,
-            0.325,
-            0.15
+            0.403,
+            0.316,
+            0.135
         ],
         "rotors": [
             [
-                0.4,
-                0.325,
-                0.15
+                0.403,
+                0.316,
+                0.135
             ],
             [
-                0.4,
-                0.655,
-                0.15
+                0.403,
+                0.659,
+                0.135
             ]
         ],
         "note": "Sematikus hidraulikai pontok; a készülék hátoldali csatlakozásai ezen az elölnézeti képen nem láthatók."
@@ -162,20 +162,20 @@
         ],
         "motion": [
             "rotor",
-            0.295,
-            0.54,
-            0.14
+            0.25,
+            0.519,
+            0.112
         ],
         "rotors": [
             [
-                0.295,
-                0.54,
-                0.14
+                0.25,
+                0.519,
+                0.112
             ],
             [
-                0.61,
-                0.54,
-                0.14
+                0.566,
+                0.519,
+                0.112
             ]
         ]
     },
@@ -192,9 +192,9 @@
         ],
         "motion": [
             "rotor",
-            0.495,
-            0.555,
-            0.22
+            0.572,
+            0.519,
+            0.175
         ],
         "note": "A két oldalsó csonk hűtőközeg-csatlakozó; a villamos bekötés nem port."
     },
@@ -486,9 +486,9 @@
         ],
         "motion": [
             "rotor",
-            0.64,
-            0.525,
-            0.2
+            0.65,
+            0.487,
+            0.175
         ]
     },
     "split-heat-pump": {
@@ -504,9 +504,9 @@
         ],
         "motion": [
             "rotor",
-            0.48,
-            0.415,
-            0.21
+            0.503,
+            0.4,
+            0.2
         ]
     },
     "high-temperature-heat-pump": {
@@ -522,20 +522,20 @@
         ],
         "motion": [
             "rotor",
-            0.335,
-            0.38,
-            0.16
+            0.306,
+            0.366,
+            0.13
         ],
         "rotors": [
             [
-                0.335,
-                0.38,
-                0.16
+                0.306,
+                0.366,
+                0.13
             ],
             [
-                0.7,
-                0.38,
-                0.16
+                0.675,
+                0.366,
+                0.13
             ]
         ]
     },
@@ -552,9 +552,9 @@
         ],
         "motion": [
             "rotor",
-            0.37,
-            0.39,
-            0.19
+            0.422,
+            0.375,
+            0.15
         ]
     },
     "ground-source-heat-pump": {
@@ -656,21 +656,25 @@
         ],
         "motion": [
             "rotor",
-            0.325,
-            0.245,
-            0.115
+            0.247,
+            0.197,
+            0.09
         ],
         "rotors": [
             [
-                0.325,
-                0.245,
-                0.115
+                0.247,
+                0.197,
+                0.09
             ],
             [
-                0.66,
-                0.245,
-                0.115
+                0.61,
+                0.197,
+                0.09
             ]
+        ],
+        "scale": [
+            1,
+            0.38
         ]
     },
     "dry-cooler": {
@@ -686,26 +690,30 @@
         ],
         "motion": [
             "rotor",
-            0.24,
-            0.41,
-            0.09
+            0.235,
+            0.319,
+            0.095
         ],
         "rotors": [
             [
-                0.24,
-                0.41,
-                0.09
+                0.235,
+                0.319,
+                0.095
             ],
             [
-                0.49,
-                0.41,
-                0.09
+                0.495,
+                0.319,
+                0.095
             ],
             [
-                0.745,
-                0.41,
-                0.09
+                0.756,
+                0.319,
+                0.095
             ]
+        ],
+        "scale": [
+            1,
+            0.28
         ]
     },
     "floor-standing-boiler": {
@@ -2819,9 +2827,9 @@
         ],
         "motion": [
             "rotor",
-            0.52,
-            0.505,
-            0.25
+            0.544,
+            0.547,
+            0.26
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -2838,11 +2846,15 @@
         ],
         "motion": [
             "rotor",
-            0.26,
-            0.51,
-            0.155
+            0.197,
+            0.553,
+            0.18
         ],
-        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi.",
+        "scale": [
+            0.43,
+            1
+        ]
     },
     "supply-fan": {
         "ports": [
@@ -2857,9 +2869,9 @@
         ],
         "motion": [
             "rotor",
-            0.48,
-            0.53,
-            0.175
+            0.494,
+            0.5,
+            0.145
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -2876,9 +2888,9 @@
         ],
         "motion": [
             "rotor",
-            0.48,
-            0.53,
-            0.175
+            0.509,
+            0.516,
+            0.15
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -2968,9 +2980,9 @@
         ],
         "motion": [
             "rotor",
-            0.48,
-            0.5,
-            0.245
+            0.478,
+            0.487,
+            0.22
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -3262,9 +3274,9 @@
         ],
         "motion": [
             "rotor",
-            0.5,
-            0.5,
-            0.275
+            0.509,
+            0.484,
+            0.28
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -3281,9 +3293,9 @@
         ],
         "motion": [
             "rotor",
-            0.49,
-            0.525,
-            0.17
+            0.531,
+            0.491,
+            0.138
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -3300,11 +3312,15 @@
         ],
         "motion": [
             "rotor",
-            0.17,
-            0.61,
-            0.1
+            0.106,
+            0.547,
+            0.14
         ],
-        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi.",
+        "scale": [
+            0.18,
+            1
+        ]
     },
     "mixed-flow-fan": {
         "ports": [
@@ -3319,11 +3335,15 @@
         ],
         "motion": [
             "rotor",
-            0.16,
-            0.57,
-            0.13
+            0.141,
+            0.528,
+            0.15
         ],
-        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi.",
+        "scale": [
+            0.25,
+            1
+        ]
     },
     "box-fan": {
         "ports": [
@@ -3357,9 +3377,9 @@
         ],
         "motion": [
             "rotor",
-            0.5,
-            0.54,
-            0.24
+            0.441,
+            0.528,
+            0.21
         ],
         "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
     },
@@ -3376,11 +3396,15 @@
         ],
         "motion": [
             "rotor",
-            0.5,
-            0.71,
-            0.235
+            0.494,
+            0.7,
+            0.32
         ],
-        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi.",
+        "scale": [
+            1,
+            0.2
+        ]
     },
     "grease-extract-fan": {
         "ports": [
@@ -4095,9 +4119,9 @@
         ],
         "motion": [
             "rotor",
-            0.33,
-            0.46,
-            0.2
+            0.312,
+            0.5,
+            0.165
         ]
     },
     "overflow-pool": {
@@ -4361,9 +4385,9 @@
         ],
         "motion": [
             "rotor",
-            0.68,
-            0.49,
-            0.205
+            0.644,
+            0.491,
+            0.17
         ]
     },
     "rotor-sprinkler": {

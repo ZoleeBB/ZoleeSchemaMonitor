@@ -1,5 +1,8 @@
 # Grafikai készlet és képméretek
 
+**Teljes bekötés:** 333 típus, nulla helyőrző. [Öt ötvenes csomag, csatlakozók és összevont ellenőrzés](teljes-bekotes.md) · [Aktuális készlet](keszlet.md). A korábbi csomagbejegyzések az akkori részállapotot őrzik.
+
+
 A kiválasztott irány a **B: finoman térhatásos, egységes műszaki illusztráció**. A véglegesítés csoportonként történik: világos/sötét látványterv, felhasználói ellenőrzés, egyedi elemképek, majd bekötés és animációpróba. A látványterv nem vágólapként használt sprite sheet; a végleges elemképek külön, átlátszó vásznon készülnek.
 
 ## Első csoport: szivattyúk

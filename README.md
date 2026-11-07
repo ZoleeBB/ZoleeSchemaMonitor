@@ -2,9 +2,9 @@
 
 Önálló, animált Loxone gépészeti séma kijelző a Waveshare ESP32-P4-WIFI6-Touch-LCD-10.1 panelhez. A böngészős szerkesztőben legfeljebb tíz oldal tervezhető fűtési, hűtési, szellőzési, vízellátási, medence- és öntözőrendszerekhez.
 
-**Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, a készülékes integráció és a végleges teljes grafikai készlet még nincs kész.
+**Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, az összes típus grafikai bekötése elkészült, a készülékes igazolás még szükséges.
 
-A **B, térhatásosabb grafikai irány kiválasztva**. A webszerkesztő, a 333 típusú törzskatalógus, a natív animált nézet, a Loxone-kliens, az SD-mentés és a közös firmware–grafika frissítés bekötve. 82 típushoz 79 egyedi PNG-forrás már bekötve (szivattyúk, tárolók, hőcserélők, alapszelepek és motoros szelepek); [készletnyilvántartás](doc/grafika/keszlet.md). A [2–16 körös termofejes osztók és a 90°-os elemforgatás](doc/osztogyujtok.md) is bekötve. A további egyedi grafikák, a valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
+A **B, térhatásosabb grafikai irány kiválasztva**. Mind a **333 katalógustípus** bekötve: 322 típus 319 külön PNG-forrást használ, 11 osztógrafika számított rajzzal jelenik meg; helyőrző nincs. [Teljes bekötés](doc/grafika/teljes-bekotes.md) · [Készletnyilvántartás](doc/grafika/keszlet.md). A [2–16 körös termofejes osztók és a 90°-os elemforgatás](doc/osztogyujtok.md) is bekötve. A valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
 
 A kipróbálható számítógépes előnézet indítása:
 

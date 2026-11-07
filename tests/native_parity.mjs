@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
-import {newProject, newElement, validateProject} from '../web/model.js';
+import {newProject, newElement, validateProject, elementPorts} from '../web/model.js';
 const catalog = JSON.parse(readFileSync('web/catalog.json'));
 const cli = process.argv[2];
 let count = 0;
@@ -65,3 +65,14 @@ for(const mutate of [m=>m.circuits=17,m=>m.heads.pop(),m=>m.heads[0].percent=101
     const p=newProject(),e=newElement('equipment','configurable-manifold');p.pages[0].elements.push(e);mutate(e.manifold);check(p);
 }
 console.log(`Native/browser extended parity: ${count} cases OK`);
+
+// Minden kész típus saját portszámával; a nem csatlakoztatható képek is ide tartoznak.
+for(const asset of catalog.elements) {
+    const p=newProject(),e=newElement('equipment',asset.id),pipe=newElement('pipe');
+    p.pages[0].elements.push(e,pipe);
+    const ports=elementPorts(e,asset);
+    if(ports.length)pipe.source={element:e.id,port:ports.length-1};
+    check(p);
+    pipe.source={element:e.id,port:ports.length};check(p);
+}
+console.log(`Full catalogue native/browser parity: ${count} cases OK`);

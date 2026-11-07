@@ -32,3 +32,17 @@ Az automatizált ellenőrzések a felhasználó kérésére csak mind az öt cso
 
 ![5. ötvenes csomag](latvanytervek/13-bekotes-05.jpg)
 
+
+## Kép és mozgó réteg
+
+A forgórész-alapképek a katalógusban és a szerkesztett sémában is a hozzájuk illesztett rotorral együtt jelennek meg. A többventilátoros egységek minden nyitott rotorhelyet kitöltenek. A ferde nézetek ellipszisre vetített réteget használnak, így forgás közben sem lógnak ki a házból. A natív többletrétegek PSRAM-ban előre lefoglalt állapotot használnak; animáció közben nincs dinamikus memóriafoglalás.
+
+## Régi helyőrzőkből készült sémák
+
+A tényleges csatlakozószám eltérhet a korábbi, általános helyőrzőétől. A megmaradó érvényes portokhoz kötött csővégek az aktuális csonkot követik. A már nem létező portra mutató importot/mentést a validátor továbbra is elutasítja; ilyen régi kötést a végleges portkiosztás szerint kell rendezni. A kábelekre, érzékelőhegyekre vagy üres dobozokra nem tartunk fenn fiktív vízportokat pusztán a korábbi helyőrzők kedvéért.
+
+## Összevont helyi eredmény
+
+Mind az öt csomag után: 15 JavaScript- és 39 Python-teszt sikeres; 880 natív C/JS paritáseset, a valódi LVGL-lel futó gazdagépes jelenet és a Chromium munkafolyamat sikeres. A böngésző mind a 333 katalógusképet dekódolja. A teljes grafikai csomag 689 manifestbejegyzés, 14 215 737 bájt; a ZIP teljessége és CRC-je ellenőrizve. [Részletes jegyzőkönyv](../ellenorzes.md).
+
+Az öt ötvenes bekötési commitot egy külön, összevont ellenőrzési/javítási commit követi. A köztes állapotokból nem indul külön CI-futás: az MS1 ág a teljes ellenőrzött sor végére lép. Ez nem MS1-zárás és nem fizikai paneles igazolás.

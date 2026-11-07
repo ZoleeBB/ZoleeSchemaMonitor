@@ -25,7 +25,7 @@ class CatalogArtworkTests(unittest.TestCase):
         self.assertEqual({item['category'] for item in elements}, set(catalog.CATEGORIES))
         for item in elements:
             self.assertTrue(item['name']['hu'] and item['name']['en'])
-            self.assertLessEqual(len(item['ports']), 34 if item['id'] == 'configurable-manifold' else 16)
+            self.assertLessEqual(len(item['ports']), 34)
             for port in item['ports']:
                 self.assertTrue(0 <= port['x'] <= 1 and 0 <= port['y'] <= 1)
         valve = next(item for item in elements if item['id'] == 'changeover-valve-6')

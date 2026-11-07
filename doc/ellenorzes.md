@@ -51,3 +51,23 @@ Ezek nem fizikai paneles vagy valódi Miniserveres mérések. Új helyi ESP-IDF 
 ## Tíz alapszelep és frissített csővégpontok
 
 15 JavaScript- és 32 Python-teszt sikeres; a regisztrált szelepeknél a két/három vízportot és a mérőcsonkok kizárását is ellenőrzik. A natív LVGL-próba minden negyedfordulatnál ellenőrzi a kötött végpontot a 16 körös osztó 34. portján és a motoros szelep harmadik portján, továbbá a szabad vég megőrzését. A régi koordinátákból történő webes igazítás és a változatlan adat ismételt érintetlensége külön modelltesztet kapott. A Chromium regressziós munkafolyamata sikeres. A PNG-s grafikai csomag: 333 típus, 1169 manifestbejegyzés, 6 437 466 bájt. Fizikai panelpróba nem történt.
+
+## 2026-11-07: a teljes 250 típus összevont ellenőrzése
+
+A maradék típusok öt darab ötvenes commitban kerültek be; az automatizált próbák az ötödik csomag után futottak. A végleges katalógus 333/333 típusa kész grafikát használ, helyőrző nincs: 322 típus 319 külön PNG-forrásból, további 11 pontos darabszámú számított osztógrafika. A repóban 321 PNG-forrás maradt (kettő nem bekötött tartalék); a tíz korábbi osztó-PNG törölve.
+
+| Összevont ellenőrzés | Eredmény |
+| --- | --- |
+| JavaScript-modell | 15 sikeres teszt |
+| Python | 39 sikeres teszt; teljes lefedettség, ötös csomaglista, pontos osztókörök, rotorvetületek, nem hidraulikai eszközök, csomagtisztítás, bekötési metaadat az OTA-azonosítóban |
+| Natív C/JavaScript paritás | 880 sikeres eset, mind a 333 típus érvényes és határon túli portjaival |
+| Natív tárolás/mentés/HTTP/frissítés | Sikeres gazdagépes regresszió |
+| Valódi LVGL 9.5.0 gazdagépen | Sikeres; több rotor, ellipszisre vetítés, megállás, ismeretlen adat, kötött és szabad csővégek |
+| Chromium 133 | Mind a 333 katalóguskép 160×160-ként dekódolható; háromrotoros szárazhűtő, állapot és megállás, vízport nélküli lámpa, továbbá a korábbi szerkesztési/mentési/regressziós munkafolyamat sikeres |
+| Grafikai csomag | 333 típus; 689 manifestbejegyzés; 14 215 737 bájt logikai tartalom |
+| ZIP | Teljes manifest-lefedettség, CRC rendben; nincs leváltott, manifesten kívüli generált grafika |
+| Git képméretjegyzék | 343 regisztrált kép, a megadott méretekkel |
+
+Az összevont vizsgálat után a ferde nézetű ventilátorok rétege ellipszisvetítést kapott, a választóban is az összeszerelt nyugalmi grafika látszik. A böngészős teszt a korábbi sikerüzenet helyett a konkrét mentési HTTP-válaszra vár, így a mentés befejezése nem mérhető félre.
+
+A fenti sorok helyi gazdagépes eredmények. Az ESP-IDF CI-fordítás eredménye a kapcsolódó Actions-futásban követhető. Fizikai P4-/Miniserver-próba, készülékes OTA-próba és FPS-/memóriamérés nem történt; az MS1 továbbra is nyitott.

@@ -620,6 +620,8 @@ def elements():
             if registration.get("procedural"):
                 ports = [{"x": x, "y": y} for x, y in registration["ports"]]
                 animation = {"kind": "none", "x": 0, "y": 0, "radius": 0}
+            if "scale" in registration:
+                animation["scaleX"], animation["scaleY"] = registration["scale"]
             if "rotors" in registration:
                 animation["rotors"] = [{"x": x, "y": y, "radius": radius} for x, y, radius in registration["rotors"]]
             result.append({"id": identifier, "name": {"hu": hu, "en": en}, "category": category,

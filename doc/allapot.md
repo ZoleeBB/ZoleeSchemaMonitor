@@ -1,5 +1,8 @@
 # Fejlesztési állapot
 
+**Aktuális grafikai állapot:** 333/333 típus bekötve, nincs helyőrző. 322 PNG-vel megjelenő típus, 319 használt forrás és 11 számított osztó. A teljes maradék 250 típus öt darab ötvenes commitban került be. [Részletes bekötés és ellenőrzés](grafika/teljes-bekotes.md). Az alábbi korábbi csomagleírások történeti állapotok; az MS1 fizikai igazolása még hátravan.
+
+
 Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a teljes kiadás feltételeit az [MS1-lista](ms1.md) tartalmazza.
 
 | Terület | Bekötött működés | Még szükséges |

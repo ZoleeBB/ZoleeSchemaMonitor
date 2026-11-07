@@ -39,7 +39,7 @@ for dark in range(2):
         animation = item.get('animation') or {}
         if animation.get('kind') == 'rotor':
             for marker in animation.get('rotors', [animation]):
-                cx, cy, radius = x+30+68*marker['x'], y+68*marker['y'], 68*marker['radius']
+                cx, cy, radius = x+30+68*marker['x'], y+68*marker['y'], 68*marker['radius']*animation.get('scaleX',1)
                 draw.line((cx-radius,cy,cx+radius,cy),fill='#9cb0be',width=2)
         name = item['name']['hu']
         if len(name)>23: name=name[:22]+'…'

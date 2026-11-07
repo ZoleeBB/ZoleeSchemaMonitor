@@ -158,7 +158,23 @@ export class Editor {
             const image = new Image();
             image.src = `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`;
             image.alt = '';
-            button.append(image, document.createTextNode(asset.name[this.language]));
+            const picture = document.createElement('span');
+            picture.className = 'library-picture';
+            picture.append(image);
+            if (asset.animation?.kind === 'rotor') {
+                // A választóban is az összeszerelt kép látszik, nyugalmi rotorral.
+                const overlay = svgNode('svg', {viewBox: '0 0 160 160', 'aria-hidden': 'true'});
+                for (const marker of asset.animation.rotors || [asset.animation]) {
+                    const cx = marker.x*160, cy = marker.y*160, radius = marker.radius*160;
+                    const rotor = svgNode('g', {transform: `translate(${cx},${cy}) scale(${asset.animation.scaleX || 1},${asset.animation.scaleY || 1})`});
+                    for (let i=0; i<3; i++) rotor.append(svgNode('path', {
+                        d: `M0 0q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,
+                        fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${i*120})`}));
+                    overlay.append(rotor);
+                }
+                picture.append(overlay);
+            }
+            button.append(picture, document.createTextNode(asset.name[this.language]));
             button.onclick = () => this.add('equipment', asset.id);
             button.ondragstart = event => event.dataTransfer.setData('text/schema-asset', asset.id);
             library.append(button);
@@ -317,7 +333,9 @@ export class Editor {
                         for (let index = 0; index < 3; index++) rotor.append(svgNode('path', {
                             d: `M${cx} ${cy}q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,
                             fill: '#9cb0be', stroke: '#e5eff4', 'stroke-width': 1, transform: `rotate(${index * 120},${cx},${cy})`}));
-                        equipment.append(rotor);
+                        const projection = svgNode('g', {transform: `translate(${cx},${cy}) scale(${asset.animation.scaleX || 1},${asset.animation.scaleY || 1}) translate(${-cx},${-cy})`});
+                        projection.append(rotor);
+                        equipment.append(projection);
                     }
                     if (asset.animation?.kind === 'position' && element.position) {
                         const cx = side * asset.animation.x, cy = side * asset.animation.y;

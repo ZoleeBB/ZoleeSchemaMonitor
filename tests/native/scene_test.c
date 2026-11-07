@@ -292,6 +292,27 @@ int main(void)
         assert(fabs(s_points[0][0].x - (360 - 29.2 * sin(angle))) < 1.01);
         assert(fabs(s_points[0][0].y - (576 + 29.2 * cos(angle))) < 1.01);
     }
+    cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("dry-cooler"));
+    cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(90));
+    cJSON_ReplaceItemInObject(cJSON_GetObjectItem(linked_pipe, "source"), "port",
+                              cJSON_CreateNumber(0));
+    s_test_revision++;
+    app_scene_poll();
+    s_test_valid = true;
+    s_test_power = 50;
+    app_scene_update(100);
+    assert(s_extra_rotor_count == 2 && s_extra_rotors[0].initialized &&
+           s_extra_rotors[1].initialized);
+    assert(s_extra_rotors[0].scale_y == sm_asset_find("dry-cooler")->rotor_scale_y);
+    assert(s_extra_rotors[0].scale_y < .3);
+    lv_point_precise_t frozen[2];
+    memcpy(frozen, s_extra_rotors[0].points, sizeof(frozen));
+    s_test_power = 10;
+    app_scene_update(100);
+    assert(!memcmp(frozen, s_extra_rotors[0].points, sizeof(frozen)));
+    s_test_valid = false;
+    app_scene_update(100);
+    assert(s_extra_rotors[0].opacity == LV_OPA_50 && s_extra_rotors[1].opacity == LV_OPA_50);
     puts("LVGL scene: geometry, paging, activity precedence, power thresholds, reverse flow, "
          "rotor, values, disconnect, theme, brightness and shared PNG cache OK");
     return 0;

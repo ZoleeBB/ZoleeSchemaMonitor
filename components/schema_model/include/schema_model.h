@@ -21,8 +21,12 @@ typedef struct
     sm_point_t ports[34];
     unsigned animation; /* 0: nincs, 1: rotor, 2: vízpermet, 3: üzemjelző, 4: állásmutató. */
     float animation_x, animation_y, animation_radius;
+    float rotor_scale_x, rotor_scale_y;
     unsigned extra_rotor_count;
-    struct {float x, y, radius;} extra_rotors[7];
+    struct
+    {
+        float x, y, radius;
+    } extra_rotors[7];
 } sm_asset_t;
 
 extern const sm_asset_t sm_catalog[];

@@ -31,3 +31,7 @@ Az előnézet a szerkesztő tényleges rajzelemeiből készül: `python3 tools/b
 A JavaScript-tesztek minden körszámot és felhasználást, a körönkénti állapotot és a csőforgatás pixelgeometriáját ellenőrzik. A C/JS validálás 214 paritásesete és a valódi LVGL-lel futó gazdagépes próba sikeres. A Chromium-próba ellenőrizte mind a 15 körszámot, a 34. port tényleges bekötését, a jelzőket, a forgatást, a csőleválasztást és a mentést/visszatöltést. Ezek gazdagépes ellenőrzések; fizikai P4-, Miniserver- és 20 FPS-mérés még szükséges.
 
 A körönkénti futásidejű állapotok a P4 PSRAM-jában vannak; az animáció nem foglal dinamikus memóriát, és csak változott szöveget/színt ír vissza. A belső/DMA-pufferbeállítások és a 32 KiB tartalék változatlanok.
+
+## Rögzített körszámú korábbi osztótípusok
+
+A `manifold-2`–`manifold-10` és `manifold-12` stabil azonosítók megmaradnak. A hibás körszámú régi PNG-k helyett csomagoláskor pontos darabszámú statikus rajz készül. Két főcsonk után a korábbi sorrendű visszatérő pontok, majd az előremenő pontok következnek. A külön körönkénti százalékhoz és termofejjelzéshez továbbra is a **Termofejes osztó-gyűjtő (2–16 kör)** elemet válaszd.

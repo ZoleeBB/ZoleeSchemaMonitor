@@ -16,8 +16,8 @@ finished = Counter(item['category'] for item in ready)
 lines = ['# Grafikai készletnyilvántartás', '',
          f'**{len(items)} katalógustípus; {len(ready)} típushoz bekötött egyedi kép, '
          f'{len({item["artwork"] for item in ready})} külön PNG-forrásból; {len(procedural)} számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**', '',
-         'A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; '
-         'az összes csoport végleges grafikája továbbra is MS1-feltétel.', '',
+         'Minden katalógustípus képpel vagy pontos darabszámú számított grafikával megjeleníthető. '
+         'A grafikai bekötés nem helyettesíti a fizikai P4-/Miniserver-próbát; az MS1 még nyitott.', '',
          '| Csoport | Típus | Egyedi képpel | Számított | Még helyőrző |', '| --- | ---: | ---: | ---: | ---: |']
 for category, names in catalog.CATEGORIES.items():
     lines.append(f'| {names["hu"]} | {counts[category]} | {finished[category]} | {parameterized[category]} | {counts[category] - finished[category] - parameterized[category]} |')
@@ -28,7 +28,7 @@ for category, names in catalog.CATEGORIES.items():
     for item in items:
         if item['category'] != category:
             continue
-        status = f'[Egyedi kép](../../assets/elements/universal/{item["artwork"]}.png)' if 'artwork' in item else '[Paraméterezhető műszaki grafika](../osztogyujtok.md)' if item in procedural else 'Műszaki helyőrző'
+        status = f'[Egyedi kép](../../assets/elements/universal/{item["artwork"]}.png)' if 'artwork' in item else '[Számított osztógrafika](../osztogyujtok.md)' if item in procedural else 'Műszaki helyőrző'
         lines.append(f'| `{item["id"]}` | {item["name"]["hu"]} | {item["name"]["en"]} | {status} |')
     lines.append('')
 lines += ['A nyilvántartást a `python3 tools/generate_catalog_report.py` frissíti a firmware-katalógusból.', '']

@@ -2,7 +2,7 @@
 
 ## Aktuális összesítés
 
-**331 külön PNG-forrás, 333 katalógustípus.** A teljes vizuális felülvizsgálat során 8 elemkép új generálást kapott, 12 hazai kínálathoz igazított új típus bekerült. A futásidejű integráció 82 típus / 79 PNG-forrás és egy [paraméterezhető osztó-gyűjtő](../osztogyujtok.md); a többi 250 korábbi helyőrző bekötése hátravan. [Tételes felülvizsgálat és gyártói alapok](vizualis-felulvizsgalat.md). A fizikai panelpróba és az összevont animációs ellenőrzés továbbra is nyitott.
+**321 külön PNG-forrás a repóban, 333 bekötött katalógustípus, nulla helyőrző.** 322 típus 319 használt PNG-forrásból jelenik meg, további 11 osztógrafika pontos darabszámú számított rajz. A két megmaradó tartalék forgatómotoros PNG nem növeli a típusszámot. A tíz korábbi, nem következetes körszámú osztó-PNG törölve; helyettük a grafikai csomag készít pontos rajzot. [Öt ötvenes commit és összevont ellenőrzés](teljes-bekotes.md). A korábbi [vizuális audit](vizualis-felulvizsgalat.md) és CSV a csere előtti állapot történeti nyilvántartása. Fizikai panelpróba és FPS-mérés még szükséges.
 
 Az alábbi táblázatok és bejegyzések a korábbi csomagok időrendben megőrzött állapotait mutatják.
 
