@@ -99,7 +99,7 @@ int main(void)
     assert(lv_obj_has_flag(s_runtime[0].dots[0], LV_OBJ_FLAG_HIDDEN));
     s_test_valid = false;
     app_scene_update(100);
-    assert(s_runtime[0].last_opacity == LV_OPA_50);
+    assert(s_runtime[0].last_opacity == UNKNOWN_OPACITY);
     s_test_valid = true;
     /* A világos cső sötét, a sötét cső világos áramlásjelzőt kap.
      * A mozgást egy valódi derékszög mindkét oldalán megmérjük. */
@@ -320,7 +320,7 @@ int main(void)
     s_test_valid = false;
     app_scene_update(100);
     assert(s_runtime[148].last_indicator_color == 0xd9a23a);
-    assert(s_runtime[148].last_indicator_opacity == LV_OPA_50);
+    assert(s_runtime[148].last_indicator_opacity == UNKNOWN_OPACITY);
     cJSON *manifold = cJSON_Parse(
         "{\"circuits\":16,\"variant\":\"ceiling-cool\",\"connections\":true,\"heads\":[]}");
     cJSON *heads = cJSON_GetObjectItem(manifold, "heads");
@@ -448,7 +448,7 @@ int main(void)
     s_test_valid = false;
     app_scene_update(100);
     for (unsigned i = 0; i < s_rotor_count; i++)
-        assert(s_rotors[i].opacity == LV_OPA_50 && s_rotors[i].phase == frozen);
+        assert(s_rotors[i].opacity == UNKNOWN_OPACITY && s_rotors[i].phase == frozen);
     const char *sprinklers[] = {"rotor-sprinkler", "spray-sprinkler", "micro-sprinkler",
                                 "rotary-nozzle", "impact-sprinkler"};
     cJSON_DeleteItemFromObject(equipment, "activity");

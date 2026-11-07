@@ -416,7 +416,9 @@ export class Editor {
                     equipment.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width: imageW, height: imageH, preserveAspectRatio: 'none'}));
                     if (asset.animation?.kind === 'rotor') for (const marker of asset.animation.rotors || [asset.animation]) {
                         const cx = side * marker.x, cy = side * marker.y;
-                        const rotor = svgNode('g', {'data-rotor': '1', 'data-cx': cx, 'data-cy': cy});
+                        const angle = this.motion.get(element.id)?.angle || 0;
+                        const rotor = svgNode('g', {'data-rotor': '1', 'data-cx': cx, 'data-cy': cy,
+                            transform: `rotate(${angle},${cx},${cy})`});
                         const radius = side * marker.radius;
                         for (let index = 0; index < 3; index++) rotor.append(svgNode('path', {
                             d: `M${cx} ${cy}q${-radius} ${-radius} 0 ${-radius}q${radius} 0 0 ${radius}`,

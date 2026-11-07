@@ -20,6 +20,8 @@
 #endif
 
 LV_FONT_DECLARE(app_font_20);
+/* A szerkesztő is 55%-os fedettséggel jelzi az ismeretlen aktivitást. */
+#define UNKNOWN_OPACITY ((lv_opa_t)140)
 typedef struct
 {
     lv_image_dsc_t image;
@@ -223,8 +225,8 @@ void app_scene_update(unsigned elapsed_ms)
                     {
                         double radius = runtime->position_radius * (n ? 1 : .2);
                         runtime->position_points[n] = (lv_point_precise_t){
-                            runtime->position_x + cos(radians) * radius,
-                            runtime->position_y + sin(radians) * radius};
+                            lround(runtime->position_x + cos(radians) * radius),
+                            lround(runtime->position_y + sin(radians) * radius)};
                     }
                     lv_line_set_points(runtime->position_needle, runtime->position_points, 2);
                     lv_obj_remove_flag(runtime->position_needle, LV_OBJ_FLAG_HIDDEN);
@@ -243,13 +245,18 @@ void app_scene_update(unsigned elapsed_ms)
                 lv_label_set_text_static(runtime->power_label, runtime->last_power);
             }
         }
-        int opacity = state.known ? LV_OPA_COVER : LV_OPA_50;
+        int opacity = state.known ? LV_OPA_COVER : UNKNOWN_OPACITY;
         if (runtime->last_opacity != opacity)
         {
             if (runtime->body)
                 lv_obj_set_style_opa(runtime->body, opacity, 0);
             if (runtime->pipe_outline)
                 lv_obj_set_style_opa(runtime->pipe_outline, opacity, 0);
+            if (runtime->position_needle)
+            {
+                lv_obj_set_style_opa(runtime->position_needle, opacity, 0);
+                lv_obj_set_style_opa(runtime->position_label, opacity, 0);
+            }
             runtime->last_opacity = opacity;
         }
         if (state.active)
@@ -272,7 +279,7 @@ void app_scene_update(unsigned elapsed_ms)
         if (runtime->indicator)
         {
             int color = !state.known ? 0xd9a23a : state.active ? 0x36c678 : 0x596674;
-            int opacity = state.known ? LV_OPA_COVER : LV_OPA_50;
+            int opacity = state.known ? LV_OPA_COVER : UNKNOWN_OPACITY;
             if (state.active)
                 opacity = 128 + (int)(127 * (sin(runtime->phase * 6.283185307179586) + 1) / 2);
             if (runtime->last_indicator_color != color)
@@ -316,7 +323,7 @@ void app_scene_update(unsigned elapsed_ms)
     {
         rotor_t *rotor = &s_rotors[n];
         double phase = s_runtime[rotor->owner].phase;
-        lv_opa_t opacity = states[rotor->owner].known ? LV_OPA_COVER : LV_OPA_50;
+        lv_opa_t opacity = states[rotor->owner].known ? LV_OPA_COVER : UNKNOWN_OPACITY;
         if (phase != rotor->phase || opacity != rotor->opacity)
         {
             rotor->phase = phase;
@@ -479,8 +486,43 @@ static void manifold_point(manifold_geometry_t g, double px, double py, double *
     *x = g.x + g.w / 2 + dx * cos(g.angle) - dy * sin(g.angle);
     *y = g.y + g.h / 2 + dx * sin(g.angle) + dy * cos(g.angle);
 }
-/* Normalized samples of the editor's quadratic blade:
- * M0,0 Q-1,-1 0,-1 Q1,-1 0,0. Rotate the blade before projecting it. */
+/* A konvex lapát két szélét soronként követjük. Így a kitöltésben
+ * élsimításkor sincsenek áttetsző illesztések a háromszögek között. */
+static float blade_edge_x(const lv_point_t *polygon, int count, int *edge, int step, int y)
+{
+    int next = (*edge + step + count) % count;
+    while (polygon[next].y <= y)
+    {
+        *edge = next;
+        next = (*edge + step + count) % count;
+    }
+    lv_point_t a = polygon[*edge], b = polygon[next];
+    return a.x + (b.x - a.x) * (float)(y - a.y) / (b.y - a.y);
+}
+
+static void fill_blade(lv_layer_t *layer, const lv_draw_fill_dsc_t *fill,
+                       const lv_point_t *polygon, int count)
+{
+    int top = 0, bottom = polygon[0].y;
+    for (int i = 1; i < count; i++)
+    {
+        if (polygon[i].y < polygon[top].y)
+            top = i;
+        if (polygon[i].y > bottom)
+            bottom = polygon[i].y;
+    }
+    int left = top, right = top;
+    for (int y = polygon[top].y; y < bottom; y++)
+    {
+        float a = blade_edge_x(polygon, count, &left, 1, y);
+        float b = blade_edge_x(polygon, count, &right, -1, y);
+        lv_area_t span = {lroundf(fminf(a, b)), y, lroundf(fmaxf(a, b)), y};
+        lv_draw_fill(layer, fill, &span);
+    }
+}
+
+/* A szerkesztő két másodfokú Bézier-íve. Először a lapátot forgatjuk,
+ * utána vetítjük az ellipszisre, végül a készülékkel együtt fordítjuk el. */
 static void draw_rotor(lv_event_t *event)
 {
     const rotor_t *rotor = lv_event_get_user_data(event);
@@ -489,15 +531,9 @@ static void draw_rotor(lv_event_t *event)
     lv_obj_get_coords(rotor->object, &bounds);
     double cx = bounds.x1 + rotor->cx, cy = bounds.y1 + rotor->cy;
     double c = rotor->cosine, s = rotor->sine;
-    static const sm_point_t contour[] = {
-        {0,0}, {-.277778f,-.305556f}, {-.444444f,-.555556f}, {-.5f,-.75f},
-        {-.444444f,-.888889f}, {-.277778f,-.972222f}, {0,-1},
-        {.277778f,-.972222f}, {.444444f,-.888889f}, {.5f,-.75f},
-        {.444444f,-.555556f}, {.277778f,-.305556f}
-    };
-    enum { points = sizeof(contour) / sizeof(contour[0]) };
-    lv_draw_triangle_dsc_t fill;
-    lv_draw_triangle_dsc_init(&fill);
+    enum { steps = 10, points = 2 * steps };
+    lv_draw_fill_dsc_t fill;
+    lv_draw_fill_dsc_init(&fill);
     fill.color = lv_color_hex(0x9cb0be);
     lv_draw_line_dsc_t stroke;
     lv_draw_line_dsc_init(&stroke);
@@ -507,22 +543,22 @@ static void draw_rotor(lv_event_t *event)
     {
         double xx = rotor->xx * c + rotor->xy * s, xy = rotor->xy * c - rotor->xx * s;
         double yx = rotor->yx * c + rotor->yy * s, yy = rotor->yy * c - rotor->yx * s;
-        lv_point_precise_t polygon[points];
-        for (unsigned i = 0; i < points; i++)
-            polygon[i] = (lv_point_precise_t){
-                lround(cx + xx * contour[i].x + xy * contour[i].y),
-                lround(cy + yx * contour[i].x + yy * contour[i].y)};
-        fill.p[0] = polygon[0];
-        for (unsigned i = 1; i + 1 < points; i++)
+        lv_point_t polygon[points];
+        for (int i = 0; i < points; i++)
         {
-            fill.p[1] = polygon[i];
-            fill.p[2] = polygon[i + 1];
-            lv_draw_triangle(layer, &fill);
+            double t = (double)(i <= steps ? i : points - i) / steps;
+            double x = 2 * t * (1 - t) * (i <= steps ? -1 : 1);
+            double y = t * (t - 2);
+            polygon[i] = (lv_point_t){lround(cx + xx * x + xy * y), lround(cy + yx * x + yy * y)};
         }
-        for (unsigned i = 0; i < points; i++)
+        fill_blade(layer, &fill, polygon, points);
+        for (int i = 0; i < points; i++)
         {
-            stroke.p1 = polygon[i];
-            stroke.p2 = polygon[(i + 1) % points];
+            lv_point_t a = polygon[i], b = polygon[(i + 1) % points];
+            if (a.x == b.x && a.y == b.y)
+                continue;
+            stroke.p1 = (lv_point_precise_t){a.x, a.y};
+            stroke.p2 = (lv_point_precise_t){b.x, b.y};
             lv_draw_line(layer, &stroke);
         }
         double next_c = -.5 * c - .8660254037844386 * s;
@@ -989,20 +1025,25 @@ void app_scene_poll(void)
             if (asset && asset->animation == 4 && runtime->position.uuid[0] && s_pictures[index].bytes)
             {
                 runtime->position_rotation = sm_json_number(element, "rotation", 0);
-                runtime->position_x = marker_x;
-                runtime->position_y = marker_y;
                 runtime->position_radius = asset->animation_radius * geometry.w;
+                int line_width = lround(fmax(2, geometry.w * .018));
+                int half = ceil(runtime->position_radius + line_width * .5) + 1;
+                int left = lround(marker_x) - half, top = lround(marker_y) - half;
+                runtime->position_x = marker_x - left;
+                runtime->position_y = marker_y - top;
                 runtime->position_needle = lv_line_create(s_root);
+                lv_obj_set_pos(runtime->position_needle, left, top);
+                lv_obj_set_size(runtime->position_needle, 2 * half + 1, 2 * half + 1);
                 lv_line_set_points(runtime->position_needle, runtime->position_points, 2);
                 lv_obj_set_style_line_color(runtime->position_needle, lv_color_hex(0xff3b30), 0);
-                lv_obj_set_style_line_width(runtime->position_needle, fmax(2, side * .018), 0);
+                lv_obj_set_style_line_width(runtime->position_needle, line_width, 0);
                 lv_obj_set_style_line_rounded(runtime->position_needle, true, 0);
                 lv_obj_add_flag(runtime->position_needle, LV_OBJ_FLAG_HIDDEN);
                 /* A tördelés még a méretezés előtt történik: legyen hely a 100% feliratnak. */
                 int text_scale = fmax(8, side * .065) * 256 / 20;
                 int text_width = fmax(80, ceil(side * .24 * 256 / text_scale));
-                runtime->position_label = label(s_root, "—", runtime->position_x - text_width / 2.0,
-                                              runtime->position_y + side * .025, lv_color_white());
+                runtime->position_label = label(s_root, "—", lround(marker_x - text_width / 2.0),
+                                              lround(marker_y + side * .025), lv_color_white());
                 lv_obj_set_width(runtime->position_label, text_width);
                 lv_obj_set_style_text_align(runtime->position_label, LV_TEXT_ALIGN_CENTER, 0);
                 lv_obj_set_style_transform_pivot_x(runtime->position_label, text_width / 2, 0);

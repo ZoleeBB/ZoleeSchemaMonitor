@@ -186,6 +186,123 @@ static int compare(const void *a, const void *b)
     double x = *(const double *)a, y = *(const double *)b;
     return (x > y) - (x < y);
 }
+static const double MOTION_PI = 3.141592653589793;
+
+static void check_motion_frame(const sm_asset_t *asset, int side, double angle, double phase)
+{
+    double c = cos(angle), s = sin(angle);
+    const runtime_t *device = &s_runtime[0];
+    assert(fabs(device->phase - phase) < 1e-9);
+    for (unsigned n = 0; n <= asset->extra_rotor_count; n++)
+    {
+        double x = n ? asset->extra_rotors[n - 1].x : asset->animation_x;
+        double y = n ? asset->extra_rotors[n - 1].y : asset->animation_y;
+        double radius = side * (n ? asset->extra_rotors[n - 1].radius : asset->animation_radius);
+        double cx = width / 2 + side * ((x - .5) * c - (y - .5) * s);
+        double cy = height / 2 + side * ((x - .5) * s + (y - .5) * c);
+        if (asset->animation == 1)
+        {
+            assert(s_rotor_count == 1 + asset->extra_rotor_count);
+            /* Felváltva három lapátbelső és a köztük lévő három rés. */
+            for (unsigned sample = 0; sample < 6; sample++)
+            {
+                double a = 2 * MOTION_PI * phase + sample * MOTION_PI / 3 - MOTION_PI / 2;
+                double dx = .8 * radius * cos(a) * asset->rotor_scale_x;
+                double dy = .8 * radius * sin(a) * asset->rotor_scale_y;
+                int px = lround(cx + c * dx - s * dy);
+                int py = lround(cy + s * dx + c * dy);
+                assert((pixels[py * width + px] != 0) == (sample % 2 == 0));
+                if (sample % 2 == 0 && connected)
+                    assert(pixels[py * width + px] == lv_color_to_u16(lv_color_hex(0x9cb0be)));
+            }
+        }
+        else if (asset->animation == 4)
+        {
+            assert(lv_obj_has_flag(device->position_needle, LV_OBJ_FLAG_HIDDEN) == !connected);
+            if (!connected)
+                continue;
+            double a = angle + (raw * .9 - 135) * MOTION_PI / 180;
+            int px = lround(cx + .72 * radius * cos(a)), py = lround(cy + .72 * radius * sin(a));
+            assert(pixels[py * width + px] == lv_color_to_u16(lv_color_hex(0xff3b30)));
+        }
+        else
+        {
+            assert(pixels[lround(cy) * width + lround(cx)] != 0);
+            assert(device->last_indicator_color == (!connected ? 0xd9a23a : raw ? 0x36c678 : 0x596674));
+            if (asset->animation != 2)
+                continue;
+            const spray_runtime_t *spray = &s_sprays[0];
+            for (unsigned j = 0; j < SM_SPRAY_DROPS; j++)
+            {
+                assert(lv_obj_has_flag(spray->drops[j], LV_OBJ_FLAG_HIDDEN) == (!connected || !raw));
+                if (connected && raw)
+                {
+                    double dx, dy;
+                    assert(sm_spray_point(phase, j, asset->spray_direction, &dx, &dy));
+                    int px = lround(cx + radius * (dx * c - dy * s));
+                    int py = lround(cy + radius * (dx * s + dy * c));
+                    assert(pixels[py * width + px] == lv_color_to_u16(lv_color_hex(0x249bd0)));
+                }
+            }
+        }
+    }
+}
+
+/* A végleges RGB565 képet vizsgáljuk. Az alapképet elrejtjük, hogy az
+ * alatta lévő fém, rács vagy felirat ne adhasson hamis találatot. */
+static void check_catalog_pixels(void)
+{
+    project = sm_project_defaults();
+    cJSON *page = cJSON_GetArrayItem(cJSON_GetObjectItem(project, "pages"), 0);
+    cJSON *equipment = cJSON_Parse(
+        "{\"type\":\"equipment\",\"x\":0.25,\"y\":0.25,\"w\":0.5,\"h\":0.5,"
+        "\"color\":\"#456172\",\"asset\":\"\",\"rotation\":0,\"activity\":{"
+        "\"uuid\":\"12345678-1234-5678-0102030405060708\",\"scale\":1,\"offset\":0},"
+        "\"position\":{\"minimum\":0,\"maximum\":100,\"source\":{"
+        "\"uuid\":\"12345678-1234-5678-0102030405060708\",\"scale\":1,\"offset\":0}}}");
+    cJSON_AddItemToArray(cJSON_GetObjectItem(page, "elements"), equipment);
+    atomic_store(&s_page, 0);
+    int side = (width < height ? width : height) / 2;
+    unsigned types = 0, shafts = 0;
+    for (unsigned i = 0; i < sm_catalog_count; i++)
+    {
+        const sm_asset_t *asset = &sm_catalog[i];
+        if (!asset->animation)
+            continue;
+        types++;
+        if (asset->animation == 1)
+            shafts += 1 + asset->extra_rotor_count;
+        cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString(asset->id));
+        for (int rotation = 0; rotation < 360; rotation += 90)
+        {
+            cJSON_SetNumberValue(cJSON_GetObjectItem(equipment, "rotation"), rotation);
+            revision++;
+            connected = true;
+            app_scene_poll();
+            assert(s_pictures[0].bytes);
+            lv_obj_add_flag(s_runtime[0].body, LV_OBJ_FLAG_HIDDEN);
+            if (s_runtime[0].position_label)
+                lv_obj_add_flag(s_runtime[0].position_label, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_set_style_bg_color(s_root, lv_color_black(), 0);
+            lv_obj_set_style_bg_grad_dir(s_root, LV_GRAD_DIR_NONE, 0);
+            double phase = 0;
+            for (unsigned k = 0; k < 5; k++)
+            {
+                raw = k == 3 ? 0 : k == 2 ? 50 : 100;
+                connected = k != 4;
+                if (raw > 0 && connected)
+                    phase += .05;
+                app_scene_update(50);
+                render();
+                check_motion_frame(asset, side, rotation * MOTION_PI / 180, phase);
+            }
+        }
+    }
+    fprintf(stderr, "LVGL %dx%d: %u animated catalog assets, %u rotor axes, four rotations and five signal steps passed\n",
+            width, height, types, shafts);
+    cJSON_Delete(project);
+}
+
 int main(int argc, char **argv)
 {
     assert(argc >= 4);
@@ -268,5 +385,6 @@ int main(int argc, char **argv)
         }
         cJSON_Delete(project);
     }
+    check_catalog_pixels();
     return 0;
 }
