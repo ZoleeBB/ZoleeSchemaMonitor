@@ -1,5 +1,6 @@
 """Valódi app_store.c és AES-GCM, csak BSP/NVS/FreeRTOS helyettesítőkkel."""
 import json
+import math
 import os
 import subprocess
 import sys
@@ -61,4 +62,23 @@ with tempfile.TemporaryDirectory(prefix="schema-store-") as directory:
     assert call("get")["revision"] == 0
     # Elérhetetlen SD mellett nincs hamis siker, a RAM-állapot is marad.
     assert call("project", project, SD_FAIL="1")["status"] != 0
+    # Az exportok a készülék állapottárán és egy új folyamatban végzett booton is átmennek.
+    fixtures = sorted((Path(__file__).resolve().parent / "schemas").glob("*/projekt.json"))
+    assert len(fixtures) == 6
+    for revision, fixture in enumerate(fixtures):
+        exported = json.loads(fixture.read_bytes())
+        saved = call("project", exported, revision)
+        assert saved["status"] == 0 and saved["revision"] == revision + 1, fixture
+        loaded = call("get")
+        assert loaded["revision"] == revision + 1, fixture
+        # A cJSON platformfüggő számszövege az utolsó helyiértéken eltérhet.
+        # Csak a normalizált koordináták kapnak ezredmilliárdodnyi tűrést.
+        for actual_page, expected_page in zip(loaded["project"]["pages"], exported["pages"], strict=True):
+            for actual, expected in zip(actual_page["elements"], expected_page["elements"], strict=True):
+                pairs = [(actual, expected), *zip(actual["points"], expected["points"], strict=True)]
+                for point, original in pairs:
+                    for key in original.keys() & {"x", "y", "w", "h"}:
+                        assert math.isclose(point[key], original[key], rel_tol=0, abs_tol=1e-15), fixture
+                        point[key] = original[key]
+        assert loaded["project"] == exported, fixture
 print("Native store: persistence, conflict, encryption, rollback, SD failure OK")

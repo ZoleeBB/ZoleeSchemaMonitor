@@ -24,6 +24,8 @@ gcc -std=c11 -Wall -Wextra -Werror -Icomponents/schema_core/include components/s
 /tmp/schema-core-test
 ```
 
+A [hat importálható próbaséma, a 20 oldalexport és a veremmérés](../tests/schemas/README.md) a demószerverrel vagy a natív LVGL-rajzolóval próbálható ki.
+
 ## Grafikai generálás
 
 A forráskatalógus `catalog/elements.py`, az egységes vektoros forrásgenerátor `tools/build_assets.py`. A `web/catalog.json` és a `components/schema_model/schema_catalog.inc` generált fájlok, kézzel nem szerkesztendők. Katalógusváltozáskor a `python3 tools/generate_catalog.py` parancsot is futtasd. A generált SVG-k nem kerülnek külön Gitbe; a fejlesztői indítás és a CI előállítja őket.

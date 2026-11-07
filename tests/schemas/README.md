@@ -1,6 +1,6 @@
 # MS1 próbasémák
 
-A mappákban a `projekt.json` a teljes projekt, a `lap-N.json` egyetlen önállóan importálható oldal. Mind a 26 fájlt a szerkesztő exportgombjaival mentettük. Chromiumban mindegyiket visszaimportáltuk, majd az új exportot strukturálisan összehasonlítottuk az eredetivel. A tízoldalas projekt 1500 elemet tartalmaz. A teljes készlet 20 oldalon 2120 elemet fed le.
+A mappákban a `projekt.json` a teljes projekt, a `lap-N.json` egyetlen önállóan importálható oldal. Mind a 26 fájlt a szerkesztő exportgombjaival mentettük. Chromiumban mindegyiket visszaimportáltuk, majd az új exportot strukturálisan összehasonlítottuk az eredetivel. Mind a hat projektet az éles C-állapottárba is elmentettük. Új folyamatból betöltve a revízió és a teljes projekttartalom megmaradt. A normalizált koordinátáknál 10⁻¹⁵ abszolút tűréssel ellenőriztük a cJSON számainak visszaolvasását. A tízoldalas projekt 1500 elemet tartalmaz. A teljes készlet 20 oldalon 2120 elemet fed le.
 
 | Projekt | Oldal × elem | Leglassabb oldal P95, fekvő | Leglassabb oldal P95, álló |
 | --- | ---: | ---: | ---: |

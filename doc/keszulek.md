@@ -10,19 +10,19 @@ Ez az MS1 részállapota. A helyi szerkesztő és a mentés bekötve, a kijelző
 4. Csatlakozás után nyisd meg a `http://192.168.4.1/` címet. Állítsd be az otthoni Wi-Fi-t a Beállítások oldalon. A sikeres tartós mentés után három másodperccel ellenőrzött újraindítás következik.
 5. A saját hálózaton a kijelzőn látható IP vagy a `http://zolee-schema-monitor.local/` használható. A tájolás szintén újraindításkor lép életbe. Sikertelen kapcsolódás esetén kb. 45 másodperc múlva ismét elérhető a védett beállító hálózat. Ha egyszer elindult, az adott futás során elérhető marad.
 
-A szerkesztő valódi készülékes mentést végez. SD hiányában olvasás és beállító web működhet, de a mentés hibát jelez; nem helyettesíti azt átmeneti RAM-sikerrel. Az SD-t használat közben ne távolítsd el: az automatikus újracsatolás még nincs bekötve.
+A szerkesztő valódi készülékes mentést végez. SD hiányában olvasás és beállító web működhet, de a mentés hibát jelez; nem helyettesíti azt átmeneti RAM-sikerrel. Ha az SD hiányzott induláskor vagy olvashatatlanná vált, helyezd vissza, majd használd a Diagnosztika oldal **SD újracsatolása újraindítással** gombját. [Helyreállítás SD-hiba után](mentes.md#helyreállítás-sd-hiba-után).
 
 ## Mentés és helyreállítás
 
 Az SD `schema-state/state-0.bin` és `state-1.bin` fájlja váltott generációt tartalmaz. A fejléc generációja, hossza és a teljes törzs CRC-védett. Új állapot először `.part` fájlba kerül, `fsync` után nevezzük át; az előző példány megmarad. Induláskor a legújabb **teljes és érvényes** példány töltődik be. Egy sérült új mentés nem nyomja el az előzőt. A böngésző revíziója védi a párhuzamos szerkesztéseket.
 
-A sémában csak az oldalak és az értékpárosítások vannak. A beállítások AES-256-GCM borítékban kerülnek az SD-re; a véletlen kulcs az adott kijelző NVS-ében él. Az API a Wi-Fi/Loxone jelszó helyett csak `hasPassword` jelzőt küld, a `null` jelszó megtartja a korábbit. Ez nem hardveres kulcsvédelem, és a teljes eszközmentés sem készült még el: **az NVS törlése vagy másik kijelzőre helyezett SD esetén a beállítások nem fejthetők vissza**. Az ügyfélnek átadható sémaexportot külön mentsd el.
+A sémában csak az oldalak és az értékpárosítások vannak. A beállítások AES-256-GCM borítékban kerülnek az SD-re; a véletlen kulcs az adott kijelző NVS-ében él. Az API a Wi-Fi/Loxone jelszó helyett csak `hasPassword` jelzőt küld, a `null` jelszó megtartja a korábbit. Másik kijelzőre költözés vagy az NVS törlése előtt készíts [jelszavas teljes eszközmentést](mentes.md). Az SD-fájlok közvetlen visszaolvasásához az eredeti NVS-kulcs szükséges. Az ügyfélnek átadható sémaexportot külön mentsd el.
 
 A helyi adminisztráció a saját hálózat és a WPA2 beállító hálózat bizalmára épül. Nincs adminbelépés vagy HTTPS a beállító weben. A Host-ellenőrzés, az Origin és az egyedi írási fejléc az idegen weboldalakból indított módosításokat korlátozza; ne tedd közvetlenül internetre.
 
 ## Még szükséges
 
-A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív renderelő és a Loxone-kliens fizikai ellenőrzése, a közös OTA és a diagnosztikai ablak fizikai ellenőrzése, valamint az MS1 teljes eszközkészletének véglegesítése. A gazdagépes tesztek nem helyettesítik ezeket.
+A panel és a Wi-Fi/C6/SD együttműködésének fizikai próbája, a natív renderelő és a Loxone-kliens fizikai ellenőrzése, a közös OTA és a diagnosztikai ablak fizikai ellenőrzése, valamint a 333 típus megjelenésének készülékes ellenőrzése. A gazdagépes tesztek nem helyettesítik ezeket.
 
 
 Statikus natív sémanézet: a mentett projekt aktuális oldala már LVGL objektumokként megjelenik. A PNG-ket a `graphics/light/` könyvtárból, a manifest méret- és SHA-256-adataival ellenőrizve olvassa; hibás/hiányzó grafikánál az elem neve látszik. Csövek, szövegek, értékhelyőrzők és a negyedfordulatos képek bekötve. Lapozás a felső nyilakkal vagy vízszintes gesztussal; az Info/Séma gomb a diagnosztikát váltja. Üres első projektnél a diagnosztika marad az indulónézet. A háttérben mentett új revízió automatikusan betöltődik, változatlan projektnél nincs újrarajzolás vagy projektmásolás.
