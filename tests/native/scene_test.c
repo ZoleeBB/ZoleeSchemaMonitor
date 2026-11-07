@@ -212,17 +212,12 @@ int main(void)
                        (int)rotation * 10);
                 assert(!strcmp(lv_label_get_text(label), "24.5 °C"));
             }
-    assert(s_runtime[148].rotor && s_runtime[148].rotor_initialized);
+    assert(s_rotor_count == 1 && s_rotors[0].owner == 148);
     lv_obj_update_layout(s_root);
-    assert(lv_obj_get_width(s_runtime[148].rotor) > 20);
-    assert(lv_obj_get_height(s_runtime[148].rotor) > 20);
-    for (unsigned n = 0; n < 2; n++)
-    {
-        assert(s_runtime[148].rotor_points[n].x >= 0 &&
-               s_runtime[148].rotor_points[n].x < lv_obj_get_width(s_runtime[148].rotor));
-        assert(s_runtime[148].rotor_points[n].y >= 0 &&
-               s_runtime[148].rotor_points[n].y < lv_obj_get_height(s_runtime[148].rotor));
-    }
+    /* 80 × 128 keretben a 80 × 80-as képen mért tengely marad helyben. */
+    const sm_asset_t *pump = sm_asset_find("circulation-pump");
+    assert(fabs(lv_obj_get_x(s_rotors[0].object) + s_rotors[0].cx - (320 + 80 * pump->animation_x)) < .01);
+    assert(fabs(lv_obj_get_y(s_rotors[0].object) + s_rotors[0].cy - (536 + 80 * pump->animation_y)) < .01);
 
     assert(!strcmp(lv_label_get_text(s_runtime[148].power_label), "39 %"));
     cJSON *value_binding = cJSON_GetObjectItem(aligned_value, "value");
@@ -311,7 +306,7 @@ int main(void)
     cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("well-pump"));
     s_test_revision++;
     app_scene_poll();
-    assert(s_runtime[148].indicator && !s_runtime[148].rotor);
+    assert(s_runtime[148].indicator && s_rotor_count == 0);
     s_test_valid = true;
     s_test_power = 45;
     app_scene_update(100);
@@ -434,24 +429,26 @@ int main(void)
     s_test_valid = true;
     s_test_power = 50;
     app_scene_update(100);
-    assert(s_extra_rotor_count == 2 && s_extra_rotors[0].initialized &&
-           s_extra_rotors[1].initialized);
-    assert(s_extra_rotors[0].scale_y == sm_asset_find("dry-cooler")->rotor_scale_y);
-    assert(s_extra_rotors[0].scale_y < .3);
+    assert(s_rotor_count == 3);
     lv_obj_update_layout(s_root);
-    assert(lv_obj_get_width(s_extra_rotors[0].object) >= 18);
-    assert(lv_obj_get_height(s_extra_rotors[0].object) >= 18);
-    assert(lv_color_to_u32(lv_obj_get_style_line_color(s_extra_rotors[0].object, 0)) ==
-           lv_color_to_u32(lv_color_hex(0x9cb0be)));
-
-    lv_point_precise_t frozen[2];
-    memcpy(frozen, s_extra_rotors[0].points, sizeof(frozen));
+    const sm_asset_t *cooler = sm_asset_find("dry-cooler");
+    for (unsigned i = 0; i < s_rotor_count; i++)
+    {
+        assert(s_rotors[i].owner == 148 && s_rotors[i].phase > 0);
+        assert(fabs(s_rotors[i].phase - s_rotors[0].phase) < 1e-12);
+        /* A 90 fokos készülék vékony ellipszise a képernyőn függőleges. */
+        assert(fabs(s_rotors[i].xy / s_rotors[i].yx + cooler->rotor_scale_y) < .001);
+        assert(lv_obj_get_width(s_rotors[i].object) < lv_obj_get_height(s_rotors[i].object));
+    }
+    double frozen = s_rotors[0].phase;
     s_test_power = 10;
     app_scene_update(100);
-    assert(!memcmp(frozen, s_extra_rotors[0].points, sizeof(frozen)));
+    for (unsigned i = 0; i < s_rotor_count; i++)
+        assert(s_rotors[i].phase == frozen);
     s_test_valid = false;
     app_scene_update(100);
-    assert(s_extra_rotors[0].opacity == LV_OPA_50 && s_extra_rotors[1].opacity == LV_OPA_50);
+    for (unsigned i = 0; i < s_rotor_count; i++)
+        assert(s_rotors[i].opacity == LV_OPA_50 && s_rotors[i].phase == frozen);
     const char *sprinklers[] = {"rotor-sprinkler", "spray-sprinkler", "micro-sprinkler",
                                 "rotary-nozzle", "impact-sprinkler"};
     cJSON_DeleteItemFromObject(equipment, "activity");
@@ -464,7 +461,7 @@ int main(void)
             cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(rotation));
             s_test_revision++;
             app_scene_poll();
-            assert(s_spray_count == 1 && s_extra_rotor_count == 0);
+            assert(s_spray_count == 1 && s_rotor_count == 0);
             spray_runtime_t *spray = &s_sprays[0];
             assert(spray->owner == 148 && !spray->visible);
             s_test_valid = true;

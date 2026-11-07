@@ -43,12 +43,9 @@ typedef struct
     double minimum, maximum, phase, length;
     unsigned point_count, decimals, dot_radius;
     int direction;
-    lv_obj_t *value_label, *power_label, *body, *pipe_outline, *dots[3], *rotor, *indicator;
-    lv_point_precise_t rotor_points[2];
-    double rotor_x, rotor_y, rotor_radius, rotor_scale_x, rotor_scale_y, rotor_rotation;
+    lv_obj_t *value_label, *power_label, *body, *pipe_outline, *dots[3], *indicator;
     char unit[100], last_value[160], last_power[64];
     int last_opacity, last_indicator_color, last_indicator_opacity;
-    bool rotor_initialized;
 } runtime_t;
 static SCENE_BSS runtime_t s_runtime[SM_MAX_ELEMENTS];
 /* Körönkénti állapot PSRAM-ban; az animáció nem foglal memóriát. */
@@ -67,13 +64,12 @@ typedef struct
 {
     unsigned owner;
     lv_obj_t *object;
-    lv_point_precise_t points[2];
-    double x, y, radius, scale_x, scale_y, rotation;
-    bool initialized;
-    int opacity;
-} extra_rotor_t;
-static SCENE_BSS extra_rotor_t s_extra_rotors[SM_MAX_ELEMENTS * 7];
-static unsigned s_extra_rotor_count;
+    double cx, cy, xx, xy, yx, yy;
+    double phase, cosine, sine;
+    lv_opa_t opacity;
+} rotor_t;
+static SCENE_BSS rotor_t s_rotors[SM_MAX_ELEMENTS * 8];
+static unsigned s_rotor_count;
 typedef struct
 {
     unsigned owner;
@@ -254,8 +250,6 @@ void app_scene_update(unsigned elapsed_ms)
                 lv_obj_set_style_opa(runtime->body, opacity, 0);
             if (runtime->pipe_outline)
                 lv_obj_set_style_opa(runtime->pipe_outline, opacity, 0);
-            if (runtime->rotor)
-                lv_obj_set_style_opa(runtime->rotor, opacity, 0);
             runtime->last_opacity = opacity;
         }
         if (state.active)
@@ -292,20 +286,6 @@ void app_scene_update(unsigned elapsed_ms)
                 runtime->last_indicator_opacity = opacity;
             }
         }
-        if (runtime->rotor && (!runtime->rotor_initialized || state.active))
-        {
-            double angle = runtime->phase * 6.283185307179586;
-            double dx = cos(angle) * runtime->rotor_radius * runtime->rotor_scale_x;
-            double dy = sin(angle) * runtime->rotor_radius * runtime->rotor_scale_y;
-            double rx = dx * cos(runtime->rotor_rotation) - dy * sin(runtime->rotor_rotation);
-            double ry = dx * sin(runtime->rotor_rotation) + dy * cos(runtime->rotor_rotation);
-            runtime->rotor_points[0] = (lv_point_precise_t){runtime->rotor_radius + 2 - rx,
-                                                            runtime->rotor_radius + 2 - ry};
-            runtime->rotor_points[1] = (lv_point_precise_t){runtime->rotor_radius + 2 + rx,
-                                                            runtime->rotor_radius + 2 + ry};
-            lv_obj_invalidate(runtime->rotor);
-            runtime->rotor_initialized = true;
-        }
     }
     for (unsigned n = 0; n < s_spray_count; n++)
     {
@@ -328,31 +308,24 @@ void app_scene_update(unsigned elapsed_ms)
                 continue;
             double rx = (dx * spray->cosine - dy * spray->sine) * spray->radius;
             double ry = (dx * spray->sine + dy * spray->cosine) * spray->radius;
-            lv_obj_set_pos(object, spray->x + rx - spray->half, spray->y + ry - spray->half);
+            lv_obj_set_pos(object, lround(spray->x + rx - spray->half), lround(spray->y + ry - spray->half));
         }
         spray->visible = active;
     }
-    for (unsigned n = 0; n < s_extra_rotor_count; n++)
+    for (unsigned n = 0; n < s_rotor_count; n++)
     {
-        extra_rotor_t *rotor = &s_extra_rotors[n];
-        sm_activity_t state = states[rotor->owner];
-        int opacity = state.known ? LV_OPA_COVER : LV_OPA_50;
-        if (rotor->opacity != opacity)
+        rotor_t *rotor = &s_rotors[n];
+        double phase = s_runtime[rotor->owner].phase;
+        lv_opa_t opacity = states[rotor->owner].known ? LV_OPA_COVER : LV_OPA_50;
+        if (phase != rotor->phase || opacity != rotor->opacity)
         {
-            lv_obj_set_style_opa(rotor->object, opacity, 0);
+            rotor->phase = phase;
+            rotor->cosine = cos(phase * 6.283185307179586);
+            rotor->sine = sin(phase * 6.283185307179586);
+            if (rotor->opacity != opacity)
+                lv_obj_set_style_opa_layered(rotor->object, opacity, 0);
             rotor->opacity = opacity;
-        }
-        if (!rotor->initialized || state.active)
-        {
-            double angle = s_runtime[rotor->owner].phase * 6.283185307179586;
-            double dx = cos(angle) * rotor->radius * rotor->scale_x;
-            double dy = sin(angle) * rotor->radius * rotor->scale_y;
-            double rx = dx * cos(rotor->rotation) - dy * sin(rotor->rotation);
-            double ry = dx * sin(rotor->rotation) + dy * cos(rotor->rotation);
-            rotor->points[0] = (lv_point_precise_t){rotor->radius + 2 - rx, rotor->radius + 2 - ry};
-            rotor->points[1] = (lv_point_precise_t){rotor->radius + 2 + rx, rotor->radius + 2 + ry};
             lv_obj_invalidate(rotor->object);
-            rotor->initialized = true;
         }
     }
     bsp_display_unlock();
@@ -506,6 +479,79 @@ static void manifold_point(manifold_geometry_t g, double px, double py, double *
     *x = g.x + g.w / 2 + dx * cos(g.angle) - dy * sin(g.angle);
     *y = g.y + g.h / 2 + dx * sin(g.angle) + dy * cos(g.angle);
 }
+/* Normalized samples of the editor's quadratic blade:
+ * M0,0 Q-1,-1 0,-1 Q1,-1 0,0. Rotate the blade before projecting it. */
+static void draw_rotor(lv_event_t *event)
+{
+    const rotor_t *rotor = lv_event_get_user_data(event);
+    lv_layer_t *layer = lv_event_get_layer(event);
+    lv_area_t bounds;
+    lv_obj_get_coords(rotor->object, &bounds);
+    double cx = bounds.x1 + rotor->cx, cy = bounds.y1 + rotor->cy;
+    double c = rotor->cosine, s = rotor->sine;
+    static const sm_point_t contour[] = {
+        {0,0}, {-.277778f,-.305556f}, {-.444444f,-.555556f}, {-.5f,-.75f},
+        {-.444444f,-.888889f}, {-.277778f,-.972222f}, {0,-1},
+        {.277778f,-.972222f}, {.444444f,-.888889f}, {.5f,-.75f},
+        {.444444f,-.555556f}, {.277778f,-.305556f}
+    };
+    enum { points = sizeof(contour) / sizeof(contour[0]) };
+    lv_draw_triangle_dsc_t fill;
+    lv_draw_triangle_dsc_init(&fill);
+    fill.color = lv_color_hex(0x9cb0be);
+    lv_draw_line_dsc_t stroke;
+    lv_draw_line_dsc_init(&stroke);
+    stroke.color = lv_color_hex(0xe5eff4);
+    stroke.width = 1;
+    for (unsigned blade = 0; blade < 3; blade++)
+    {
+        double xx = rotor->xx * c + rotor->xy * s, xy = rotor->xy * c - rotor->xx * s;
+        double yx = rotor->yx * c + rotor->yy * s, yy = rotor->yy * c - rotor->yx * s;
+        lv_point_precise_t polygon[points];
+        for (unsigned i = 0; i < points; i++)
+            polygon[i] = (lv_point_precise_t){
+                lround(cx + xx * contour[i].x + xy * contour[i].y),
+                lround(cy + yx * contour[i].x + yy * contour[i].y)};
+        fill.p[0] = polygon[0];
+        for (unsigned i = 1; i + 1 < points; i++)
+        {
+            fill.p[1] = polygon[i];
+            fill.p[2] = polygon[i + 1];
+            lv_draw_triangle(layer, &fill);
+        }
+        for (unsigned i = 0; i < points; i++)
+        {
+            stroke.p1 = polygon[i];
+            stroke.p2 = polygon[(i + 1) % points];
+            lv_draw_line(layer, &stroke);
+        }
+        double next_c = -.5 * c - .8660254037844386 * s;
+        s = .8660254037844386 * c - .5 * s;
+        c = next_c;
+    }
+}
+
+static void add_rotor(unsigned owner, manifold_geometry_t g, const sm_asset_t *asset,
+                      double x, double y, double radius)
+{
+    double cx, cy;
+    manifold_point(g, x, y, &cx, &cy);
+    double rx = radius * g.w * asset->rotor_scale_x, ry = radius * g.h * asset->rotor_scale_y;
+    double c = cos(g.angle), s = sin(g.angle);
+    int half_w = ceil(1.02 * hypot(rx * c, ry * s)) + 2, half_h = ceil(1.02 * hypot(rx * s, ry * c)) + 2;
+    int left = lround(cx) - half_w, top = lround(cy) - half_h;
+    rotor_t *rotor = &s_rotors[s_rotor_count++];
+    *rotor = (rotor_t){.owner = owner, .object = lv_obj_create(s_root),
+                       .cx = cx - left, .cy = cy - top,
+                       .xx = rx * c, .xy = -ry * s, .yx = rx * s, .yy = ry * c,
+                       .cosine = 1, .opacity = LV_OPA_COVER};
+    lv_obj_remove_style_all(rotor->object);
+    lv_obj_remove_flag(rotor->object, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_pos(rotor->object, left, top);
+    lv_obj_set_size(rotor->object, 2 * half_w + 1, 2 * half_h + 1);
+    lv_obj_add_event_cb(rotor->object, draw_rotor, LV_EVENT_DRAW_MAIN, rotor);
+}
+
 static lv_obj_t *manifold_rect(manifold_geometry_t g, double x, double y, double w, double h,
                                unsigned color)
 {
@@ -751,8 +797,7 @@ void app_scene_poll(void)
     memset(s_runtime, 0, sizeof(s_runtime));
     memset(s_heads, 0, sizeof(s_heads));
     s_head_count = 0;
-    memset(s_extra_rotors, 0, sizeof(s_extra_rotors));
-    s_extra_rotor_count = 0;
+    s_rotor_count = 0;
     memset(s_sprays, 0, sizeof(s_sprays));
     s_spray_count = 0;
     s_runtime_count = cJSON_GetArraySize(elements);
@@ -887,17 +932,28 @@ void app_scene_poll(void)
             if (cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(element, "showPower")))
                 runtime->power_label = label(s_root, "— %", x, y + h + 24, color);
             const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
+            double marker_x = 0, marker_y = 0;
+            if (asset && asset->animation)
+            {
+                if (runtime->body)
+                {
+                    const lv_image_dsc_t *image = &s_pictures[s_pictures[index].owner].image;
+                    double scale = lv_image_get_scale(runtime->body) / 256.0;
+                    geometry.w = image->header.w * scale;
+                    geometry.h = image->header.h * scale;
+                    geometry.x = x + w / 2 - (image->header.w / 2) * scale;
+                    geometry.y = y + h / 2 - (image->header.h / 2) * scale;
+                }
+                manifold_point(geometry, asset->animation_x, asset->animation_y, &marker_x, &marker_y);
+            }
             if (asset && (asset->animation == 3 || asset->animation == 2))
             {
-                double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
-                double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
-                int radius = fmax(2, (asset->animation == 2 ? .025 : asset->animation_radius) * side);
+                int radius = lround(fmax(2, (asset->animation == 2 ? .025 : asset->animation_radius) * geometry.w));
                 runtime->indicator = lv_obj_create(s_root);
                 lv_obj_remove_style_all(runtime->indicator);
                 lv_obj_set_size(runtime->indicator, radius * 2, radius * 2);
                 lv_obj_set_pos(runtime->indicator,
-                               x + w / 2.0 + px * cos(angle) - py * sin(angle) - radius,
-                               y + h / 2.0 + px * sin(angle) + py * cos(angle) - radius);
+                               lround(marker_x) - radius, lround(marker_y) - radius);
                 lv_obj_set_style_radius(runtime->indicator, LV_RADIUS_CIRCLE, 0);
                 lv_obj_set_style_bg_opa(runtime->indicator, LV_OPA_COVER, 0);
                 lv_obj_set_style_border_color(runtime->indicator, lv_color_hex(0xe5eff4), 0);
@@ -906,17 +962,15 @@ void app_scene_poll(void)
             if (asset && asset->animation == 2)
             {
                 spray_runtime_t *spray = &s_sprays[s_spray_count++];
-                double px = (asset->animation_x - .5) * side;
-                double py = (asset->animation_y - .5) * side;
                 spray->owner = index;
-                spray->rotation = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
+                spray->rotation = geometry.angle;
                 spray->cosine = cos(spray->rotation);
                 spray->sine = sin(spray->rotation);
-                spray->x = x + w / 2.0 + px * spray->cosine - py * spray->sine;
-                spray->y = y + h / 2.0 + px * spray->sine + py * spray->cosine;
-                spray->radius = asset->animation_radius * side;
+                spray->x = marker_x;
+                spray->y = marker_y;
+                spray->radius = asset->animation_radius * geometry.w;
                 spray->direction = asset->spray_direction;
-                int diameter = fmax(3, side * .025);
+                int diameter = lround(fmax(3, geometry.w * .025));
                 spray->half = diameter / 2.0;
                 for (unsigned drop = 0; drop < SM_SPRAY_DROPS; drop++)
                 {
@@ -934,12 +988,10 @@ void app_scene_poll(void)
             }
             if (asset && asset->animation == 4 && runtime->position.uuid[0] && s_pictures[index].bytes)
             {
-                double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
                 runtime->position_rotation = sm_json_number(element, "rotation", 0);
-                double angle = runtime->position_rotation * 3.141592653589793 / 180;
-                runtime->position_x = x + w / 2.0 + px * cos(angle) - py * sin(angle);
-                runtime->position_y = y + h / 2.0 + px * sin(angle) + py * cos(angle);
-                runtime->position_radius = asset->animation_radius * side;
+                runtime->position_x = marker_x;
+                runtime->position_y = marker_y;
+                runtime->position_radius = asset->animation_radius * geometry.w;
                 runtime->position_needle = lv_line_create(s_root);
                 lv_line_set_points(runtime->position_needle, runtime->position_points, 2);
                 lv_obj_set_style_line_color(runtime->position_needle, lv_color_hex(0xff3b30), 0);
@@ -959,46 +1011,10 @@ void app_scene_poll(void)
             }
             if (asset && asset->animation == 1)
             {
-                double px = (asset->animation_x - .5) * side, py = (asset->animation_y - .5) * side;
-                double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
-                runtime->rotor_x = x + w / 2.0 + px * cos(angle) - py * sin(angle);
-                runtime->rotor_y = y + h / 2.0 + px * sin(angle) + py * cos(angle);
-                runtime->rotor_radius = asset->animation_radius * side;
-                runtime->rotor_scale_x = asset->rotor_scale_x;
-                runtime->rotor_scale_y = asset->rotor_scale_y;
-                runtime->rotor_rotation = angle;
-                runtime->rotor = lv_line_create(s_root);
-                lv_line_set_points(runtime->rotor, runtime->rotor_points, 2);
-                /* Állandó helyi rajzterület: a kezdő nullpontokból képzett 0x0 méret
-                 * nem válik láthatóvá puszta invalidálással. Így kis terület frissül. */
-                lv_obj_set_pos(runtime->rotor, floor(runtime->rotor_x - runtime->rotor_radius - 2),
-                               floor(runtime->rotor_y - runtime->rotor_radius - 2));
-                lv_obj_set_size(runtime->rotor, ceil(runtime->rotor_radius * 2 + 4),
-                                ceil(runtime->rotor_radius * 2 + 4));
-                lv_obj_set_style_line_color(runtime->rotor, lv_color_hex(0x9cb0be), 0);
-                lv_obj_set_style_line_width(runtime->rotor, 3, 0);
-                for (unsigned n = 0; n < asset->extra_rotor_count && n < 7; n++)
-                {
-                    extra_rotor_t *rotor = &s_extra_rotors[s_extra_rotor_count++];
-                    double rx = (asset->extra_rotors[n].x - .5) * side;
-                    double ry = (asset->extra_rotors[n].y - .5) * side;
-                    rotor->owner = index;
-                    rotor->x = x + w / 2.0 + rx * cos(angle) - ry * sin(angle);
-                    rotor->y = y + h / 2.0 + rx * sin(angle) + ry * cos(angle);
-                    rotor->radius = asset->extra_rotors[n].radius * side;
-                    rotor->scale_x = asset->rotor_scale_x;
-                    rotor->scale_y = asset->rotor_scale_y;
-                    rotor->rotation = angle;
-                    rotor->opacity = -1;
-                    rotor->object = lv_line_create(s_root);
-                    lv_line_set_points(rotor->object, rotor->points, 2);
-                    lv_obj_set_pos(rotor->object, floor(rotor->x - rotor->radius - 2),
-                                   floor(rotor->y - rotor->radius - 2));
-                    lv_obj_set_size(rotor->object, ceil(rotor->radius * 2 + 4),
-                                    ceil(rotor->radius * 2 + 4));
-                    lv_obj_set_style_line_color(rotor->object, lv_color_hex(0x9cb0be), 0);
-                    lv_obj_set_style_line_width(rotor->object, 3, 0);
-                }
+                add_rotor(index, geometry, asset, asset->animation_x, asset->animation_y, asset->animation_radius);
+                for (unsigned n = 0; n < asset->extra_rotor_count; n++)
+                    add_rotor(index, geometry, asset, asset->extra_rotors[n].x,
+                              asset->extra_rotors[n].y, asset->extra_rotors[n].radius);
             }
         }
         else
