@@ -951,12 +951,14 @@ void app_scene_poll(void)
         }
         else
         {
-            char text[1200];
-            snprintf(text,
-                     sizeof(text),
-                     "%s%s",
-                     !strcmp(type, "value") ? "— " : sm_json_string(element, "text"),
-                     !strcmp(type, "value") ? sm_json_string(element, "unit") : "");
+            bool is_value = !strcmp(type, "value");
+            const char *text = sm_json_string(element, "text");
+            if (is_value)
+            {
+                sm_value_text((sm_signal_t){0}, runtime->decimals, runtime->unit,
+                              runtime->last_value, sizeof(runtime->last_value));
+                text = runtime->last_value;
+            }
             lv_obj_t *container = lv_obj_create(s_root);
             lv_obj_remove_style_all(container);
             lv_obj_set_pos(container, x, y);
@@ -967,7 +969,9 @@ void app_scene_poll(void)
             lv_obj_set_style_transform_rotation(container,
                                                 sm_json_number(element, "rotation", 0) * 10, 0);
             lv_obj_t *object = label(container, text, 0, 0, color);
-            if (!strcmp(type, "value"))
+            lv_obj_set_style_text_line_space(object, 0, 0);
+            lv_obj_set_style_text_letter_space(object, 0, 0);
+            if (is_value)
                 runtime->value_label = object;
             lv_obj_set_width(object, w * 20 / sm_json_number(element, "fontSize", 20));
             const char *alignment = sm_json_string(element, "align");

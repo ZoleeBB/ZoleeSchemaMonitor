@@ -8,8 +8,8 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 | Terület | Bekötött működés | Még szükséges |
 | --- | --- | --- |
 | Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték bal/közép/jobb igazítással, import/export, undo, HU/EN | [Reszponzív webelrendezés elkészült](webfelulet.md); készülékes és érintéses regresszió szükséges |
-| Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások, hordozható jelszavas teljes eszközmentés és atomi visszaállítás | Kártya nélküli helyreállítás és SD újracsatolás |
-| Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Numerikus feliratok egységesítve; még szövegtördelési/betűméret-egyezés és fizikai érintéspróba |
+| Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások, hordozható jelszavas teljes eszközmentés és atomi visszaállítás | [SD-helyreállítás újraindítással](mentes.md) elkészült, fizikai kártyapróba szükséges |
+| Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Numerikus feliratok, karakterlépések és sormagasság egységesítve. Fizikai betűkép- és érintéspróba szükséges |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, [öt szórófej permetanimációja](ontozes.md), explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Fizikai 20 FPS/memória mérés és animációs regresszió |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
 | Grafika | 333/333 típus; 322 PNG-s típus, 319 forrás, 11 számított osztó; teljes csatlakozópont-audit | Fizikai paneles és felhasználói vizuális regresszió |

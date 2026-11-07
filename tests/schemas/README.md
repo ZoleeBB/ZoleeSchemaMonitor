@@ -4,12 +4,12 @@ A mappákban a `projekt.json` a teljes projekt, a `lap-N.json` egyetlen önáll�
 
 | Projekt | Oldal × elem | Leglassabb oldal P95, fekvő | Leglassabb oldal P95, álló |
 | --- | ---: | ---: | ---: |
-| Kazánház | 1 × 20 | 8,81 ms | 4,40 ms |
-| Medence | 1 × 40 | 10,72 ms | 12,18 ms |
-| Öntözés | 2 × 60 | 16,25 ms | 16,19 ms |
-| Légtechnika | 2 × 60 | 16,92 ms | 14,02 ms |
-| Padlófűtési osztók | 4 × 80 | 47,44 ms | 38,91 ms |
-| Vegyes terhelés | 10 × 150 | 39,17 ms | 42,02 ms |
+| Kazánház | 1 × 20 | 7,19 ms | 4,42 ms |
+| Medence | 1 × 40 | 8,15 ms | 8,38 ms |
+| Öntözés | 2 × 60 | 12,47 ms | 8,93 ms |
+| Légtechnika | 2 × 60 | 10,84 ms | 11,12 ms |
+| Padlófűtési osztók | 4 × 80 | 36,58 ms | 36,76 ms |
+| Vegyes terhelés | 10 × 150 | 28,02 ms | 31,23 ms |
 
 ## Kipróbálás
 
@@ -27,7 +27,7 @@ A 2026. november 7-i próba az éles C-rajzolót futtatta 1280×800 és 800×128
 
 | Erőforrás | Megfigyelt maximum | Viszonyítási keret |
 | --- | ---: | ---: |
-| Főfeladat megjelenítési útjának vereme | 4360 B | 10 240 B |
+| Főfeladat megjelenítési útjának vereme | 3368 B | 10 240 B |
 | LVGL rajzolási verem | 6520 B | 32 768 B |
 | Linkelt rajzoló, modell és LVGL dinamikus foglalásai, pufferekkel | 17,35 MiB | 32 MiB |
 

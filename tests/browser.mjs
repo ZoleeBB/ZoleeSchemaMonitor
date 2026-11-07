@@ -321,8 +321,13 @@ try {
     for (const type of ['text', 'value']) {
         await page.locator(type === 'text' ? '#add-text' : '#add-value').click();
         if (type === 'text') {
-            await page.locator('[data-property="text"]').fill('Igazítás <teszt>');
+            await page.locator('[data-property="text"]').fill('Igazítás <teszt>\nÁrvíztűrő tükörfúrógép');
             await page.locator('[data-property="text"]').blur();
+            const spans = page.locator('svg .selected text tspan');
+            assert.ok(await spans.count() >= 2);
+            assert.ok(await spans.evaluateAll(nodes => nodes.every(node => Number(node.getAttribute('textLength')) >= 0)));
+            assert.equal(await page.locator('svg .selected text').getAttribute('data-field-text'),
+                'Igazítás <teszt>\nÁrvíztűrő tükörfúrógép');
         } else {
             await page.locator('[data-binding="value"]').click();
             await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');

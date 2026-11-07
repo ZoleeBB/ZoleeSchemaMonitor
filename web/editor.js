@@ -1,3 +1,4 @@
+import {labelLines} from './text-layout.js';
 import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -9,6 +10,17 @@ function svgNode(name, attributes = {}, text) {
     for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value);
     if (text !== undefined) node.textContent = text;
     return node;
+}
+
+function setFieldText(node, text) {
+    if (node.dataset.fieldText === text) return;
+    const size = Number(node.getAttribute('font-size'));
+    const scale = Math.floor(size * 256 / 20) / 256;
+    const spans = labelLines(text, Number(node.dataset.fieldWidth), size).map((line, index) =>
+        svgNode('tspan', {x: node.getAttribute('x'), y: (21 + 28 * index) * scale,
+            ...(line.width ? {textLength: line.width * scale, lengthAdjust: 'spacingAndGlyphs'} : {})}, line.text));
+    node.replaceChildren(...spans);
+    node.dataset.fieldText = text;
 }
 
 export class Editor {
@@ -376,10 +388,12 @@ export class Editor {
                 } else {
                     drawing.append(svgNode('rect', {width, height, fill: 'transparent'}));
                     const align = element.align || 'left';
-                    drawing.append(svgNode('text', {x: align === 'center' ? width / 2 : align === 'right' ? width : 0,
+                    const field = svgNode('text', {'data-field-width': width, 'xml:space': 'preserve', x: align === 'center' ? width / 2 : align === 'right' ? width : 0,
                         'text-anchor': align === 'center' ? 'middle' : align === 'right' ? 'end' : 'start',
                         y: element.fontSize, fill: this.dark && element.color === '#456172' ? '#d5e6f0' : element.color,
-                        'font-size': element.fontSize, ...(element.type === 'value' ? {'data-live-value': '1'} : {})}, element.text || '—'));
+                        'font-size': element.fontSize, ...(element.type === 'value' ? {'data-live-value': '1'} : {})});
+                    setFieldText(field, element.type === 'text' ? element.text : '—');
+                    drawing.append(field);
                 }
                 group.append(drawing);
                 if (element.id === this.selected && !this.preview) {
@@ -484,7 +498,7 @@ export class Editor {
         const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
         const asset = this.state.catalog.elements.find(item => item.id === e.asset);
         panel.innerHTML = `<p class="element-caption">${this.escape(asset?.name[this.language] || t(e.type))}</p><fieldset><legend>${t('appearance')}</legend>${field('label', 'label')}
-            ${e.type === 'text' ? field('text', 'text') : ''}${field('color', 'color', 'color')}
+            ${e.type === 'text' ? `<label>${t('text')}<textarea data-property="text" maxlength="1000"></textarea></label>` : ''}${field('color', 'color', 'color')}
             <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>
             ${e.type !== 'pipe' ? `<div class="small-grid">${field('w', 'width', 'number')}${field('h', 'height', 'number')}</div>` : this.button('reverse-pipe', 'reverse')}
             ${['text', 'value'].includes(e.type) ? `<label>${t('alignment')}<select data-property="align">${['left', 'center', 'right'].map(value => `<option value="${value}" ${(e.align || 'left') === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label>` : ''}
@@ -510,6 +524,7 @@ export class Editor {
                 ${e.position ? `<div class="small-grid"><label>${t('minimum')}<input id="position-min" type="number" step="any" value="${e.position.minimum}"></label><label>${t('maximum')}<input id="position-max" type="number" step="any" value="${e.position.maximum}"></label></div>
                 <label><input id="position-reverse" type="checkbox" ${e.position.reverse ? 'checked' : ''}>${t('positionReverse')}</label>` : ''}<p class="hint">${t('positionHint')}</p></fieldset>`);
         }
+        if (e.type === 'text') panel.querySelector('[data-property="text"]').value = e.text;
         panel.querySelectorAll('[data-property]').forEach(input => input.onchange = () => {
             const key = input.dataset.property;
             const value = input.type === 'number' ? Number(input.value) : input.value;
@@ -616,7 +631,8 @@ export class Editor {
                 if (node && node.textContent !== text) node.textContent = text;
             };
             const value = readBinding(element.value, this.state.values, this.state.device.connected);
-            setText('[data-live-value]', valueText(value, element.decimals, element.unit));
+            const field = group.querySelector('[data-live-value]');
+            if (field) setFieldText(field, valueText(value, element.decimals, element.unit));
             const position = positionState(element.position?.source, this.state.values,
                 element.position?.minimum, element.position?.maximum, element.position?.reverse,
                 this.state.device.connected);
