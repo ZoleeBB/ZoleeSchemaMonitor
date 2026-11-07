@@ -143,6 +143,17 @@ int main(void)
     app_scene_update(100);
     assert(!strcmp(lv_label_get_text(s_runtime[149].value_label), "24.5 °C"));
     assert(s_runtime[148].rotor && s_runtime[148].rotor_initialized);
+    lv_obj_update_layout(s_root);
+    assert(lv_obj_get_width(s_runtime[148].rotor) > 20);
+    assert(lv_obj_get_height(s_runtime[148].rotor) > 20);
+    for (unsigned n = 0; n < 2; n++)
+    {
+        assert(s_runtime[148].rotor_points[n].x >= 0 &&
+               s_runtime[148].rotor_points[n].x < lv_obj_get_width(s_runtime[148].rotor));
+        assert(s_runtime[148].rotor_points[n].y >= 0 &&
+               s_runtime[148].rotor_points[n].y < lv_obj_get_height(s_runtime[148].rotor));
+    }
+
     assert(!strcmp(lv_label_get_text(s_runtime[148].power_label), "39 %"));
     s_test_valid = false;
     app_scene_update(100);
@@ -305,6 +316,12 @@ int main(void)
            s_extra_rotors[1].initialized);
     assert(s_extra_rotors[0].scale_y == sm_asset_find("dry-cooler")->rotor_scale_y);
     assert(s_extra_rotors[0].scale_y < .3);
+    lv_obj_update_layout(s_root);
+    assert(lv_obj_get_width(s_extra_rotors[0].object) >= 18);
+    assert(lv_obj_get_height(s_extra_rotors[0].object) >= 18);
+    assert(lv_color_to_u32(lv_obj_get_style_line_color(s_extra_rotors[0].object, 0)) ==
+           lv_color_to_u32(lv_color_hex(0x9cb0be)));
+
     lv_point_precise_t frozen[2];
     memcpy(frozen, s_extra_rotors[0].points, sizeof(frozen));
     s_test_power = 10;

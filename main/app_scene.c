@@ -301,10 +301,10 @@ void app_scene_update(unsigned elapsed_ms)
             double dy = sin(angle) * runtime->rotor_radius * runtime->rotor_scale_y;
             double rx = dx * cos(runtime->rotor_rotation) - dy * sin(runtime->rotor_rotation);
             double ry = dx * sin(runtime->rotor_rotation) + dy * cos(runtime->rotor_rotation);
-            runtime->rotor_points[0] =
-                (lv_point_precise_t){runtime->rotor_x - rx, runtime->rotor_y - ry};
-            runtime->rotor_points[1] =
-                (lv_point_precise_t){runtime->rotor_x + rx, runtime->rotor_y + ry};
+            runtime->rotor_points[0] = (lv_point_precise_t){runtime->rotor_radius + 2 - rx,
+                                                            runtime->rotor_radius + 2 - ry};
+            runtime->rotor_points[1] = (lv_point_precise_t){runtime->rotor_radius + 2 + rx,
+                                                            runtime->rotor_radius + 2 + ry};
             lv_obj_invalidate(runtime->rotor);
             runtime->rotor_initialized = true;
         }
@@ -326,8 +326,8 @@ void app_scene_update(unsigned elapsed_ms)
             double dy = sin(angle) * rotor->radius * rotor->scale_y;
             double rx = dx * cos(rotor->rotation) - dy * sin(rotor->rotation);
             double ry = dx * sin(rotor->rotation) + dy * cos(rotor->rotation);
-            rotor->points[0] = (lv_point_precise_t){rotor->x - rx, rotor->y - ry};
-            rotor->points[1] = (lv_point_precise_t){rotor->x + rx, rotor->y + ry};
+            rotor->points[0] = (lv_point_precise_t){rotor->radius + 2 - rx, rotor->radius + 2 - ry};
+            rotor->points[1] = (lv_point_precise_t){rotor->radius + 2 + rx, rotor->radius + 2 + ry};
             lv_obj_invalidate(rotor->object);
             rotor->initialized = true;
         }
@@ -865,7 +865,13 @@ void app_scene_poll(void)
                 runtime->rotor_rotation = angle;
                 runtime->rotor = lv_line_create(s_root);
                 lv_line_set_points(runtime->rotor, runtime->rotor_points, 2);
-                lv_obj_set_style_line_color(runtime->rotor, color, 0);
+                /* Állandó helyi rajzterület: a kezdő nullpontokból képzett 0x0 méret
+                 * nem válik láthatóvá puszta invalidálással. Így kis terület frissül. */
+                lv_obj_set_pos(runtime->rotor, floor(runtime->rotor_x - runtime->rotor_radius - 2),
+                               floor(runtime->rotor_y - runtime->rotor_radius - 2));
+                lv_obj_set_size(runtime->rotor, ceil(runtime->rotor_radius * 2 + 4),
+                                ceil(runtime->rotor_radius * 2 + 4));
+                lv_obj_set_style_line_color(runtime->rotor, lv_color_hex(0x9cb0be), 0);
                 lv_obj_set_style_line_width(runtime->rotor, 3, 0);
                 for (unsigned n = 0; n < asset->extra_rotor_count && n < 7; n++)
                 {
@@ -882,7 +888,11 @@ void app_scene_poll(void)
                     rotor->opacity = -1;
                     rotor->object = lv_line_create(s_root);
                     lv_line_set_points(rotor->object, rotor->points, 2);
-                    lv_obj_set_style_line_color(rotor->object, color, 0);
+                    lv_obj_set_pos(rotor->object, floor(rotor->x - rotor->radius - 2),
+                                   floor(rotor->y - rotor->radius - 2));
+                    lv_obj_set_size(rotor->object, ceil(rotor->radius * 2 + 4),
+                                    ceil(rotor->radius * 2 + 4));
+                    lv_obj_set_style_line_color(rotor->object, lv_color_hex(0x9cb0be), 0);
                     lv_obj_set_style_line_width(rotor->object, 3, 0);
                 }
             }

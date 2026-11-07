@@ -71,3 +71,9 @@ A maradék típusok öt darab ötvenes commitban kerültek be; az automatizált 
 Az összevont vizsgálat után a ferde nézetű ventilátorok rétege ellipszisvetítést kapott, a választóban is az összeszerelt nyugalmi grafika látszik. A böngészős teszt a korábbi sikerüzenet helyett a konkrét mentési HTTP-válaszra vár, így a mentés befejezése nem mérhető félre.
 
 A fenti sorok helyi gazdagépes eredmények. Az ESP-IDF CI-fordítás eredménye a kapcsolódó Actions-futásban követhető. Fizikai P4-/Miniserver-próba, készülékes OTA-próba és FPS-/memóriamérés nem történt; az MS1 továbbra is nyitott.
+
+## Natív képernyőpróba: egyszerű fűtési kör
+
+A webszerkesztőben felépített és tartósan mentett kazán–keringető–radiátor kör ugyanazzal a projektfájllal a natív LVGL-rajzolóban is megjelent, PNG-dekóderrel és virtuális 1280×800-as kijelzővel. Négy eszközkép betöltve; 45,0 °C előremenő, 36,5 °C visszatérő és 1,5 bar szimulált érték. Ez képkocka-előnézet, nem fénykép fizikai panelről vagy valós Miniserveres mérés.
+
+A képernyőpróba feltárt egy korábbi natív rotorhibát: az induló nullpontokból létrejött vonal rajzterülete 0×0 maradhatott. Az egyetlen és a kiegészítő rotorok most kis, állandó méretű helyi rajzterületet kapnak. A képkockánkénti frissítés csak ezen belüli pontokat és invalidálást végez, dinamikus memóriafoglalás nélkül. A natív regresszió a tényleges rajzterületet, a helyi pontok határait és a színt is ellenőrzi; sikeres.
