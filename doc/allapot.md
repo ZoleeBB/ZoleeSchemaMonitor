@@ -7,12 +7,12 @@ Az MS1 **nyitott**, ez nem PR-zárási jegyzőkönyv. A célhardver SKU 33150; a
 
 | Terület | Bekötött működés | Még szükséges |
 | --- | --- | --- |
-| Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték, import/export, undo, HU/EN | Használhatósági finomítás és készülékes regresszió |
+| Szerkesztő | 10 oldal, 150 elem/oldal; húzás, méretezés, forgatás, csövek/portok, szöveg/érték, import/export, undo, HU/EN | [Reszponzív webelrendezés elkészült](webfelulet.md); készülékes és érintéses regresszió szükséges |
 | Modell és mentés | Közös JS/C ellenőrzés, revízióvédelem, titokmentes export, kétpéldányos CRC-s SD-állapot, AES-GCM beállítások, hordozható jelszavas teljes eszközmentés és atomi visszaállítás | Kártya nélküli helyreállítás és SD újracsatolás |
 | Natív nézet | PNG-k SHA/méret-ellenőrzéssel, csövek, szövegek, értékek, lapozás és diagnosztikaváltás | Pontos formázási egyezés, fizikai érintéspróba |
 | Animáció | Irányhelyes csőpontok, rotoros üzemjelző, explicit aktivitás elsőbbsége, teljesítményből aktivitás/sebesség, ismeretlen állapot | Permet és további animációk, fizikai 20 FPS/memória mérés |
 | Loxone | Egy worker: HTTP nyilvános kulcs, RSA/AES, JWT hitelesítés/megújítás, WS numerikus események, katalógus, web/native közös cache | Gen2/17.x fizikai bejelentkezési, TLS-, megszakadási és tartósüzemi próba; szöveges események |
-| Grafika | B irány, 320 típus metaadata, közös világos/sötét SVG-családok és PNG-generálás; 60 típushoz 57 bekötött egyedi PNG; Git-képméretvédelem | Típusonkénti végleges megkülönböztetés, teljes készlet felhasználói ellenőrzése |
+| Grafika | 333/333 típus; 322 PNG-s típus, 319 forrás, 11 számított osztó; teljes csatlakozópont-audit | Fizikai paneles és felhasználói vizuális regresszió |
 | Frissítés | Natív SHA-címzett SD-tár, kiadási HTTPS worker, csak hiányzó/hibás fájlok, közös firmware/grafika ellenőrzés és firmware-hez kötött készletválasztás | Első valódi kiadásból végzett hálózati és fizikai megszakítás/rollback próba; tárkarbantartás |
 | P4/web | PSRAM pufferjavítás, négy tájolás, Wi-Fi/mDNS, védett beállító AP, beágyazott web, külön samplerből mért erőforrások, HU/EN diagnosztikai kártyák/sávok és napló | Fizikai fényerő-, érintés-, SD- és diagnosztikai tartósüzemi próba |
 | CI | Host JS/C/Python, valódi Chromium/LVGL, grafikai csomag, P4 build, main-merge kiadási folyamat | Minden MS1-elfogadási feltétel és fizikai regresszió |

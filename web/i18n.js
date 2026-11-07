@@ -1,6 +1,10 @@
 /* A közös feliratok azonos kulcsokkal szerepelnek mindkét nyelven. */
 export const messages = {
     hu: {
+        appearance: 'Megjelenés és méret', signals: 'Loxone-adatok', valvePosition: 'Szelepállás',
+        projectFiles: 'Projekt és fájlok', editTools: 'Elem szerkesztése', addElement: 'Új elem',
+        pageSettings: 'Oldal beállításai', schemaCanvas: 'Séma rajzterülete', navigation: 'Navigáció',
+        projectSettings: 'Projekt', displaySettings: 'Kijelző', wifiSettings: 'Wi-Fi hálózat',
         manifold: 'Termofejes osztó-gyűjtő', circuits: 'Körök száma', circuit: 'Kör', variant: 'Felhasználás',
         heating: 'Fűtés', floor: 'Padlófűtés', 'ceiling-heat': 'Mennyezetfűtés', 'ceiling-cool': 'Mennyezethűtés',
         connections: 'Csőcsonkok és bekötési pontok', manual: 'Kézi érték',
@@ -36,6 +40,10 @@ export const messages = {
         catalogInfo: 'Az elemfajtákat a firmware határozza meg. A fájlok SHA-256 szerint frissülnek; a változatlanokat nem töltjük le újra.',
     },
     en: {
+        appearance: 'Appearance and size', signals: 'Loxone data', valvePosition: 'Valve position',
+        projectFiles: 'Project and files', editTools: 'Edit element', addElement: 'Add element',
+        pageSettings: 'Page settings', schemaCanvas: 'Schema canvas', navigation: 'Navigation',
+        projectSettings: 'Project', displaySettings: 'Display', wifiSettings: 'Wi-Fi network',
         manifold: 'Actuated manifold', circuits: 'Circuit count', circuit: 'Circuit', variant: 'Application',
         heating: 'Heating', floor: 'Underfloor heating', 'ceiling-heat': 'Ceiling heating', 'ceiling-cool': 'Ceiling cooling',
         connections: 'Pipe stubs and connection points', manual: 'Manual value',

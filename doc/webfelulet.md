@@ -1,0 +1,29 @@
+# Webfelület – elrendezés és Bootstrap-döntés
+
+A készülék a HTML-, JavaScript- és CSS-fájlokat gzip-tömörítve, saját firmware-éből szolgálja ki. Az első beállítás és a helyi szerkesztés internet nélkül is használható kell maradjon. Ez a böngészőre vonatkozik: a firmware letöltéséhez továbbra is internet kell a készüléken.
+
+## Megvizsgált lehetőségek
+
+| Megoldás | Előny | Következmény ennél az eszköznél |
+| --- | --- | --- |
+| Bootstrap CSS/JS CDN-ről | Gyors bevezetés, kész komponensek | A böngészőnek külön el kell érnie a CDN-t. Új böngészőben vagy beállító AP mellett nem számíthatunk előzetesen gyorsítótárazott fájlra. A saját stílusokkal való ütközéseket is kezelni kell. |
+| Helyben tárolt, szükséges részekre fordított Bootstrap | Internetfüggetlen, közös komponensrendszer | Új buildfüggőség, verzió- és licenckövetés, meglévő komponensek átvezetése. Későbbi nagyobb felületnél újravizsgálható. |
+| Meglévő CSS Grid/Flex elrendezés rendezése | Kis helyi csomag, meglévő HU/EN és sötét mód megtartása | A projekthez tartozó néhány elrendezési szabályt saját tesztekkel karban kell tartani. |
+
+**Döntés:** az MS1-ben a meglévő helyi stílusokat rendezzük. A Bootstrap nem szükséges a feltárt hibák javításához, CDN-függőség nem került a felületbe. Ez projektfüggő döntés, nem a Bootstrap általános elutasítása. A két saját stíluslap együtt körülbelül 4,1 kB gzip-adat.
+
+Források: [Bootstrap – bevezetés és CDN](https://getbootstrap.com/docs/5.3/getting-started/introduction/), [Bootstrap – csak a szükséges Sass/JS részek és gzip](https://getbootstrap.com/docs/5.3/customize/optimize/).
+
+## Elkészült rendezés
+
+- Az oldalkezelés, mentés/import/export és az elemszerkesztés külön gombcsoportba került. A Mentés kiemelt, a romboló műveletek eltérő színt kapnak.
+- Az elérhető elemek keresése és kategóriája feliratozott. A Tulajdonságok panel a megjelenést/méretet, értékeket, Loxone-adatokat és szelepállást külön mezőcsoportokba rendezi. Az elem fejlécében a lefordított típusnév látszik.
+- 1280 px-től háromoszlopos szerkesztő; 760–1279 px között a tulajdonságok a vászon alá kerülnek; 760 px alatt egymás alatti panelek vannak. A navigáció telefonon saját sávjában görgethető, a dokumentum nem lóg ki oldalra.
+- A beállítások Projekt, Kijelző és Wi-Fi csoportba kerültek. Az aktív navigációs pont minden oldalon megjelölt, képernyőolvasónak is.
+- A fejléc, kártyák, mezők és támogatási blokk keskeny képernyőn is tördelődnek. A meglévő színpaletta és a rendszer sötét módja megmaradt.
+
+## Ellenőrzés
+
+A `tests/browser.mjs` 360, 390, 768, 1024, 1280 és 1920 px szélességen mind a nyolc útvonalat betölti, és ellenőrzi a dokumentum szélességét, aktív navigációját és a beállításcsoportokat. Külön angol, sötét mobilpróba nyit meg 16 körös osztót és Loxone-párosító párbeszédablakot. A teszt tiltja és hibának tekinti a külső erőforráskéréseket. A korábbi mentési, exportálási, párosítási és forgatási munkafolyamatok is lefutnak.
+
+A natív HTTP-próba ellenőrzi a két stíluslap tényleges beágyazását, kibontását és CSS MIME-típusát. A gazdagépes böngésző-/HTTP-próba nem fizikai P4- vagy iOS Safari-próba; az MS1 hardveres és tartósüzemi feltételei nyitva maradnak.

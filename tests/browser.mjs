@@ -317,8 +317,48 @@ try {
     assert.equal(transforms.length,3);
     await page.locator('[data-asset="pool-light"]').click();
     assert.equal(await page.locator('svg [data-element]').last().locator('[data-port]').count(),0);
+    // Valós elrendezés hat szélességen, minden oldalon, külső erőforrások nélkül.
+    const responsive = await browser.newPage();
+    const externalRequests = [];
+    await responsive.route('**/*', route => {
+        if (new URL(route.request().url()).origin !== url) {
+            externalRequests.push(route.request().url());
+            return route.abort();
+        }
+        return route.continue();
+    });
+    responsive.on('pageerror', error => errors.push(error.message));
+    for (const width of [360, 390, 768, 1024, 1280, 1920]) {
+        await responsive.setViewportSize({width, height: 1000});
+        for (const route of ['home', 'editor', 'settings', 'loxone', 'graphics', 'backup', 'update', 'diagnostics']) {
+            await responsive.goto(url + '/' + (route === 'home' ? '' : route));
+            await responsive.waitForSelector('#content h1');
+            assert.equal(await responsive.locator('#navigation [aria-current="page"]').getAttribute('data-nav'), route);
+            const overflow = await responsive.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+            assert.ok(overflow <= 1, `${route} overflows at ${width}px by ${overflow}px`);
+            if (route === 'settings') assert.equal(await responsive.locator('#settings-form fieldset').count(), 3);
+        }
+    }
+    await responsive.setViewportSize({width: 390, height: 844});
+    await responsive.emulateMedia({colorScheme: 'dark'});
+    await responsive.goto(url + '/editor');
+    await responsive.waitForSelector('[data-asset="configurable-manifold"]');
+    await responsive.locator('#language').selectOption('en');
+    await responsive.waitForFunction(() => document.documentElement.lang === 'en');
+    await responsive.locator('[data-asset="configurable-manifold"]').click();
+    await responsive.locator('#manifold-circuits').selectOption('16');
+    await responsive.locator('[data-head-percent="15"]').fill('50');
+    await responsive.locator('[data-head-percent="15"]').blur();
+    assert.equal(await responsive.locator('[data-head-label="15"]').last().textContent(), '50%');
+    assert.ok(await responsive.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    await responsive.locator('[data-head-source="15"]').click();
+    await responsive.waitForSelector('#binding-dialog[open]');
+    assert.ok(await responsive.locator('#binding-dialog').evaluate(el => el.getBoundingClientRect().right <= innerWidth));
+    await responsive.locator('#binding-cancel').click();
+    assert.deepEqual(externalRequests, []);
+    await responsive.close();
     assert.deepEqual(errors, []);
-    console.log('Chromium: 2–16 circuit manifolds, 34 ports, manual/live/unknown head state, pipe detach, quarter turns, editor, bindings, save/reload, export, portrait, HU/EN, device capabilities and update status/retry and diagnostic live refresh/HU-EN/escaping OK');
+    console.log('Chromium: 2–16 circuit manifolds, ports, bindings, save/reload, export, rotation, 48 responsive route/viewport cases, dark mobile HU/EN, no external resources, device capabilities, updates and diagnostics OK');
 } finally {
     await browser?.close();
     server.kill();

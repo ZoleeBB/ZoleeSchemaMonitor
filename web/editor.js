@@ -67,19 +67,19 @@ export class Editor {
 
     render() {
         const t = this.tr;
-        this.root.innerHTML = `<h1>${t('editor')}</h1><div class="page-tabs">${this.state.project.pages.map((page, index) => `<button data-page-index="${index}" aria-current="${index === this.pageIndex}">${this.escape(page.name)}</button>`).join('')}</div>
-            <div class="toolbar">${this.button('add-page', 'addPage')}${this.button('copy-page', 'copyPage')}${this.button('delete-page', 'deletePage')}
-            ${this.button('save-project', 'save')}${this.button('export-page', 'exportPage')}${this.button('export-project', 'exportProject')}${this.button('import-project', 'import')}
+        this.root.innerHTML = `<div class="editor-heading"><h1>${t('editor')}</h1><span class="badge">${this.state.project.pages.length} / ${LIMITS.pages} ${t('pages')}</span></div><div class="page-tabs" role="group" aria-label="${t('pages')}">${this.state.project.pages.map((page, index) => `<button data-page-index="${index}" aria-current="${index === this.pageIndex}">${this.escape(page.name)}</button>`).join('')}</div>
+            <div class="toolbar project-toolbar"><div class="tool-group" role="group" aria-label="${t('pages')}">${this.button('add-page', 'addPage')}${this.button('copy-page', 'copyPage')}${this.button('delete-page', 'deletePage')}</div>
+            <div class="tool-group" role="group" aria-label="${t('projectFiles')}">${this.button('save-project', 'save')}${this.button('export-page', 'exportPage')}${this.button('export-project', 'exportProject')}${this.button('import-project', 'import')}</div>
             <input id="import-file" type="file" accept="application/json,.json" hidden></div>
-            <div class="editor-layout"><section><h2>${t('available')}</h2><input id="asset-search" type="search" placeholder="${t('search')}">
-            <select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select>
-            <div class="toolbar">${this.button('add-text', 'text')}${this.button('add-value', 'value')}${this.button('draw-pipe', 'pipe')}</div><div class="library" id="library"></div></section>
-            <div><div class="toolbar">${this.button('undo', 'undo')}${this.button('redo', 'redo')}${this.button('duplicate', 'copy')}${this.button('delete', 'delete')}
-            ${this.button('preview', this.preview ? 'edit' : 'preview')}${this.button('night', 'night')}</div>
-            <div class="workspace ${this.preview ? 'preview-mode' : ''}" id="workspace"><svg id="canvas" xmlns="${NS}" viewBox="0 0 ${this.size.width} ${this.size.height}" class="${this.size.width < this.size.height ? 'portrait' : ''}" role="img" aria-label="Schema"></svg></div>
-            <p class="hint" id="pipe-hint"></p><div class="small-grid"><label>${t('name')}<input id="page-name" maxlength="80" value="${this.escape(this.page.name)}"></label>
-            <label>${t('background')}<select id="page-background">${['plain', 'cool', 'warm'].map(value => `<option value="${value}" ${this.page.background === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label></div></div>
-            <section class="inspector"><h2>${t('properties')}</h2><div id="inspector"></div></section></div>`;
+            <div class="editor-layout"><section class="library-panel" aria-labelledby="library-title"><h2 id="library-title">${t('available')}</h2><label>${t('search')}<input id="asset-search" type="search" placeholder="${t('search')}"></label>
+            <label>${t('category')}<select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select></label>
+            <div class="toolbar" role="group" aria-label="${t('addElement')}">${this.button('add-text', 'text')}${this.button('add-value', 'value')}${this.button('draw-pipe', 'pipe')}</div><div class="library" id="library"></div></section>
+            <div class="editor-stage"><div class="toolbar canvas-toolbar"><div class="tool-group" role="group" aria-label="${t('editTools')}">${this.button('undo', 'undo')}${this.button('redo', 'redo')}${this.button('duplicate', 'copy')}${this.button('delete', 'delete')}</div>
+            <div class="tool-group" role="group" aria-label="${t('preview')}">${this.button('preview', this.preview ? 'edit' : 'preview')}${this.button('night', 'night')}</div></div>
+            <div class="workspace ${this.preview ? 'preview-mode' : ''}" id="workspace"><svg id="canvas" xmlns="${NS}" viewBox="0 0 ${this.size.width} ${this.size.height}" class="${this.size.width < this.size.height ? 'portrait' : ''}" role="img" aria-label="${t('schemaCanvas')}"></svg></div>
+            <p class="hint" id="pipe-hint" role="status"></p><fieldset class="page-properties"><legend>${t('pageSettings')}</legend><div class="small-grid"><label>${t('name')}<input id="page-name" maxlength="80" value="${this.escape(this.page.name)}"></label>
+            <label>${t('background')}<select id="page-background">${['plain', 'cool', 'warm'].map(value => `<option value="${value}" ${this.page.background === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label></div></fieldset></div>
+            <section class="inspector" aria-labelledby="properties-title"><h2 id="properties-title">${t('properties')}</h2><div id="inspector"></div></section></div>`;
         const on = (id, handler) => this.root.querySelector(`#${id}`).onclick = handler;
         this.root.querySelectorAll('[data-page-index]').forEach(button => button.onclick = () => {
             this.pageIndex = Number(button.dataset.pageIndex);
@@ -470,16 +470,17 @@ export class Editor {
         const e = this.element, t = this.tr;
         if (!e) { panel.textContent = t('select'); return; }
         const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
-        panel.innerHTML = `<p class="hint">${this.escape(e.asset || e.type)}</p>${field('label', 'label')}
+        const asset = this.state.catalog.elements.find(item => item.id === e.asset);
+        panel.innerHTML = `<p class="element-caption">${this.escape(asset?.name[this.language] || t(e.type))}</p><fieldset><legend>${t('appearance')}</legend>${field('label', 'label')}
             ${e.type === 'text' ? field('text', 'text') : ''}${field('color', 'color', 'color')}
             <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>
             ${e.type !== 'pipe' ? `<div class="small-grid">${field('w', 'width', 'number')}${field('h', 'height', 'number')}</div>` : this.button('reverse-pipe', 'reverse')}
-            ${e.type === 'value' ? `${field('unit', 'unit')}${field('decimals', 'decimals', 'number')}<button class="binding-button" data-binding="value">${t('source')}: ${this.escape(e.value?.uuid || t('none'))}</button>` : ''}
-            ${['equipment', 'pipe'].includes(e.type) && !e.manifold ? `<label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(e.activity?.uuid || t('none'))}</button></label>
+            <label>${t('rotate')}<select id="element-rotation">${[0,90,180,270].map(n => `<option value="${n}" ${n === e.rotation ? 'selected' : ''}>${n}°</option>`).join('')}</select></label></fieldset>
+            ${e.type === 'value' ? `<fieldset><legend>${t('value')}</legend>` + `${field('unit', 'unit')}${field('decimals', 'decimals', 'number')}<button class="binding-button" data-binding="value">${t('source')}: ${this.escape(e.value?.uuid || t('none'))}</button></fieldset>` : ''}
+            ${['equipment', 'pipe'].includes(e.type) && !e.manifold ? `<fieldset><legend>${t('signals')}</legend><label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(e.activity?.uuid || t('none'))}</button></label>
             <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(e.power?.source.uuid || t('none'))}</button></label>
             ${e.power ? `<div class="small-grid"><label>${t('minimum')}<input id="power-min" type="number" step="any" value="${e.power.minimum}"></label><label>${t('maximum')}<input id="power-max" type="number" step="any" value="${e.power.maximum}"></label></div>
-                <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p>` : ''}`;
-        panel.insertAdjacentHTML('beforeend', `<label>${t('rotate')}<select id="element-rotation">${[0,90,180,270].map(n => `<option value="${n}" ${n === e.rotation ? 'selected' : ''}>${n}°</option>`).join('')}</select></label>`);
+                <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p></fieldset>` : ''}`;
         panel.querySelector('#element-rotation').onchange = event => {
             const before = clone(this.state.project);
             this.remember();
@@ -492,9 +493,9 @@ export class Editor {
         };
         if (e.manifold) this.inspectManifold(panel, e);
         if (e.type === 'equipment' && !e.manifold) {
-            panel.insertAdjacentHTML('beforeend', `<label>${t('position')}<button class="binding-button" data-binding="position">${this.escape(e.position?.source.uuid || t('none'))}</button></label>
+            panel.insertAdjacentHTML('beforeend', `<fieldset><legend>${t('valvePosition')}</legend><label>${t('position')}<button class="binding-button" data-binding="position">${this.escape(e.position?.source.uuid || t('none'))}</button></label>
                 ${e.position ? `<div class="small-grid"><label>${t('minimum')}<input id="position-min" type="number" step="any" value="${e.position.minimum}"></label><label>${t('maximum')}<input id="position-max" type="number" step="any" value="${e.position.maximum}"></label></div>
-                <label><input id="position-reverse" type="checkbox" ${e.position.reverse ? 'checked' : ''}>${t('positionReverse')}</label>` : ''}<p class="hint">${t('positionHint')}</p>`);
+                <label><input id="position-reverse" type="checkbox" ${e.position.reverse ? 'checked' : ''}>${t('positionReverse')}</label>` : ''}<p class="hint">${t('positionHint')}</p></fieldset>`);
         }
         panel.querySelectorAll('[data-property]').forEach(input => input.onchange = () => {
             const key = input.dataset.property;

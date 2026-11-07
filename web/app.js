@@ -127,15 +127,18 @@ function renderHome() {
 
 function renderSettings() {
     const cfg = state.settings;
-    $('#content').innerHTML = `<h1>${tr('settings')}</h1><form id="settings-form"><section><div class="grid">
+    $('#content').innerHTML = `<h1>${tr('settings')}</h1><form id="settings-form"><section class="settings-card">
+        <fieldset><legend>${tr('projectSettings')}</legend><div class="grid">
         ${label('title', input('title', cfg.project.title))}
+        ${label('language', `<select name="language"><option value="hu" ${cfg.project.language === 'hu' ? 'selected' : ''}>Magyar</option><option value="en" ${cfg.project.language === 'en' ? 'selected' : ''}>English</option></select>`)}</div></fieldset>
+        <fieldset><legend>${tr('displaySettings')}</legend><div class="grid">
         ${label('rotation', `<select name="rotation">${[0, 90, 180, 270].map(value => `<option ${cfg.display.rotation === value ? 'selected' : ''}>${value}</option>`).join('')}</select>`)}
         ${label('dayBrightness', input('day', cfg.display.dayBrightness, 'number', 'min="1" max="100"'))}
         ${label('nightBrightness', input('night', cfg.display.nightBrightness, 'number', 'min="0" max="100"'))}
-        ${label('ssid', input('ssid', cfg.wifi.ssid))}
+        </div><p id="canvas-size" class="hint"></p><button type="button" class="secondary" id="night-binding">${tr('nightSource')}</button></fieldset>
+        <fieldset><legend>${tr('wifiSettings')}</legend><div class="grid">${label('ssid', input('ssid', cfg.wifi.ssid))}
         ${label('password', input('password', '', 'password', `placeholder="${tr('passwordKeep')}" autocomplete="new-password"`))}
-        ${label('language', `<select name="language"><option value="hu" ${cfg.project.language === 'hu' ? 'selected' : ''}>Magyar</option><option value="en" ${cfg.project.language === 'en' ? 'selected' : ''}>English</option></select>`)}
-        </div><p id="canvas-size"></p><div class="actions"><button type="button" id="night-binding">${tr('nightSource')}</button><button>${tr('saveRestart')}</button></div></section></form>`;
+        </div></fieldset><div class="actions"><button type="submit">${tr('saveRestart')}</button></div></section></form>`;
     const form = $('#settings-form');
     const displaySize = () => {
         const size = canvasSize(Number(form.elements.rotation.value));
@@ -335,7 +338,10 @@ async function route() {
     $('#language').value = language;
     document.documentElement.lang = language;
     $('#navigation').innerHTML = ['home', 'editor', 'settings', 'loxone', 'graphics', 'backup', 'update', 'diagnostics']
-        .map(page => `<a data-nav="${page}" href="/${page === 'home' ? '' : page}">${tr(page)}</a>`).join('');
+        .map(page => `<a data-nav="${page}" ${page === route ? 'aria-current="page"' : ''} href="/${page === 'home' ? '' : page}">${tr(page)}</a>`).join('');
+    $('#navigation').setAttribute('aria-label', tr('navigation'));
+    $('#binding-search').setAttribute('aria-label', tr('search'));
+    $('#binding-options').setAttribute('aria-label', tr('binding'));
     $('#support-title').textContent = tr('support');
     $('#support-copy').textContent = tr('supportCopy');
     $('#mode-banner').hidden = !state.device.development && !state.device.integrationStatus;

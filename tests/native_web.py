@@ -31,6 +31,10 @@ with tempfile.TemporaryDirectory(prefix="schema-web-") as directory:
         assert call("/graphics/light/" + invalid)["status"].startswith("404")
     assert call("/editor")["status"] == "200 OK"
     assert b"new Editor" in call("/app.js")["body"]
+    for resource, marker in [("/common.css", b"box-sizing"), ("/schema.css", b".editor-layout")]:
+        css = call(resource)
+        assert css["status"] == "200 OK" and marker in css["body"]
+        assert css["headers"]["Content-Type"].startswith("text/css")
     assert len(decoded(call("/catalog.json"))["elements"]) >= 300
     assert call("/api/settings", override={"Host":"evil.example"})["status"].startswith("403")
     project = decoded(call("/api/project"))["project"]

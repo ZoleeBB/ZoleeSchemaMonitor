@@ -4,6 +4,7 @@
 - [Architektúra](architektura.md)
 - [MS1 és ellenőrzési lista](ms1.md)
 - [Fejlesztés és helyi előnézet](fejlesztes.md)
+- [Webfelület és Bootstrap/CDN-döntés](webfelulet.md)
 - [Készülékes fejlesztői build és helyreállítás](keszulek.md)
 - [A teljes katalógus öt ötvenes bekötési csomagja](grafika/teljes-bekotes.md)
 - [A 333 típus csatlakozópont-auditja és a csővastagság](grafika/csatlakozopont-audit.md)
