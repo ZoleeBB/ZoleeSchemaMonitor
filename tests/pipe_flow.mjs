@@ -56,6 +56,14 @@ async function testPipeFlow(browser, url) {
                 group.dataset.known===String(status!=='offline') &&
                 [...group.querySelectorAll('[data-dot]')].every(dot=>(dot.style.display!=='none')===(status==='active'))
             ),status);
+            if (status === 'off') {
+                const rotor = page.locator('[data-element="pump-0"] [data-rotor]');
+                const stopped = await rotor.getAttribute('transform');
+                await page.locator('#night').click();
+                assert.equal(await rotor.getAttribute('transform'), stopped);
+                await page.locator('#night').click();
+                assert.equal(await rotor.getAttribute('transform'), stopped);
+            }
         }
         await page.locator('#asset-search').fill('keringeto szivattyu');
         assert.ok(await page.locator('#library button').count()>0);

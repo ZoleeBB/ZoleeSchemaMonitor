@@ -30,6 +30,8 @@ Az [önállóan importálható próbaoldal](csoaramlas/aramlasi-proba.json) hat 
 
 [Szerkesztőkép](csoaramlas/szerkeszto.jpg) · [Kijelzőkép](csoaramlas/kijelzo.jpg) · [Áramlási animáció](csoaramlas/aramlas.mp4)
 
+A [szerkesztő és a kijelző összehasonlító felvételén](animaciok/osszehasonlitas.mp4) azonos jellel, 50 ms-os időlépésekben látszik a keringető, a kétventilátoros hőszivattyú, a háromventilátoros szárazhűtő, a csőventilátor, a szórófej és a motoros háromjáratú szelep. A felső sor a webszerkesztőből, az alsó a firmware LVGL-képpufferéből származik.
+
 ## Kipróbálás
 
 Indítsd el a [fejlesztői szervert](../../doc/fejlesztes.md) a `--demo` kapcsolóval, majd a szerkesztő Import gombjával válassz fájlt. A próbák a demószerver generált numerikus jelét használják az aktivitáshoz, teljesítményhez, szelepálláshoz és kijelzett értékhez. Saját Miniserveren a kötéseket a saját jelforrásokhoz kell társítani.

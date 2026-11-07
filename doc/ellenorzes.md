@@ -76,4 +76,17 @@ A fenti sorok helyi gazdagépes eredmények. Az ESP-IDF CI-fordítás eredménye
 
 A webszerkesztőben felépített és tartósan mentett kazán–keringető–radiátor kör ugyanazzal a projektfájllal a natív LVGL-rajzolóban is megjelent, PNG-dekóderrel és virtuális 1280×800-as kijelzővel. Négy eszközkép betöltve; 45,0 °C előremenő, 36,5 °C visszatérő és 1,5 bar szimulált érték. Ez képkocka-előnézet, nem fénykép fizikai panelről vagy valós Miniserveres mérés.
 
-A képernyőpróba feltárt egy korábbi natív rotorhibát: az induló nullpontokból létrejött vonal rajzterülete 0×0 maradhatott. Az egyetlen és a kiegészítő rotorok most kis, állandó méretű helyi rajzterületet kapnak. A képkockánkénti frissítés csak ezen belüli pontokat és invalidálást végez, dinamikus memóriafoglalás nélkül. A natív regresszió a tényleges rajzterületet, a helyi pontok határait és a színt is ellenőrzi; sikeres.
+## A mozgó elemek képpontszintű ellenőrzése
+
+A kijelző a szerkesztő két Bézier-ívéből rajzolja fel mindhárom lapátot. A forgás a katalógusban megadott tengely körül történik. A rajzoló a forgatás után alkalmazza a ferde nézet vetületét és a készülék elforgatását. Az élő rétegek a kijelzőn megjelenő kép tényleges léptékét és forgásközéppontját használják.
+
+| Ellenőrzött eszközök | Ellenőrzött részletek |
+| --- | --- |
+| 27 rotoros készülék, 33 tengely | Kitöltés és világos perem, három lapát és a köztük lévő rések, több forgásfázis, ferde és többventilátoros gépek, megállás és jelvesztés |
+| 5 szórófej | A permet indulópontja, összes cseppje, iránya és eltűnése |
+| 32 üzemjelzős eszköz | A jelző helye, aktív pulzálás, kikapcsolt és ismeretlen állapot |
+| 3 állásjelzős szelep | A mutató tengelye és végpontja 0, 50 és 100%-nál, jelvesztés |
+
+Az exportált oldalak gazdagépes próbája a katalógust is végigjárja. A firmware RGB565 képpufferén minden animált típust 0°, 90°, 180° és 270° készülékszögben, öt egymást követő jellépéssel ellenőriz, 1280×800 és 800×1280 kijelzőn. A külön böngésző–LVGL összevetés 1340 elempárt vizsgált azonos jellel és időlépéssel, 200 pixeles eszközképen. A csőáramlási próba a különböző átmérőket, színeket és mindkét irányt lefedi. A fizikai P4 mérési eredményei külön kerülnek a hardveres próbajegyzőkönyvbe.
+
+[Szerkesztő és LVGL mozgás közben](../tests/schemas/animaciok/osszehasonlitas.mp4)
