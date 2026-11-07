@@ -1,12 +1,10 @@
 """Öt ötvenes csomag világos/sötét előnézete a tényleges bekötési adatokból."""
 import argparse
-import io
 import json
 import importlib.util
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
-import cairosvg
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('preview_catalog', ROOT/'catalog/elements.py')

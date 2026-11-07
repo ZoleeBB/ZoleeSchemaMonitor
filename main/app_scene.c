@@ -485,6 +485,19 @@ typedef struct
 {
     double x, y, w, h, angle;
 } manifold_geometry_t;
+/* A képet, az élő rétegeket és a csővégeket ugyanabba a keretbe illesztjük. */
+static manifold_geometry_t equipment_geometry(const cJSON *element, int x, int y, int w, int h)
+{
+    const cJSON *m = cJSON_GetObjectItemCaseSensitive(element, "manifold");
+    unsigned n = m ? (unsigned)sm_json_number(m, "circuits", 4)
+                   : sm_manifold_raster_circuits(sm_json_string(element, "asset"));
+    double iw = n ? 96 + 56 * n : 160, ih = n ? 224 : 160;
+    double scale = fmin(w / iw, h / ih);
+    return (manifold_geometry_t){x + (w - iw * scale) / 2, y + (h - ih * scale) / 2,
+                                 iw * scale, ih * scale,
+                                 sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180};
+}
+
 static void manifold_point(manifold_geometry_t g, double px, double py, double *x, double *y)
 {
     double dx = (px - .5) * g.w, dy = (py - .5) * g.h;
@@ -525,15 +538,14 @@ static lv_obj_t *manifold_label(manifold_geometry_t g, double x, double y, const
     lv_obj_set_style_transform_scale(obj, font_size * 256 / 20, 0);
     return obj;
 }
-static lv_obj_t *draw_picture(unsigned index, int cx, int cy, int w, int h, int rotation)
+static lv_obj_t *draw_picture(unsigned index, int cx, int cy, double width, int rotation)
 {
     const lv_image_dsc_t *src = &s_pictures[s_pictures[index].owner].image;
     int iw = src->header.w, ih = src->header.h;
     lv_obj_t *image = lv_image_create(s_root);
     lv_image_set_src(image, src);
     lv_image_set_pivot(image, iw / 2, ih / 2);
-    lv_image_set_scale_x(image, fmax(1, lround(w * 256.0 / iw)));
-    lv_image_set_scale_y(image, fmax(1, lround(h * 256.0 / ih)));
+    lv_image_set_scale(image, fmax(1, lround(width * 256.0 / iw)));
     lv_image_set_rotation(image, rotation * 10);
     lv_obj_set_pos(image, cx - iw / 2, cy - ih / 2);
     return image;
@@ -552,7 +564,8 @@ static void draw_manifold(const cJSON *m, manifold_geometry_t g)
         : !strcmp(variant, "ceiling-heat") ? (s_english ? "Ceiling heating" : "Mennyezetfűtés")
         : !strcmp(variant, "floor")        ? (s_english ? "Underfloor heating" : "Padlófűtés")
                                            : (s_english ? "Heating" : "Fűtés");
-    manifold_label(g, .5, .0, caption, 12);
+    double scale = g.h / 224;
+    manifold_label(g, .5, .0, caption, fmax(1, lround(12 * scale)));
     double width = 96 + 56 * n;
     if (connections)
     {
@@ -568,11 +581,14 @@ static void draw_manifold(const cJSON *m, manifold_geometry_t g)
         head->manual = sm_json_number(json, "percent", 0);
         head->last_color = -1;
         head->indicator = manifold_rect(g, x - 8/width, 140./224, 16/width, 5./224, 0x26333d);
-        head->label = manifold_label(g, x, 148./224, "—", fmax(9, fmin(16, g.w * 13 / width)));
+        int font_size = fmax(1, lround(13 * scale));
+        manifold_geometry_t text_box = g;
+        text_box.y -= font_size * .6;
+        head->label = manifold_label(text_box, x, 155./224, "—", font_size);
         lv_obj_set_style_text_color(head->label, lv_color_hex(0x26333d), 0);
         char number[8];
         snprintf(number, sizeof(number), "%u", i + 1);
-        manifold_label(g, x, .065, number, 11);
+        manifold_label(g, x, .065, number, fmax(1, lround(11 * scale)));
         if (connections)
         {
             manifold_rect(g, x - 4/width, 123./224, 8/width, 6./224, supply);
@@ -622,12 +638,9 @@ static bool equipment_port_position(const cJSON *element, unsigned port, int wid
     int y = sm_json_number(element, "y", 0) * height;
     int w = sm_json_number(element, "w", .1) * width;
     int h = sm_json_number(element, "h", .1) * height;
-    int side = w < h ? w : h;
-    bool wide = m || sm_manifold_raster_circuits(sm_json_string(element, "asset"));
-    double dx = (anchor.x - .5) * (wide ? w : side), dy = (anchor.y - .5) * (wide ? h : side);
-    double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
-    *result = (lv_point_precise_t){x + w / 2.0 + dx * cos(angle) - dy * sin(angle),
-                                   y + h / 2.0 + dx * sin(angle) + dy * cos(angle)};
+    double px, py;
+    manifold_point(equipment_geometry(element, x, y, w, h), anchor.x, anchor.y, &px, &py);
+    *result = (lv_point_precise_t){px, py};
     return true;
 }
 
@@ -824,19 +837,18 @@ void app_scene_poll(void)
         else if (!strcmp(type, "equipment"))
         {
             int side = w < h ? w : h;
+            manifold_geometry_t geometry = equipment_geometry(element, x, y, w, h);
             const cJSON *manifold = cJSON_GetObjectItemCaseSensitive(element, "manifold");
             if (s_pictures[index].bytes)
             {
-                bool wide = manifold || sm_manifold_raster_circuits(sm_json_string(element, "asset"));
                 lv_obj_t *image = draw_picture(index, x + w / 2, y + h / 2,
-                                               wide ? w : side, wide ? h : side,
+                                               geometry.w,
                                                sm_json_number(element, "rotation", 0));
                 if (!manifold)
                     runtime->body = image;
             }
             if (manifold)
-                draw_manifold(manifold, (manifold_geometry_t){x, y, w, h,
-                              sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180});
+                draw_manifold(manifold, geometry);
             else if (!s_pictures[index].bytes)
             {
                 const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));

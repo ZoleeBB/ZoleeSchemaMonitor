@@ -61,7 +61,8 @@ test('rotated manifold ports follow the rectangular graphic; removed ports detac
     const context={state:{catalog},size:{width:1280,height:800},page:{elements:[e,pipe]},portPoint:Editor.prototype.portPoint};
     Editor.prototype.updateConnections.call(context,e);
     const port=elementPorts(e,asset)[33];
-    assert.ok(Math.abs(pipe.points[0].x-(e.x+e.w/2-(port.y-.5)*e.h*800/1280))<1e-9);
+    const height = e.w*1280*224/992; // Width-limited fit inside the existing rectangular element.
+    assert.ok(Math.abs(pipe.points[0].x-(e.x+e.w/2-(port.y-.5)*height/1280))<1e-9);
     assert.ok(Math.abs(pipe.points[0].y-(e.y+e.h/2+(port.x-.5)*e.w*1280/800))<1e-9);
     const endpoint=structuredClone(pipe.points[0]);
     e.manifold=newManifold(2,e.manifold);Editor.prototype.updateConnections.call(context,e);

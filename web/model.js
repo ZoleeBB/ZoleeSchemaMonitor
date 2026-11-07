@@ -284,6 +284,11 @@ export function rotateElement(element, rotation, size) {
 
 /* Pontos műszaki rajz: két külön sín, körönként egy átfolyásmérő és egy termofej. */
 export function manifoldWidth(n) { return 96 + 56 * n; }
+export function equipmentImageSize(n, width, height) {
+    const iw = n ? manifoldWidth(n) : 160, ih = n ? 224 : 160;
+    const scale = Math.min(width / iw, height / ih);
+    return {width: iw * scale, height: ih * scale, scale};
+}
 export function manifoldCenter(n, i) { return (56 + 56 * (i + .5)) / manifoldWidth(n); }
 export function manifoldImage(m) {
     return `/graphics/light/manifold-${m.variant === 'ceiling-cool' ? 'cool' : 'body'}-${m.circuits}.png`;

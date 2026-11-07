@@ -315,7 +315,7 @@ int main(void)
         assert(s_head_count == 16);
         // Az LVGL alapkonfigurációja egész pixeles pontokat használ.
         double px = ((56 + 56 * 15.5) / 992 - .5) * 80;
-        double py = (222. / 224 - .5) * 128;
+        double py = (222. / 224 - .5) * (80. * 224 / 992);
         double angle = rotation * 3.141592653589793 / 180;
         assert(fabs(s_points[0][0].x - (320 + 40 + px * cos(angle) - py * sin(angle))) < 1.01);
         assert(fabs(s_points[0][0].y - (512 + 64 + px * sin(angle) + py * cos(angle))) < 1.01);
@@ -362,7 +362,9 @@ int main(void)
             int y = sm_json_number(equipment, "y", 0) * height;
             int w = sm_json_number(equipment, "w", .1) * width;
             int h = sm_json_number(equipment, "h", .1) * height;
-            int side = w < h ? w : h;
+            unsigned n = sm_manifold_raster_circuits(asset->id);
+            double ratio = n ? (96 + 56*n)/224. : 1;
+            double image_w = fmin(w,h*ratio), image_h = image_w/ratio;
             for (unsigned rotation = 0; rotation < 360; rotation += 90)
             {
                 cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(rotation));
@@ -370,8 +372,8 @@ int main(void)
                 {
                     lv_point_precise_t point;
                     assert(equipment_port_position(equipment, p, width, height, &point));
-                    double dx = (asset->ports[p].x - .5) * (sm_manifold_raster_circuits(asset->id) ? w : side);
-                    double dy = (asset->ports[p].y - .5) * (sm_manifold_raster_circuits(asset->id) ? h : side);
+                    double dx = (asset->ports[p].x - .5) * image_w;
+                    double dy = (asset->ports[p].y - .5) * image_h;
                     for (unsigned turn = 0; turn < rotation / 90; turn++)
                     {
                         double previous_dx = dx;

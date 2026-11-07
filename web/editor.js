@@ -1,5 +1,5 @@
 import {labelLines} from './text-layout.js';
-import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, manifoldCenter, manifoldWidth, manifoldImage, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
+import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, manifoldCenter, manifoldWidth, equipmentImageSize, manifoldImage, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
@@ -251,9 +251,9 @@ export class Editor {
         const asset = this.state.catalog.elements.find(item => item.id === element.asset);
         const p = elementPorts(element, asset)[port];
         const radians = element.rotation * Math.PI / 180;
-        const side = Math.min(element.w * this.size.width, element.h * this.size.height);
-        const dx = (p.x - 0.5) * (element.manifold || asset.proceduralManifold ? element.w * this.size.width : side);
-        const dy = (p.y - 0.5) * (element.manifold || asset.proceduralManifold ? element.h * this.size.height : side);
+        const size = equipmentImageSize(element.manifold?.circuits || asset.proceduralManifold,
+            element.w * this.size.width, element.h * this.size.height);
+        const dx = (p.x - .5) * size.width, dy = (p.y - .5) * size.height;
         return {x: element.x + element.w / 2 + (dx * Math.cos(radians) - dy * Math.sin(radians)) / this.size.width,
             y: element.y + element.h / 2 + (dx * Math.sin(radians) + dy * Math.cos(radians)) / this.size.height};
     }
@@ -314,34 +314,37 @@ export class Editor {
                 const drawing = svgNode('g', {transform: `translate(${x},${y}) rotate(${element.rotation},${width / 2},${height / 2})`});
                 if (element.type === 'equipment' && element.manifold) {
                     const m = element.manifold;
-                    drawing.append(svgNode('image', {href: manifoldImage(m), width, height, preserveAspectRatio: 'none'}));
-                    const tx = width / 2, ty = .055 * height;
-                    drawing.append(svgNode('text', {x: tx, y: ty, 'text-anchor': 'middle',
-                        fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 12,
+                    const {width: bodyW, height: bodyH, scale} = equipmentImageSize(m.circuits,width,height);
+                    const body = svgNode('g', {transform: `translate(${(width-bodyW)/2},${(height-bodyH)/2})`});
+                    drawing.append(body);
+                    body.append(svgNode('image', {href: manifoldImage(m), width: bodyW, height: bodyH, preserveAspectRatio: 'none'}));
+                    const tx = bodyW / 2, ty = .055 * bodyH;
+                    body.append(svgNode('text', {x: tx, y: ty, 'text-anchor': 'middle',
+                        fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 12*scale,
                         transform: `rotate(${-element.rotation},${tx},${ty})`}, this.tr(m.variant)));
-                    for (const part of manifoldParts(m)) drawing.append(svgNode('rect', {
-                        x: part.x * width, y: part.y * height, width: part.w * width, height: part.h * height,
-                        rx: Math.min(3,part.w * width * .15), fill: part.color,
+                    for (const part of manifoldParts(m)) body.append(svgNode('rect', {
+                        x: part.x * bodyW, y: part.y * bodyH, width: part.w * bodyW, height: part.h * bodyH,
+                        rx: Math.min(3,part.w * bodyW * .15), fill: part.color,
                         stroke: '#67747d', 'stroke-width': .6,
                         ...(part.head === undefined ? {} : {'data-head-indicator': part.head})}));
                     m.heads.forEach((head, index) => {
-                        const cx = manifoldCenter(m.circuits,index)*width, cy = 161/224*height;
-                        drawing.append(svgNode('text', {x: cx, y: cy, 'text-anchor': 'middle',
-                            fill: '#26333d', 'font-size': Math.max(9, Math.min(16,width*13/manifoldWidth(m.circuits))),
+                        const cx = manifoldCenter(m.circuits,index)*bodyW, cy = 155/224*bodyH;
+                        body.append(svgNode('text', {x: cx, y: cy, 'text-anchor': 'middle',
+                            'dominant-baseline': 'central', fill: '#26333d', 'font-size': 13*scale,
                             transform: `rotate(${-element.rotation},${cx},${cy})`, 'data-head-label': index}));
-                        const ix = cx, iy = .12*height;
-                        drawing.append(svgNode('text', {x: ix, y: iy, 'text-anchor': 'middle',
-                            fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 11,
+                        const ix = cx, iy = .12*bodyH;
+                        body.append(svgNode('text', {x: ix, y: iy, 'text-anchor': 'middle',
+                            fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 11*scale,
                             transform: `rotate(${-element.rotation},${ix},${iy})`}, index+1));
                     });
-                    if (!this.preview) elementPorts(element, {}).forEach((p,index) => drawing.append(svgNode('circle', {
-                        cx: p.x*width,cy: p.y*height,r:5,class:'port','data-port':index})));
+                    if (!this.preview) elementPorts(element, {}).forEach((p,index) => body.append(svgNode('circle', {
+                        cx: p.x*bodyW,cy: p.y*bodyH,r:5,class:'port','data-port':index})));
                     if (element.label) group.append(svgNode('text', {x:x+width/2,y:y+height+17,
                         'text-anchor':'middle',fill:this.dark ? '#dfecf4' : '#354e60','font-size':element.fontSize},element.label));
                 } else if (element.type === 'equipment') {
                     const asset = this.state.catalog.elements.find(item => item.id === element.asset);
                     const side = Math.min(width, height);
-                    const imageW = asset.proceduralManifold ? width : side, imageH = asset.proceduralManifold ? height : side;
+                    const {width: imageW, height: imageH} = equipmentImageSize(asset.proceduralManifold,width,height);
                     const offsetX = (width - imageW) / 2, offsetY = (height - imageH) / 2;
                     const equipment = svgNode('g', {transform: `translate(${offsetX},${offsetY})`});
                     equipment.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width: imageW, height: imageH, preserveAspectRatio: 'none'}));
