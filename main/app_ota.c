@@ -14,6 +14,7 @@ const char schema_ota_identity[] __attribute__((section(".rodata_custom_desc"), 
     SCHEMA_OTA_IDENTITY;
 static atomic_flag s_upload = ATOMIC_FLAG_INIT;
 static bool s_boot_checked;
+static uint64_t s_next_asset_check;
 
 static esp_err_t
 upload(size_t size, app_ota_read_fn reader, void *context, bool (*verify)(void *context))
@@ -124,9 +125,13 @@ void app_ota_boot_poll(bool healthy, uint64_t uptime_seconds)
         s_boot_checked = true;
         return;
     }
-    if (healthy && uptime_seconds >= 30)
+    /* A teljes SD-készlet hash-elése csak függő firmware-nél szükséges.
+     * A határidőnél a közben helyreállított készlet még egyszer ellenőrizhető. */
+    if (healthy && uptime_seconds >= 30 &&
+        (uptime_seconds >= s_next_asset_check || uptime_seconds >= 180))
     {
-        if (esp_ota_mark_app_valid_cancel_rollback() == ESP_OK)
+        s_next_asset_check = uptime_seconds + 10;
+        if (app_assets_boot_ready() && esp_ota_mark_app_valid_cancel_rollback() == ESP_OK)
             s_boot_checked = true;
     }
     if (!s_boot_checked && uptime_seconds >= 180)

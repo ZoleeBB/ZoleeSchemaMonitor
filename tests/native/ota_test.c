@@ -8,6 +8,7 @@ _Static_assert(sizeof(esp_image_header_t) == 24, "image header layout");
 static const esp_partition_t partition = {.size = 8 * 1024 * 1024};
 static const esp_app_desc_t running = {.magic_word = ESP_APP_DESC_MAGIC_WORD,
                                        .project_name = "zolee_schema_monitor"};
+static unsigned boot_asset_reads;
 static unsigned begins, writes, ends, aborts, switches, confirms, rollbacks;
 static esp_err_t begin_error, write_error, end_error, switch_error, confirm_error;
 static esp_ota_img_states_t boot_state;
@@ -107,6 +108,7 @@ static void reset(void)
     ready_set = false;
     current_ready = true;
     s_boot_checked = false;
+    s_next_asset_check = boot_asset_reads = 0;
     boot_state = ESP_OTA_IMG_PENDING_VERIFY;
     atomic_flag_clear(&s_upload);
     memset(image, 0x5a, sizeof(image));
@@ -200,6 +202,23 @@ int main(void)
     boot_state = ESP_OTA_IMG_VALID;
     app_ota_boot_poll(false, 180);
     assert(!confirms && !rollbacks);
+    app_ota_boot_poll(true, 181);
+    assert(boot_asset_reads == 0);
+    reset();
+    current_ready = false;
+    app_ota_boot_poll(true, 29);
+    assert(boot_asset_reads == 0);
+    app_ota_boot_poll(true, 30);
+    app_ota_boot_poll(true, 39);
+    assert(boot_asset_reads == 1 && !confirms);
+    current_ready = true;
+    app_ota_boot_poll(true, 40);
+    assert(boot_asset_reads == 2 && confirms == 1 && !rollbacks);
+    reset();
+    current_ready = false;
+    app_ota_boot_poll(true, 179);
+    app_ota_boot_poll(true, 180);
+    assert(boot_asset_reads == 2 && !confirms && rollbacks == 1);
     puts("Native OTA: stream, compatibility, interruptions, flash failures, boot switch and "
          "rollback policy OK");
 }
@@ -211,4 +230,10 @@ bool app_assets_identity_valid(const char *identity)
 bool app_assets_ready(const char *identity)
 {
     return !strcmp(identity, schema_ota_identity) ? current_ready : ready_set;
+}
+
+bool app_assets_boot_ready(void)
+{
+    boot_asset_reads++;
+    return current_ready;
 }

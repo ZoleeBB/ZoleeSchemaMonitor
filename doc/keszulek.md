@@ -51,7 +51,7 @@ A Grafikai készlet oldalon a Frissítés csak az aktuális firmware-hez illő k
 
 A kézi `.bin` feltöltés megmaradt. A binárishoz tartozó teljes készletnek az SD-n kell lennie; hiányos készlettel azonos grafikai azonosító esetén sem aktivál firmware-t. Általános grafikai fájlfeltöltő vagy egyedi URL megadása nincs.
 
-Az új alkalmazás a web, az SD-állapottár és a saját teljes grafikai készlet sikeres alapindulása, legalább 30 s uptime után válik véglegessé. A Loxone pillanatnyi elérhetősége ezt nem akadályozza. A készülékes OTA, valódi GitHub-hálózat és áramelvételes visszaállítás fizikai tesztje még szükséges; az MS1 továbbra is nyitott.
+Az új alkalmazás a web, az SD-állapottár és a saját teljes grafikai készlet sikeres alapindulása, legalább 30 s uptime után válik véglegessé. Függőben lévő frissítésnél a sikertelen készletellenőrzést tíz másodpercenként ismétli meg. A 180. másodpercnél még egyszer ellenőrizheti a készletet, majd sikertelen indulás esetén visszaáll az előző firmware-re. A Loxone pillanatnyi elérhetősége ezt nem akadályozza. A készülékes OTA, valódi GitHub-hálózat és áramelvételes visszaállítás fizikai tesztje még szükséges; az MS1 továbbra is nyitott.
 
 ### Diagnosztika
 

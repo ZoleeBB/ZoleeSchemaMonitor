@@ -9,7 +9,6 @@
 #include "app_store.h"
 #include "app_web.h"
 #include "app_ota.h"
-#include "app_assets.h"
 #include "app_scene.h"
 #include "app_loxone.h"
 #include "bsp/esp-bsp.h"
@@ -122,8 +121,7 @@ void app_main(void)
         app_diagnostics_t metrics;
         app_diagnostics_capture(&metrics);
         app_ota_boot_poll(web_ready && diagnostics_ready && metrics.sampled &&
-                              metrics.sample_age <= 10 && app_store_ready() &&
-                              app_assets_boot_ready(),
+                              metrics.sample_age <= 10 && app_store_ready(),
                           now / 1000000);
         app_network_status_t network;
         app_network_status(&network);
