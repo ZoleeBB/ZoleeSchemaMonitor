@@ -1,6 +1,6 @@
 execute_process(COMMAND ${PYTHON} "${CMAKE_CURRENT_LIST_DIR}/../tools/ota_identity.py" "${CMAKE_CURRENT_BINARY_DIR}/ota_identity.inc"
     COMMAND_ERROR_IS_FATAL ANY)
-execute_process(COMMAND ${PYTHON} "${CMAKE_CURRENT_LIST_DIR}/../tools/build_assets.py"
+execute_process(COMMAND ${PYTHON} "${CMAKE_CURRENT_LIST_DIR}/../tools/build_assets.py" --catalog-only
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/.." COMMAND_ERROR_IS_FATAL ANY)
 execute_process(COMMAND ${PYTHON} "${CMAKE_CURRENT_LIST_DIR}/../tools/embed_web.py" "${CMAKE_CURRENT_BINARY_DIR}/web_bundle.inc"
     COMMAND_ERROR_IS_FATAL ANY)

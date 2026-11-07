@@ -32,9 +32,9 @@ for dark in range(2):
         if 'artwork' in item:
             source = Image.open(ROOT/'assets/elements/universal'/f'{item["artwork"]}.png').convert('RGBA')
         else:
-            source = Image.open(io.BytesIO(cairosvg.svg2png(url=str(ROOT/'web/graphics'/('dark' if dark else 'light')/f'{identifier}.svg')))).convert('RGBA')
-        source = source.resize((68,68), Image.Resampling.LANCZOS)
-        out.paste(source, (x+30,y), source)
+            source = Image.open(ROOT/'web/graphics'/('dark' if dark else 'light')/f'{identifier}.png').convert('RGBA')
+        source.thumbnail((68,68), Image.Resampling.LANCZOS)
+        out.paste(source, (x+30+(68-source.width)//2,y+(68-source.height)//2), source)
         # A mozgó réteg nyugalmi helyzete; nem módosítja az elem PNG-forrását.
         animation = item.get('animation') or {}
         if animation.get('kind') == 'rotor':

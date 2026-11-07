@@ -634,17 +634,12 @@ def elements():
                            **({"artwork": artwork[0]} if artwork else {})})
     result.append({"id": "configurable-manifold", "name": {
         "hu": "Termofejes osztó-gyűjtő (2–16 kör)", "en": "Actuated manifold (2–16 circuits)"},
-        "category": "valves", "family": "configurable-manifold", "ports": [
-            {"x": .04, "y": .30}, {"x": .04, "y": .72},
-            *[{"x": .16 + .78 * (i + .5) / 16, "y": y}
-              for i in range(16) for y in [.46, .95]]], "animation": None})
+        "category": "valves", "family": "configurable-manifold", "animation": None})
     # A portindexek a mentett csőkapcsolatok részei; a kalibrálás nem rendezheti át őket.
     for element in result:
         calibration = PORT_CALIBRATION["elements"][element["id"]]
-        if calibration["mode"] != "procedural":
-            element["ports"] = [{"x": x / PORT_CALIBRATION["canvasPixels"],
-                                 "y": y / PORT_CALIBRATION["canvasPixels"]}
-                                for x, y in calibration["portsPx"]]
-            if calibration.get("note") and not element.get("portNote"):
-                element["portNote"] = calibration["note"]
+        width, height = calibration.get("canvas", [PORT_CALIBRATION["canvasPixels"]] * 2)
+        element["ports"] = [{"x": x / width, "y": y / height} for x, y in calibration["portsPx"]]
+        if calibration.get("note") and not element.get("portNote"):
+            element["portNote"] = calibration["note"]
     return result

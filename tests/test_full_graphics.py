@@ -6,7 +6,8 @@ import unittest
 import tempfile
 from unittest.mock import patch
 import shutil
-import xml.etree.ElementTree as ET
+from io import BytesIO
+from PIL import Image
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,7 +17,7 @@ import ota_identity
 spec = importlib.util.spec_from_file_location('full_catalog', ROOT/'catalog/elements.py')
 catalog = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(catalog)
-from build_assets import illustration
+from build_assets import manifold_png
 
 
 class FullGraphicsTests(unittest.TestCase):
@@ -49,21 +50,24 @@ class FullGraphicsTests(unittest.TestCase):
         self.assertEqual(set(identifiers), set(catalog.INTEGRATED_ARTWORK))
 
     def test_legacy_manifolds_have_exact_head_counts_and_keep_return_port_order(self):
-        ns={'s':'http://www.w3.org/2000/svg'}
+        for n in range(2, 17):
+            for cooling in (True, False):
+                image = Image.open(BytesIO(manifold_png(n, cooling)))
+                self.assertEqual(image.size, (96 + 56*n, 224))
+                for i in range(n):
+                    x = 84 + 56*i
+                    for y in (70, 122, 148, 215):
+                        self.assertGreater(image.getpixel((x, y))[3], 180)
+                    for y in (122, 148, 215):
+                        self.assertLess(image.getpixel((x+27, y))[3], 64)
+                for y in (99, 191):
+                    self.assertGreater(image.getpixel((5, y))[3], 160)
         for e in catalog.elements():
-            if not e.get('proceduralManifold'):continue
-            n=e['proceduralManifold']
-            self.assertEqual(len(e['ports']), 2+2*n)
-            self.assertEqual(len({(p['x'],p['y']) for p in e['ports']}), 2+2*n)
-            self.assertTrue(all(p['y']>.9 for p in e['ports'][2:2+n]))
-            self.assertTrue(all(.4<p['y']<.5 for p in e['ports'][2+n:]))
-            for dark in [False,True]:
-                xml=ET.fromstring(illustration(e,dark))
-                heads=[p for p in xml.findall('.//s:rect',ns) if p.get('y')=='80']
-                meters=[p for p in xml.findall('.//s:rect',ns) if p.get('y')=='23']
-                self.assertEqual(len(heads),n); self.assertEqual(len(meters),n)
-                self.assertTrue(all(float(p.get('width'))>0 for p in heads))
-            self.assertFalse((ROOT/f'assets/elements/universal/{e["id"]}.png').exists())
+            n = e.get('proceduralManifold')
+            if n:
+                width = 96 + 56*n
+                self.assertEqual([(round(p['x']*width), round(p['y']*224)) for p in e['ports']],
+                                 [(4,99),(4,191)] + [(84+56*i,y) for y in (217,124) for i in range(n)])
 
     def test_multiple_rotors_and_oblique_projection_stay_inside_the_picture(self):
         items={e['id']:e for e in catalog.elements()}

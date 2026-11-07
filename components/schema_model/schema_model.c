@@ -5,6 +5,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* A raszternév egyben a firmware által elfogadott vászonméretet is kijelöli. */
+unsigned sm_manifold_raster_circuits(const char *id)
+{
+    if (!strcmp(id, "configurable-manifold"))
+        return 4;
+    if (strncmp(id, "manifold-", 9))
+        return 0;
+    const char *digits = id + 9;
+    if (!strncmp(digits, "cool-", 5) || !strncmp(digits, "body-", 5))
+        digits += 5;
+    else if (!sm_asset_find(id))
+        return 0;
+    if (*digits < '1' || *digits > '9' || strlen(digits) > 2 ||
+        digits[strspn(digits, "0123456789")])
+        return 0;
+    unsigned n = (unsigned)atoi(digits);
+    return n >= 2 && n <= 16 ? n : 0;
+}
+
 cJSON *sm_json_parse(const char *data, size_t length)
 {
     return sm_json_parse_limit(data, length, SM_PROJECT_BYTES + 32768U);

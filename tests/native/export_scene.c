@@ -251,8 +251,7 @@ int main(int argc, char **argv)
             for (unsigned n = 0; n < s_runtime_count; n++)
             {
                 cJSON *el = cJSON_GetArrayItem(elements, n);
-                if (!strcmp(sm_json_string(el, "type"), "equipment") &&
-                    !cJSON_HasObjectItem(el, "manifold"))
+                if (!strcmp(sm_json_string(el, "type"), "equipment"))
                     assert(s_pictures[n].bytes);
             }
             assert(max_main <= 10240 && max_lvgl <= 32768 && peak <= 32 * 1024 * 1024);

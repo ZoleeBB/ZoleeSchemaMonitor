@@ -403,7 +403,10 @@ static picture_t load_picture(
     const cJSON *manifest, const char *asset, bool dark, const picture_t *loaded, unsigned count)
 {
     picture_t result = {.owner = count};
-    if (!sm_asset_find(asset) || sm_json_number(manifest, "assetAbi", 0) != 1)
+    unsigned circuits = sm_manifold_raster_circuits(asset);
+    unsigned width = circuits ? 96 + 56 * circuits : 160;
+    unsigned height = circuits ? 224 : 160;
+    if ((!circuits && !sm_asset_find(asset)) || sm_json_number(manifest, "assetAbi", 0) != 1)
         return result;
     char relative[96], path[APP_ASSET_PATH_SIZE];
     snprintf(relative, sizeof(relative), "%s/%s.png", dark ? "dark" : "light", asset);
@@ -423,7 +426,8 @@ static picture_t load_picture(
         return result;
     /* Azonos tartalomhoz egyetlen PNG-puffer és LVGL cache-kulcs tartozik. */
     for (unsigned i = 0; i < count; i++)
-        if (loaded[i].bytes && loaded[i].image.data_size == (size_t)size &&
+        if (loaded[i].bytes && loaded[i].image.header.w == width && loaded[i].image.header.h == height &&
+            loaded[i].image.data_size == (size_t)size &&
             !strcmp(loaded[i].digest, expected_hash))
             return loaded[i];
     if (!app_assets_path(manifest, relative, path))
@@ -445,7 +449,10 @@ static picture_t load_picture(
             snprintf(digest + i * 2, 3, "%02x", hash[i]);
         ok = !strcmp(digest, sm_json_string(found, "sha256")) &&
              !memcmp(bytes, "\211PNG\r\n\032\n", 8) &&
-             !memcmp(bytes + 16, "\0\0\0\240\0\0\0\240", 8);
+             !memcmp(bytes + 12, "IHDR", 4) &&
+             bytes[16] == 0 && bytes[17] == 0 && bytes[18] == width / 256 &&
+             bytes[19] == width % 256 && bytes[20] == 0 && bytes[21] == 0 &&
+             bytes[22] == 0 && bytes[23] == height;
     }
     if (!ok)
     {
@@ -456,8 +463,8 @@ static picture_t load_picture(
     snprintf(result.digest, sizeof(result.digest), "%s", digest);
     result.image = (lv_image_dsc_t){.header = {.magic = LV_IMAGE_HEADER_MAGIC,
                                                .cf = LV_COLOR_FORMAT_RAW_ALPHA,
-                                               .w = 160,
-                                               .h = 160},
+                                               .w = width,
+                                               .h = height},
                                     .data_size = (uint32_t)size,
                                     .data = bytes};
     return result;
@@ -518,6 +525,20 @@ static lv_obj_t *manifold_label(manifold_geometry_t g, double x, double y, const
     lv_obj_set_style_transform_scale(obj, font_size * 256 / 20, 0);
     return obj;
 }
+static lv_obj_t *draw_picture(unsigned index, int cx, int cy, int w, int h, int rotation)
+{
+    const lv_image_dsc_t *src = &s_pictures[s_pictures[index].owner].image;
+    int iw = src->header.w, ih = src->header.h;
+    lv_obj_t *image = lv_image_create(s_root);
+    lv_image_set_src(image, src);
+    lv_image_set_pivot(image, iw / 2, ih / 2);
+    lv_image_set_scale_x(image, fmax(1, lround(w * 256.0 / iw)));
+    lv_image_set_scale_y(image, fmax(1, lround(h * 256.0 / ih)));
+    lv_image_set_rotation(image, rotation * 10);
+    lv_obj_set_pos(image, cx - iw / 2, cy - ih / 2);
+    return image;
+}
+
 static void draw_manifold(const cJSON *m, manifold_geometry_t g)
 {
     unsigned n = sm_json_number(m, "circuits", 4);
@@ -532,40 +553,30 @@ static void draw_manifold(const cJSON *m, manifold_geometry_t g)
         : !strcmp(variant, "floor")        ? (s_english ? "Underfloor heating" : "Padlófűtés")
                                            : (s_english ? "Heating" : "Fűtés");
     manifold_label(g, .5, .0, caption, 12);
-    manifold_rect(g, .08, .265, .88, .07, 0xc6cfd4);
-    manifold_rect(g, .08, .685, .88, .07, 0xc6cfd4);
-    manifold_rect(g, .08, .265, .88, .012, supply);
-    manifold_rect(g, .08, .735, .88, .012, 0x349bd0);
+    double width = 96 + 56 * n;
     if (connections)
     {
-        manifold_rect(g, .04, .28, .04, .04, 0xc9a455);
-        manifold_rect(g, .04, .70, .04, .04, 0xc9a455);
+        manifold_rect(g, 0, 95./224, 5/width, 8./224, supply);
+        manifold_rect(g, 0, 187./224, 5/width, 8./224, 0x349bd0);
     }
     for (unsigned i = 0; i < n; i++)
     {
-        double x = .16 + .78 * (i + .5) / n, d = .55 / n;
-        manifold_rect(g, x - d * .28, .17, d * .56, .095, 0xb9d9e5);
-        manifold_rect(g, x - d * .25, .235, d * .5, .035, supply);
-        manifold_rect(g, x - d * .32, .335, d * .64, .06, 0xc9a455);
-        manifold_rect(g, x - d * .35, .65, d * .7, .035, 0xc9a455);
-        manifold_rect(g, x - d * .5, .50, d, .17, 0xedf1f3);
-        manifold_rect(g, x - d * .4, .49, d * .8, .025, 0xffffff);
+        double x = (56 + 56 * (i + .5)) / width;
         head_runtime_t *head = &s_heads[s_head_count++];
         const cJSON *json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(m, "heads"), i);
         sm_binding_parse(cJSON_GetObjectItemCaseSensitive(json, "source"), &head->source);
         head->manual = sm_json_number(json, "percent", 0);
         head->last_color = -1;
-        head->indicator = manifold_rect(g, x - d * .23, .52, d * .46, .025, 0x26333d);
-        head->label = manifold_label(g, x, .58, "—", fmax(9, fmin(16, g.w * .16 / n)));
+        head->indicator = manifold_rect(g, x - 8/width, 140./224, 16/width, 5./224, 0x26333d);
+        head->label = manifold_label(g, x, 148./224, "—", fmax(9, fmin(16, g.w * 13 / width)));
         lv_obj_set_style_text_color(head->label, lv_color_hex(0x26333d), 0);
         char number[8];
         snprintf(number, sizeof(number), "%u", i + 1);
         manifold_label(g, x, .065, number, 11);
-        manifold_rect(g, x - d * .32, .755, d * .64, .06, 0xc9a455);
         if (connections)
         {
-            manifold_rect(g, x - d * .18, .395, d * .36, .065, supply);
-            manifold_rect(g, x - d * .18, .815, d * .36, .135, 0x349bd0);
+            manifold_rect(g, x - 4/width, 123./224, 8/width, 6./224, supply);
+            manifold_rect(g, x - 4/width, 216./224, 8/width, 6./224, 0x349bd0);
         }
     }
 }
@@ -596,9 +607,10 @@ static bool equipment_port_position(const cJSON *element, unsigned port, int wid
             count > 16 || port >= 2 + 2 * count)
             return false;
         if (port < 2)
-            anchor = (sm_point_t){.04, port ? .72 : .30};
+            anchor = (sm_point_t){0, (port ? 191. : 99.) / 224};
         else
-            anchor = (sm_point_t){.16 + .78 * ((port - 2) / 2 + .5) / count, port % 2 ? .95 : .46};
+            anchor = (sm_point_t){(56 + 56 * ((port - 2) / 2 + .5)) / (96 + 56 * count),
+                                  (port % 2 ? 222. : 129.) / 224};
     }
     else
     {
@@ -611,7 +623,8 @@ static bool equipment_port_position(const cJSON *element, unsigned port, int wid
     int w = sm_json_number(element, "w", .1) * width;
     int h = sm_json_number(element, "h", .1) * height;
     int side = w < h ? w : h;
-    double dx = (anchor.x - .5) * (m ? w : side), dy = (anchor.y - .5) * (m ? h : side);
+    bool wide = m || sm_manifold_raster_circuits(sm_json_string(element, "asset"));
+    double dx = (anchor.x - .5) * (wide ? w : side), dy = (anchor.y - .5) * (wide ? h : side);
     double angle = sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180;
     *result = (lv_point_precise_t){x + w / 2.0 + dx * cos(angle) - dy * sin(angle),
                                    y + h / 2.0 + dx * sin(angle) + dy * cos(angle)};
@@ -683,10 +696,20 @@ void app_scene_poll(void)
     unsigned index = 0;
     cJSON_ArrayForEach(element, elements)
     {
-        if (!strcmp(sm_json_string(element, "type"), "equipment") &&
-            strcmp(sm_json_string(element, "asset"), "configurable-manifold"))
-            pictures[index] =
-                load_picture(manifest, sm_json_string(element, "asset"), s_dark, pictures, index);
+        if (!strcmp(sm_json_string(element, "type"), "equipment"))
+        {
+            const cJSON *m = cJSON_GetObjectItemCaseSensitive(element, "manifold");
+            const char *id = sm_json_string(element, "asset");
+            char body[32];
+            if (m)
+            {
+                snprintf(body, sizeof(body), "manifold-%s-%u",
+                         !strcmp(sm_json_string(m, "variant"), "ceiling-cool") ? "cool" : "body",
+                         (unsigned)sm_json_number(m, "circuits", 4));
+                id = body;
+            }
+            pictures[index] = load_picture(manifest, id, !m && s_dark, pictures, index);
+        }
         index++;
     }
     cJSON_Delete(manifest);
@@ -802,22 +825,19 @@ void app_scene_poll(void)
         {
             int side = w < h ? w : h;
             const cJSON *manifold = cJSON_GetObjectItemCaseSensitive(element, "manifold");
-            if (manifold)
-                draw_manifold(manifold,
-                              (manifold_geometry_t){x, y, w, h,
-                                                    sm_json_number(element, "rotation", 0) *
-                                                        3.141592653589793 / 180});
-            else if (s_pictures[index].bytes)
+            if (s_pictures[index].bytes)
             {
-                lv_obj_t *image = lv_image_create(s_root);
-                runtime->body = image;
-                lv_image_set_src(image, &s_pictures[s_pictures[index].owner].image);
-                lv_image_set_scale(image, side * 256 / 160);
-                lv_image_set_pivot(image, 80, 80);
-                lv_image_set_rotation(image, sm_json_number(element, "rotation", 0) * 10);
-                lv_obj_set_pos(image, x + (w - 160) / 2, y + (h - 160) / 2);
+                bool wide = manifold || sm_manifold_raster_circuits(sm_json_string(element, "asset"));
+                lv_obj_t *image = draw_picture(index, x + w / 2, y + h / 2,
+                                               wide ? w : side, wide ? h : side,
+                                               sm_json_number(element, "rotation", 0));
+                if (!manifold)
+                    runtime->body = image;
             }
-            else
+            if (manifold)
+                draw_manifold(manifold, (manifold_geometry_t){x, y, w, h,
+                              sm_json_number(element, "rotation", 0) * 3.141592653589793 / 180});
+            else if (!s_pictures[index].bytes)
             {
                 const sm_asset_t *asset = sm_asset_find(sm_json_string(element, "asset"));
                 label(s_root,

@@ -276,7 +276,7 @@ static esp_err_t get(httpd_req_t *request)
             return failure(request, "404 Not Found", "graphics.path");
         memcpy(asset, id, length - 4);
         asset[length - 4] = 0;
-        if (!sm_asset_find(asset))
+        if (!sm_asset_find(asset) && !(png && sm_manifold_raster_circuits(asset)))
             return failure(request, "404 Not Found", "graphics.asset");
         char filename[APP_ASSET_PATH_SIZE];
         cJSON *manifest = app_assets_manifest();

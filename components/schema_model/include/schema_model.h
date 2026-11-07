@@ -45,6 +45,7 @@ bool sm_binding_validate(const cJSON *binding);
 bool sm_settings_validate(const cJSON *settings, char error[SM_ERROR_SIZE]);
 cJSON *sm_settings_defaults(void);
 cJSON *sm_project_defaults(void);
+unsigned sm_manifold_raster_circuits(const char *id);
 cJSON *sm_project_page_copy(const cJSON *project, int index, int *count);
 
 /* A megjelenítő és a webes előnézet ugyanazt az átalakítást használja. */

@@ -28,16 +28,7 @@ def illustration(element, dark):
              '<linearGradient id="blue"><stop stop-color="#62d7f1"/><stop offset=".5" stop-color="#1489bf"/><stop offset="1" stop-color="#17476f"/></linearGradient>'
              '<linearGradient id="brass"><stop stop-color="#795b28"/><stop offset=".25" stop-color="#f4d893"/><stop offset=".6" stop-color="#c9a455"/><stop offset="1" stop-color="#85622c"/></linearGradient>'
              f'</defs><g stroke="{edge}" stroke-width="2" stroke-linejoin="round">']
-    if family == "configurable-manifold" or element.get("proceduralManifold"):
-        parts += ['<rect x="12" y="43" width="142" height="12" rx="4" fill="url(#metal)"/>',
-                  '<rect x="12" y="111" width="142" height="12" rx="4" fill="url(#metal)"/>']
-        count = element.get("proceduralManifold", 4)
-        for x in [25 + 120 * (i + .5) / count for i in range(count)]:
-            parts += [f'<path d="M{x} 55V74M{x} 123V151" stroke="#c9a455" stroke-width="7"/>',
-                      f'<rect x="{x-min(7,35/count)}" y="23" width="{min(14,70/count)}" height="20" rx="3" fill="#b9d9e5"/>',
-                      f'<rect x="{x-min(10,45/count)}" y="80" width="{min(20,90/count)}" height="27" rx="5" fill="url(#metal)"/>',
-                      f'<rect x="{x-min(4,20/count)}" y="88" width="{min(8,40/count)}" height="5" fill="#26333d"/>']
-    elif family == "pump":
+    if family == "pump":
         parts += ['<path d="M8 72H152V104H8Z" fill="url(#red)"/><rect x="8" y="63" width="10" height="50" rx="3" fill="url(#metal)"/>',
                   '<rect x="142" y="63" width="10" height="50" rx="3" fill="url(#metal)"/><rect x="52" y="16" width="56" height="34" rx="5" fill="#303b45"/>',
                   '<circle cx="80" cy="88" r="42" fill="url(#red)"/><circle cx="80" cy="88" r="30" fill="#26343f"/><circle cx="80" cy="88" r="7" fill="url(#metal)"/>']
@@ -126,7 +117,31 @@ def illustration(element, dark):
     return ''.join(parts).encode()
 
 
-def build(output, png=False, version="0.1.0-ms1"):
+def manifold_png(count, cooling=False):
+    """Az azonos szélességű középrészben egy mérő, egy termofej és két csonk van."""
+    from io import BytesIO
+    from PIL import Image
+    with Image.open(ROOT / "assets/elements/manifold/assembly.png") as atlas:
+        left = atlas.crop((0, 0, 56, 224))
+        loop = atlas.crop((56, 0, 112, 224))
+        right = atlas.crop((112, 0, 152, 224))
+    if cooling:
+        for y in range(90):
+            for x in range(loop.width):
+                r, g, b, alpha = loop.getpixel((x, y))
+                if r > g * 1.6 and r > b * 1.6:
+                    loop.putpixel((x, y), (b, g + (r - g) // 3, r, alpha))
+    image = Image.new("RGBA", (96 + count * loop.width, 224))
+    image.paste(left, (0, 0))
+    for index in range(count):
+        image.paste(loop, (56 + index * loop.width, 0))
+    image.paste(right, (image.width - right.width, 0))
+    output = BytesIO()
+    image.save(output, format="PNG")
+    return output.getvalue()
+
+
+def build(output, png=False, version="0.1.0-ms1", catalog_only=False):
     output = Path(output)
     elements = catalog.elements()
     identifiers = [element["id"] for element in elements]
@@ -138,6 +153,21 @@ def build(output, png=False, version="0.1.0-ms1"):
         source = element.pop("artwork", None)
         element["graphicsStatus"] = "ready" if source or element["family"] == "configurable-manifold" or element.get("proceduralManifold") else "placeholder"
         raster = None
+        count = element.get("proceduralManifold")
+        configurable = element["id"] == "configurable-manifold"
+        if catalog_only:
+            ext = "png" if source or count or configurable else "svg"
+            element["graphics"] = {mode: f"{mode}/{element['id']}.{ext}" for mode in ("light", "dark")}
+            continue
+        if count or configurable:
+            raster = manifold_png(count or 4)
+        if configurable:
+            for circuits in range(2, 17):
+                for cooling in (False, True):
+                    name = f"light/manifold-{'cool' if cooling else 'body'}-{circuits}.png"
+                    body = manifold_png(circuits, cooling)
+                    atomic_write(output / name, body)
+                    files.append({"path": name, "sha256": hashlib.sha256(body).hexdigest(), "size": len(body)})
         if source:
             from image_policy import png_size
             if not source.replace("-", "").isalnum():
@@ -167,6 +197,8 @@ def build(output, png=False, version="0.1.0-ms1"):
     data = {"format": "zolee-catalog", "version": 1, "assetAbi": 1,
             "categories": catalog.CATEGORIES, "elements": elements}
     atomic_write(ROOT / "web/catalog.json", canonical(data))
+    if catalog_only:
+        return
     atomic_write(output / "catalog.json", canonical(data))
     raw = canonical(data)
     files.append({"path": "catalog.json", "sha256": hashlib.sha256(raw).hexdigest(), "size": len(raw)})
@@ -193,5 +225,6 @@ if __name__ == "__main__":
     parser.add_argument("--output", default=str(ROOT / "web/graphics"))
     parser.add_argument("--png", action="store_true")
     parser.add_argument("--version", default="0.1.0-ms1")
+    parser.add_argument("--catalog-only", action="store_true")
     args = parser.parse_args()
-    build(args.output, args.png, args.version)
+    build(args.output, args.png, args.version, args.catalog_only)

@@ -244,6 +244,11 @@ try {
     const manifold = page.locator('svg [data-element]').last();
     for (let n=2; n<=16; n++) {
         await page.locator('#manifold-circuits').selectOption(String(n));
+        const imageSize = await manifold.locator('image').evaluate(async node => {
+            const img = new Image(); img.src = node.href.baseVal; await img.decode();
+            return [img.naturalWidth, img.naturalHeight];
+        });
+        assert.deepEqual(imageSize, [96 + 56*n, 224]);
         assert.equal(await manifold.locator('[data-head-indicator]').count(),n);
         assert.equal(await manifold.locator('[data-port]').count(),2+2*n);
     }
@@ -303,9 +308,13 @@ try {
     // A teljes készlet valódi böngészőben is dekódolható, nem csupán létező fájl.
     const decoded=await page.locator('#library img').evaluateAll(async images=>{
         await Promise.all(images.map(image=>image.decode()));
-        return images.map(image=>[image.naturalWidth,image.naturalHeight]);
+        return images.map(image=>[image.closest("[data-asset]").dataset.asset,image.naturalWidth,image.naturalHeight]);
     });
-    assert.equal(decoded.length,333);assert.ok(decoded.every(([w,h])=>w===160&&h===160));
+    assert.equal(decoded.length,333);
+    for (const [id,w,h] of decoded) {
+        const n = id === 'configurable-manifold' ? 4 : Number(/^manifold-(\d+)$/.exec(id)?.[1]);
+        assert.deepEqual([w,h], n ? [96 + 56*n,224] : [160,160], id);
+    }
     await page.locator('[data-asset="dry-cooler"]').click();
     const cooler=page.locator('svg [data-element]').last();
     assert.equal(await cooler.locator('[data-rotor]').count(),3);

@@ -1,5 +1,5 @@
 import {labelLines} from './text-layout.js';
-import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
+import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, manifoldCenter, manifoldWidth, manifoldImage, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
@@ -201,7 +201,11 @@ export class Editor {
         if (type === 'equipment') {
             element.w = 150 / this.size.width;
             element.h = 150 / this.size.height;
-            if (element.manifold) { element.w = 320 / this.size.width; element.h = 200 / this.size.height; }
+            const n = element.manifold?.circuits || this.state.catalog.elements.find(item => item.id === asset)?.proceduralManifold;
+            if (n) {
+                element.w = Math.min(.9, manifoldWidth(n) / this.size.width);
+                element.h = 224 / this.size.height;
+            }
         }
         element.x = clamp(point.x, 0, 1 - element.w);
         element.y = clamp(point.y, 0, 1 - element.h);
@@ -248,8 +252,8 @@ export class Editor {
         const p = elementPorts(element, asset)[port];
         const radians = element.rotation * Math.PI / 180;
         const side = Math.min(element.w * this.size.width, element.h * this.size.height);
-        const dx = (p.x - 0.5) * (element.manifold ? element.w * this.size.width : side);
-        const dy = (p.y - 0.5) * (element.manifold ? element.h * this.size.height : side);
+        const dx = (p.x - 0.5) * (element.manifold || asset.proceduralManifold ? element.w * this.size.width : side);
+        const dy = (p.y - 0.5) * (element.manifold || asset.proceduralManifold ? element.h * this.size.height : side);
         return {x: element.x + element.w / 2 + (dx * Math.cos(radians) - dy * Math.sin(radians)) / this.size.width,
             y: element.y + element.h / 2 + (dx * Math.sin(radians) + dy * Math.cos(radians)) / this.size.height};
     }
@@ -310,6 +314,7 @@ export class Editor {
                 const drawing = svgNode('g', {transform: `translate(${x},${y}) rotate(${element.rotation},${width / 2},${height / 2})`});
                 if (element.type === 'equipment' && element.manifold) {
                     const m = element.manifold;
+                    drawing.append(svgNode('image', {href: manifoldImage(m), width, height, preserveAspectRatio: 'none'}));
                     const tx = width / 2, ty = .055 * height;
                     drawing.append(svgNode('text', {x: tx, y: ty, 'text-anchor': 'middle',
                         fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': 12,
@@ -320,9 +325,9 @@ export class Editor {
                         stroke: '#67747d', 'stroke-width': .6,
                         ...(part.head === undefined ? {} : {'data-head-indicator': part.head})}));
                     m.heads.forEach((head, index) => {
-                        const cx = (.16 + .78*(index+.5)/m.circuits)*width, cy = .65*height;
+                        const cx = manifoldCenter(m.circuits,index)*width, cy = 161/224*height;
                         drawing.append(svgNode('text', {x: cx, y: cy, 'text-anchor': 'middle',
-                            fill: '#26333d', 'font-size': Math.max(9, Math.min(16,width*.16/m.circuits)),
+                            fill: '#26333d', 'font-size': Math.max(9, Math.min(16,width*13/manifoldWidth(m.circuits))),
                             transform: `rotate(${-element.rotation},${cx},${cy})`, 'data-head-label': index}));
                         const ix = cx, iy = .12*height;
                         drawing.append(svgNode('text', {x: ix, y: iy, 'text-anchor': 'middle',
@@ -335,9 +340,11 @@ export class Editor {
                         'text-anchor':'middle',fill:this.dark ? '#dfecf4' : '#354e60','font-size':element.fontSize},element.label));
                 } else if (element.type === 'equipment') {
                     const asset = this.state.catalog.elements.find(item => item.id === element.asset);
-                    const side = Math.min(width, height), offsetX = (width - side) / 2, offsetY = (height - side) / 2;
+                    const side = Math.min(width, height);
+                    const imageW = asset.proceduralManifold ? width : side, imageH = asset.proceduralManifold ? height : side;
+                    const offsetX = (width - imageW) / 2, offsetY = (height - imageH) / 2;
                     const equipment = svgNode('g', {transform: `translate(${offsetX},${offsetY})`});
-                    equipment.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width: side, height: side}));
+                    equipment.append(svgNode('image', {href: `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`, width: imageW, height: imageH, preserveAspectRatio: 'none'}));
                     if (asset.animation?.kind === 'rotor') for (const marker of asset.animation.rotors || [asset.animation]) {
                         const cx = side * marker.x, cy = side * marker.y;
                         const rotor = svgNode('g', {'data-rotor': '1', 'data-cx': cx, 'data-cy': cy});
@@ -378,7 +385,7 @@ export class Editor {
                             style: 'display:none',
                         }));
                     }
-                    if (!this.preview) asset.ports.forEach((port, index) => equipment.append(svgNode('circle', {cx: port.x * side, cy: port.y * side,
+                    if (!this.preview) asset.ports.forEach((port, index) => equipment.append(svgNode('circle', {cx: port.x * imageW, cy: port.y * imageH,
                         r: 5, class: 'port', 'data-port': index})));
                     drawing.append(equipment);
                     if (element.label) group.append(svgNode('text', {x: x + width / 2, y: y + height + 17, 'text-anchor': 'middle',
@@ -604,7 +611,7 @@ export class Editor {
             catch(error) {this.state.project=before;this.feedback(error.message,true);this.inspect();}
         };
         panel.querySelector('#manifold-circuits').onchange = event => change(()=>{e.manifold=newManifold(Number(event.target.value),m);
-            e.w=Math.min(this.size.width*.9,80+40*e.manifold.circuits)/this.size.width;
+            e.w=Math.min(this.size.width*.9,manifoldWidth(e.manifold.circuits))/this.size.width;
             Object.assign(e,rotateElement(e,e.rotation,this.size));});
         panel.querySelector('#manifold-variant').onchange = event => change(()=>{m.variant=event.target.value;});
         panel.querySelector('#manifold-connections').onchange = event => change(()=>{m.connections=event.target.checked;});

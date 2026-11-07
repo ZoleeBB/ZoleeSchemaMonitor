@@ -243,9 +243,9 @@ export function elementPorts(element, asset) {
     const m = element.manifold;
     if (!m.connections) return [];
     // Stabil páros indexelés: 2+2*i előremenő, 3+2*i visszatérő.
-    return [{x: .04, y: .30}, {x: .04, y: .72}, ...m.heads.flatMap((_, i) =>
-        [{x: .16 + .78 * (i + .5) / m.circuits, y: .46},
-         {x: .16 + .78 * (i + .5) / m.circuits, y: .95}])];
+    return [{x: 0, y: 99/224}, {x: 0, y: 191/224}, ...m.heads.flatMap((_, i) =>
+        [{x: manifoldCenter(m.circuits, i), y: 129/224},
+         {x: manifoldCenter(m.circuits, i), y: 222/224}])];
 }
 
 export function manifoldHeadState(head, values, connected = true) {
@@ -283,22 +283,31 @@ export function rotateElement(element, rotation, size) {
 }
 
 /* Pontos műszaki rajz: két külön sín, körönként egy átfolyásmérő és egy termofej. */
+export function manifoldWidth(n) { return 96 + 56 * n; }
+export function manifoldCenter(n, i) { return (56 + 56 * (i + .5)) / manifoldWidth(n); }
+export function manifoldImage(m) {
+    return `/graphics/light/manifold-${m.variant === 'ceiling-cool' ? 'cool' : 'body'}-${m.circuits}.png`;
+}
+
+// A fotón mért menetes végekhez illeszkedő csőcsonkok és élő jelzőablakok.
 export function manifoldParts(m) {
+    const width = manifoldWidth(m.circuits);
     const parts = [];
-    const rect = (x,y,w,h,color,head) => parts.push({x,y,w,h,color,...(head === undefined ? {} : {head})});
-    const supply = m.variant === 'ceiling-cool' ? '#349bd0' : '#db5952';
-    rect(.08,.265,.88,.07,'#c6cfd4'); rect(.08,.685,.88,.07,'#c6cfd4');
-    rect(.08,.265,.88,.012,supply); rect(.08,.735,.88,.012,'#349bd0');
-    if (m.connections) {rect(.04,.28,.04,.04,'#c9a455'); rect(.04,.70,.04,.04,'#c9a455');}
+    function rect(x,y,w,h,color,head) {
+        parts.push({x:x/width,y:y/224,w:w/width,h:h/224,color,head});
+    }
+    const supply = m.variant === 'ceiling-cool' ? '#349bd0' : '#cf5149';
+    if (m.connections) {
+        rect(0,95,5,8,supply);
+        rect(0,187,5,8,'#349bd0');
+    }
     for (let i=0;i<m.circuits;i++) {
-        const x=.16+.78*(i+.5)/m.circuits, d=.55/m.circuits;
-        rect(x-d*.28,.17,d*.56,.095,'#b9d9e5'); rect(x-d*.25,.235,d*.5,.035,supply);
-        rect(x-d*.32,.335,d*.64,.06,'#c9a455');
-        rect(x-d*.35,.65,d*.7,.035,'#c9a455');
-        rect(x-d*.5,.50,d,.17,'#edf1f3'); rect(x-d*.4,.49,d*.8,.025,'#ffffff');
-        rect(x-d*.23,.52,d*.46,.025,'#26333d',i);
-        rect(x-d*.32,.755,d*.64,.06,'#c9a455');
-        if(m.connections) {rect(x-d*.18,.395,d*.36,.065,supply);rect(x-d*.18,.815,d*.36,.135,'#349bd0');}
+        const x = 56+56*(i+.5);
+        if (m.connections) {
+            rect(x-4,123,8,6,supply);
+            rect(x-4,216,8,6,'#349bd0');
+        }
+        rect(x-8,140,16,5,'#26333d',i);
     }
     return parts;
 }

@@ -17,6 +17,9 @@ class PortCalibrationTests(unittest.TestCase):
         for e in items:
             audit=calibration['elements'][e['id']]
             self.assertEqual(len(audit['portsPx']),len(e['ports']),e['id'])
+            if audit['mode']=='procedural':
+                module=ROOT/'assets/elements/manifold/assembly.png'
+                self.assertEqual(audit['sourceSha256'],hashlib.sha256(module.read_bytes()).hexdigest())
             if 'artwork' not in e:continue
             source=ROOT/f'assets/elements/universal/{e["artwork"]}.png'
             self.assertEqual(audit['sourceSha256'],hashlib.sha256(source.read_bytes()).hexdigest(),e['id'])

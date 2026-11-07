@@ -142,7 +142,10 @@ def validate_release_graphics(manifest, elements):
     validate_manifest(manifest, 1)
     required = {"catalog.json"}
     for element in elements:
-        kinds = ["png"] if element.get("artwork") else ["svg", "png"]
+        configurable = element["id"] == "configurable-manifold"
+        if configurable:
+            required.update(f"light/manifold-{kind}-{n}.png" for n in range(2, 17) for kind in ("body", "cool"))
+        kinds = ["png"] if element.get("artwork") or element.get("proceduralManifold") or configurable else ["svg", "png"]
         required.update(f"{mode}/{element['id']}.{kind}" for mode in ["light", "dark"] for kind in kinds)
     if {entry["path"] for entry in manifest["files"]} != required:
         raise ValueError("Hiányos vagy eltérő világos/sötét grafikai csomag")

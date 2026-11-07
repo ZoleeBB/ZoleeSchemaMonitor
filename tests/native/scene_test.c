@@ -261,7 +261,7 @@ int main(void)
                     "circulation-pump.png\",\"size\":100,\"sha256\":"
                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}]}");
     picture_t prior = {
-        .bytes = (unsigned char *)"already verified", .owner = 0, .image = {.data_size = 100}};
+        .bytes = (unsigned char *)"already verified", .owner = 0, .image = {.header = {.w = 160, .h = 160}, .data_size = 100}};
     snprintf(prior.digest, sizeof(prior.digest), "%s", hash);
     picture_t shared = load_picture(manifest, "circulation-pump", true, &prior, 1);
     assert(shared.bytes == prior.bytes && shared.owner == 0);
@@ -314,8 +314,8 @@ int main(void)
         app_scene_poll();
         assert(s_head_count == 16);
         // Az LVGL alapkonfigurációja egész pixeles pontokat használ.
-        double px = (.16 + .78 * 15.5 / 16 - .5) * 80;
-        double py = (.95 - .5) * 128;
+        double px = ((56 + 56 * 15.5) / 992 - .5) * 80;
+        double py = (222. / 224 - .5) * 128;
         double angle = rotation * 3.141592653589793 / 180;
         assert(fabs(s_points[0][0].x - (320 + 40 + px * cos(angle) - py * sin(angle))) < 1.01);
         assert(fabs(s_points[0][0].y - (512 + 64 + px * sin(angle) + py * cos(angle))) < 1.01);
@@ -370,8 +370,8 @@ int main(void)
                 {
                     lv_point_precise_t point;
                     assert(equipment_port_position(equipment, p, width, height, &point));
-                    double dx = (asset->ports[p].x - .5) * side;
-                    double dy = (asset->ports[p].y - .5) * side;
+                    double dx = (asset->ports[p].x - .5) * (sm_manifold_raster_circuits(asset->id) ? w : side);
+                    double dy = (asset->ports[p].y - .5) * (sm_manifold_raster_circuits(asset->id) ? h : side);
                     for (unsigned turn = 0; turn < rotation / 90; turn++)
                     {
                         double previous_dx = dx;
