@@ -6,6 +6,12 @@ const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
+function flowDotColor(color) {
+    const rgb = parseInt(color.slice(1), 16);
+    const luminance = 299*(rgb >> 16) + 587*((rgb >> 8) & 255) + 114*(rgb & 255);
+    return luminance >= 145000 ? '#15202b' : '#ffffff';
+}
+
 function svgNode(name, attributes = {}, text) {
     const node = document.createElementNS(NS, name);
     for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value);
@@ -39,6 +45,7 @@ export class Editor {
         this.librarySearch = '';
         this.libraryCategory = '';
         this.pipePoints = null;
+        this.pipeStyle = {width: 6, color: '#e34d4d'};
         this.phase = 0;
         this.motion = new Map();
         this.size = canvasSize(state.settings.display.rotation);
@@ -72,6 +79,7 @@ export class Editor {
         this.state.project = JSON.parse(from.pop());
         this.pageIndex = Math.min(this.pageIndex, this.state.project.pages.length - 1);
         this.selected = null;
+        this.pipePoints = null;
         this.markDirty();
         this.render();
     }
@@ -92,7 +100,10 @@ export class Editor {
             <div class="editor-stage"><div class="toolbar canvas-toolbar"><div class="tool-group" role="group" aria-label="${t('editTools')}">${this.button('undo', 'undo')}${this.button('redo', 'redo')}${this.button('duplicate', 'copy')}${this.button('delete', 'delete')}</div>
             <div class="tool-group" role="group" aria-label="${t('preview')}">${this.button('preview', this.preview ? 'edit' : 'preview')}${this.button('night', 'night')}</div></div>
             <div class="workspace ${this.preview ? 'preview-mode' : ''}" id="workspace"><svg id="canvas" xmlns="${NS}" viewBox="0 0 ${this.size.width} ${this.size.height}" class="${this.size.width < this.size.height ? 'portrait' : ''}" role="img" aria-label="${t('schemaCanvas')}"></svg></div>
-            <p class="hint" id="pipe-hint" role="status"></p><fieldset class="page-properties"><legend>${t('pageSettings')}</legend><div class="small-grid"><label>${t('name')}<input id="page-name" maxlength="80" value="${this.escape(this.page.name)}"></label>
+            <fieldset id="pipe-tools" hidden><legend>${t('drawPipe')}</legend>
+            <div class="small-grid"><label>${t('color')}<input type="color" id="pipe-color" value="${this.pipeStyle.color}"></label>
+            <label>${t('lineWidth')}<input type="number" min="1" max="30" step="1" id="pipe-width" value="${this.pipeStyle.width}"></label></div>
+            <p class="hint" id="pipe-hint">${t('pipeHint')}</p><div class="tool-group">${this.button('finish-pipe','finishPipe')}${this.button('cancel-pipe','cancel')}</div></fieldset><fieldset class="page-properties"><legend>${t('pageSettings')}</legend><div class="small-grid"><label>${t('name')}<input id="page-name" maxlength="80" value="${this.escape(this.page.name)}"></label>
             <label>${t('background')}<select id="page-background">${['plain', 'cool', 'warm'].map(value => `<option value="${value}" ${this.page.background === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label></div></fieldset></div>
             <section class="inspector" aria-labelledby="properties-title"><h2 id="properties-title">${t('properties')}</h2><div id="inspector"></div></section></div>`;
         const on = (id, handler) => this.root.querySelector(`#${id}`).onclick = handler;
@@ -108,6 +119,7 @@ export class Editor {
             if (this.state.project.pages.length < 2 || !confirm(t('confirmDelete'))) return;
             this.remember();
             this.state.project.pages.splice(this.pageIndex, 1);
+            this.pipePoints = null;
             this.pageIndex = 0;
             this.selected = null;
             this.render();
@@ -120,17 +132,32 @@ export class Editor {
         on('add-text', () => this.add('text'));
         on('add-value', () => this.add('value'));
         on('draw-pipe', () => {
+            if (this.pipePoints) return this.cancelPipe();
+            if (this.page.elements.length >= LIMITS.elements) return this.feedback('150 / page', true);
             this.pipePoints = [];
             this.pipeSource = null;
             this.preview = false;
-            this.root.querySelector('#pipe-hint').textContent = t('pipeHint');
+            this.render();
+            if (window.matchMedia('(max-width: 759px)').matches) this.canvas.scrollIntoView({block:'start'});
         });
+        on('finish-pipe', () => this.finishPipe());
+        on('cancel-pipe', () => this.cancelPipe());
+        this.root.querySelector('#pipe-color').oninput = event => {
+            this.pipeStyle.color = event.target.value;
+            this.drawPipePreview();
+        };
+        this.root.querySelector('#pipe-width').onchange = event => {
+            const input = event.target;
+            if (input.value && input.validity.valid) this.pipeStyle.width = Number(input.value);
+            input.value = this.pipeStyle.width;
+            this.drawPipePreview();
+        };
         on('undo', () => this.restore(this.history, this.future));
         on('redo', () => this.restore(this.future, this.history));
         on('delete', () => this.remove());
         on('duplicate', () => this.duplicate());
         on('preview', () => { this.preview = !this.preview; this.pipePoints = null; this.render(); });
-        on('night', () => { this.dark = !this.dark; this.draw(); this.renderLibrary(); });
+        on('night', () => { this.dark = !this.dark; this.draw(); this.renderLibrary(); this.inspect(); });
         const search = this.root.querySelector('#asset-search'), category = this.root.querySelector('#asset-category');
         search.value = this.librarySearch;
         category.value = this.libraryCategory;
@@ -145,6 +172,7 @@ export class Editor {
         this.canvas = this.root.querySelector('#canvas');
         this.canvas.onpointerdown = event => this.pointerDown(event);
         this.canvas.onpointermove = event => this.pointerMove(event);
+        this.canvas.onpointerleave = () => { this.pipeCursor = null; this.drawPipePreview(); };
         this.canvas.onpointerup = () => this.pointerUp();
         this.canvas.onpointercancel = () => this.pointerUp();
         this.canvas.onclick = event => this.click(event);
@@ -155,6 +183,8 @@ export class Editor {
             const asset = event.dataTransfer.getData('text/schema-asset');
             if (this.state.catalog.elements.some(item => item.id === asset)) this.add('equipment', asset, this.point(event));
         };
+        this.pipeCursor = null;
+        this.syncPipeTools();
         this.renderLibrary();
         this.draw();
         this.inspect();
@@ -189,6 +219,7 @@ export class Editor {
         const category = this.root.querySelector('#asset-category').value;
         const library = this.root.querySelector('#library');
         library.replaceChildren();
+        const selectedAsset = this.element?.asset;
         for (const asset of this.state.catalog.elements) {
             if (category && asset.category !== category) continue;
             const keywords = searchText([asset.name.hu, asset.name.en, asset.id].join(' '));
@@ -201,7 +232,7 @@ export class Editor {
             button.append(picture, document.createTextNode(asset.name[this.language]));
             button.onclick = () => this.add('equipment', asset.id);
             button.ondragstart = event => event.dataTransfer.setData('text/schema-asset', asset.id);
-            if (asset.id === this.element?.asset) button.classList.add('chosen-asset');
+            if (asset.id === selectedAsset) button.classList.add('chosen-asset');
             library.append(button);
         }
         this.root.querySelector('#library-count').textContent = library.childElementCount
@@ -210,6 +241,7 @@ export class Editor {
 
     add(type, asset = '', point = {x: 0.15, y: 0.15}) {
         if (this.preview) return;
+        if (this.pipePoints) this.cancelPipe();
         if (this.page.elements.length >= LIMITS.elements) return this.feedback('150 / page', true);
         this.remember();
         const element = newElement(type, asset);
@@ -242,6 +274,7 @@ export class Editor {
         const page = copy ? this.copyPage(this.page) : {elements: [], background: 'cool'};
         Object.assign(page, {id: newId('p'), name: name.slice(0, 80)});
         this.state.project.pages.push(page);
+        this.pipePoints = null;
         this.pageIndex = this.state.project.pages.length - 1;
         this.selected = null;
         this.render();
@@ -321,7 +354,11 @@ export class Editor {
                     stroke: element.color, 'stroke-width': element.width, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round'});
                 group.append(path);
                 group.append(svgNode('polyline', {points: path.getAttribute('points'), stroke: 'transparent', 'stroke-width': Math.max(16, element.width), fill: 'none'}));
-                for (let index = 0; index < 5; index++) group.append(svgNode('circle', {r: Math.max(2, element.width * 0.3), fill: '#f5fbff', class: 'flow-dot', 'data-dot': index}));
+                if (element.activity || element.power) {
+                    for (let index = 0; index < 3; index++) group.append(svgNode('circle', {
+                        r: Math.max(2, Math.round(element.width * .3)), fill: flowDotColor(element.color),
+                        class: 'flow-dot', 'data-dot': index, style: 'display:none'}));
+                }
                 if (element.id === this.selected && !this.preview) element.points.forEach((point, index) => group.append(svgNode('circle', {
                     cx: point.x * w, cy: point.y * h, r: 6, class: 'handle', 'data-vertex': index})));
             } else {
@@ -432,23 +469,47 @@ export class Editor {
         this.updateValues();
     }
 
+    syncPipeTools() {
+        const drawing = this.pipePoints !== null;
+        this.canvas.classList.toggle('drawing-pipe', drawing);
+        this.root.querySelector('#draw-pipe').setAttribute('aria-pressed', String(drawing));
+        this.root.querySelector('#pipe-tools').hidden = !drawing;
+        this.root.querySelector('#finish-pipe').disabled = !drawing || this.pipePoints.length < 2;
+    }
+
+    cancelPipe() {
+        this.pipePoints = this.pipeCursor = this.pipeSource = null;
+        this.syncPipeTools();
+        this.drawPipePreview();
+    }
+
+    pipeRoute(points) {
+        if (points.length !== 2 || points[0].x === points[1].x || points[0].y === points[1].y) return points;
+        return [points[0], {x: points[1].x, y: points[0].y}, points[1]];
+    }
+
     drawPipePreview() {
         this.canvas.querySelector('[data-pipe-preview]')?.remove();
         if (!this.pipePoints?.length) return;
-        this.canvas.append(svgNode('polyline', {points: this.pipePoints.map(point => `${point.x * this.size.width},${point.y * this.size.height}`).join(' '),
-            stroke: '#dc5656', 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '8 4', 'pointer-events': 'none', 'data-pipe-preview': '1'}));
+        const points = this.pipeCursor ? [...this.pipePoints, this.pipeCursor] : this.pipePoints;
+        this.canvas.append(svgNode('polyline', {points: this.pipeRoute(points).map(point => `${point.x * this.size.width},${point.y * this.size.height}`).join(' '),
+            stroke: this.pipeStyle.color, 'stroke-width': this.pipeStyle.width, fill: 'none', 'stroke-dasharray': '8 4', 'pointer-events': 'none', 'data-pipe-preview': '1'}));
     }
 
     click(event) {
         if (this.preview || this.pipePoints === null || this.pipePoints === undefined) return;
         const port = event.target.closest('[data-port]');
-        if (port) {
-            const equipment = this.page.elements.find(item => item.id === port.closest('[data-element]').dataset.element);
-            const endpoint = {element: equipment.id, port: Number(port.dataset.port)};
-            this.pipePoints.push(this.portPoint(equipment, endpoint.port));
-            if (this.pipePoints.length === 1) this.pipeSource = endpoint;
-            else return this.finishPipe(endpoint);
-        } else this.pipePoints.push(this.point(event));
+        const equipment = port && this.page.elements.find(item => item.id === port.closest('[data-element]').dataset.element);
+        const endpoint = equipment && {element: equipment.id, port: Number(port.dataset.port)};
+        const point = endpoint ? this.portPoint(equipment, endpoint.port) : this.point(event);
+        const last = this.pipePoints.at(-1);
+        if (last && Math.hypot(point.x-last.x, point.y-last.y) <= .001) return;
+        if (this.pipePoints.length >= LIMITS.points) return this.feedback(this.tr('pointLimit'), true);
+        this.pipePoints.push(point);
+        this.pipeCursor = null;
+        if (this.pipePoints.length === 1) this.pipeSource = endpoint || null;
+        else if (endpoint) return this.finishPipe(endpoint);
+        this.syncPipeTools();
         this.drawPipePreview();
     }
 
@@ -456,14 +517,10 @@ export class Editor {
         if (!this.pipePoints || this.pipePoints.length < 2 || this.page.elements.length >= LIMITS.elements) return;
         this.remember();
         const pipe = newElement('pipe');
-        const points = this.pipePoints.filter((p, i, all) => !i || Math.hypot(p.x - all[i - 1].x, p.y - all[i - 1].y) > 0.001);
-        if (points.length < 2) return;
-        if (points.length === 2) points.splice(1, 0, {x: points[1].x, y: points[0].y});
-        Object.assign(pipe, {points, source: this.pipeSource, target});
+        Object.assign(pipe, this.pipeStyle, {points: this.pipeRoute(this.pipePoints), source: this.pipeSource, target});
         this.page.elements.push(pipe);
         this.selected = pipe.id;
-        this.pipePoints = null;
-        this.root.querySelector('#pipe-hint').textContent = '';
+        this.cancelPipe();
         this.draw();
         this.inspect();
     }
@@ -481,6 +538,11 @@ export class Editor {
     }
 
     pointerMove(event) {
+        if (this.pipePoints?.length && event.pointerType !== 'touch') {
+            this.pipeCursor = this.point(event);
+            this.drawPipePreview();
+            return;
+        }
         if (!this.drag || !this.element) return;
         const point = this.point(event), original = this.drag.original;
         const dx = point.x - this.drag.start.x, dy = point.y - this.drag.start.y;
@@ -720,14 +782,15 @@ export class Editor {
                 dot.setAttribute('cx', Number(dot.dataset.x) + point.x * Number(dot.dataset.radius));
                 dot.setAttribute('cy', Number(dot.dataset.y) + point.y * Number(dot.dataset.radius));
             });
-            if (element.type === 'pipe') {
-                const path = group.querySelector('polyline'), length = path.getTotalLength();
-                if (live.active && length > 0) motion.phase = (motion.phase + 2.5 * live.speed * element.direction / length + 1) % 1;
+            if (element.type === 'pipe' && (element.activity || element.power)) {
+                const path = group.querySelector('polyline');
+                const length = Number(path.dataset.length ?? (path.dataset.length = path.getTotalLength()));
+                if (live.active && length > 0) motion.phase = (motion.phase + 2.5 * live.speed / length) % 1;
                 group.querySelectorAll('[data-dot]').forEach((dot, index) => {
                     dot.style.display = live.active && length > 0 ? '' : 'none';
                     if (!live.active || !length) return;
-                    const phase = (motion.phase + index / 5) % 1;
-                    const p = path.getPointAtLength(((phase + 1) % 1) * length);
+                    const phase = (motion.phase + index / 3) % 1;
+                    const p = path.getPointAtLength((element.direction < 0 ? 1-phase : phase) * length);
                     dot.setAttribute('cx', p.x);
                     dot.setAttribute('cy', p.y);
                 });
@@ -764,8 +827,9 @@ export class Editor {
 
     keydown(event) {
         if (document.querySelector('dialog[open]') || ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-        if (event.key === 'Escape') { this.pipePoints = null; this.drag = null; this.draw(); }
-        if (this.preview) return;
+        if (event.key === 'Escape') { this.cancelPipe(); this.drag = null; }
+        if (event.key === 'Enter' && this.pipePoints && document.activeElement.tagName !== 'BUTTON') this.finishPipe();
+        if (this.preview || this.pipePoints) return;
         if (event.key === 'Delete') this.remove();
         if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') {
             event.preventDefault(); this.restore(event.shiftKey ? this.future : this.history, event.shiftKey ? this.history : this.future);
@@ -810,6 +874,7 @@ export class Editor {
             validateProject(next, this.state.catalog);
             this.remember();
             this.state.project = next;
+            this.pipePoints = null;
             this.pageIndex = 0;
             this.selected = null;
             this.render();

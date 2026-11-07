@@ -41,7 +41,7 @@ typedef struct
     char last_position[16];
     int last_position_angle;
     double minimum, maximum, phase, length;
-    unsigned point_count, decimals;
+    unsigned point_count, decimals, dot_radius;
     int direction;
     lv_obj_t *value_label, *power_label, *body, *dots[3], *rotor, *indicator;
     lv_point_precise_t rotor_points[2];
@@ -126,8 +126,8 @@ static void dot_position(runtime_t *runtime, unsigned index, lv_obj_t *dot, doub
         if (length > 0 && (distance <= length || i + 1 == runtime->point_count))
         {
             lv_obj_set_pos(dot,
-                           s_points[index][i - 1].x + dx * distance / length - 3,
-                           s_points[index][i - 1].y + dy * distance / length - 3);
+                           s_points[index][i - 1].x + dx * distance / length - runtime->dot_radius,
+                           s_points[index][i - 1].y + dy * distance / length - runtime->dot_radius);
             break;
         }
         distance -= length;
@@ -794,8 +794,9 @@ void app_scene_poll(void)
             y = sm_json_number(element, "y", 0) * height;
         int w = sm_json_number(element, "w", .1) * width,
             h = sm_json_number(element, "h", .1) * height;
-        lv_color_t color = lv_color_hex(strtoul(sm_json_string(element, "color") + 1, NULL, 16));
-        if (s_dark && !strcmp(sm_json_string(element, "color"), "#456172"))
+        unsigned rgb = strtoul(sm_json_string(element, "color") + 1, NULL, 16);
+        lv_color_t color = lv_color_hex(rgb);
+        if (s_dark && strcmp(type, "pipe") && !strcmp(sm_json_string(element, "color"), "#456172"))
             color = lv_color_hex(0xd5e6f0);
         if (!strcmp(type, "pipe"))
         {
@@ -812,14 +813,18 @@ void app_scene_poll(void)
             for (unsigned k = 1; k < n; k++)
                 runtime->length += hypot(s_points[index][k].x - s_points[index][k - 1].x,
                                          s_points[index][k].y - s_points[index][k - 1].y);
+            int line_width = sm_json_number(element, "width", 6);
+            runtime->dot_radius = fmax(2, lround(line_width * .3));
+            unsigned luminance = 299 * (rgb >> 16) + 587 * ((rgb >> 8) & 255) + 114 * (rgb & 255);
+            lv_color_t dot_color = lv_color_hex(luminance >= 145000 ? 0x15202b : 0xffffff);
             if (runtime->activity.uuid[0] || runtime->power.uuid[0])
                 for (unsigned k = 0; k < 3; k++)
                 {
                     lv_obj_t *dot = lv_obj_create(s_root);
                     lv_obj_remove_style_all(dot);
-                    lv_obj_set_size(dot, 6, 6);
+                    lv_obj_set_size(dot, 2 * runtime->dot_radius, 2 * runtime->dot_radius);
                     lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
-                    lv_obj_set_style_bg_color(dot, lv_color_white(), 0);
+                    lv_obj_set_style_bg_color(dot, dot_color, 0);
                     lv_obj_set_style_bg_opa(dot, LV_OPA_COVER, 0);
                     lv_obj_add_flag(dot, LV_OBJ_FLAG_HIDDEN);
                     runtime->dots[k] = dot;
@@ -828,7 +833,7 @@ void app_scene_poll(void)
             runtime->body = line;
             lv_line_set_points(line, s_points[index], n);
             lv_obj_set_style_line_color(line, color, 0);
-            lv_obj_set_style_line_width(line, sm_json_number(element, "width", 6), 0);
+            lv_obj_set_style_line_width(line, line_width, 0);
             lv_obj_set_style_line_rounded(line, true, 0);
             for (unsigned k = 0; k < 3; k++)
                 if (runtime->dots[k])

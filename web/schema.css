@@ -112,3 +112,8 @@ input[type=color] { height: 40px; padding: 4px; }
 .element-caption { display: flex; align-items: center; gap: 10px; }
 .element-caption .library-picture { flex: none; }
 #library-count { margin: 6px 0; }
+
+.workspace #canvas:not(.drawing-pipe) .equipment:not(.selected) .port { display: none; }
+.workspace .drawing-pipe, .workspace .drawing-pipe .equipment { cursor: crosshair; }
+#draw-pipe[aria-pressed=true] { box-shadow: inset 0 0 0 2px currentColor; }
+#pipe-tools { margin-top: 10px; }
