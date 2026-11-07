@@ -6,9 +6,9 @@ Az MS1 nyitott. A grafikai készlet (333 típus), a szerkesztő, osztó-gyűjtő
 | --- | --- |
 | Szoftveres végek | [SD-helyreállítás vezérelt újraindítással](mentes.md) elkészült, fizikai kártyapróba szükséges. A webszerkesztő a natív betűkészlet karakterlépéseivel tördeli a szöveg- és értékmezőket. A HU/EN sortörés, betűkép és méret végső vizuális ellenőrzése fizikai panelen szükséges. |
 | Valódi P4 és Loxone | Indulás, Wi-Fi és helyreállító AP; Gen2/17.x bejelentkezés, TLS, tokenmegújítás, megszakadás/újracsatlakozás; grafika, fényerő, mind a négy tájolás és érintés; szerkesztés–mentés–újraindítás–import/export. |
-| Terhelés és tartós üzem | [Hat tesztprojekt és gazdagépes képkocka-, memória- és veremmérés](../tests/schemas/README.md) elkészült. 150 elemes, sok aktív csöves oldal képkockaidői és a 20 FPS cél tényleges mérése; legalább 24 órás járatás, memória-mélypont, SD-hiba és hálózati hiba. |
+| Terhelés és tartós üzem | [Hat tesztprojekt és gazdagépes képkocka-, memória- és veremmérés](../tests/schemas/README.md) elkészült. A készülékes diagnosztika méri az LVGL-képkockákat. A [24 órás adatgyűjtés és készülékes próbalap](verziotortenet/ms1-kiadasi-tervezet.md) rendelkezésre áll. Hátravan a 150 elemes, sok aktív csöves oldal képkockaidejeinek mérése és a 20 FPS cél ellenőrzése; legalább 24 órás járatás, memória-mélypont, SD-hiba és hálózati hiba. |
 | OTA és első kiadás | Valódi letöltésből végzett megszakítás/újrapróbálás, sérült grafika javítása, firmware rollback és a régi grafika megtartása; első main-merge kiadás és a publikált firmware/manifest letölthetősége. |
-| Lezárás | Végleges telepítési/használati leírás, első PR-verziódokumentum, mérési jegyzőkönyv, majd a teljes [elfogadási lista](ms1.md) lezárása. |
+| Lezárás | Az első PR-verziódokumentum tervezete elkészült. A fizikai mérési jegyzőkönyv, a kiadási verzió és csomagok rögzítése után következhet a teljes [elfogadási lista](ms1.md) lezárása. |
 
 A fizikai próbákhoz célpanel, SD-kártya és a Miniserver elérése kell. Ezek eredményét nem helyettesíti CI, szimulált adat vagy virtuális LVGL-kijelző. A már működő funkcióknál ezért több elfogadási jelölő még nyitott.
 

@@ -9,7 +9,7 @@
 - [ ] Legfeljebb 10 oldal szerkesztése, tartós mentése, oldalak/projektek exportja és importja működik.
 - [ ] Húzás, méretezés, forgatás, csőrajzolás, csatlakozópontok, szöveg- és értékmezők működnek.
 - [ ] Helyiség/funkció szűrés és minden elem Loxone-párosítása működik.
-- [ ] Szivattyú aktivitási elsőbbség és teljesítményhatárok tesztelve.
+- [x] Szivattyú aktivitási elsőbbség és teljesítményhatárok gazdagépen tesztelve (az éles C-mag és a natív LVGL-jelenet ellenőrzése).
 - [x] Jóváhagyott grafikai stílus és **teljes** HVAC/medence/öntözés/vízellátási készlet elkészült (333 típus, nulla helyőrző; a fizikai vizuális próba külön feltétel).
 - [ ] Világos/sötét grafika, 0/90/180/270° kép és érintés fizikai panelen ellenőrizve.
 - [ ] Oldallapozás és átemelt diagnosztikai ablak működik.
