@@ -114,7 +114,9 @@ cJSON *app_diagnostics_json(void)
     cJSON_AddBoolToObject(json, "sdSpaceValid", data.sd_space_valid);
     number(json, "sdFree", data.sd_space_valid, data.sd_free);
     number(json, "sdTotal", data.sd_space_valid, data.sd_total);
-    cJSON_AddNullToObject(json, "displayFps"); /* A célütem nem fizikai FPS-mérés. */
+    number(json, "displayFps", data.display_valid, data.display_fps);
+    number(json, "displayMaxRenderMs", data.display_valid && data.display_frames > 0,
+           data.max_render_us / 1000.0);
     flag(wifi, "connected", data.sampled, data.wifi_connected);
     number(wifi, "rssi", data.sampled && data.wifi_connected && data.rssi_valid, data.rssi);
     flag(wifi, "recovery", data.sampled, data.recovery_wifi);

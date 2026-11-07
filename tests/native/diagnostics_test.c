@@ -119,9 +119,15 @@ int main(void)
            cpu_reads == 2);
     assert(data.sd_total == 64000000000ULL && data.sd_free == 16000000000ULL);
     assert(data.main_stack_free == 4096 && data.task_count == 23 && data.dma_free == 32768);
+    for (unsigned i = 0; i < 20; i++)
+        app_diagnostics_frame_completed(11000 + i * 100);
     now = 1000000;
     app_diagnostics_poll();
     assert(cpu_reads == 2 && sd_reads == 1);
+    json = app_diagnostics_json();
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayFps")->valuedouble == 20.0);
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayMaxRenderMs")->valuedouble == 12.9);
+    cJSON_Delete(json);
     now = 2000000;
     idle[0] = 500000;
     idle[1] = 1500000;
@@ -135,7 +141,8 @@ int main(void)
         char *text = cJSON_PrintUnformatted(json);
         assert(!strstr(text, "MustNotLeak") && !strstr(text, "password"));
         assert(cJSON_GetObjectItemCaseSensitive(json, "cpu0")->valueint == 75);
-        assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "displayFps")));
+        assert(cJSON_GetObjectItemCaseSensitive(json, "displayFps")->valuedouble == 0);
+        assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "displayMaxRenderMs")));
         free(text);
         cJSON_Delete(json);
     }

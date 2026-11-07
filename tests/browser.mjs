@@ -158,10 +158,12 @@ try {
     assert.equal((await page.locator('body').textContent()).includes('NeverRenderThis'), false);
     await page.evaluate(() => { window.diagCard = document.querySelector('[data-diag-card="cpu"]'); });
     diagnostic = {...diagnostic, cpuValid: true, cpu0: 75, cpu1: 25, sdSpaceValid: true,
+        displayFps: 19.8, displayMaxRenderMs: 41.2,
         sdTotal: 34359738368, sdFree: 17179869184, sampleAge: 7};
     await page.waitForFunction(() => document.querySelector('[data-diag="cpu"]').textContent.includes('75%'));
     assert.equal(await page.locator('[data-meter="cpu"]').evaluate(node => node.value), 75);
     assert.equal(await page.locator('[data-meter="sd"]').evaluate(node => node.value), 50);
+    assert.equal(await page.locator('[data-diag="fps"]').textContent(), '19.8 FPS\nLongest render: 41.2 ms');
     assert.equal(await page.evaluate(() => window.diagCard === document.querySelector('[data-diag-card="cpu"]')), true);
     assert.equal((await page.locator('#diagnostics-status').textContent()).includes('7 s'), true);
     await page.locator('#language').selectOption('hu');

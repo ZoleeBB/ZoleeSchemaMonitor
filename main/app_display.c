@@ -4,6 +4,8 @@
  */
 #include "esp_lv_adapter_display.h"
 #include "esp_log.h"
+#include "esp_timer.h"
+#include "app_diagnostics.h"
 
 lv_display_t *__real_esp_lv_adapter_register_display(const esp_lv_adapter_display_config_t *config);
 
@@ -12,11 +14,13 @@ lv_display_t *__real_esp_lv_adapter_register_display(const esp_lv_adapter_displa
 static void startup_display_event(lv_event_t *event)
 {
     static unsigned reported;
+    static int64_t render_start = -1;
     unsigned bit;
     const char *message;
     switch (lv_event_get_code(event))
     {
         case LV_EVENT_RENDER_START:
+            render_start = esp_timer_get_time();
             bit = 1;
             message = "First LVGL render started";
             break;
@@ -29,6 +33,12 @@ static void startup_display_event(lv_event_t *event)
             message = "First LCD flush callback returned";
             break;
         case LV_EVENT_REFR_READY:
+            if (render_start >= 0)
+            {
+                int64_t duration = esp_timer_get_time() - render_start;
+                app_diagnostics_frame_completed(duration > UINT32_MAX ? UINT32_MAX : (unsigned)duration);
+                render_start = -1;
+            }
             bit = 8;
             message = "First adapter refresh completed";
             break;

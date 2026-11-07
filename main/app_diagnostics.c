@@ -26,6 +26,37 @@ static TaskHandle_t s_main_task;
 static bool s_started;
 static bool s_cpu_started, s_memory_warned, s_stack_warned;
 
+/* Csak tényleges rajzolást követő befejezés érkezik, részpufferenként nincs esemény. */
+static portMUX_TYPE s_frame_lock = portMUX_INITIALIZER_UNLOCKED;
+static unsigned s_frames, s_max_render_us;
+static bool s_frame_seen;
+static int64_t s_frame_window = -1;
+
+void app_diagnostics_frame_completed(unsigned render_us)
+{
+    portENTER_CRITICAL(&s_frame_lock);
+    s_frame_seen = true;
+    s_frames++;
+    if (render_us > s_max_render_us)
+        s_max_render_us = render_us;
+    portEXIT_CRITICAL(&s_frame_lock);
+}
+
+static void sample_frames(app_diagnostics_t *next, int64_t now)
+{
+    portENTER_CRITICAL(&s_frame_lock);
+    unsigned frames = s_frames, maximum = s_max_render_us;
+    bool seen = s_frame_seen;
+    s_frames = 0;
+    s_max_render_us = 0;
+    portEXIT_CRITICAL(&s_frame_lock);
+    next->display_valid = seen && s_frame_window >= 0 && now > s_frame_window;
+    next->display_frames = frames;
+    next->max_render_us = maximum;
+    next->display_fps = next->display_valid ? frames * 1000000.0 / (now - s_frame_window) : 0;
+    s_frame_window = now;
+}
+
 void app_diagnostics_capture(app_diagnostics_t *out)
 {
     portENTER_CRITICAL(&s_lock);
@@ -41,6 +72,7 @@ void app_diagnostics_poll(void)
     app_diagnostics_t next;
     app_diagnostics_capture(&next);
     int64_t now = esp_timer_get_time();
+    sample_frames(&next, now);
     if (!s_cpu_started || now - s_cpu_time >= 2000000)
     {
         for (unsigned core = 0; core < 2; core++)

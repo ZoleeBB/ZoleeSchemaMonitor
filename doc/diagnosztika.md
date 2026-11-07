@@ -6,6 +6,7 @@ A kijelző **Info / Séma** gombja vált a rajz és a diagnosztika között. Ür
 
 | Terület | Jelentés |
 | --- | --- |
+| LVGL képkockák (web) | Az utolsó mintavételi ablakban befejezett rajzolások másodpercenként és a leghosszabb rajzolás ideje ezredmásodpercben. |
 | CPU0 / CPU1 | A két minta közti idle-időből számolt foglaltság, legalább 2 s-os ablakban. Az első teljes ablak előtt ismeretlen, nem 0%. |
 | Belső RAM | Szabad / teljes 8 bites belső heap, külön a bekapcsolás óta mért legkisebb szabad érték. |
 | PSRAM | Szabad / teljes külső memória. A belső RAM-tól elkülönített keret. |
@@ -34,7 +35,7 @@ A napló rögzített kódokat és előre megadott HU/EN szövegeket használ. Ni
 
 - A `/api/diagnostics` csak olvas; a még nem mért számok JSON `null` értéket kapnak. A fejlesztői kiszolgáló sem szimulál mért hardvermetrikát.
 - A `sdMounted` a regisztrált állapottár jelzője, nem kártyakivétel-érzékelő. A `sdSpaceValid` a legutóbbi kapacitásmérés eredménye; automatikus SD-újracsatolás továbbra sincs.
-- A CPU idle-időből származik; a fizikai kijelző FPS-e nem mért. A 20 FPS továbbra is cél.
+- Az LVGL-képkocka az első rajzolási eseménytől a hozzá tartozó frissítés befejezéséig tart. Egy több részpufferből összeálló kép egyszer számít. Aktív mérés mellett a változatlan oldal 0 FPS-t is adhat, ilyenkor a rajzolási idő ismeretlen. A panel elektromos képfrissítési frekvenciáját külön kell mérni. A 20 FPS célhoz hagyd a 150 elemes aktív oldalt a panelen, és másik gépen nyisd meg a webdiagnosztikát.
 - A panel és a web csak változott szöveget/sávértéket ír át. A panel rejtett diagnosztikája nem frissíti az LVGL mezőit, megnyitáskor az utolsó pillanatképet mutatja.
 - Függő OTA-verzió véglegesítéséhez a diagnosztikai tasknak is el kell indulnia, és legfeljebb 10 s-os mintának rendelkezésre kell állnia. A 30/180 s-os bootellenőrzési szabály változatlan.
 - A host teszt a CPU-ablakot, cache-t, SD-mérési ritkítást/hibát, mintaéletkort, memória/verem figyelmeztetést, körnaplót és titokmentes JSON-t vizsgálja. Valódi LVGL-lel ellenőrzött a két elrendezés, sávok, téma/nyelv, rejtett/változatlan nézet és a csak panelen megjelenő kulcs. Ezek nem fizikai panel-, SD-, FreeRTOS-időzítési vagy 20 FPS-mérések.

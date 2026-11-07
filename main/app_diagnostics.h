@@ -7,6 +7,9 @@ typedef struct
 {
     bool sampled, cpu_valid, sd_space_valid, sd_mounted, storage_recovery, clock_valid;
     uint64_t uptime_seconds, sample_age, sd_total, sd_free;
+    bool display_valid;
+    double display_fps;
+    unsigned display_frames, max_render_us;
     unsigned cpu[2], internal_free, internal_minimum, internal_total;
     unsigned psram_free, psram_total, dma_free, dma_largest, main_stack_free, task_count;
     bool wifi_connected, recovery_wifi, loxone_connected, rssi_valid;
@@ -24,6 +27,7 @@ typedef struct
 /* Az app_main egyszer indítja. A mintavétel külön PSRAM-stackű taskból fut;
  * az SD-kapacitást legfeljebb 10 s-onként, kijelzőzár nélkül olvassa. */
 esp_err_t app_diagnostics_start(void);
+void app_diagnostics_frame_completed(unsigned render_us);
 /* Kizárólag a mintavételi task és a gazdagépes teszt hívja. */
 void app_diagnostics_poll(void);
 /* Rövid, csak RAM-ot olvasó pillanatkép. A CPU első mérése ismeretlen. */

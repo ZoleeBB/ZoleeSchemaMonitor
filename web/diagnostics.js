@@ -12,7 +12,7 @@ const words = {
         privateKey: 'A jelszó csak a kijelzőn olvasható.', events: 'Legutóbbi események',
         eventHint: 'Üzemidő szerinti időbélyegek. A napló újraindításkor kiürül.', noEvents: 'Még nincs esemény.',
         stale: 'Az utolsó minta kora', disconnected: 'A diagnosztikai kapcsolat megszakadt. Az utolsó pillanatkép látható.',
-        fps: 'A fizikai megjelenítési sebesség még nem mért.'
+        fps: 'LVGL képkockák', maxRender: 'Leghosszabb rajzolás'
     },
     en: {
         title: 'System diagnostics', remount: 'Restart to remount SD card',
@@ -26,7 +26,7 @@ const words = {
         privateKey: 'The password is only shown on the device.', events: 'Recent events',
         eventHint: 'Uptime timestamps. The log is cleared on restart.', noEvents: 'No events yet.',
         stale: 'Last sample age', disconnected: 'Diagnostic connection lost. The last snapshot is shown.',
-        fps: 'Physical display frame rate has not been measured yet.'
+        fps: 'LVGL frames', maxRender: 'Longest render'
     }
 };
 const finite = value => typeof value === 'number' && Number.isFinite(value);
@@ -48,7 +48,7 @@ export class DiagnosticPanel {
         this.closed = false;
         this.busy = false;
         const t = this.text;
-        const keys = ['cpu', 'internal', 'psram', 'sd', 'wifi', 'loxone', 'numeric', 'dma', 'system', 'stack', 'update', 'recovery'];
+        const keys = ['cpu', 'internal', 'psram', 'sd', 'wifi', 'loxone', 'numeric', 'dma', 'system', 'stack', 'update', 'recovery', 'fps'];
         root.innerHTML = `<h1>${t.title}</h1><p id="diagnostics-status" role="status"></p>
             <div class="diagnostic-grid">${keys.map(key => `<article data-diag-card="${key}"><h2>${t[key]}</h2>
                 <p class="diagnostic-value" data-diag="${key}">${t.unknown}</p>
@@ -56,8 +56,7 @@ export class DiagnosticPanel {
                 ${key === 'cpu' ? '<progress data-meter="cpu1" max="100" value="0" aria-label="CPU1" hidden></progress>' : ''}
                 ${key === 'sd' ? '<div id="sd-recovery" hidden><p></p><button type="button"></button><span role="status"></span></div>' : ''}
                 </article>`).join('')}</div>
-            <section><h2>${t.events}</h2><p class="hint">${t.eventHint}</p><ol id="diagnostic-events" class="diagnostic-events"></ol></section>
-            <p class="hint">${t.fps}</p>`;
+            <section><h2>${t.events}</h2><p class="hint">${t.eventHint}</p><ol id="diagnostic-events" class="diagnostic-events"></ol></section>`;
         this.recovery = root.querySelector('#sd-recovery');
         this.recovery.querySelector('p').textContent = t.insert;
         const button = this.recovery.querySelector('button');
@@ -100,6 +99,9 @@ export class DiagnosticPanel {
         const t = this.text, measured = data.measured === true, wifi = data.wifi || {}, loxone = data.loxone || {}, update = data.update || {};
         const number = value => finite(value) ? value : t.unknown;
         const cpuValid = measured && data.cpuValid === true && finite(data.cpu0) && finite(data.cpu1);
+        const fps = measured && finite(data.displayFps) ? data.displayFps.toFixed(1) + ' FPS' : t.unknown;
+        const duration = measured && finite(data.displayMaxRenderMs) ? '\n' + t.maxRender + ': ' + data.displayMaxRenderMs.toFixed(1) + ' ms' : '';
+        this.value('fps', fps + duration);
         this.value('cpu', cpuValid ? `CPU0 ${data.cpu0}% / CPU1 ${data.cpu1}%` : t.unknown);
         this.meter('cpu', cpuValid ? data.cpu0 : null);
         this.meter('cpu1', cpuValid ? data.cpu1 : null);

@@ -148,7 +148,7 @@ def handler_for(state, demo):
                                      "internalFree":None, "internalTotal":None, "internalMinimum":None,
                                      "psramFree":None, "psramTotal":None, "dmaFree":None, "dmaLargest":None,
                                      "sdMounted":None, "sdSpaceValid":False, "sdTotal":None, "sdFree":None,
-                                     "mainStackFree":None, "taskCount":None, "sampleAge":None, "displayFps":None,
+                                     "mainStackFree":None, "taskCount":None, "sampleAge":None, "displayFps":None, "displayMaxRenderMs":None,
                                      "wifi":{}, "loxone":{}, "update":{}, "events":[]})
             if path == "/api/live":
                 value = 50 + math.sin((time.monotonic() - state.started) / 5) * 45
