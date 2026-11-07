@@ -12,6 +12,7 @@ POLICY_PATH = "catalog/image-sizes.json"
 RASTER_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".tiff", ".ico", ".avif", ".apng"}
 # A látványterv dokumentáció; a panel kizárólag a kis elemképeket kapja.
 PROFILES = {
+    "manifold-module": {"prefix": "assets/elements/manifold/", "width": 152, "height": 224, "extensions": (".png",), "bytes": 128 * 1024},
     "element": {"prefix": "assets/elements/", "width": 160, "height": 160, "extensions": (".png",), "bytes": 128 * 1024},
     "schema-screenshot": {"prefix": "tests/schemas/", "width": 1600, "height": 1180, "extensions": (".jpg",), "bytes": 512 * 1024},
     "preview": {"prefix": "doc/grafika/latvanytervek/", "width": 1280, "height": 960, "extensions": (".png", ".jpg"), "bytes": 2 * 1024 * 1024},

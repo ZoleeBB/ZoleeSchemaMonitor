@@ -1776,6 +1776,11 @@
             "role": "schema-screenshot",
             "width": 1280,
             "height": 800
+        },
+        "assets/elements/manifold/assembly.png": {
+            "role": "manifold-module",
+            "width": 152,
+            "height": 224
         }
     }
 }
