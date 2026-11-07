@@ -6,10 +6,9 @@ const NS = 'http://www.w3.org/2000/svg';
 const clone = value => structuredClone(value);
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-function flowDotColor(color) {
+function pipeLuminance(color) {
     const rgb = parseInt(color.slice(1), 16);
-    const luminance = 299*(rgb >> 16) + 587*((rgb >> 8) & 255) + 114*(rgb & 255);
-    return luminance >= 145000 ? '#15202b' : '#ffffff';
+    return 299*(rgb >> 16) + 587*((rgb >> 8) & 255) + 114*(rgb & 255);
 }
 
 function svgNode(name, attributes = {}, text) {
@@ -60,8 +59,8 @@ export class Editor {
     get page() { return this.state.project.pages[this.pageIndex]; }
     get element() { return this.page.elements.find(element => element.id === this.selected); }
 
-    remember() {
-        this.history.push(JSON.stringify(this.state.project));
+    remember(before = JSON.stringify(this.state.project)) {
+        this.history.push(before);
         if (this.history.length > 60) this.history.shift();
         this.future = [];
         this.markDirty();
@@ -94,14 +93,14 @@ export class Editor {
             <div class="toolbar project-toolbar"><div class="tool-group" role="group" aria-label="${t('pages')}">${this.button('add-page', 'addPage')}${this.button('copy-page', 'copyPage')}${this.button('delete-page', 'deletePage')}</div>
             <div class="tool-group" role="group" aria-label="${t('projectFiles')}">${this.button('save-project', 'save')}${this.button('export-page', 'exportPage')}${this.button('export-project', 'exportProject')}${this.button('import-project', 'import')}</div>
             <input id="import-file" type="file" accept="application/json,.json" hidden></div>
-            <div class="editor-layout"><section class="library-panel" aria-labelledby="library-title"><h2 id="library-title">${t('equipmentLibrary')}</h2><label>${t('search')}<input id="asset-search" type="search" placeholder="${t('search')}"></label>
-            <label>${t('declareCategory')}<select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select></label>
+            <datalist id="pipe-colors">${['#e34d4d','#287ac4','#258653','#f2cb3d','#ffffff','#26333d'].map(color => `<option value="${color}"></option>`).join('')}</datalist><div class="editor-layout"><section class="library-panel" aria-labelledby="library-title"><h2 id="library-title">${t('equipmentLibrary')}</h2><label>${t('search')}<input id="asset-search" type="search" placeholder="${t('search')}"></label>
+            <label>${t('equipmentCategory')}<select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select></label>
             <div class="toolbar" role="group" aria-label="${t('addElement')}">${this.button('add-text', 'text')}${this.button('add-value', 'value')}${this.button('draw-pipe', 'pipe')}</div><p id="library-count" class="hint" role="status"></p><div class="library" id="library"></div></section>
             <div class="editor-stage"><div class="toolbar canvas-toolbar"><div class="tool-group" role="group" aria-label="${t('editTools')}">${this.button('undo', 'undo')}${this.button('redo', 'redo')}${this.button('duplicate', 'copy')}${this.button('delete', 'delete')}</div>
             <div class="tool-group" role="group" aria-label="${t('preview')}">${this.button('preview', this.preview ? 'edit' : 'preview')}${this.button('night', 'night')}</div></div>
             <div class="workspace ${this.preview ? 'preview-mode' : ''}" id="workspace"><svg id="canvas" xmlns="${NS}" viewBox="0 0 ${this.size.width} ${this.size.height}" class="${this.size.width < this.size.height ? 'portrait' : ''}" role="img" aria-label="${t('schemaCanvas')}"></svg></div>
             <fieldset id="pipe-tools" hidden><legend>${t('drawPipe')}</legend>
-            <div class="small-grid"><label>${t('color')}<input type="color" id="pipe-color" value="${this.pipeStyle.color}"></label>
+            <div class="small-grid"><label>${t('color')}<input type="color" id="pipe-color" list="pipe-colors" value="${this.pipeStyle.color}"></label>
             <label>${t('lineWidth')}<input type="number" min="1" max="30" step="1" id="pipe-width" value="${this.pipeStyle.width}"></label></div>
             <p class="hint" id="pipe-hint">${t('pipeHint')}</p><div class="tool-group">${this.button('finish-pipe','finishPipe')}${this.button('cancel-pipe','cancel')}</div></fieldset><fieldset class="page-properties"><legend>${t('pageSettings')}</legend><div class="small-grid"><label>${t('name')}<input id="page-name" maxlength="80" value="${this.escape(this.page.name)}"></label>
             <label>${t('background')}<select id="page-background">${['plain', 'cool', 'warm'].map(value => `<option value="${value}" ${this.page.background === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label></div></fieldset></div>
@@ -136,8 +135,13 @@ export class Editor {
             if (this.page.elements.length >= LIMITS.elements) return this.feedback('150 / page', true);
             this.pipePoints = [];
             this.pipeSource = null;
-            this.preview = false;
-            this.render();
+            if (this.preview) {
+                this.preview = false;
+                this.render();
+            } else {
+                this.syncPipeTools();
+                this.draw();
+            }
             if (window.matchMedia('(max-width: 759px)').matches) this.canvas.scrollIntoView({block:'start'});
         });
         on('finish-pipe', () => this.finishPipe());
@@ -352,11 +356,19 @@ export class Editor {
             if (element.type === 'pipe') {
                 const path = svgNode('polyline', {points: element.points.map(point => `${point.x * w},${point.y * h}`).join(' '),
                     stroke: element.color, 'stroke-width': element.width, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round'});
+                const luminance = pipeLuminance(element.color);
+                if (this.dark ? luminance < 70000 : luminance > 205000) {
+                    const outline = path.cloneNode(false);
+                    outline.setAttribute('stroke', this.dark ? '#9baab5' : '#738391');
+                    outline.setAttribute('stroke-width', element.width + 2);
+                    group.append(outline);
+                }
+                path.dataset.pipeBody = '';
                 group.append(path);
                 group.append(svgNode('polyline', {points: path.getAttribute('points'), stroke: 'transparent', 'stroke-width': Math.max(16, element.width), fill: 'none'}));
                 if (element.activity || element.power) {
                     for (let index = 0; index < 3; index++) group.append(svgNode('circle', {
-                        r: Math.max(2, Math.round(element.width * .3)), fill: flowDotColor(element.color),
+                        r: Math.max(2, Math.round(element.width * .3)), fill: luminance >= 145000 ? '#15202b' : '#ffffff',
                         class: 'flow-dot', 'data-dot': index, style: 'display:none'}));
                 }
                 if (element.id === this.selected && !this.preview) element.points.forEach((point, index) => group.append(svgNode('circle', {
@@ -582,23 +594,30 @@ export class Editor {
 
     pointerUp() { if (this.drag) { this.drag = null; this.inspect(); } }
 
+    bindingName(binding, fallback = 'none') {
+        if (!binding) return this.tr(fallback);
+        const source = this.state.sources.find(item => item.uuid === binding.uuid);
+        return source ? [source.room, source.name, source.state].filter(Boolean).join(' · ') : binding.uuid;
+    }
+
     inspect() {
         const panel = this.root.querySelector('#inspector');
         const e = this.element, t = this.tr;
         this.root.querySelector('#library .chosen-asset')?.classList.remove('chosen-asset');
         if (e?.asset) this.root.querySelector(`#library [data-asset="${CSS.escape(e.asset)}"]`)?.classList.add('chosen-asset');
         if (!e) { panel.textContent = t('select'); return; }
-        const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
+        const dimensionField = (key, title, axis) => `<label>${t(title)} (px)<input data-property="${key}" data-axis="${axis}" type="number" min="${Math.ceil(.005*this.size[axis])}" max="${this.size[axis]}" step="1" value="${Math.round(e[key]*this.size[axis])}"></label>`;
+        const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'color' ? 'list="pipe-colors"' : ''} ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
         const asset = this.state.catalog.elements.find(item => item.id === e.asset);
         panel.innerHTML = `<p class="element-caption">${this.escape(asset?.name[this.language] || t(e.type))}</p><fieldset><legend>${t('appearance')}</legend>${field('label', 'label')}
             ${e.type === 'text' ? `<label>${t('text')}<textarea data-property="text" maxlength="1000"></textarea></label>` : ''}${field('color', 'color', 'color')}
             <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>
-            ${e.type !== 'pipe' ? `<div class="small-grid">${field('w', 'width', 'number')}${field('h', 'height', 'number')}</div>` : this.button('reverse-pipe', 'reverse')}
+            ${e.type !== 'pipe' ? `<div class="small-grid">${dimensionField('w','width','width')}${dimensionField('h','height','height')}</div>` : `<label>${t('flowDirection')}<select id="pipe-direction"><option value="1">${t('forwardFlow')}</option><option value="-1" ${e.direction < 0 ? 'selected' : ''}>${t('backwardFlow')}</option></select></label>`}
             ${['text', 'value'].includes(e.type) ? `<label>${t('alignment')}<select data-property="align">${['left', 'center', 'right'].map(value => `<option value="${value}" ${(e.align || 'left') === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label>` : ''}
             <label>${t('rotate')}<select id="element-rotation">${[0,90,180,270].map(n => `<option value="${n}" ${n === e.rotation ? 'selected' : ''}>${n}°</option>`).join('')}</select></label></fieldset>
-            ${e.type === 'value' ? `<fieldset><legend>${t('value')}</legend>` + `${field('unit', 'unit')}${field('decimals', 'decimals', 'number')}<button class="binding-button" data-binding="value">${t('source')}: ${this.escape(e.value?.uuid || t('none'))}</button></fieldset>` : ''}
-            ${['equipment', 'pipe'].includes(e.type) && !e.manifold ? `<fieldset><legend>${t('signals')}</legend><label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(e.activity?.uuid || t('none'))}</button></label>
-            <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(e.power?.source.uuid || t('none'))}</button></label>
+            ${e.type === 'value' ? `<fieldset><legend>${t('value')}</legend>` + `${field('unit', 'unit')}${field('decimals', 'decimals', 'number')}<button class="binding-button" data-binding="value">${t('source')}: ${this.escape(this.bindingName(e.value))}</button></fieldset>` : ''}
+            ${['equipment', 'pipe'].includes(e.type) && !e.manifold ? `<fieldset><legend>${t('signals')}</legend><label>${t('activity')}<button class="binding-button" data-binding="activity">${this.escape(this.bindingName(e.activity))}</button></label>
+            <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(this.bindingName(e.power?.source))}</button></label>
             ${e.power ? `<div class="small-grid"><label>${t('minimum')}<input id="power-min" type="number" step="any" value="${e.power.minimum}"></label><label>${t('maximum')}<input id="power-max" type="number" step="any" value="${e.power.maximum}"></label></div>
                 <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p></fieldset>` : ''}`;
         if (asset) panel.querySelector('.element-caption').prepend(this.assetPicture(asset, e.manifold));
@@ -613,22 +632,29 @@ export class Editor {
             } catch(error) { this.state.project = before; this.feedback(error.message, true); this.inspect(); }
         };
         if (e.manifold) this.inspectManifold(panel, e);
-        if (e.type === 'equipment' && !e.manifold) {
-            panel.insertAdjacentHTML('beforeend', `<fieldset><legend>${t('valvePosition')}</legend><label>${t('position')}<button class="binding-button" data-binding="position">${this.escape(e.position?.source.uuid || t('none'))}</button></label>
+        if (e.position || asset?.animation?.kind === 'position') {
+            panel.insertAdjacentHTML('beforeend', `<fieldset><legend>${t('valvePosition')}</legend><label>${t('position')}<button class="binding-button" data-binding="position">${this.escape(this.bindingName(e.position?.source))}</button></label>
                 ${e.position ? `<div class="small-grid"><label>${t('minimum')}<input id="position-min" type="number" step="any" value="${e.position.minimum}"></label><label>${t('maximum')}<input id="position-max" type="number" step="any" value="${e.position.maximum}"></label></div>
                 <label><input id="position-reverse" type="checkbox" ${e.position.reverse ? 'checked' : ''}>${t('positionReverse')}</label>` : ''}<p class="hint">${t('positionHint')}</p></fieldset>`);
         }
         if (e.type === 'text') panel.querySelector('[data-property="text"]').value = e.text;
         panel.querySelectorAll('[data-property]').forEach(input => input.onchange = () => {
             const key = input.dataset.property;
-            const value = input.type === 'number' ? Number(input.value) : input.value;
+            if (input.type === 'number' && (!input.value || !input.validity.valid)) {
+                input.reportValidity();
+                this.inspect();
+                return;
+            }
+            const value = input.dataset.axis ? Number(input.value) / this.size[input.dataset.axis]
+                : input.type === 'number' ? Number(input.value) : input.value;
+            if (e[key] === value) return;
             const before = clone(this.state.project);
-            this.remember();
             e[key] = value;
             try {
                 if (e.type !== 'pipe') Object.assign(e, rotateElement(e, e.rotation, this.size));
                 this.updateConnections(e);
                 validateProject(this.state.project, this.state.catalog);
+                this.remember(JSON.stringify(before));
                 this.draw();
             } catch (error) {
                 this.state.project = before;
@@ -680,7 +706,11 @@ export class Editor {
         if (panel.querySelector('#show-power')) panel.querySelector('#show-power').onchange = event => {
             this.remember(); e.showPower = event.target.checked; this.draw();
         };
-        if (e.type === 'pipe') panel.querySelector('#reverse-pipe').onclick = () => { this.remember(); e.direction *= -1; this.draw(); };
+        if (e.type === 'pipe') panel.querySelector('#pipe-direction').onchange = event => {
+            this.remember();
+            e.direction = Number(event.target.value);
+            this.draw();
+        };
     }
 
     inspectManifold(panel, e) {
@@ -690,7 +720,7 @@ export class Editor {
             <label>${t('variant')}<select id="manifold-variant">${['heating','floor','ceiling-heat','ceiling-cool'].map(v=>`<option value="${v}" ${v===m.variant?'selected':''}>${t(v)}</option>`).join('')}</select></label>
             <label><input type="checkbox" id="manifold-connections" ${m.connections?'checked':''}>${t('connections')}</label>
             <p class="hint">${t('headHint')}</p>
-            ${m.heads.map((head,i)=>`<label>${t('circuit')} ${i+1} (%)<input data-head-percent="${i}" type="number" min="0" max="100" step="any" ${head.source?'disabled':''} value="${head.percent}"></label><button type="button" data-head-source="${i}">${t('source')}: ${this.escape(head.source?.uuid || t('manual'))}</button>`).join('')}</fieldset>`);
+            ${m.heads.map((head,i)=>`<label>${t('circuit')} ${i+1} (%)<input data-head-percent="${i}" type="number" min="0" max="100" step="any" ${head.source?'disabled':''} value="${head.percent}"></label><button type="button" data-head-source="${i}">${t('source')}: ${this.escape(this.bindingName(head.source,'manual'))}</button>`).join('')}</fieldset>`);
         const change = update => {
             const before = clone(this.state.project);
             this.remember();
@@ -783,7 +813,7 @@ export class Editor {
                 dot.setAttribute('cy', Number(dot.dataset.y) + point.y * Number(dot.dataset.radius));
             });
             if (element.type === 'pipe' && (element.activity || element.power)) {
-                const path = group.querySelector('polyline');
+                const path = group.querySelector('[data-pipe-body]');
                 const length = Number(path.dataset.length ?? (path.dataset.length = path.getTotalLength()));
                 if (live.active && length > 0) motion.phase = (motion.phase + 2.5 * live.speed / length) % 1;
                 group.querySelectorAll('[data-dot]').forEach((dot, index) => {

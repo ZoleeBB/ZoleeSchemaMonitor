@@ -101,6 +101,44 @@ int main(void)
     app_scene_update(100);
     assert(s_runtime[0].last_opacity == LV_OPA_50);
     s_test_valid = true;
+    /* A világos cső sötét, a sötét cső világos áramlásjelzőt kap.
+     * A mozgást egy valódi derékszög mindkét oldalán megmérjük. */
+    const struct { unsigned width, rgb, marker; } pipes[] = {
+        {1, 0xe34d4d, 0xffffff}, {4, 0x287ac4, 0xffffff}, {8, 0x258653, 0xffffff},
+        {12, 0xf2cb3d, 0x15202b}, {20, 0xffffff, 0x15202b}, {30, 0x26333d, 0xffffff}
+    };
+    cJSON *old_points = cJSON_DetachItemFromObject(first, "points");
+    cJSON_AddItemToObject(first, "points", cJSON_Parse(
+        "[{\"x\":0.1,\"y\":0.2},{\"x\":0.5,\"y\":0.2},{\"x\":0.5,\"y\":0.8}]"));
+    s_test_activity = s_test_power = 100;
+    for (unsigned i = 0; i < sizeof(pipes)/sizeof(pipes[0]); i++)
+    {
+        char hex[8];
+        snprintf(hex, sizeof(hex), "#%06x", pipes[i].rgb);
+        cJSON_ReplaceItemInObject(first, "width", cJSON_CreateNumber(pipes[i].width));
+        cJSON_ReplaceItemInObject(first, "color", cJSON_CreateString(hex));
+        s_test_revision++;
+        app_scene_poll();
+        runtime_t *r = &s_runtime[0];
+        lv_obj_t *dot = r->dots[0];
+        assert(lv_obj_get_style_line_width(r->body, 0) == (int)pipes[i].width);
+        assert(lv_color_eq(lv_obj_get_style_line_color(r->body, 0), lv_color_hex(pipes[i].rgb)));
+        assert(lv_color_eq(lv_obj_get_style_bg_color(dot, 0), lv_color_hex(pipes[i].marker)));
+        assert(!!r->pipe_outline == (i == 4));
+        for (int dir = -1; dir <= 1; dir += 2)
+        {
+            r->direction = dir;
+            r->phase = (dir == 1 ? 510 : r->length - 514) / 50;
+            app_scene_update(0);
+            lv_obj_update_layout(s_root);
+            int x = lv_obj_get_x(dot), y = lv_obj_get_y(dot);
+            assert(lv_obj_get_width(dot) == 2 * (int)fmax(2,lround(.3*pipes[i].width)));
+            app_scene_update(100);
+            lv_obj_update_layout(s_root);
+            assert(dir * (lv_obj_get_x(dot)-x) > 0 && dir * (lv_obj_get_y(dot)-y) > 0);
+        }
+    }
+    cJSON_ReplaceItemInObject(first, "points", old_points);
     cJSON_DeleteItemFromObject(first, "activity");
     s_test_revision++;
     app_scene_poll();

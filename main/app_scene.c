@@ -43,7 +43,7 @@ typedef struct
     double minimum, maximum, phase, length;
     unsigned point_count, decimals, dot_radius;
     int direction;
-    lv_obj_t *value_label, *power_label, *body, *dots[3], *rotor, *indicator;
+    lv_obj_t *value_label, *power_label, *body, *pipe_outline, *dots[3], *rotor, *indicator;
     lv_point_precise_t rotor_points[2];
     double rotor_x, rotor_y, rotor_radius, rotor_scale_x, rotor_scale_y, rotor_rotation;
     char unit[100], last_value[160], last_power[64];
@@ -252,6 +252,8 @@ void app_scene_update(unsigned elapsed_ms)
         {
             if (runtime->body)
                 lv_obj_set_style_opa(runtime->body, opacity, 0);
+            if (runtime->pipe_outline)
+                lv_obj_set_style_opa(runtime->pipe_outline, opacity, 0);
             if (runtime->rotor)
                 lv_obj_set_style_opa(runtime->rotor, opacity, 0);
             runtime->last_opacity = opacity;
@@ -829,6 +831,15 @@ void app_scene_poll(void)
                     lv_obj_add_flag(dot, LV_OBJ_FLAG_HIDDEN);
                     runtime->dots[k] = dot;
                 }
+            if (s_dark ? luminance < 70000 : luminance > 205000)
+            {
+                lv_obj_t *outline = lv_line_create(s_root);
+                lv_line_set_points(outline, s_points[index], n);
+                lv_obj_set_style_line_color(outline, lv_color_hex(s_dark ? 0x9baab5 : 0x738391), 0);
+                lv_obj_set_style_line_width(outline, line_width + 2, 0);
+                lv_obj_set_style_line_rounded(outline, true, 0);
+                runtime->pipe_outline = outline;
+            }
             lv_obj_t *line = lv_line_create(s_root);
             runtime->body = line;
             lv_line_set_points(line, s_points[index], n);

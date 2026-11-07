@@ -1,7 +1,7 @@
 /* A közös feliratok azonos kulcsokkal szerepelnek mindkét nyelven. */
 export const messages = {
     hu: {
-        equipmentLibrary: 'Eszköztár', assetCount: 'eszköz', noAssets: 'Nincs találat. Módosítsd a keresést vagy a kategóriát.', declareCategory: 'Kategória',
+        equipmentLibrary: 'Eszköztár', assetCount: 'eszköz', noAssets: 'Nincs találat. Módosítsd a keresést vagy a kategóriát.', equipmentCategory: 'Kategória',
         alignment: 'Szövegigazítás', left: 'Balra', center: 'Középre', right: 'Jobbra',
         appearance: 'Megjelenés és méret', signals: 'Loxone-adatok', valvePosition: 'Szelepállás',
         projectFiles: 'Projekt és fájlok', editTools: 'Elem szerkesztése', addElement: 'Új elem',
@@ -37,13 +37,14 @@ export const messages = {
         uptime: 'Üzemidő', events: 'Eseménynapló', current: 'Aktuális', available: 'Elérhető', refresh: 'Ellenőrzés és frissítés',
         firmwareUpload: 'Firmware-fájl feltöltése', upload: 'Feltöltés', restart: 'Újraindítás', unknown: 'Ismeretlen',
         sourceHint: 'Nincs aktivitásjel: a teljesítmény alsó határ felett aktív. Az explicit aktivitásjel elsőbbséget élvez.',
+        flowDirection: 'Áramlási irány', forwardFlow: 'Kezdőpont → végpont', backwardFlow: 'Végpont → kezdőpont',
         drawPipe: 'Cső rajzolása', finishPipe: 'Cső befejezése', pointLimit: 'Egy cső legfeljebb 64 pontból állhat.',
         pipeHint: 'Érintsd meg a kezdőpontot, majd a töréspontokat. A lezáráshoz válassz csatlakozót vagy nyomd meg a Cső befejezése gombot.',
         conflict: 'Másik böngésző módosította a projektet. Exportáld a helyi változatot, majd töltsd újra az oldalt.',
         catalogInfo: 'Az elemfajtákat a firmware határozza meg. A fájlok SHA-256 szerint frissülnek; a változatlanokat nem töltjük le újra.',
     },
     en: {
-        equipmentLibrary: 'Equipment library', assetCount: 'devices', noAssets: 'No matches. Change the search or category.', declareCategory: 'Category',
+        equipmentLibrary: 'Equipment library', assetCount: 'devices', noAssets: 'No matches. Change the search or category.', equipmentCategory: 'Category',
         alignment: 'Text alignment', left: 'Left', center: 'Center', right: 'Right',
         appearance: 'Appearance and size', signals: 'Loxone data', valvePosition: 'Valve position',
         projectFiles: 'Project and files', editTools: 'Edit element', addElement: 'Add element',
@@ -79,6 +80,7 @@ export const messages = {
         uptime: 'Uptime', events: 'Event log', current: 'Current', available: 'Available', refresh: 'Check and update',
         firmwareUpload: 'Upload firmware file', upload: 'Upload', restart: 'Restart', unknown: 'Unknown',
         sourceHint: 'Without activity source: power above the lower bound is active. An explicit activity source takes precedence.',
+        flowDirection: 'Flow direction', forwardFlow: 'Start → end', backwardFlow: 'End → start',
         drawPipe: 'Draw pipe', finishPipe: 'Finish pipe', pointLimit: 'A pipe can contain up to 64 points.',
         pipeHint: 'Tap the start and then each bend. Select a port or press Finish pipe to complete the route.',
         conflict: 'Another browser changed the project. Export your local changes, then reload.',
