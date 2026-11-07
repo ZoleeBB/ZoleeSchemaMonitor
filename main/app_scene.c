@@ -827,6 +827,11 @@ void app_scene_poll(void)
                     lv_obj_set_size(dot, 2 * runtime->dot_radius, 2 * runtime->dot_radius);
                     lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
                     lv_obj_set_style_bg_color(dot, dot_color, 0);
+                    if (line_width < 4)
+                    {
+                        lv_obj_set_style_border_color(dot, color, 0);
+                        lv_obj_set_style_border_width(dot, 1, 0);
+                    }
                     lv_obj_set_style_bg_opa(dot, LV_OPA_COVER, 0);
                     lv_obj_add_flag(dot, LV_OBJ_FLAG_HIDDEN);
                     runtime->dots[k] = dot;

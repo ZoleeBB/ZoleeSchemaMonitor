@@ -87,7 +87,9 @@ jobs:
           npm install --no-save playwright@1.62.1
           npx playwright install --with-deps --only-shell chromium
       - name: Valódi böngészős munkafolyamat
-        run: node tests/browser.mjs
+        run: |
+          node tests/browser.mjs
+          node tests/pipe_flow.mjs
       - name: Kiadási verzió és összevont PR ellenőrzése
         id: plan
         env:

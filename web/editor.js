@@ -197,6 +197,7 @@ export class Editor {
 
     assetPicture(asset, manifold) {
         const image = new Image();
+        image.decoding = 'async';
         image.src = manifold ? manifoldImage(manifold) : `/graphics/${asset.graphics[this.dark ? 'dark' : 'light']}`;
         image.alt = '';
         const picture = document.createElement('span');
@@ -369,6 +370,7 @@ export class Editor {
                 if (element.activity || element.power) {
                     for (let index = 0; index < 3; index++) group.append(svgNode('circle', {
                         r: Math.max(2, Math.round(element.width * .3)), fill: luminance >= 145000 ? '#15202b' : '#ffffff',
+                        stroke: element.width < 4 ? element.color : 'none', 'stroke-width': 1,
                         class: 'flow-dot', 'data-dot': index, style: 'display:none'}));
                 }
                 if (element.id === this.selected && !this.preview) element.points.forEach((point, index) => group.append(svgNode('circle', {
@@ -502,10 +504,14 @@ export class Editor {
 
     drawPipePreview() {
         this.canvas.querySelector('[data-pipe-preview]')?.remove();
+        this.canvas.querySelector('[data-pipe-last]')?.remove();
         if (!this.pipePoints?.length) return;
         const points = this.pipeCursor ? [...this.pipePoints, this.pipeCursor] : this.pipePoints;
         this.canvas.append(svgNode('polyline', {points: this.pipeRoute(points).map(point => `${point.x * this.size.width},${point.y * this.size.height}`).join(' '),
             stroke: this.pipeStyle.color, 'stroke-width': this.pipeStyle.width, fill: 'none', 'stroke-dasharray': '8 4', 'pointer-events': 'none', 'data-pipe-preview': '1'}));
+        const last = this.pipePoints.at(-1);
+        this.canvas.append(svgNode('circle', {cx: last.x*this.size.width, cy: last.y*this.size.height,
+            r: 4, fill: '#fff', stroke: '#237fab', 'stroke-width': 2, 'pointer-events': 'none', 'data-pipe-last': '1'}));
     }
 
     click(event) {
@@ -610,8 +616,8 @@ export class Editor {
         const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'color' ? 'list="pipe-colors"' : ''} ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
         const asset = this.state.catalog.elements.find(item => item.id === e.asset);
         panel.innerHTML = `<p class="element-caption">${this.escape(asset?.name[this.language] || t(e.type))}</p><fieldset><legend>${t('appearance')}</legend>${field('label', 'label')}
-            ${e.type === 'text' ? `<label>${t('text')}<textarea data-property="text" maxlength="1000"></textarea></label>` : ''}${field('color', 'color', 'color')}
-            <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>
+            ${e.type === 'text' ? `<label>${t('text')}<textarea data-property="text" maxlength="1000"></textarea></label>` : ''}${e.type === 'equipment' ? '' : field('color', 'color', 'color')}
+            <div class="small-grid">${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : field('fontSize', 'fontSize', 'number')}</div>
             ${e.type !== 'pipe' ? `<div class="small-grid">${dimensionField('w','width','width')}${dimensionField('h','height','height')}</div>` : `<label>${t('flowDirection')}<select id="pipe-direction"><option value="1">${t('forwardFlow')}</option><option value="-1" ${e.direction < 0 ? 'selected' : ''}>${t('backwardFlow')}</option></select></label>`}
             ${['text', 'value'].includes(e.type) ? `<label>${t('alignment')}<select data-property="align">${['left', 'center', 'right'].map(value => `<option value="${value}" ${(e.align || 'left') === value ? 'selected' : ''}>${t(value)}</option>`).join('')}</select></label>` : ''}
             <label>${t('rotate')}<select id="element-rotation">${[0,90,180,270].map(n => `<option value="${n}" ${n === e.rotation ? 'selected' : ''}>${n}°</option>`).join('')}</select></label></fieldset>

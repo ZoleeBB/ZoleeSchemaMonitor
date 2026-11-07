@@ -24,6 +24,12 @@ Mindkét kép ugyanazon projekt első oldalát és a 65%-os demójelet mutatja. 
 | Padlófűtési osztók | [Szerkesztő](osztok/szerkeszto.jpg) | [LVGL](osztok/kijelzo.jpg) |
 | Vegyes terhelés | [Szerkesztő](terheles/szerkeszto.jpg) | [LVGL](terheles/kijelzo.jpg) |
 
+## Csőáramlási próba
+
+Az [önállóan importálható próbaoldal](csoaramlas/aramlasi-proba.json) hat szivattyú és szelep között mutatja az előre és visszafelé haladó áramlást. A csövek 1, 4, 8, 12, 20 és 30 kijelzőpixel vastagok. A demószerver egyetlen aktivitásjele mind a hat kört működteti. A 7,5 másodperces felvételen a jel először aktív, majd nulla, megszakad a kapcsolat, végül visszatér az aktív jel. A képkockák a gazdagépen futtatott firmware LVGL-képpufferéből származnak.
+
+[Szerkesztőkép](csoaramlas/szerkeszto.jpg) · [Kijelzőkép](csoaramlas/kijelzo.jpg) · [Áramlási animáció](csoaramlas/aramlas.mp4)
+
 ## Kipróbálás
 
 Indítsd el a [fejlesztői szervert](../../doc/fejlesztes.md) a `--demo` kapcsolóval, majd a szerkesztő Import gombjával válassz fájlt. A próbák a demószerver generált numerikus jelét használják az aktivitáshoz, teljesítményhez, szelepálláshoz és kijelzett értékhez. Saját Miniserveren a kötéseket a saját jelforrásokhoz kell társítani.

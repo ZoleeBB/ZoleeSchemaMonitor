@@ -1,0 +1,1300 @@
+{
+  "format": "zolee-schema",
+  "version": 1,
+  "title": "Csőáramlási próba",
+  "pages": [
+    {
+      "id": "csoaramlas",
+      "name": "Csőáramlási próba",
+      "background": "cool",
+      "elements": [
+        {
+          "align": "left",
+          "id": "heading",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.08125,
+          "w": 0.5078125,
+          "h": 0.05,
+          "rotation": 0,
+          "label": "",
+          "text": "Csőáramlási próba",
+          "color": "#263c49",
+          "fontSize": 30,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "right",
+          "id": "demo-jel",
+          "type": "value",
+          "asset": "",
+          "x": 0.8515625,
+          "y": 0.0925,
+          "w": 0.09375,
+          "h": 0.0425,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#456172",
+          "fontSize": 20,
+          "unit": "%",
+          "decimals": 0,
+          "value": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "pipe-0",
+          "type": "pipe",
+          "asset": "",
+          "x": 0,
+          "y": 0,
+          "w": 0.078125,
+          "h": 0.125,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.28185546875,
+              "y": 0.22015625
+            },
+            {
+              "x": 0.42,
+              "y": 0.22015625
+            },
+            {
+              "x": 0.46,
+              "y": 0.19640625
+            },
+            {
+              "x": 0.66,
+              "y": 0.19640625
+            },
+            {
+              "x": 0.7,
+              "y": 0.22134374999999998
+            },
+            {
+              "x": 0.8612109375,
+              "y": 0.22134374999999998
+            }
+          ],
+          "width": 1,
+          "direction": 1,
+          "source": {
+            "element": "pump-0",
+            "port": 1
+          },
+          "target": {
+            "element": "valve-0",
+            "port": 0
+          }
+        },
+        {
+          "id": "pump-0",
+          "type": "equipment",
+          "asset": "circulation-pump",
+          "x": 0.2265625,
+          "y": 0.16375,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "valve-0",
+          "type": "equipment",
+          "asset": "ball-valve",
+          "x": 0.8515625,
+          "y": 0.16375,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "name-0",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.17625,
+          "w": 0.171875,
+          "h": 0.0475,
+          "rotation": 0,
+          "label": "",
+          "text": "Piros  ·  1 px",
+          "color": "#314756",
+          "fontSize": 24,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "dir-0",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.22,
+          "w": 0.171875,
+          "h": 0.04,
+          "rotation": 0,
+          "label": "",
+          "text": "Előre",
+          "color": "#456172",
+          "fontSize": 17,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "pipe-1",
+          "type": "pipe",
+          "asset": "",
+          "x": 0,
+          "y": 0,
+          "w": 0.078125,
+          "h": 0.125,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#287ac4",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.28185546875,
+              "y": 0.34640624999999997
+            },
+            {
+              "x": 0.42,
+              "y": 0.34640624999999997
+            },
+            {
+              "x": 0.46,
+              "y": 0.32265625
+            },
+            {
+              "x": 0.66,
+              "y": 0.32265625
+            },
+            {
+              "x": 0.7,
+              "y": 0.34759375
+            },
+            {
+              "x": 0.8612109375,
+              "y": 0.34759375
+            }
+          ],
+          "width": 4,
+          "direction": -1,
+          "source": {
+            "element": "pump-1",
+            "port": 1
+          },
+          "target": {
+            "element": "valve-1",
+            "port": 0
+          }
+        },
+        {
+          "id": "pump-1",
+          "type": "equipment",
+          "asset": "circulation-pump",
+          "x": 0.2265625,
+          "y": 0.29,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "valve-1",
+          "type": "equipment",
+          "asset": "ball-valve",
+          "x": 0.8515625,
+          "y": 0.29,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "name-1",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.3025,
+          "w": 0.171875,
+          "h": 0.0475,
+          "rotation": 0,
+          "label": "",
+          "text": "Kék  ·  4 px",
+          "color": "#314756",
+          "fontSize": 24,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "dir-1",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.34625,
+          "w": 0.171875,
+          "h": 0.04,
+          "rotation": 0,
+          "label": "",
+          "text": "Visszafelé",
+          "color": "#456172",
+          "fontSize": 17,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "pipe-2",
+          "type": "pipe",
+          "asset": "",
+          "x": 0,
+          "y": 0,
+          "w": 0.078125,
+          "h": 0.125,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#258653",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.28185546875,
+              "y": 0.47265625
+            },
+            {
+              "x": 0.42,
+              "y": 0.47265625
+            },
+            {
+              "x": 0.46,
+              "y": 0.44890625
+            },
+            {
+              "x": 0.66,
+              "y": 0.44890625
+            },
+            {
+              "x": 0.7,
+              "y": 0.47384375
+            },
+            {
+              "x": 0.8612109375,
+              "y": 0.47384375
+            }
+          ],
+          "width": 8,
+          "direction": 1,
+          "source": {
+            "element": "pump-2",
+            "port": 1
+          },
+          "target": {
+            "element": "valve-2",
+            "port": 0
+          }
+        },
+        {
+          "id": "pump-2",
+          "type": "equipment",
+          "asset": "circulation-pump",
+          "x": 0.2265625,
+          "y": 0.41625,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "valve-2",
+          "type": "equipment",
+          "asset": "ball-valve",
+          "x": 0.8515625,
+          "y": 0.41625,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "name-2",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.42875,
+          "w": 0.171875,
+          "h": 0.0475,
+          "rotation": 0,
+          "label": "",
+          "text": "Zöld  ·  8 px",
+          "color": "#314756",
+          "fontSize": 24,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "dir-2",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.4725,
+          "w": 0.171875,
+          "h": 0.04,
+          "rotation": 0,
+          "label": "",
+          "text": "Előre",
+          "color": "#456172",
+          "fontSize": 17,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "pipe-3",
+          "type": "pipe",
+          "asset": "",
+          "x": 0,
+          "y": 0,
+          "w": 0.078125,
+          "h": 0.125,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#f2cb3d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.28185546875,
+              "y": 0.59890625
+            },
+            {
+              "x": 0.42,
+              "y": 0.59890625
+            },
+            {
+              "x": 0.46,
+              "y": 0.5751562499999999
+            },
+            {
+              "x": 0.66,
+              "y": 0.5751562499999999
+            },
+            {
+              "x": 0.7,
+              "y": 0.60009375
+            },
+            {
+              "x": 0.8612109375,
+              "y": 0.60009375
+            }
+          ],
+          "width": 12,
+          "direction": -1,
+          "source": {
+            "element": "pump-3",
+            "port": 1
+          },
+          "target": {
+            "element": "valve-3",
+            "port": 0
+          }
+        },
+        {
+          "id": "pump-3",
+          "type": "equipment",
+          "asset": "circulation-pump",
+          "x": 0.2265625,
+          "y": 0.5425,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "valve-3",
+          "type": "equipment",
+          "asset": "ball-valve",
+          "x": 0.8515625,
+          "y": 0.5425,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "name-3",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.555,
+          "w": 0.171875,
+          "h": 0.0475,
+          "rotation": 0,
+          "label": "",
+          "text": "Sárga  ·  12 px",
+          "color": "#314756",
+          "fontSize": 24,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "dir-3",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.59875,
+          "w": 0.171875,
+          "h": 0.04,
+          "rotation": 0,
+          "label": "",
+          "text": "Visszafelé",
+          "color": "#456172",
+          "fontSize": 17,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "pipe-4",
+          "type": "pipe",
+          "asset": "",
+          "x": 0,
+          "y": 0,
+          "w": 0.078125,
+          "h": 0.125,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#ffffff",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.28185546875,
+              "y": 0.72515625
+            },
+            {
+              "x": 0.42,
+              "y": 0.72515625
+            },
+            {
+              "x": 0.46,
+              "y": 0.7014062499999999
+            },
+            {
+              "x": 0.66,
+              "y": 0.7014062499999999
+            },
+            {
+              "x": 0.7,
+              "y": 0.72634375
+            },
+            {
+              "x": 0.8612109375,
+              "y": 0.72634375
+            }
+          ],
+          "width": 20,
+          "direction": 1,
+          "source": {
+            "element": "pump-4",
+            "port": 1
+          },
+          "target": {
+            "element": "valve-4",
+            "port": 0
+          }
+        },
+        {
+          "id": "pump-4",
+          "type": "equipment",
+          "asset": "circulation-pump",
+          "x": 0.2265625,
+          "y": 0.66875,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "valve-4",
+          "type": "equipment",
+          "asset": "ball-valve",
+          "x": 0.8515625,
+          "y": 0.66875,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "name-4",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.68125,
+          "w": 0.171875,
+          "h": 0.0475,
+          "rotation": 0,
+          "label": "",
+          "text": "Fehér  ·  20 px",
+          "color": "#314756",
+          "fontSize": 24,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "dir-4",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.725,
+          "w": 0.171875,
+          "h": 0.04,
+          "rotation": 0,
+          "label": "",
+          "text": "Előre",
+          "color": "#456172",
+          "fontSize": 17,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "pipe-5",
+          "type": "pipe",
+          "asset": "",
+          "x": 0,
+          "y": 0,
+          "w": 0.078125,
+          "h": 0.125,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#26333d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.28185546875,
+              "y": 0.85140625
+            },
+            {
+              "x": 0.42,
+              "y": 0.85140625
+            },
+            {
+              "x": 0.46,
+              "y": 0.82765625
+            },
+            {
+              "x": 0.66,
+              "y": 0.82765625
+            },
+            {
+              "x": 0.7,
+              "y": 0.85259375
+            },
+            {
+              "x": 0.8612109375,
+              "y": 0.85259375
+            }
+          ],
+          "width": 30,
+          "direction": -1,
+          "source": {
+            "element": "pump-5",
+            "port": 1
+          },
+          "target": {
+            "element": "valve-5",
+            "port": 0
+          }
+        },
+        {
+          "id": "pump-5",
+          "type": "equipment",
+          "asset": "circulation-pump",
+          "x": 0.2265625,
+          "y": 0.795,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "valve-5",
+          "type": "equipment",
+          "asset": "ball-valve",
+          "x": 0.8515625,
+          "y": 0.795,
+          "w": 0.059375,
+          "h": 0.095,
+          "rotation": 0,
+          "label": "",
+          "text": "",
+          "color": "#e34d4d",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "name-5",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.8075,
+          "w": 0.171875,
+          "h": 0.0475,
+          "rotation": 0,
+          "label": "",
+          "text": "Grafit  ·  30 px",
+          "color": "#314756",
+          "fontSize": 24,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "dir-5",
+          "type": "text",
+          "asset": "",
+          "x": 0.04296875,
+          "y": 0.85125,
+          "w": 0.171875,
+          "h": 0.04,
+          "rotation": 0,
+          "label": "",
+          "text": "Visszafelé",
+          "color": "#456172",
+          "fontSize": 17,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        }
+      ]
+    }
+  ]
+}

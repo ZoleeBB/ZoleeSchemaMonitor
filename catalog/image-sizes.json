@@ -1786,6 +1786,16 @@
             "role": "preview",
             "width": 1280,
             "height": 800
+        },
+        "tests/schemas/csoaramlas/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/csoaramlas/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
         }
     }
 }
