@@ -96,9 +96,12 @@ class FullGraphicsTests(unittest.TestCase):
     def test_binding_metadata_is_part_of_the_firmware_graphics_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder)
-            for name in ['catalog/elements.py','catalog/artwork-bindings.json','tools/build_assets.py','tools/requirements-assets.txt']:
+            for name in ['catalog/elements.py','catalog/artwork-bindings.json','catalog/port-calibration.json','tools/build_assets.py','tools/requirements-assets.txt']:
                 target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('initial')
             with patch.object(ota_identity,'ROOT',root):
                 before=ota_identity.identity()
                 (root/'catalog/artwork-bindings.json').write_text('changed anchor')
+                self.assertNotEqual(before,ota_identity.identity())
+                before=ota_identity.identity()
+                (root/'catalog/port-calibration.json').write_text('recalibrated port')
                 self.assertNotEqual(before,ota_identity.identity())

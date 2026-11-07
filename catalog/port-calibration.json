@@ -1,0 +1,5511 @@
+{
+  "canvasPixels": 160,
+  "elements": {
+    "gas-boiler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          64,
+          140
+        ],
+        [
+          96,
+          140
+        ]
+      ],
+      "sourceSha256": "59e6b5b3e7015d27976ecfeb6e929d5601a8f2c7612fab283f997321a633c1b7"
+    },
+    "electric-boiler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          66,
+          137
+        ],
+        [
+          93,
+          137
+        ]
+      ],
+      "sourceSha256": "b39ad0b9fdae6b2531c283df5b43c6978b99776795f78f769a82c3121386587c"
+    },
+    "solid-fuel-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          112.0
+        ],
+        [
+          115.2,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "47e1f42bb2114520a836431191e28602426265b8d1558ec4e1b2733933182eb3"
+    },
+    "pellet-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          112.0
+        ],
+        [
+          115.2,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "0d805181c630e3d924ea2fc642efef56c46e0e8e04242590035e9e1991b10a69"
+    },
+    "district-heating": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          19.2,
+          39.2
+        ],
+        [
+          140.0,
+          38.4
+        ],
+        [
+          19.2,
+          118.4
+        ],
+        [
+          140.0,
+          118.4
+        ]
+      ],
+      "sourceSha256": "d1fd2792e1d1b6d97945f67a4eca601122f26596d40a7d3cd69c4372e3ce56af"
+    },
+    "heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          145,
+          72
+        ],
+        [
+          145,
+          90
+        ]
+      ],
+      "sourceSha256": "14d2c116af1b56de187b07339ecf67e3f793440e565615950430dbd69499d8a8"
+    },
+    "heat-pump-dual": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          121.6,
+          136.0
+        ],
+        [
+          132.8,
+          136.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "e7c42b3c5882b2c9ba9c67209fc0792524bb0e0ac724a80f5ca646cfee4d5295"
+    },
+    "chiller": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          139.2,
+          87.2
+        ],
+        [
+          139,
+          97
+        ]
+      ],
+      "sourceSha256": "8a411c7b70dfa076b87ce5b22652d2508fd4e3b1e2593840ff75617bb3437d89"
+    },
+    "air-conditioner-outdoor": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          144.0,
+          81.6
+        ],
+        [
+          143,
+          102
+        ]
+      ],
+      "sourceSha256": "73040060218bdd62328533f39551c5df6756819e9093444d3dac13cfd99af22e"
+    },
+    "heat-pump-indoor": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          72,
+          13
+        ],
+        [
+          86,
+          13
+        ]
+      ],
+      "sourceSha256": "9164cde6cd294798de612d6e384076063d8bf4c44e8f01871815b7cfc490c5a4"
+    },
+    "hydrobox": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          57,
+          139
+        ],
+        [
+          80,
+          139
+        ],
+        [
+          101,
+          139
+        ]
+      ],
+      "sourceSha256": "908773e17042a341c8c5546634cf37ec5d35898cd7231dcd2de18741801d49e5"
+    },
+    "electric-heater": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "18b2129cadf11a946fbcc3874069faa55202dd11cc497af14fb325cedecd9129"
+    },
+    "radiator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          53
+        ],
+        [
+          149,
+          53
+        ],
+        [
+          11,
+          109
+        ],
+        [
+          149,
+          109
+        ]
+      ],
+      "sourceSha256": "c7d25f3efae0a349d8cde0054584a98325990ff448dd0f60bc662bb102353438"
+    },
+    "towel-radiator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          147
+        ],
+        [
+          125,
+          147
+        ]
+      ],
+      "sourceSha256": "6ffa24ff4d54ee1ad6cb8bea5bffc43f8e708864398098a776017ca8393a2b8a"
+    },
+    "convector": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          9,
+          89
+        ],
+        [
+          9,
+          98
+        ]
+      ],
+      "sourceSha256": "f6ebd7e1bea1d93adadc896b05b693f7790ed52d166d75d090e87a5997cee6aa"
+    },
+    "fan-coil": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          97
+        ],
+        [
+          12,
+          106
+        ]
+      ],
+      "sourceSha256": "51ee17a7913ec7a72ddb56bf8acc088c0b9831741e73170c64efebc73758ffe2"
+    },
+    "air-conditioner-indoor": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          140.8,
+          101.6
+        ],
+        [
+          145.6,
+          108.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "e9ed16f9f50fa50788689d315f1ff8546fd8bf13a3aa73fc5266ad831eeb1578"
+    },
+    "underfloor-heating": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          19,
+          36
+        ],
+        [
+          141,
+          120
+        ]
+      ],
+      "sourceSha256": "aeb9d7b55772839a74cab98c4d3627674794b7fea9da44ea312afadd7a79ebaa"
+    },
+    "wall-heating": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          46,
+          138
+        ],
+        [
+          114,
+          138
+        ]
+      ],
+      "sourceSha256": "43d849b2e728334b043fdfcdb3e71e28a66173bee161ffae86346bc65ceaec50"
+    },
+    "ceiling-heating": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          147,
+          74
+        ],
+        [
+          145,
+          90
+        ]
+      ],
+      "sourceSha256": "8b2cf3289083d62751e581791199dbb1282f8362628cc89123789c2d704402b5"
+    },
+    "ceiling-cooling": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          147.2,
+          67.2
+        ],
+        [
+          147.2,
+          97.6
+        ]
+      ],
+      "sourceSha256": "f51a450e9fedbb50cd61ada0f165fd4dbd1e0d7414bb52a6f0cfc0689738d325"
+    },
+    "heating-circuit": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          55,
+          145
+        ],
+        [
+          105,
+          145
+        ]
+      ],
+      "sourceSha256": "4301a30efb31156274e87de5f245babda15d7c82145aed77e2c72c71245b4ae9"
+    },
+    "cooling-circuit": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          46
+        ],
+        [
+          11,
+          122
+        ]
+      ],
+      "sourceSha256": "7b7b224b6c3610da749b62b29a4a1cb48f8889100c22cfd05fb3aa83fb5a0721"
+    },
+    "solar-collector": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          10,
+          101
+        ],
+        [
+          147,
+          52
+        ]
+      ],
+      "sourceSha256": "f291f22130ad1310810d34fe3bb1b4f7752cdbb36cb7344cdc5b24cedad43fa4"
+    },
+    "buffer-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          42.4,
+          53.76
+        ],
+        [
+          114.4,
+          53.76
+        ],
+        [
+          42.4,
+          104.8
+        ],
+        [
+          114.4,
+          104.8
+        ]
+      ],
+      "sourceSha256": "0d873fcc8e806202fb118d37745cb3f01fd45e70d753f3ca09da47edc09cd314"
+    },
+    "hot-water-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          114.24,
+          41.12
+        ],
+        [
+          114.24,
+          120.8
+        ],
+        [
+          42.4,
+          76.8
+        ],
+        [
+          42.4,
+          108.0
+        ]
+      ],
+      "sourceSha256": "cef52fb91a55c01dbebd649dcd3274943af457e78981b1c8aa8946e8b038240b"
+    },
+    "single-coil-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          114.24,
+          41.12
+        ],
+        [
+          114.24,
+          120.8
+        ],
+        [
+          42.4,
+          76.8
+        ],
+        [
+          42.4,
+          108.0
+        ]
+      ],
+      "sourceSha256": "cef52fb91a55c01dbebd649dcd3274943af457e78981b1c8aa8946e8b038240b"
+    },
+    "dual-coil-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          109.6,
+          41.12
+        ],
+        [
+          109.6,
+          118.4
+        ],
+        [
+          48.0,
+          51.52
+        ],
+        [
+          48.0,
+          72.0
+        ],
+        [
+          48.0,
+          88.0
+        ],
+        [
+          48.0,
+          110.4
+        ]
+      ],
+      "sourceSha256": "1ecdc88fdb0c62a98ed611530b050f7d0c48c2f448f66f4bbc25a7af61f08f7f"
+    },
+    "electric-water-heater": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          65,
+          142
+        ],
+        [
+          93,
+          142
+        ]
+      ],
+      "sourceSha256": "27e615fae452cdc32387791473d36756a235ec746b2fb43603ec769782fa793f"
+    },
+    "expansion-vessel": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          140
+        ]
+      ],
+      "sourceSha256": "134b27a0464dce871b87a2bdaca5451d80aeefe8542f4025d8cb0a8d332b4f15"
+    },
+    "hydrophore": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          140
+        ]
+      ],
+      "sourceSha256": "9c38297892fc4199385a425c7874b4fac4f0f2131c3102af91883ce130ab0e3a"
+    },
+    "rainwater-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          45
+        ],
+        [
+          131.2,
+          129.6
+        ]
+      ],
+      "sourceSha256": "96127605178e42a0c0671d09f41f5c2e0966193fb3a072d3980c7881aac34f78"
+    },
+    "water-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          136,
+          130
+        ]
+      ],
+      "sourceSha256": "54c925b4cc18f980f9f3d1fbd624e40d4237e1301089cbdddf732109a34ca48f"
+    },
+    "circulation-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          95
+        ],
+        [
+          149,
+          95
+        ]
+      ],
+      "sourceSha256": "274571010d3f5c670f5420bfa548d1da8db85d0ea08e235413f4c5629a1d68fc"
+    },
+    "red-ecm-circulation-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          7.2,
+          75.2
+        ],
+        [
+          152.0,
+          75.2
+        ]
+      ],
+      "sourceSha256": "119ce5aa557caf6ff1c4acc65155690aed94ec21b98861dc02629164297f9bbb"
+    },
+    "green-ecm-circulation-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          6.4,
+          72.0
+        ],
+        [
+          153.6,
+          72.0
+        ]
+      ],
+      "sourceSha256": "62aa9602c81212f374c2b324f728bc2457652733321bf166877ec9aa906006d8"
+    },
+    "heating-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          95
+        ],
+        [
+          149,
+          95
+        ]
+      ],
+      "sourceSha256": "274571010d3f5c670f5420bfa548d1da8db85d0ea08e235413f4c5629a1d68fc"
+    },
+    "dhw-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          99
+        ],
+        [
+          145,
+          99
+        ]
+      ],
+      "sourceSha256": "82d11b7fcca8388c32c3af974a4247fbd12c740a9095af1d2bf32b140259aae1"
+    },
+    "well-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          78.4,
+          7.2
+        ],
+        [
+          80.0,
+          89.6
+        ]
+      ],
+      "sourceSha256": "7a7eeae2001519550c167503c734b2e142f7266b40fae21ffcffbb89b19bcc21"
+    },
+    "submersible-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          72.0,
+          134.4
+        ],
+        [
+          119,
+          76
+        ]
+      ],
+      "sourceSha256": "57beb4597b50238b57f7d4ff0e5706142e7c489fed9f741c0d1c8143f2fb8614"
+    },
+    "booster-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          83
+        ],
+        [
+          58,
+          57
+        ]
+      ],
+      "sourceSha256": "e10faf90e592b4fc0a36fd521a43f74534d4c7d0af8c033124821afdf73d38f7"
+    },
+    "sewage-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          70,
+          139
+        ],
+        [
+          128.0,
+          97.6
+        ]
+      ],
+      "sourceSha256": "c32073bf3e0683f9bc79da888cf0275a9740cae3acfaefd79505086a1bc620e2"
+    },
+    "solar-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          95
+        ],
+        [
+          149,
+          95
+        ]
+      ],
+      "sourceSha256": "274571010d3f5c670f5420bfa548d1da8db85d0ea08e235413f4c5629a1d68fc"
+    },
+    "plate-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          44.0,
+          42.4
+        ],
+        [
+          80,
+          43
+        ],
+        [
+          43,
+          115
+        ],
+        [
+          80,
+          115
+        ]
+      ],
+      "sourceSha256": "82ad084886d499a98cd76d4ff67ebab772e5433b0929938a2c0ae0e1cb335184"
+    },
+    "tubular-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          8,
+          80
+        ],
+        [
+          151,
+          80
+        ],
+        [
+          47,
+          52
+        ],
+        [
+          102,
+          107
+        ]
+      ],
+      "sourceSha256": "626fc723b137bc7f6cc40dfc7e1c1235868bb586106ba11c24d100695a6946ca"
+    },
+    "hydraulic-separator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          41,
+          53
+        ],
+        [
+          121,
+          53
+        ],
+        [
+          41,
+          106
+        ],
+        [
+          121,
+          106
+        ]
+      ],
+      "sourceSha256": "e36af3ebd78a6de52002a7c6ccf84043d1b566e28f0d360d9c3d8824a58a4180"
+    },
+    "mixing-unit": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          61
+        ],
+        [
+          149,
+          61
+        ],
+        [
+          12.0,
+          120.0
+        ],
+        [
+          149,
+          120
+        ]
+      ],
+      "sourceSha256": "655749490ecbe806fc690e324992dcf62e4cf17e0043945b8a2067f7667c91b7"
+    },
+    "manifold-2": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          55.0,
+          151.0
+        ],
+        [
+          115.0,
+          151.0
+        ],
+        [
+          55.0,
+          74.0
+        ],
+        [
+          115.0,
+          74.0
+        ]
+      ]
+    },
+    "manifold-4": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          40.0,
+          151.0
+        ],
+        [
+          70.0,
+          151.0
+        ],
+        [
+          100.0,
+          151.0
+        ],
+        [
+          130.0,
+          151.0
+        ],
+        [
+          40.0,
+          74.0
+        ],
+        [
+          70.0,
+          74.0
+        ],
+        [
+          100.0,
+          74.0
+        ],
+        [
+          130.0,
+          74.0
+        ]
+      ]
+    },
+    "manifold-6": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          35.0,
+          151.0
+        ],
+        [
+          55.0,
+          151.0
+        ],
+        [
+          75.0,
+          151.0
+        ],
+        [
+          95.0,
+          151.0
+        ],
+        [
+          115.0,
+          151.0
+        ],
+        [
+          135.0,
+          151.0
+        ],
+        [
+          35.0,
+          74.0
+        ],
+        [
+          55.0,
+          74.0
+        ],
+        [
+          75.0,
+          74.0
+        ],
+        [
+          95.0,
+          74.0
+        ],
+        [
+          115.0,
+          74.0
+        ],
+        [
+          135.0,
+          74.0
+        ]
+      ]
+    },
+    "manifold-8": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          32.5,
+          151.0
+        ],
+        [
+          47.5,
+          151.0
+        ],
+        [
+          62.5,
+          151.0
+        ],
+        [
+          77.5,
+          151.0
+        ],
+        [
+          92.5,
+          151.0
+        ],
+        [
+          107.5,
+          151.0
+        ],
+        [
+          122.5,
+          151.0
+        ],
+        [
+          137.5,
+          151.0
+        ],
+        [
+          32.5,
+          74.0
+        ],
+        [
+          47.5,
+          74.0
+        ],
+        [
+          62.5,
+          74.0
+        ],
+        [
+          77.5,
+          74.0
+        ],
+        [
+          92.5,
+          74.0
+        ],
+        [
+          107.5,
+          74.0
+        ],
+        [
+          122.5,
+          74.0
+        ],
+        [
+          137.5,
+          74.0
+        ]
+      ]
+    },
+    "manifold-10": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          31.0,
+          151.0
+        ],
+        [
+          43.0,
+          151.0
+        ],
+        [
+          55.0,
+          151.0
+        ],
+        [
+          67.0,
+          151.0
+        ],
+        [
+          79.0,
+          151.0
+        ],
+        [
+          91.0,
+          151.0
+        ],
+        [
+          103.0,
+          151.0
+        ],
+        [
+          115.0,
+          151.0
+        ],
+        [
+          127.0,
+          151.0
+        ],
+        [
+          139.0,
+          151.0
+        ],
+        [
+          31.0,
+          74.0
+        ],
+        [
+          43.0,
+          74.0
+        ],
+        [
+          55.0,
+          74.0
+        ],
+        [
+          67.0,
+          74.0
+        ],
+        [
+          79.0,
+          74.0
+        ],
+        [
+          91.0,
+          74.0
+        ],
+        [
+          103.0,
+          74.0
+        ],
+        [
+          115.0,
+          74.0
+        ],
+        [
+          127.0,
+          74.0
+        ],
+        [
+          139.0,
+          74.0
+        ]
+      ]
+    },
+    "manifold-12": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          30.0,
+          151.0
+        ],
+        [
+          40.0,
+          151.0
+        ],
+        [
+          50.0,
+          151.0
+        ],
+        [
+          60.0,
+          151.0
+        ],
+        [
+          70.0,
+          151.0
+        ],
+        [
+          80.0,
+          151.0
+        ],
+        [
+          90.0,
+          151.0
+        ],
+        [
+          100.0,
+          151.0
+        ],
+        [
+          110.0,
+          151.0
+        ],
+        [
+          120.0,
+          151.0
+        ],
+        [
+          130.0,
+          151.0
+        ],
+        [
+          140.0,
+          151.0
+        ],
+        [
+          30.0,
+          74.0
+        ],
+        [
+          40.0,
+          74.0
+        ],
+        [
+          50.0,
+          74.0
+        ],
+        [
+          60.0,
+          74.0
+        ],
+        [
+          70.0,
+          74.0
+        ],
+        [
+          80.0,
+          74.0
+        ],
+        [
+          90.0,
+          74.0
+        ],
+        [
+          100.0,
+          74.0
+        ],
+        [
+          110.0,
+          74.0
+        ],
+        [
+          120.0,
+          74.0
+        ],
+        [
+          130.0,
+          74.0
+        ],
+        [
+          140.0,
+          74.0
+        ]
+      ]
+    },
+    "electrothermal-manifold-4": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          55
+        ],
+        [
+          12,
+          127
+        ],
+        [
+          44,
+          72
+        ],
+        [
+          68,
+          72
+        ],
+        [
+          93,
+          72
+        ],
+        [
+          117,
+          72
+        ],
+        [
+          44,
+          143
+        ],
+        [
+          68,
+          143
+        ],
+        [
+          93,
+          143
+        ],
+        [
+          117,
+          143
+        ]
+      ],
+      "sourceSha256": "f9248df32ba6386d02c9978f17adcfe14d8ef16cc8fa5b93f255a5f9ae663250"
+    },
+    "ball-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          26,
+          97
+        ],
+        [
+          127,
+          97
+        ]
+      ],
+      "sourceSha256": "8182330905246ee77a11978a09afbdc0f4a0dce4c2c2f8181c1f8c291cf27e8f"
+    },
+    "shutoff-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          27,
+          120
+        ],
+        [
+          132,
+          120
+        ]
+      ],
+      "sourceSha256": "a17838b706a734e6781d0e1e6fd1abd42d12cd502e09a22a8d33cc883a7d9a48"
+    },
+    "check-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          20,
+          91
+        ],
+        [
+          141,
+          91
+        ]
+      ],
+      "sourceSha256": "5c1e238e2a5b9730c54f1b6afc029149a599d41061b416cf2dfd7df01619ad01"
+    },
+    "solenoid-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          23,
+          124
+        ],
+        [
+          136,
+          124
+        ]
+      ],
+      "sourceSha256": "b4f8bd803affb2864c95122e26f9a009107d213cb6a2459fc5e400142bbe3246"
+    },
+    "motor-valve-2": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          28,
+          116
+        ],
+        [
+          133,
+          116
+        ]
+      ],
+      "sourceSha256": "82e0e77e56942d37028cf3d13a63dacf4f3aea22137a237826bc56af880fa037"
+    },
+    "motor-valve-3": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24,
+          95
+        ],
+        [
+          131,
+          95
+        ],
+        [
+          80,
+          143
+        ]
+      ],
+      "sourceSha256": "3daa44a5b9a71288bc6f57211562c2913f6ec7227d81866446e06be32b0647a5"
+    },
+    "black-rotary-valve-3": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          72
+        ],
+        [
+          147,
+          72
+        ],
+        [
+          80,
+          136
+        ]
+      ],
+      "sourceSha256": "97881d789b9763c408e5e238f5702f4e25d8295a6e9c69917b819595fe1fa109"
+    },
+    "black-union-rotary-valve-3": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13,
+          71
+        ],
+        [
+          147,
+          71
+        ],
+        [
+          79,
+          135
+        ]
+      ],
+      "sourceSha256": "c256ed2634f121e4481876df8faef4eb49ee7d879fd1622d8a35b92ade153513"
+    },
+    "black-flanged-rotary-valve-3": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          73
+        ],
+        [
+          146,
+          73
+        ],
+        [
+          81,
+          135
+        ]
+      ],
+      "sourceSha256": "0531abfaebc94053666677fb503f781f4bcda7f7f370455e9ab6923b7635cd17"
+    },
+    "orange-motor-ball-valve-2": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          30,
+          127
+        ],
+        [
+          98,
+          113
+        ]
+      ],
+      "sourceSha256": "70fc8935f4d74d2cd987dbc3b5ffe9b167bde8a5b0416e5587f1e3b9bde76664"
+    },
+    "orange-motor-ball-valve-3": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          117
+        ],
+        [
+          104,
+          110
+        ],
+        [
+          68,
+          142
+        ]
+      ],
+      "sourceSha256": "a26f1b0a615049f651471fb7901cb1230cdeeb9b1a79ad6c9974748f3d3a036e"
+    },
+    "spring-return-ball-valve-2": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          39,
+          115
+        ],
+        [
+          98,
+          115
+        ]
+      ],
+      "sourceSha256": "da3f41b8aa7c3350563407787ce7030a2c3da1b170a2713bc5adf13f8638baf3"
+    },
+    "compact-motor-ball-valve-2": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          9,
+          125
+        ],
+        [
+          141,
+          125
+        ]
+      ],
+      "sourceSha256": "0f28d96ef4bb4aa2c0a94ba24e02ae031ecb0f902655e8836d1a31bd6271e9a1"
+    },
+    "cartridge-zone-valve-3": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          20,
+          106
+        ],
+        [
+          124,
+          106
+        ],
+        [
+          65,
+          147
+        ]
+      ],
+      "sourceSha256": "c5b80bc1623c991526aa29ab03e8e0d694fc273490ab45125083375ba34c3f34"
+    },
+    "electrothermal-zone-valve-2": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11.2,
+          128.0
+        ],
+        [
+          148.8,
+          128.0
+        ]
+      ],
+      "sourceSha256": "9450fef3073a1cde9ce1f9d56dd366685644311729f4de6c4de814628e1b7d0b"
+    },
+    "compact-linear-control-valve-2": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          47,
+          119
+        ],
+        [
+          124.8,
+          118.4
+        ]
+      ],
+      "sourceSha256": "755290d18fae10edea648a8a2a05be880cbd113f9f6bd867da41e7d9eeb0c730"
+    },
+    "radiator-thermostatic-valve-straight": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          22,
+          132
+        ],
+        [
+          138,
+          132
+        ]
+      ],
+      "sourceSha256": "deb8a7c851872bac08ec4a8fc1b925bd8589d8fdc03577b476317dab4ca9ba4e"
+    },
+    "radiator-thermostatic-valve-angle": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          66,
+          145
+        ],
+        [
+          127,
+          108
+        ]
+      ],
+      "sourceSha256": "4efa9811fc51eb5b021c8f13014f051e037d175aa79788293a52cbf183da430c"
+    },
+    "mixing-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          21,
+          71
+        ],
+        [
+          141,
+          71
+        ],
+        [
+          80,
+          133
+        ],
+        [
+          80,
+          28
+        ]
+      ],
+      "sourceSha256": "d5672235bcffba0e97d68c9cffab80d4cbf4610578f3f0673c5af56539bc129e"
+    },
+    "diverting-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          28,
+          75
+        ],
+        [
+          133,
+          75
+        ],
+        [
+          80,
+          131
+        ]
+      ],
+      "sourceSha256": "fa5f001a2bb8e26596097557479b20bc42f2e9164084ba65c784ca9e178304a4"
+    },
+    "thermostatic-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          25.6,
+          122.4
+        ],
+        [
+          136.0,
+          122.4
+        ]
+      ],
+      "sourceSha256": "36736df48591db1f37ea02d0ad07edd490294fe3a240c4b481f10e2ee116bec5"
+    },
+    "balancing-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          17,
+          112
+        ],
+        [
+          143,
+          112
+        ]
+      ],
+      "sourceSha256": "15e2fcde1edb43aeff07ae1d3d1d588db18f5f84a6deb5418087f3d056a13dea"
+    },
+    "pressure-reducer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          23,
+          120
+        ],
+        [
+          138,
+          120
+        ]
+      ],
+      "sourceSha256": "307095825c38f113fadc70131a2efb6c32fc2af91085f1b1fb3816fc21df6a77"
+    },
+    "safety-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          141
+        ],
+        [
+          120,
+          86
+        ]
+      ],
+      "sourceSha256": "bb1126610446e0fadc0ceac3bfc5e6f8eb86fc3749afa98530ecaec802f9859b"
+    },
+    "drain-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          27,
+          90
+        ],
+        [
+          122,
+          124
+        ]
+      ],
+      "sourceSha256": "0654a577d44f839b1e7d5d60c8738c47ace128d6b45d7a6f96aed3165b04fb57"
+    },
+    "fill-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          17,
+          108
+        ],
+        [
+          144,
+          108
+        ]
+      ],
+      "sourceSha256": "4bd1949d50639517d20c63da548ad2246e74ca8189a41544b029147c32c09d13"
+    },
+    "zone-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          109
+        ],
+        [
+          128,
+          109
+        ]
+      ],
+      "sourceSha256": "766882332106bb04352c030473b15cdcc85ea67577961d48aae028a72fc7feac"
+    },
+    "backflow-preventer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13,
+          90
+        ],
+        [
+          146,
+          90
+        ]
+      ],
+      "sourceSha256": "3267aa825a3a18030efb65697ab91f4fdd4550b70f3fb06fac5d7e92c3a42fb0"
+    },
+    "automatic-drain": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24,
+          105
+        ],
+        [
+          87,
+          145
+        ]
+      ],
+      "sourceSha256": "05fd1c9ac7092585780b9db5d612d7000c67356fbbb71b31467ce9637bbd70fd"
+    },
+    "strainer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          61
+        ],
+        [
+          147,
+          61
+        ]
+      ],
+      "sourceSha256": "ea3e6c9e6ce8b2331ce13252fc032dd2393d1d39134c811d57a144a20b16e013"
+    },
+    "dirt-separator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          53
+        ],
+        [
+          125,
+          53
+        ],
+        [
+          80,
+          144
+        ]
+      ],
+      "sourceSha256": "9ad87d4941c1b1ceac916c6c5f71f4a4f098d4c97dfe60ca84590f110d1fca9e"
+    },
+    "magnetic-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24,
+          53
+        ],
+        [
+          136,
+          53
+        ],
+        [
+          80,
+          144
+        ]
+      ],
+      "sourceSha256": "7929690762a011ad7239412a666d9d792c0e703ee31661645c9efa6d528c2a8f"
+    },
+    "air-separator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          25,
+          79
+        ],
+        [
+          135,
+          79
+        ]
+      ],
+      "sourceSha256": "df40cb9416eea0ff445b20d65912093282ef6c08f9522ffc94d7deb5a333ae03"
+    },
+    "automatic-air-vent": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          147
+        ]
+      ],
+      "sourceSha256": "ead6f4e466385fe4adf3a69419097c04183c69d9bf048cd2930d00e026e8845a"
+    },
+    "water-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          23,
+          49
+        ],
+        [
+          136,
+          49
+        ]
+      ],
+      "sourceSha256": "9ad44d737363cdd4e5ebe0f05356b52088617799fbf9c1a567a8cb2a9e5d5929"
+    },
+    "water-softener": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          32,
+          27
+        ],
+        [
+          91.2,
+          26.4
+        ]
+      ],
+      "sourceSha256": "ba97d213bf27a883ce2c13b7a6146194718df3a331265f81cc0622033b545fd0"
+    },
+    "fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          20.8,
+          83.2
+        ],
+        [
+          139.2,
+          83.2
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "2decf31fa86e7a2b381d70844fd49c33f3f7cb109ffcf9be23a5a303e8c2eb97"
+    },
+    "duct-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          34,
+          89
+        ],
+        [
+          140,
+          79
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "18d3b0e28936e4259acc0823508258ed7a0524f9f46458e5f45f9bded83be855"
+    },
+    "supply-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          76,
+          83
+        ],
+        [
+          129,
+          29
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "c3cb42885fdaa5d2be6bb1f9c0d4e84b5dbb4940e7714383695b043b46c65466"
+    },
+    "extract-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          76.8,
+          84.8
+        ],
+        [
+          118,
+          22
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "d99335c6786841aac50cdd4b55f4ae64b652ffbbd55824d7c5010bd700fad7cb"
+    },
+    "roof-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48.0,
+          137.6
+        ],
+        [
+          112.0,
+          137.6
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "95cc82c3c5b23fcf6026af6202f3ae3d916fdc947c6cc716cc8f5c92d9ad91cb"
+    },
+    "heat-recovery": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          16,
+          60
+        ],
+        [
+          16,
+          104
+        ],
+        [
+          147,
+          60
+        ],
+        [
+          147,
+          104
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "d2a5da08726f2ea0d2bb211dce20aa19ab5e30618707f83333cedb87fce64d16"
+    },
+    "air-handling-unit": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          14,
+          84
+        ],
+        [
+          144,
+          84
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "faf2e6299f6e1854c7a528555bff40740e4730870e94ee20be8cdc17a0dd5cfb"
+    },
+    "rotary-heat-recovery": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          16,
+          66
+        ],
+        [
+          16,
+          104
+        ],
+        [
+          145,
+          66
+        ],
+        [
+          145,
+          104
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "076c86888bf6286f031b1b289e1468c3422bf886060359dcca5398a2b7b6d44f"
+    },
+    "air-filter": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          21,
+          83
+        ],
+        [
+          140,
+          83
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "bf1b55b50dc00d04c1c359ade896805199478ddb46e5342cd3afe3bcc8389b4d"
+    },
+    "heating-coil": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          16,
+          95
+        ],
+        [
+          144,
+          95
+        ],
+        [
+          104,
+          41
+        ],
+        [
+          121,
+          45
+        ]
+      ],
+      "sourceSha256": "7c4a3c866dea93d0c6ae81f5751f710c94485943ef816522e83e0bd4d69d29ad"
+    },
+    "cooling-coil": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          19,
+          94
+        ],
+        [
+          141,
+          94
+        ],
+        [
+          104,
+          33
+        ],
+        [
+          121,
+          33
+        ],
+        [
+          80,
+          134
+        ]
+      ],
+      "sourceSha256": "5c21a4f460021577af8a7677dee91590e52c832acacf78f4cd065c64f7219b95"
+    },
+    "humidifier": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          18,
+          84
+        ],
+        [
+          143,
+          84
+        ],
+        [
+          125,
+          51
+        ],
+        [
+          80,
+          127
+        ]
+      ],
+      "sourceSha256": "99a3bb7f8821f238b5fc58310272b96b3615bd5892654d51cf091bea22035222"
+    },
+    "dehumidifier": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          18,
+          83
+        ],
+        [
+          142,
+          83
+        ],
+        [
+          80.0,
+          128.0
+        ]
+      ],
+      "sourceSha256": "c70386a8cf8e936680e3ef2b4994162366dff9b82d4103d3033efeba2f13a7d1"
+    },
+    "silencer": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          35,
+          97
+        ],
+        [
+          140,
+          75
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "7cac4db6492f4c4d6c3330762dc783af089df3610781dbc051e5d47032ee1dba"
+    },
+    "damper": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          24.0,
+          96.0
+        ],
+        [
+          134.4,
+          96.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "65512746ad86a5b8dd19ee01734d5b4c50e474bf354c2efdbaf7b9656f280e3e"
+    },
+    "motor-damper": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          32.0,
+          76.8
+        ],
+        [
+          110.4,
+          76.8
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "860ba3b7643cf2b88cf25bbef4e9fb69e9bd4f11ff95a97e3f705dfbcaf93444"
+    },
+    "fire-damper": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          24.0,
+          91.2
+        ],
+        [
+          118.4,
+          91.2
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "ab361f7760d3b241a1ce22574ecae6badaed5c883b44bcbe4bcaec160fc6ee3f"
+    },
+    "supply-terminal": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80.0,
+          24.0
+        ]
+      ],
+      "sourceSha256": "cfcdf8bf4db4cc64ac1f16c57ea53bc8038ff6befb754705d6ba051325b373dc"
+    },
+    "extract-terminal": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          80.0,
+          80.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "6f28f3b67b223d51842fc2fda27518f566c5ae8de462d0d3184ae1be4aeca310"
+    },
+    "vav-box": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48,
+          92
+        ],
+        [
+          139,
+          63
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "e67f66745dfcdee806a0e05f7f682beef19d83c722f67abc23e29e60be2f6c94"
+    },
+    "duct-junction": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          29,
+          32
+        ],
+        [
+          132,
+          32
+        ],
+        [
+          80,
+          137
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "f06bdc648b54adad3c861ca30d4ada32ca6835547d6791dba9f4dab8b36056af"
+    },
+    "pool": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48.0,
+          104.0
+        ],
+        [
+          112.0,
+          104.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "6e5a69a7f7b086465c4e465c7da9109229e270e84d22aa28438b7c1689915b24"
+    },
+    "balance-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          22,
+          71
+        ],
+        [
+          138,
+          118
+        ]
+      ],
+      "sourceSha256": "10f8d474e4edba024e678da056c96ce7b0456efbae786a36079a55993af09acb"
+    },
+    "skimmer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          102,
+          146
+        ]
+      ],
+      "sourceSha256": "a25c2ebab12c4285b383307a29a412d4633cbd2352ba68d9babb6e8401fb9141"
+    },
+    "pool-inlet": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          22,
+          84
+        ]
+      ],
+      "sourceSha256": "c82bc3611f6753ba41540aa21296d57d768024acff62bb760a91c6d609bd23c0"
+    },
+    "bottom-drain": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          130,
+          124
+        ]
+      ],
+      "sourceSha256": "94ddd5d6649b68bea314eb53522f96f668b2ce3813478a07cce5514c46dca198"
+    },
+    "pool-light": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "4d86da3f06ba39162ed625c13885f26cb45fc09002b7158556f225fa20166318"
+    },
+    "counter-current": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          152,
+          42
+        ],
+        [
+          152,
+          78
+        ]
+      ],
+      "sourceSha256": "96ce907f339c999c1814c80e705bb6b0f50d0845589ba287e18764abb33c96a1"
+    },
+    "sand-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24,
+          56
+        ],
+        [
+          141,
+          56
+        ]
+      ],
+      "sourceSha256": "30a8d47c323b83588182d692c47cff7ecd401068bab55b56fa1c3a06afd7b348"
+    },
+    "cartridge-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          38,
+          65
+        ],
+        [
+          119,
+          124
+        ]
+      ],
+      "sourceSha256": "fb4b25fe137adc5fdd0f0db6839fbbd3ef3d82b9072bf34dc012798b96cee53e"
+    },
+    "uv-disinfection": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          26,
+          52
+        ],
+        [
+          115,
+          52
+        ]
+      ],
+      "sourceSha256": "919271a75479703411a2a3beaeb3400b415bf8f766f8104f50e6e23223225ad9"
+    },
+    "salt-electrolysis": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          16,
+          93
+        ],
+        [
+          145.6,
+          92.8
+        ]
+      ],
+      "sourceSha256": "ad0c1b2c616ece85e806783e965ec0519c9e65fc1dd574661e30b5831ca68363"
+    },
+    "pool-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          81
+        ],
+        [
+          78,
+          51
+        ]
+      ],
+      "sourceSha256": "c78c66d9db3b3c0a0b6cbee3435840af7d39a2457156575fe1c13d40bf1d2147"
+    },
+    "dosing-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          65,
+          139
+        ],
+        [
+          93,
+          139
+        ]
+      ],
+      "sourceSha256": "5f8fe6aa162acb126564f38683034fd8946b6805607bb284af80f93f38d4e650"
+    },
+    "multiport-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          99
+        ],
+        [
+          148,
+          99
+        ],
+        [
+          80,
+          128
+        ]
+      ],
+      "sourceSha256": "ca0ec827307401b75da2bafdbdf0150c9d14eae1b3fa430d576027e7965b484b"
+    },
+    "pool-bypass": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          36,
+          36
+        ],
+        [
+          124,
+          36
+        ],
+        [
+          8,
+          116
+        ],
+        [
+          152,
+          116
+        ]
+      ],
+      "sourceSha256": "f1550bce49110065deeb75283e0d0aa2d80a03af1ba35185a6ed409cd45b2d05"
+    },
+    "pool-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          143,
+          68
+        ],
+        [
+          143,
+          98
+        ]
+      ],
+      "sourceSha256": "4d3adcc29747b4d06ce71d0a8be345b41e8726db20ae5b7b5030943b1df6b965"
+    },
+    "rotor-sprinkler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          153
+        ]
+      ],
+      "sourceSha256": "219fe5b337cd9a61b47ef0a317cf72f92d8909f34d4810c08a477d5b0f583adf"
+    },
+    "spray-sprinkler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          153
+        ]
+      ],
+      "sourceSha256": "dd1a4dfeca9d53214b05528e219b59e47e59e3c0eaff6d2204f159430d13c8f3"
+    },
+    "micro-sprinkler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          94,
+          66
+        ]
+      ],
+      "sourceSha256": "a8046dd94f4799443f95920057af7fe1d8b64abc19b0129987fa3d4aab4c20cd"
+    },
+    "drip-line": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          113
+        ],
+        [
+          147,
+          113
+        ]
+      ],
+      "sourceSha256": "4e07290a1ca7c4e4174f6bd609506f5ffe1e8d3c77a0c8b13624c2f624d81f0f"
+    },
+    "irrigation-zone": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          8,
+          113
+        ],
+        [
+          152,
+          113
+        ]
+      ],
+      "sourceSha256": "9d72a105c7340704268b214a9b8ffed6e082008648ef905ecd634022d2216d66"
+    },
+    "garden-tap": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          149,
+          87
+        ],
+        [
+          27,
+          143
+        ]
+      ],
+      "sourceSha256": "90ca14eef6bbdb9c4949c535e1c37cdfa49f67b8da176e06e1fa9e26ac7a884a"
+    },
+    "hose": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          144
+        ],
+        [
+          135,
+          144
+        ]
+      ],
+      "sourceSha256": "1851b2fee22705f7dc0c0cc1df0761f6ee2f3833cf8cde0a93ce7cc2f3c418f1"
+    },
+    "irrigation-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          126
+        ],
+        [
+          148,
+          126
+        ]
+      ],
+      "sourceSha256": "a53301e078961801d36a7ce93394434c74e30c3a0fb30df821f7507e12eadbd3"
+    },
+    "master-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          119
+        ],
+        [
+          149,
+          119
+        ]
+      ],
+      "sourceSha256": "e85a8e851f8265a70d1cfadacb828936c8736e82b4ff1521d270937a928f35e5"
+    },
+    "valve-box": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "517927206eee109d4bf0fc56aaf4900903d3a43ea1b5aebcbf2bf650f28d8c14"
+    },
+    "compressor-port": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          20,
+          92
+        ],
+        [
+          144,
+          92
+        ]
+      ],
+      "sourceSha256": "e60e5c433d44e33481de3a44fec506f573a5e07ec292f58a0edf0d60778017de"
+    },
+    "temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "a1b6d535c49b53e5aee29e7430507b1e39b34d978133036df0b840c7e1858a05"
+    },
+    "pressure-sensor": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          73,
+          154
+        ]
+      ],
+      "sourceSha256": "8b59c98464aeb52ad490be11a8950a1cb3f4f0e78f9a59f5d5b87da9c60b81f1"
+    },
+    "flow-sensor": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          9,
+          104
+        ],
+        [
+          151,
+          104
+        ]
+      ],
+      "sourceSha256": "6e1222ce490b578b728bb8768eff4f1ab17cf46fdf2d3fa703353ed49a2fe173"
+    },
+    "water-meter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          9,
+          99
+        ],
+        [
+          152,
+          99
+        ]
+      ],
+      "sourceSha256": "e81e808502b33a9a2b41f737b269d5fe2969f1b55f01a2c348b4a38d5e9b2034"
+    },
+    "heat-meter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          25,
+          129
+        ],
+        [
+          136,
+          129
+        ]
+      ],
+      "sourceSha256": "6e7cc5d953191c3667f6f7c4de455cdb5285d994e697ae855de4277f6cbab456"
+    },
+    "level-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "bd68696b97c4a524b1c0e9e2dc65a8a98d5dd3c89a1fd2ff76f4f880641c93c0"
+    },
+    "humidity-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "7fc9ecc7de0877d05835f3fd2254fddb9f90e2d215df17ed9f376d4a6d242035"
+    },
+    "co2-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "aff4ce8171c7f883e300a3ae844351c2d5edab2172f185070ac1861819249fcf"
+    },
+    "ph-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "ab1aaf027239ef1a2e9d39996dd95dccf4a848110d2f5cda0a9f994bad41841e"
+    },
+    "redox-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "6085cfbac868344e7cb9f2825785d9acdf4e52d5e35911c5676eb0531053313f"
+    },
+    "rain-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "02cbe96359d8c500c9b868350bcd307a3eca06b6cb51c6df232c32ed02fc88cd"
+    },
+    "soil-moisture-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "33b345ed3222f39abb73d91dcf5fddd2ecdff3c265f7bcca589fa9e6a7eb1fd1"
+    },
+    "leak-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "14f37199873728df8737012d20e3b49ac4270fb62065f517a931af66b3819ad3"
+    },
+    "frost-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "beb83582ab231390c0209cc823f71e14a1410105c48f35fb12673683529155b9"
+    },
+    "filter-pressure-switch": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          37,
+          148
+        ],
+        [
+          108,
+          148
+        ]
+      ],
+      "sourceSha256": "03ef4d73e0f46ac73fd11e0162a6e6cbe28d3a32d295e6f985fc0956606f7957"
+    },
+    "monobloc-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          10,
+          65
+        ],
+        [
+          10,
+          92
+        ]
+      ],
+      "sourceSha256": "ef30c6e4c70344ab796b44add514859904293265ebbdd42491fda566cb31a5bc"
+    },
+    "split-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          111,
+          123
+        ],
+        [
+          123,
+          123
+        ]
+      ],
+      "sourceSha256": "95428ac7f5682f84ef70b5aca46e419eff88bf8872e6620ab75b33a471fd37d3"
+    },
+    "high-temperature-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          131,
+          103
+        ],
+        [
+          131,
+          116
+        ]
+      ],
+      "sourceSha256": "ab73a02059befd23706f059d9d3526411001d6aae33390b697d84a79155459f4"
+    },
+    "reversible-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          85,
+          124
+        ],
+        [
+          100,
+          124
+        ]
+      ],
+      "sourceSha256": "a0b40b18c62291e354c4b22a33229775db9aa6c59823762a1d37a4ed6f6b358c"
+    },
+    "ground-source-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          61,
+          12
+        ],
+        [
+          74,
+          12
+        ],
+        [
+          86,
+          12
+        ],
+        [
+          98,
+          12
+        ]
+      ],
+      "sourceSha256": "41642abbade5d8e08cd009ae82368089456d1967fcf9dd650ee28cc664a0dea6"
+    },
+    "water-source-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          32,
+          39
+        ],
+        [
+          32,
+          51
+        ],
+        [
+          32,
+          67
+        ],
+        [
+          32,
+          79
+        ]
+      ],
+      "sourceSha256": "033760f25f7f2dc67a9e75a09dc802e2fd1750bb3bfb94188795c0cfe4ebd9f4"
+    },
+    "absorption-chiller": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          30.4,
+          44.0
+        ],
+        [
+          30.4,
+          56.8
+        ],
+        [
+          140,
+          44
+        ],
+        [
+          140,
+          57
+        ],
+        [
+          30,
+          100
+        ],
+        [
+          140,
+          109
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "6ad2e8224db420ae014f1e470d26a9e54f73bf354f451ff1158a74379d2a4549"
+    },
+    "rooftop-chiller": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          123,
+          115
+        ],
+        [
+          137,
+          115
+        ]
+      ],
+      "sourceSha256": "0d81dadedb3e860b4e0872972d4c293aacb1960066be0bfed7ebb46ed5665434"
+    },
+    "dry-cooler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          154,
+          78
+        ],
+        [
+          154,
+          96
+        ]
+      ],
+      "sourceSha256": "eeebec3d8e29860e30d543789a8ef11a46862022c822b3c3fa1a0a084a4275be"
+    },
+    "floor-standing-boiler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          37,
+          65
+        ],
+        [
+          37,
+          84
+        ]
+      ],
+      "sourceSha256": "2276986f3da6ae202e18d626cf32226de10b22e3dbfa8ce16753cbf522c6da74"
+    },
+    "oil-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          112.0
+        ],
+        [
+          115.2,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "0e790c25dcd245583dad563a4068888533cd1730970970a04608831a85cd249e"
+    },
+    "condensing-boiler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "sourceSha256": "14ab4e15b7be2198505ee43b7b95d0e7cbe50cf2028af77080b27a8de54ab889"
+    },
+    "wood-gasification-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          112.0
+        ],
+        [
+          115.2,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "37c9698426d83e1dd338d85828e90ed0eefbbde3b1939b52c9251a62210f10f3"
+    },
+    "wood-chip-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          112.0
+        ],
+        [
+          115.2,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "3ce73d77cdf487519670f0b21694b5797c35c4c8100d1d4ca05eeacfe2121c70"
+    },
+    "biomass-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          112.0
+        ],
+        [
+          115.2,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "238f27ef7b795913c84b9390ffb24fef6c2ff1f83ea1646edee9e6f2bbd4627f"
+    },
+    "micro-chp": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          67
+        ],
+        [
+          15,
+          81
+        ]
+      ],
+      "sourceSha256": "4ec331b6f8d9e99b18c0860f5b3c384a1bd15714892adfcc1d840ecd17cc3c84"
+    },
+    "steam-boiler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          80.0,
+          23.2
+        ],
+        [
+          44.0,
+          124.8
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "6d63b776bc45827900a44bb48fd8f42ce4d195bb9df2add942477b8b3a88c5b2"
+    },
+    "panel-radiator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          123,
+          116
+        ],
+        [
+          136.0,
+          115.2
+        ]
+      ],
+      "sourceSha256": "b624257cbaafe5854c879dcb132fe9b6504c5b03d2c9cb9529691eb3c430a10b"
+    },
+    "column-radiator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          21,
+          24
+        ],
+        [
+          140,
+          131
+        ]
+      ],
+      "sourceSha256": "7d7842e274f76a91de2cee43726cf7d9650944497588a29e717a44c8c63c4c5a"
+    },
+    "cast-iron-radiator": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          15,
+          31
+        ],
+        [
+          148,
+          115
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "c99f8d7174b5b374df4dff07619a272fd41afd2a23589ea77b407e3b58080a94"
+    },
+    "trench-convector": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          7,
+          80
+        ],
+        [
+          7,
+          87
+        ]
+      ],
+      "sourceSha256": "98cce2dcbaf97d58fef8fc90d046e7ed6a562ee8f633184e71df9965604badc5"
+    },
+    "cassette-fan-coil": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          36.0,
+          17.6
+        ],
+        [
+          48.8,
+          17.6
+        ]
+      ],
+      "sourceSha256": "97aeb5d7419f8b80c23fb1beef276468bb86186c40c6e025661a15216f3e746a"
+    },
+    "ducted-fan-coil": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          7,
+          81
+        ],
+        [
+          7,
+          94
+        ]
+      ],
+      "sourceSha256": "499867476111bb94238bcab87b1c425e5399b7f8b96cc44b449b8680fbe0f0a2"
+    },
+    "cassette-air-conditioner": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          24.0,
+          28.8
+        ],
+        [
+          32.0,
+          28.8
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "366ae10f98f85ddfe718d1346ca92f68241641d2e3dfaf515418132497583bbd"
+    },
+    "horizontal-buffer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          16.8,
+          67.2
+        ],
+        [
+          141,
+          68
+        ],
+        [
+          17,
+          92
+        ],
+        [
+          141,
+          92
+        ]
+      ],
+      "sourceSha256": "3b6d0a98bd4873a267c50aecbbeadb0d2335cb18a61fb15077985006b48b6ca4"
+    },
+    "rectangular-buffer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          44.8,
+          42.4
+        ],
+        [
+          115.2,
+          42.4
+        ],
+        [
+          45,
+          107
+        ],
+        [
+          115,
+          107
+        ]
+      ],
+      "sourceSha256": "f2a7c3666398b890cdf4c8f07ba4c78d0b5f527ed1cd62e4c46abf1ae96156d4"
+    },
+    "stratified-buffer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          47,
+          46
+        ],
+        [
+          110.4,
+          46.4
+        ],
+        [
+          47,
+          80
+        ],
+        [
+          110.4,
+          80.0
+        ],
+        [
+          47,
+          112
+        ],
+        [
+          110,
+          112
+        ]
+      ],
+      "sourceSha256": "2591818b45780aa59292297ad8c2e9605c5a14aefcfa29619ec92db4d92c303f"
+    },
+    "combi-storage": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          46.4,
+          39.2
+        ],
+        [
+          112,
+          66
+        ],
+        [
+          46,
+          98
+        ],
+        [
+          112,
+          120
+        ]
+      ],
+      "sourceSha256": "4a71461a07befffd912812c29d165bbd87dddd75d4856357e349fbfeb57bab88"
+    },
+    "indirect-water-heater": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          134.4,
+          53.6
+        ],
+        [
+          134.4,
+          112.0
+        ],
+        [
+          26.4,
+          73.6
+        ],
+        [
+          26,
+          102
+        ]
+      ],
+      "sourceSha256": "b6ed74abc758ea165ca408439a5c4a3f91542753d604e1839a420392f1f5a060"
+    },
+    "tank-in-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          66,
+          14
+        ],
+        [
+          94,
+          14
+        ],
+        [
+          120.0,
+          58.4
+        ],
+        [
+          120.0,
+          104.0
+        ]
+      ],
+      "sourceSha256": "23b471c2638e696f82b16a56ace08714dc3ba85e285bdd8bfa89fc784b62c81e"
+    },
+    "solar-hot-water-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          48.0,
+          36.8
+        ],
+        [
+          48.0,
+          124.8
+        ],
+        [
+          110,
+          38
+        ],
+        [
+          110,
+          51
+        ],
+        [
+          110,
+          97
+        ],
+        [
+          110,
+          117
+        ]
+      ],
+      "sourceSha256": "4e37ddec0b6885a1b376e2269212b10548cd60bbfe3c563e0474c3043a1a74b7"
+    },
+    "heat-pump-water-heater": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          66.4,
+          11.2
+        ],
+        [
+          93.6,
+          11.2
+        ],
+        [
+          109,
+          122
+        ],
+        [
+          109,
+          134
+        ]
+      ],
+      "sourceSha256": "6c0a4c9320324923ce6dc4def09eaafae63a007514ba6f218e0b84bb38c4d900"
+    },
+    "stainless-hot-water-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          67.2,
+          8.8
+        ],
+        [
+          92.8,
+          8.8
+        ],
+        [
+          42,
+          70
+        ],
+        [
+          118,
+          70
+        ]
+      ],
+      "sourceSha256": "4b81a9a23ad34979d1ae1d50df82b2f1e7948e56b27bac0a718238df332ed486"
+    },
+    "heating-expansion-vessel": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          79,
+          149
+        ]
+      ],
+      "sourceSha256": "7e5acce5fb3f6b1454a76d4349db24ea140af9b65573b12619b56fb0cb6edbca"
+    },
+    "potable-expansion-vessel": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80.0,
+          13.6
+        ]
+      ],
+      "sourceSha256": "23a38e56f354ebfb919ce42ff43e641612a9cfdb2c82299c1c7f780bdb322598"
+    },
+    "open-expansion-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          143,
+          68
+        ],
+        [
+          78,
+          132
+        ]
+      ],
+      "sourceSha256": "8d205c679cd29b2ad907b66dd0def2450b99ae5461b5585ef398345fa1c43c7a"
+    },
+    "condensate-receiver": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          10,
+          88
+        ],
+        [
+          150,
+          88
+        ],
+        [
+          80.0,
+          48.0
+        ]
+      ],
+      "sourceSha256": "5d21d6308d6962fe9ee8ead489c001a2650afd72bb624117f3a7fd36e5be63a5"
+    },
+    "brine-tank": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          125,
+          41
+        ]
+      ],
+      "sourceSha256": "55d3a0b7e15bb71e10be937355c078e98fe260048f7875894270c148d333321d"
+    },
+    "underground-cistern": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          9,
+          65
+        ],
+        [
+          151,
+          65
+        ]
+      ],
+      "sourceSha256": "17a45a2408445703fc103fdb5a3ab96af5336546a78e6f3fc3b2298114230f70"
+    },
+    "end-suction-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          26,
+          94
+        ],
+        [
+          50,
+          31
+        ]
+      ],
+      "sourceSha256": "0f32797f2adb8a17c1c5f965dcc1f520113446d78e96eca38a6e4507fe0c9ec6"
+    },
+    "long-coupled-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11.2,
+          88.8
+        ],
+        [
+          37,
+          48
+        ]
+      ],
+      "sourceSha256": "d32f699ea217ec79c0016ffc40bceb07af709c1c8cb7a00e628fc532ca77c092"
+    },
+    "vertical-multistage-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          49,
+          131
+        ],
+        [
+          112.0,
+          132.0
+        ]
+      ],
+      "sourceSha256": "2e4c14e5a20321c469283583f6483e1772179a208a36f3a6f57ce1a280bc28ca"
+    },
+    "horizontal-multistage-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          17,
+          86
+        ],
+        [
+          81,
+          48
+        ]
+      ],
+      "sourceSha256": "90fd889b1009cd25c01049a1707d825b3a3a8e17c64f6b4faee086589d78ec4d"
+    },
+    "twin-inline-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          111
+        ],
+        [
+          150.4,
+          112.0
+        ]
+      ],
+      "sourceSha256": "6b326222eab26b16cadac2ebf649a5bee30f82518e275a44d0b5c51dc174d43f"
+    },
+    "jet-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          88
+        ],
+        [
+          64,
+          43
+        ]
+      ],
+      "sourceSha256": "5d27d55a32c8d8c340fbd75186a9627e8bfe4492a49866b6f86fc76b5e4128cb"
+    },
+    "self-priming-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          17.6,
+          94.4
+        ],
+        [
+          57.6,
+          25.6
+        ]
+      ],
+      "sourceSha256": "7fa1554484d5d44f80fd350f2e8c2af7db69860593a27caf9f6e404774681f84"
+    },
+    "piston-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          108,
+          50
+        ],
+        [
+          154,
+          96
+        ]
+      ],
+      "sourceSha256": "2c232e8ddc7ae1e4d7445a1ba368c7e6ba94ed1ccad6b21cd6e46fe8ff2aca93"
+    },
+    "diaphragm-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          13
+        ],
+        [
+          80,
+          145
+        ]
+      ],
+      "sourceSha256": "96d31b4cbf86664611538fa3b381d65bc764aae3db42599ee4c41eb2a6405215"
+    },
+    "gear-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          144,
+          61
+        ],
+        [
+          144,
+          96
+        ]
+      ],
+      "sourceSha256": "736aca4bc2a8f63b7b0419abb68ba8b069fe8e679d7f569921deff167ca0078a"
+    },
+    "condensate-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          42,
+          62
+        ],
+        [
+          130.4,
+          38.4
+        ]
+      ],
+      "sourceSha256": "379b5d369ca04be0ba1075e1f4355adc8a586c251e15c158acc7766f86f15926"
+    },
+    "sewage-lifting-station": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          19,
+          100
+        ],
+        [
+          140,
+          51
+        ]
+      ],
+      "sourceSha256": "51497e600b8740a30a183e54bd6b8562b3f106f537632113b4dd905e4b82d8b9"
+    },
+    "macerator-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          34,
+          90
+        ],
+        [
+          142,
+          25
+        ]
+      ],
+      "sourceSha256": "d63c5769c7cfe9fe3bc6e020db6462e188e663d71c4d345fe49956fa9e5ca0ce"
+    },
+    "vertical-sump-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          76,
+          152
+        ],
+        [
+          112,
+          31
+        ]
+      ],
+      "sourceSha256": "ad0a8e7dd268d7321ebe77b1a42c10496d62d0df6bd9bbcebfe7d650e3307742"
+    },
+    "hydraulic-ram-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          21,
+          104
+        ],
+        [
+          150,
+          104
+        ],
+        [
+          53,
+          74
+        ]
+      ],
+      "sourceSha256": "4d9a9678ef0db872dea288ac414ed8810bb8bb24c894ebcdda0b42e526b24377"
+    },
+    "split-case-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14.4,
+          108.0
+        ],
+        [
+          150.4,
+          108.0
+        ]
+      ],
+      "sourceSha256": "d6a4a34c3bf703551c4609f052ddd799d6d97e882c4e0a37ed946ec4a32496a4"
+    },
+    "vortex-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          73,
+          146
+        ],
+        [
+          126,
+          116
+        ]
+      ],
+      "sourceSha256": "2f9f2a9319fd09d0026c86d9f50d0d18bddaff8d6eecf9c772af7336a024104d"
+    },
+    "brazed-plate-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          53,
+          39
+        ],
+        [
+          92,
+          39
+        ],
+        [
+          53,
+          130
+        ],
+        [
+          92,
+          130
+        ]
+      ],
+      "sourceSha256": "359f7da80645d3fee0036f5c3dd224de99669ae4d074d8d65e1e3019c0d6a964"
+    },
+    "gasketed-plate-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          45.6,
+          44.0
+        ],
+        [
+          77,
+          44
+        ],
+        [
+          45,
+          115
+        ],
+        [
+          77,
+          115
+        ]
+      ],
+      "sourceSha256": "c1e275f5b84ae4f76fe291f72d3d48bba0842add5c6e62603aec249fe0cbb7c6"
+    },
+    "shell-and-tube-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13.6,
+          79.2
+        ],
+        [
+          150,
+          79
+        ],
+        [
+          48,
+          46
+        ],
+        [
+          103,
+          115
+        ]
+      ],
+      "sourceSha256": "e3c71580db72e6f6ec1efd84d07e4f3bc90634e03355e9ebe63402b2c1c5fcc0"
+    },
+    "coil-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          36,
+          13
+        ],
+        [
+          124,
+          148
+        ]
+      ],
+      "sourceSha256": "18f1ba79e797e301948ef93e75296eaf2b8568ce45e647d2b04474b043c696c3"
+    },
+    "tube-in-tube-exchanger": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          8,
+          84
+        ],
+        [
+          153,
+          84
+        ],
+        [
+          44.0,
+          51.2
+        ],
+        [
+          117,
+          115
+        ]
+      ],
+      "sourceSha256": "057ca40cc8e6173e6febb44bc08ef5c43ba4033f4b768aa76acc714d9c4d8261"
+    },
+    "freshwater-station": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          10,
+          64
+        ],
+        [
+          10,
+          114
+        ],
+        [
+          150,
+          64
+        ],
+        [
+          150,
+          114
+        ]
+      ],
+      "sourceSha256": "72fc857a6e4977d00a448a463cc191034efb7e473bb8da81d753a5dd2c01d0e1"
+    },
+    "manifold-3": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          45.0,
+          151.0
+        ],
+        [
+          85.0,
+          151.0
+        ],
+        [
+          125.0,
+          151.0
+        ],
+        [
+          45.0,
+          74.0
+        ],
+        [
+          85.0,
+          74.0
+        ],
+        [
+          125.0,
+          74.0
+        ]
+      ]
+    },
+    "manifold-5": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          37.0,
+          151.0
+        ],
+        [
+          61.0,
+          151.0
+        ],
+        [
+          85.0,
+          151.0
+        ],
+        [
+          109.0,
+          151.0
+        ],
+        [
+          133.0,
+          151.0
+        ],
+        [
+          37.0,
+          74.0
+        ],
+        [
+          61.0,
+          74.0
+        ],
+        [
+          85.0,
+          74.0
+        ],
+        [
+          109.0,
+          74.0
+        ],
+        [
+          133.0,
+          74.0
+        ]
+      ]
+    },
+    "manifold-7": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          33.5714,
+          151.0
+        ],
+        [
+          50.7143,
+          151.0
+        ],
+        [
+          67.8571,
+          151.0
+        ],
+        [
+          85.0,
+          151.0
+        ],
+        [
+          102.1429,
+          151.0
+        ],
+        [
+          119.2857,
+          151.0
+        ],
+        [
+          136.4286,
+          151.0
+        ],
+        [
+          33.5714,
+          74.0
+        ],
+        [
+          50.7143,
+          74.0
+        ],
+        [
+          67.8571,
+          74.0
+        ],
+        [
+          85.0,
+          74.0
+        ],
+        [
+          102.1429,
+          74.0
+        ],
+        [
+          119.2857,
+          74.0
+        ],
+        [
+          136.4286,
+          74.0
+        ]
+      ]
+    },
+    "manifold-9": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          12.0,
+          49.0
+        ],
+        [
+          12.0,
+          117.0
+        ],
+        [
+          31.6667,
+          151.0
+        ],
+        [
+          45.0,
+          151.0
+        ],
+        [
+          58.3333,
+          151.0
+        ],
+        [
+          71.6667,
+          151.0
+        ],
+        [
+          85.0,
+          151.0
+        ],
+        [
+          98.3333,
+          151.0
+        ],
+        [
+          111.6667,
+          151.0
+        ],
+        [
+          125.0,
+          151.0
+        ],
+        [
+          138.3333,
+          151.0
+        ],
+        [
+          31.6667,
+          74.0
+        ],
+        [
+          45.0,
+          74.0
+        ],
+        [
+          58.3333,
+          74.0
+        ],
+        [
+          71.6667,
+          74.0
+        ],
+        [
+          85.0,
+          74.0
+        ],
+        [
+          98.3333,
+          74.0
+        ],
+        [
+          111.6667,
+          74.0
+        ],
+        [
+          125.0,
+          74.0
+        ],
+        [
+          138.3333,
+          74.0
+        ]
+      ]
+    },
+    "duplex-strainer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          86
+        ],
+        [
+          148,
+          86
+        ]
+      ],
+      "sourceSha256": "dce081ea3e41dff480351c3e4c9e61fc91e831c9bcd569e4ca8efd25cf336f6f"
+    },
+    "basket-strainer": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12.0,
+          83.2
+        ],
+        [
+          144.0,
+          83.2
+        ]
+      ],
+      "sourceSha256": "989be5e67ac1f7f333fa49afbf7a6ffc214d87031d8aa9694d1a4fb532ffdd11"
+    },
+    "prefilter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24.0,
+          41.6
+        ],
+        [
+          136.0,
+          41.6
+        ]
+      ],
+      "sourceSha256": "ab4d51b9a7d401e0efca28c8a274064fa3e672ba31216bbcbe786d0ca125c430"
+    },
+    "backwash-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          22,
+          45
+        ],
+        [
+          138,
+          45
+        ],
+        [
+          79,
+          141
+        ]
+      ],
+      "sourceSha256": "5008cb8f33f5dd028a62d7fa81d98f2edd63c560f35494bda76d1d7b878f2204"
+    },
+    "activated-carbon-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          47,
+          28
+        ],
+        [
+          116,
+          28
+        ],
+        [
+          80,
+          151
+        ]
+      ],
+      "sourceSha256": "8fa9956632ff75b9907fea846550007a04740dfa1b03070de9ce802ec05ac6c5"
+    },
+    "iron-removal-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          48.0,
+          27.2
+        ],
+        [
+          116,
+          27
+        ]
+      ],
+      "sourceSha256": "a85a52081563511a0c94c166b6d833af4f8c7eea64abb3b2c5ad2f57e547b283"
+    },
+    "reverse-osmosis": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          53
+        ],
+        [
+          145,
+          53
+        ],
+        [
+          145,
+          120
+        ]
+      ],
+      "sourceSha256": "d0410079f7d098bbac0b6dd97dbd04ca9060903606a0d96f8c89bf1235a1867a"
+    },
+    "hydrocyclone": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          37,
+          55
+        ],
+        [
+          85,
+          17
+        ],
+        [
+          85,
+          149
+        ]
+      ],
+      "sourceSha256": "1b24f097f3eb66ce5bc2a102db7c4e7a33c09f04dffb5c6e221b31fd71f87d71"
+    },
+    "combined-air-dirt-separator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          40,
+          62
+        ],
+        [
+          123,
+          62
+        ],
+        [
+          80,
+          149
+        ]
+      ],
+      "sourceSha256": "3b92a4b8c9027b02e5a2b2ae5a7856757a8db719ce99bad4d760e9ce1caf3454"
+    },
+    "butterfly-valve": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          36.8,
+          102.4
+        ],
+        [
+          108.8,
+          102.4
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "2d2eea85387ff01c199fbfcd759de50e84cdf8c4aa1cd6c5f6d934643db34bce"
+    },
+    "motor-butterfly-valve": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          44,
+          104
+        ],
+        [
+          108,
+          104
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "5f80f5ea09710631b8e98a13361d0ffb05b94086647dce290e8d4d02649f4f37"
+    },
+    "wafer-check-valve": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          28.8,
+          83.2
+        ],
+        [
+          131.2,
+          83.2
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "ce4811cada690d5f58161944e359eee6c488fb879d81f339a1846280151abdc7"
+    },
+    "swing-check-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          91
+        ],
+        [
+          147,
+          91
+        ]
+      ],
+      "sourceSha256": "1e1df21b2986c11d067e2e8a3426398e92feefbbb65c44bc5ad66180e59fd632"
+    },
+    "spring-check-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13,
+          87
+        ],
+        [
+          147,
+          87
+        ]
+      ],
+      "sourceSha256": "f00a5c93b5bcd896189c389d74c7dc50c453c7719c3232c14e15f6ddea0e8b10"
+    },
+    "double-check-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13,
+          96
+        ],
+        [
+          148,
+          96
+        ]
+      ],
+      "sourceSha256": "7f6832e5e4936493b4b6baecf069a01570b14f4a80d6912ea9afa04d62ed0874"
+    },
+    "angle-shutoff-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          19,
+          102
+        ],
+        [
+          95,
+          24
+        ]
+      ],
+      "sourceSha256": "f61fa2dd3bcf1d8556dd42e81adb1465fd63328953ac1cd1c17cc03cc7c868d1"
+    },
+    "gate-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          41,
+          126
+        ],
+        [
+          119,
+          126
+        ]
+      ],
+      "sourceSha256": "b3232e2474980e29b3732f8120c8a759ed4e0f8571494cc682dc6d792f3e1fe0"
+    },
+    "globe-control-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          38,
+          129
+        ],
+        [
+          120,
+          129
+        ]
+      ],
+      "sourceSha256": "6799df3dd796796664ff06aaaf4f03256cda47b722a7c3381e31e1b1c3d80976"
+    },
+    "diaphragm-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          20.8,
+          118.4
+        ],
+        [
+          142,
+          119
+        ]
+      ],
+      "sourceSha256": "663a146975fbaaf997a1709c3887b4ef6389cf15a0b9a36ae90950aaae89ec4b"
+    },
+    "needle-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24,
+          123
+        ],
+        [
+          134,
+          123
+        ]
+      ],
+      "sourceSha256": "d08e0c198dc5dac9f4c8e84574f37e7cb46f678c52949bbea85c594d06273048"
+    },
+    "pinch-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          20,
+          120
+        ],
+        [
+          142,
+          120
+        ]
+      ],
+      "sourceSha256": "c9c78468a62f7ce67d964a941901d368e8da918376b42fdee102f92cac74d14a"
+    },
+    "thermostatic-mixing-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          35,
+          95
+        ],
+        [
+          125,
+          95
+        ],
+        [
+          80,
+          143
+        ]
+      ],
+      "sourceSha256": "9ecfc7529ef6a0a2cbe37ea7076e712133726dc6e0747de0de1d8612d287411b"
+    },
+    "thermostatic-diverting-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          23,
+          89
+        ],
+        [
+          135,
+          89
+        ],
+        [
+          80,
+          142
+        ]
+      ],
+      "sourceSha256": "7d1b7cd8b53d7eb08d8065eab3d4706b0db1a2593e1a0bbce1f880d0ccfad679"
+    },
+    "mixing-valve-4": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          15,
+          81
+        ],
+        [
+          145,
+          81
+        ],
+        [
+          80,
+          17
+        ],
+        [
+          80,
+          143
+        ]
+      ],
+      "sourceSha256": "72db044b2fcbc96c295f16d2c1664d67ab2709bd304b6702f1e616e1917e41bd"
+    },
+    "changeover-valve-6": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          36,
+          80
+        ],
+        [
+          36,
+          107
+        ],
+        [
+          36,
+          135
+        ],
+        [
+          122,
+          80
+        ],
+        [
+          122,
+          107
+        ],
+        [
+          122,
+          135
+        ]
+      ],
+      "sourceSha256": "060b75ac91feb9bae8a2c091ec41c0f56187e98a1033ebaba3dbab4d376cd4ea"
+    },
+    "pressure-independent-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          123
+        ],
+        [
+          147,
+          123
+        ]
+      ],
+      "sourceSha256": "71128a0a8b91fddaad7c9aee644f29cb3b604ff4c0312b93445c415593f3ecb3"
+    },
+    "differential-pressure-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          125
+        ],
+        [
+          100,
+          125
+        ]
+      ],
+      "sourceSha256": "16634e30a77c3986bbfeb86c1a4b26869babda40b019a03109c1882930422ae8"
+    },
+    "pressure-relief-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          76,
+          142
+        ],
+        [
+          115,
+          104
+        ]
+      ],
+      "sourceSha256": "63592f9eefc54b259d17e36580ae10777aae69ef56e91bdca1e61935173ad69f"
+    },
+    "float-ball-valve": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          8,
+          87
+        ],
+        [
+          48,
+          110
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "4c8fec8f852625cae10bcc4a47b2ced8b39c9711c79f1e031225f713766e3a01"
+    },
+    "tank-float-valve": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48,
+          150
+        ],
+        [
+          70,
+          56
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "9729e57832e0b0bd863347f9d82afec0ae598716de1c879fa15b17a85d7f7a22"
+    },
+    "boiler-fill-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          100
+        ],
+        [
+          146,
+          100
+        ]
+      ],
+      "sourceSha256": "ee61dee320ccf78d07a267c4669153b9eeeda741af6941e8bb73a019195d8ead"
+    },
+    "reduced-pressure-backflow": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13,
+          84
+        ],
+        [
+          147,
+          84
+        ],
+        [
+          80,
+          114
+        ]
+      ],
+      "sourceSha256": "de8e8c4d03960d3a3de1b2e03a12105f940c5ffcfceb17a43d4b6c0dbd602fd3"
+    },
+    "sewage-backwater-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          13,
+          94
+        ],
+        [
+          146,
+          94
+        ]
+      ],
+      "sourceSha256": "bf3234311f9edb3535f25f25220bfff2c7af9afc14b16304bde750bd96f935dd"
+    },
+    "automatic-bypass-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          42,
+          96
+        ],
+        [
+          94,
+          142
+        ]
+      ],
+      "sourceSha256": "81af42af1a30572b50c9427d2295971171689ed33efdcef7e3e7e4d8fedf7069"
+    },
+    "wall-axial-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          30.4,
+          80.0
+        ],
+        [
+          129.6,
+          80.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "184e4679706a87444b8f5951c2d9f83911c72347132fc284637aa7575deff3c7"
+    },
+    "centrifugal-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          78,
+          80
+        ],
+        [
+          123,
+          25
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "a4571d66efe98f8b317f896619f91edee53679f476949e9230fafe8886dd47ef"
+    },
+    "ec-inline-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          21,
+          90
+        ],
+        [
+          139,
+          83
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "a49d0fdc62d6ba35a54c1dca6fc1bfef44d2a3110d1d790977455872d377a132"
+    },
+    "mixed-flow-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          24,
+          86
+        ],
+        [
+          139,
+          87
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "ed2923273482cf0a7b57a96bc6b735f025a1c629fbdcf0134b6c055ccf70c350"
+    },
+    "box-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          15,
+          82
+        ],
+        [
+          147,
+          82
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "366383ca3b2417bee8eb301e3967f2c812ed3708b10c580425cb630e5927b2db"
+    },
+    "smoke-extract-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          86.4
+        ],
+        [
+          120.0,
+          86.4
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "f2ffd4815998e98af73dbb2e5e4eb8677731e36aca1bfe4eb7a8917cf2d0ea27"
+    },
+    "destratification-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          108.8
+        ],
+        [
+          120.0,
+          108.8
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "a0420582723c32877e8478d0297bbc1effceb5ccb1e10ebf5ff43281a808e399"
+    },
+    "grease-extract-fan": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          15,
+          88
+        ],
+        [
+          69,
+          21
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "a7f96b186cd3ba11b2220490fc68ef6fbb2290e1df406bb024fd263f3ec74ea1"
+    },
+    "counterflow-heat-recovery": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          13,
+          72
+        ],
+        [
+          13,
+          103
+        ],
+        [
+          147,
+          72
+        ],
+        [
+          147,
+          103
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "4d6fd5e16c39e762323b214301c647b785c8457474c0b69385e93f20ad98e3eb"
+    },
+    "crossflow-heat-recovery": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          16,
+          64
+        ],
+        [
+          16,
+          105
+        ],
+        [
+          144,
+          64
+        ],
+        [
+          144,
+          105
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "ec8caa8e6d1485ceccdcfcf9ea88e43b8ab224b00c3f405d118d592fb87fc7ae"
+    },
+    "enthalpy-heat-recovery": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          11,
+          69
+        ],
+        [
+          11,
+          107
+        ],
+        [
+          149,
+          69
+        ],
+        [
+          149,
+          107
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "80e649afd09a7be7a7a8273efaf0c1149756576b83130788eaedf027708701ce"
+    },
+    "decentralized-heat-recovery": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          41,
+          83
+        ],
+        [
+          133,
+          66
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "e0489ab672452529c3c053a86ae757d3986246595e68ec0044d46e09b155274f"
+    },
+    "rooftop-air-handler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          19,
+          86
+        ],
+        [
+          149,
+          83
+        ],
+        [
+          94,
+          56
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "b6c81f4643c8163b5842e1f7de9b1757576db88ebd8025193d56282489aea6ef"
+    },
+    "modular-air-handler": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          16,
+          86
+        ],
+        [
+          145,
+          86
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "d57ff300855882e3611af2ffe79b2d64d75de806ab9e59af6c1ee82c706b6aeb"
+    },
+    "supply-air-unit": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          12,
+          82
+        ],
+        [
+          148,
+          82
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "e37833a52e2e1799d66be518247ccfce2dcd3c61b406e82dc114c84818548ccd"
+    },
+    "extract-air-unit": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          13,
+          85
+        ],
+        [
+          149,
+          85
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "da21a5d2f89afe1add32450b571517475bddc8f96a936efc1267c9c049606688"
+    },
+    "steam-humidifier": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          82,
+          14
+        ],
+        [
+          61,
+          150
+        ],
+        [
+          87,
+          150
+        ]
+      ],
+      "sourceSha256": "ea8c85475ee468eba9b5c30c8029d76a89962d43f78d7ceb43164716720e2c73"
+    },
+    "ultrasonic-humidifier": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          47,
+          27
+        ],
+        [
+          147,
+          109
+        ],
+        [
+          147,
+          122
+        ]
+      ],
+      "sourceSha256": "cdbaaea6a6bfc6f9484b9c1e9b5e65162dce64d76f134c1815b40b59cb99d708"
+    },
+    "desiccant-dehumidifier": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          12,
+          62
+        ],
+        [
+          12,
+          102
+        ],
+        [
+          148,
+          62
+        ],
+        [
+          148,
+          102
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "9b6d326e6c031610ba355ce2db790fbc6fcfb41b893891bcd2c559e8ab640f25"
+    },
+    "constant-air-regulator": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48,
+          88
+        ],
+        [
+          128,
+          70
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "1e5ccaef6ca33a9f65d28456ee81b627c4d753b9164d5ddf0770c9a14b555c07"
+    },
+    "circular-vav": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          38,
+          99
+        ],
+        [
+          132,
+          83
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "50c86e08b01398b3ac6ff73c613e541d04d6abebb76b32a687e8e673f291b9cd"
+    },
+    "rectangular-vav": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          49,
+          87
+        ],
+        [
+          139,
+          62
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "41ec15463ddff8e07f3b338f314ebd5f49a26c27ee7d4f4a73dfb156bef99434"
+    },
+    "smoke-damper": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48,
+          82
+        ],
+        [
+          139,
+          61
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "ab37dd574181a542fcc9a49a3363160d3c401f0f4747e2743cf248026c4207af"
+    },
+    "pressure-relief-damper": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          19.2,
+          84.8
+        ],
+        [
+          128.0,
+          84.8
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "e0f9f8139481bb16d218418870f0e472eeb77f69c852c81c95995b1e87efc1c7"
+    },
+    "backdraft-damper": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          32.0,
+          88.0
+        ],
+        [
+          128.0,
+          88.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "7475724af52b9039737a0df24bf9f88ac871ce4d9c3aa3278272b02cd920080e"
+    },
+    "ceiling-diffuser": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          30
+        ]
+      ],
+      "sourceSha256": "36eb8cb1e496c5e378e338e46ec6fe4c9d72687b88be7e7d5b18193ac5fbf64a"
+    },
+    "slot-diffuser": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          66
+        ]
+      ],
+      "sourceSha256": "803a0838a4a2fdf5f67fe2dba54ae77296d6bbb762a703230358bae8cf77225a"
+    },
+    "swirl-diffuser": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          27
+        ]
+      ],
+      "sourceSha256": "d0c3dff06b0a6c03e9e7e24b7cb17adeb0d31de5000062f1608225fa5de0c1b4"
+    },
+    "weather-louver": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          19.2,
+          80.0
+        ],
+        [
+          140.8,
+          80.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "d3d8b41f530021fb620c36072fa658da67a5c7d6ded44005fd70c3eec3ddd40c"
+    },
+    "acoustic-air-terminal": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          12,
+          82
+        ],
+        [
+          107,
+          75
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "8cb792ddef1283259558198263b4244703621ea5c857014da94c1267a52fd4db"
+    },
+    "overflow-pool": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          48.0,
+          112.0
+        ],
+        [
+          112.0,
+          112.0
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "1fd8aa89157cf1136ff5d2aa51621a558fbe8ba47e9efe01d2965cce1eb0d401"
+    },
+    "spa": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          40.0,
+          124.8
+        ],
+        [
+          120.0,
+          124.8
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "ef69db497bd64a2bb823c5d9eb4a20f25e91239aadd62b9f1de259420f657d08"
+    },
+    "pool-cover": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "1544c7a4f22c0593eb2fb0209adcab427a82ba7a7f4fbcce57f5102f69b71d7c"
+    },
+    "solar-pool-cover": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "4e5e0528a7a67b1f344bfcd43e7694a4c2d57794750e280cc0f248f7506c32c8"
+    },
+    "deck-jet": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          151
+        ]
+      ],
+      "sourceSha256": "3bbf9177670a3ca7a320faa66699873751ba1088e5789209abd239c6c13bac19"
+    },
+    "waterfall": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          88,
+          49
+        ]
+      ],
+      "sourceSha256": "51e8ed6c5895867f69c7ee44a21967b4cee6d322d06167d20254b04d1e7423b3"
+    },
+    "massage-jet": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          107,
+          17
+        ],
+        [
+          145,
+          85
+        ],
+        [
+          58,
+          88
+        ]
+      ],
+      "sourceSha256": "ec02d67ce54bd9a28fc671e40aea73fe7f68e733ba993cee6ac7a33787efec2c"
+    },
+    "pool-bubbler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          79,
+          152
+        ]
+      ],
+      "sourceSha256": "a222ecfb2c6fafbf7e185a77a780a2e9d547cd541381858fdb9a637421e9d210"
+    },
+    "top-mount-sand-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          51.2,
+          40.0
+        ],
+        [
+          107,
+          41
+        ],
+        [
+          80,
+          55
+        ]
+      ],
+      "sourceSha256": "601038a9025b6dd11ba3c275dff7443f109432a55ec4d93040693623e77a2ee0"
+    },
+    "side-mount-sand-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          148,
+          63
+        ],
+        [
+          148,
+          79
+        ],
+        [
+          148,
+          95
+        ]
+      ],
+      "sourceSha256": "8af453e23534db379738224101f20ac69d5229415582f3d68fc8ef280e4f7968"
+    },
+    "diatomaceous-filter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          137,
+          70
+        ],
+        [
+          137,
+          125
+        ]
+      ],
+      "sourceSha256": "9af02882727be7eee2f51d11c09b681f9c4a6dfa68d4f8c465183a183bbdb260"
+    },
+    "ozone-generator": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          121,
+          99
+        ],
+        [
+          121,
+          112
+        ]
+      ],
+      "sourceSha256": "f4b2759a8f25bbf98090d36c7835f514c40dafa31d0db9f86169415708c9f35e"
+    },
+    "chlorine-feeder": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          24,
+          123
+        ],
+        [
+          140,
+          123
+        ]
+      ],
+      "sourceSha256": "803b87378f965c1d24fd3b11a23e4c97dc3efcb17088394f0703a54ba5528618"
+    },
+    "diaphragm-dosing-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          54
+        ],
+        [
+          80,
+          147
+        ]
+      ],
+      "sourceSha256": "d8ee79f17b5a3d4f5cc10c01e7d7b2eb976d6cdf74ddf647ea881b8b0d28a353"
+    },
+    "variable-speed-pool-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          89
+        ],
+        [
+          80,
+          48
+        ]
+      ],
+      "sourceSha256": "d421d4da6e97dea643062d3f6295af7dec8b3dc265a45c14f2af301f0d22d154"
+    },
+    "automatic-multiport-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          92
+        ],
+        [
+          148,
+          92
+        ],
+        [
+          76,
+          122
+        ]
+      ],
+      "sourceSha256": "b46b3bbb8c1f0a5d63148a69a1c1d1042f3e695814831085b770bb8449a8ee14"
+    },
+    "inverter-pool-heat-pump": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          66
+        ],
+        [
+          11,
+          96
+        ]
+      ],
+      "sourceSha256": "f79894508cd44b297a9e73b9435265609d7b117ab7a432d61ee29822b6dcceed"
+    },
+    "rotary-nozzle": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          155
+        ]
+      ],
+      "sourceSha256": "ff2459dcccf99342dc6d403a72eaec6b197e839c72d030de541f2c3de36fea02"
+    },
+    "impact-sprinkler": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          83,
+          150
+        ]
+      ],
+      "sourceSha256": "64ac2498b606fc88e578bdf7549ed230d60b3cc7f12130683a7ea61fae21f54c"
+    },
+    "bubbler-emitter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          80,
+          151
+        ]
+      ],
+      "sourceSha256": "bb8ff445c1c83d412c1135d9eeffe26edd892c39c0b9dc461c4d8098ac2131b5"
+    },
+    "dripper": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          131,
+          84
+        ]
+      ],
+      "sourceSha256": "1cef9894a944e9c81c6e70cb391b945db843e3c5e63b73028696a0599a31dc4d"
+    },
+    "drip-tape": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          10,
+          95
+        ],
+        [
+          150,
+          95
+        ]
+      ],
+      "sourceSha256": "a940463ed3bdaf095d583e0c69ce4b9624226eebf3ec367f3d718ff20e920b90"
+    },
+    "porous-hose": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          19,
+          139
+        ],
+        [
+          141,
+          139
+        ]
+      ],
+      "sourceSha256": "ff7dfcc22c24d402cb553c152e88ae4333b5d9fb862c8443710d34d0f55753d4"
+    },
+    "irrigation-hydrant": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          76,
+          85
+        ],
+        [
+          133,
+          134
+        ]
+      ],
+      "sourceSha256": "962fac7b3f1b4b60b35912c7f99b9a2e8c9eae88f66e6913bb8b8d08d8c26536"
+    },
+    "irrigation-controller": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "4248083f1706061390b87282e5ef51090ba6ae86e357b62d9a994d992b57696c"
+    },
+    "angle-irrigation-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          72,
+          149
+        ],
+        [
+          130,
+          97
+        ]
+      ],
+      "sourceSha256": "eb2aa721a9c789ea07bd9bc1374161abf34d113fc87ebcc6263911dbf0e5f9c8"
+    },
+    "latching-irrigation-valve": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          14,
+          124
+        ],
+        [
+          148,
+          124
+        ]
+      ],
+      "sourceSha256": "4136934fbac00abd9ccc27f680705cd1ff54436474df5b36f29ab49dd41cc6c5"
+    },
+    "quick-coupling-valve": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          76,
+          151
+        ],
+        [
+          76,
+          48
+        ]
+      ],
+      "note": "A takart vagy tengelyirányból ábrázolt csatlakozás sematikus vetületi pont; nem látható vízcsonk.",
+      "sourceSha256": "f45f0630281766b8b500115ac9b6a70665a4d8bb41aa70b5eda7e4344f6d978a"
+    },
+    "fertigation-injector": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          11,
+          75
+        ],
+        [
+          150,
+          75
+        ],
+        [
+          80,
+          111
+        ]
+      ],
+      "sourceSha256": "6fcda40f40c3f7ad86359b0d2571b601bbae82cf03251c4e3d26eac4cc519dc4"
+    },
+    "outdoor-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "f2db77299b657012bace265f38ebb544f69fec59a81665d32380e1b58a83ccd8"
+    },
+    "duct-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "0485cc6ffc8a97d85d7567cb5d780fe403fa7fe68617e64f456c6b9039c9f637"
+    },
+    "immersion-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "81ad6aa5b47e5dea40922cddfeb378d1e92bfec61ce799b16b0f65580d9a5e95"
+    },
+    "strap-on-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "cad6b526d35e88af2723918234a2576f43af785a7b9731ef1f844fc92440d881"
+    },
+    "infrared-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "0335bdf7b7b925385cc80d5a8b81a0d738f6807e0844dbf1a30c5cd05e4b55e2"
+    },
+    "room-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "d7e6e9bcf5405adc3bea7d3094ad8173ec2154676ec0ea44b9bf3be781f98546"
+    },
+    "combined-climate-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "dd6c21774511a81777cbf56f8b10adf44b6f1500c87268d01750e5f6f083e890"
+    },
+    "air-differential-pressure-sensor": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          37,
+          132
+        ],
+        [
+          123,
+          132
+        ]
+      ],
+      "sourceSha256": "46037fbafacd3f06b71a3d4ff971f08560838e451c7dac5106cbfb02300cbde4"
+    },
+    "water-differential-pressure-sensor": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          18,
+          127
+        ],
+        [
+          145,
+          127
+        ]
+      ],
+      "sourceSha256": "6209d5f97b5e3852f18bd793a825fcbbc9683a93429aea4b18f63244534ec338"
+    },
+    "differential-temperature-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "cb9a93d1c5efa93cc9d0349578a6ed7794de7478d92c9896b7d00df3c57ec3a6"
+    },
+    "ultrasonic-flow-meter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          12,
+          120
+        ],
+        [
+          147,
+          120
+        ]
+      ],
+      "sourceSha256": "9e812ca39117c9b7de128b4d05f3cdbbb1a2abaec08d067b3493cec05e7ba5f4"
+    },
+    "magnetic-flow-meter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          33,
+          120
+        ],
+        [
+          130,
+          120
+        ]
+      ],
+      "sourceSha256": "065d31179f90006ff0695d2465cf6dc9902946f95f5bd181867fa404f912d0f5"
+    },
+    "turbidity-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "a04e45936d769dc313af26cb8076fb8b34318095dcca0d839344dad039c190fe"
+    },
+    "conductivity-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "946e7a07c37c5cd0ad58b164c0864696d96f7b616da3696ca9a8c9678c49d6b9"
+    },
+    "salinity-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "d6ae701a15654426a01ac591140d122838893bd80181ea72a2e1bda5877f6027"
+    },
+    "free-chlorine-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "ec542f46bdf9738513fa4e1abea531601c59c773b438e83c617fb78e0912fd2a"
+    },
+    "dissolved-oxygen-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "a8e632909480e40a290524c6e1f2c387f1ac95b8dde66857f551a29cdadecbda"
+    },
+    "carbon-monoxide-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "c81685291b446353f8615a01ca97407f28c2fb8135123bf5217fd74265168611"
+    },
+    "air-velocity-sensor": {
+      "mode": "none",
+      "portsPx": [],
+      "sourceSha256": "7042b8b0e44c4deef2cf283bff2d37cd3e529b665d454e25859f6e51da8a170b"
+    },
+    "gas-meter": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          40,
+          13
+        ],
+        [
+          120,
+          13
+        ]
+      ],
+      "sourceSha256": "d746bb98b4c21aaaa5062b3dea4143cbbfe6f60e4240b983b436175d97184883"
+    },
+    "configurable-manifold": {
+      "mode": "procedural",
+      "portsPx": [
+        [
+          6.4,
+          48.0
+        ],
+        [
+          6.4,
+          115.2
+        ],
+        [
+          29.5,
+          73.6
+        ],
+        [
+          29.5,
+          152.0
+        ],
+        [
+          37.3,
+          73.6
+        ],
+        [
+          37.3,
+          152.0
+        ],
+        [
+          45.1,
+          73.6
+        ],
+        [
+          45.1,
+          152.0
+        ],
+        [
+          52.9,
+          73.6
+        ],
+        [
+          52.9,
+          152.0
+        ],
+        [
+          60.7,
+          73.6
+        ],
+        [
+          60.7,
+          152.0
+        ],
+        [
+          68.5,
+          73.6
+        ],
+        [
+          68.5,
+          152.0
+        ],
+        [
+          76.3,
+          73.6
+        ],
+        [
+          76.3,
+          152.0
+        ],
+        [
+          84.1,
+          73.6
+        ],
+        [
+          84.1,
+          152.0
+        ],
+        [
+          91.9,
+          73.6
+        ],
+        [
+          91.9,
+          152.0
+        ],
+        [
+          99.7,
+          73.6
+        ],
+        [
+          99.7,
+          152.0
+        ],
+        [
+          107.5,
+          73.6
+        ],
+        [
+          107.5,
+          152.0
+        ],
+        [
+          115.3,
+          73.6
+        ],
+        [
+          115.3,
+          152.0
+        ],
+        [
+          123.1,
+          73.6
+        ],
+        [
+          123.1,
+          152.0
+        ],
+        [
+          130.9,
+          73.6
+        ],
+        [
+          130.9,
+          152.0
+        ],
+        [
+          138.7,
+          73.6
+        ],
+        [
+          138.7,
+          152.0
+        ],
+        [
+          146.5,
+          73.6
+        ],
+        [
+          146.5,
+          152.0
+        ]
+      ]
+    }
+  }
+}

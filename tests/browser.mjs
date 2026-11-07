@@ -52,6 +52,17 @@ try {
     await page.locator('#draw-pipe').click();
     await page.mouse.click(bounds.x + bounds.width * 0.4, bounds.y + bounds.height * 0.4);
     await page.mouse.dblclick(bounds.x + bounds.width * 0.7, bounds.y + bounds.height * 0.4);
+    const thickness = page.locator('[data-property="width"]');
+    assert.equal(await thickness.getAttribute('min'), '1');
+    assert.equal(await thickness.getAttribute('max'), '30');
+    for (const width of [1, 12, 30]) {
+        await thickness.fill(String(width));
+        await thickness.blur();
+        assert.equal(await page.locator('svg .pipe polyline').first().getAttribute('stroke-width'), String(width));
+        await saveProjectAndWait();
+        const persisted = await (await page.request.get(url + '/api/project')).json();
+        assert.equal(persisted.project.pages[0].elements.find(e => e.type === 'pipe').width, width);
+    }
     await saveProjectAndWait();
     await page.waitForFunction(() => document.querySelector('#feedback').textContent === 'Tartósan elmentve.');
     const result = await page.request.get(url + '/api/project');

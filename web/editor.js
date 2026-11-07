@@ -469,7 +469,7 @@ export class Editor {
         const panel = this.root.querySelector('#inspector');
         const e = this.element, t = this.tr;
         if (!e) { panel.textContent = t('select'); return; }
-        const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" value="${this.escape(e[key])}"></label>`;
+        const field = (key, title, type = 'text') => `<label>${t(title)}<input data-property="${key}" type="${type}" ${e.type === 'pipe' && key === 'width' ? 'min="1" max="30" step="1"' : ''} value="${this.escape(e[key])}"></label>`;
         panel.innerHTML = `<p class="hint">${this.escape(e.asset || e.type)}</p>${field('label', 'label')}
             ${e.type === 'text' ? field('text', 'text') : ''}${field('color', 'color', 'color')}
             <div class="small-grid">${field('fontSize', 'fontSize', 'number')}${e.type === 'pipe' ? field('width', 'lineWidth', 'number') : ''}</div>

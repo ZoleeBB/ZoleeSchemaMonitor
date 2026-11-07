@@ -9,7 +9,8 @@ file(GLOB WEB_SOURCES "${CMAKE_CURRENT_LIST_DIR}/../web/*.*")
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${WEB_SOURCES} ${ELEMENT_IMAGES}
     "${CMAKE_CURRENT_LIST_DIR}/../tools/requirements-assets.txt"
     "${CMAKE_CURRENT_LIST_DIR}/../tools/embed_web.py" "${CMAKE_CURRENT_LIST_DIR}/../tools/build_assets.py"
-    "${CMAKE_CURRENT_LIST_DIR}/../catalog/elements.py" "${CMAKE_CURRENT_LIST_DIR}/../catalog/artwork-bindings.json" "${CMAKE_CURRENT_LIST_DIR}/../tools/ota_identity.py")
+    "${CMAKE_CURRENT_LIST_DIR}/../catalog/elements.py" "${CMAKE_CURRENT_LIST_DIR}/../catalog/artwork-bindings.json"
+    "${CMAKE_CURRENT_LIST_DIR}/../catalog/port-calibration.json" "${CMAKE_CURRENT_LIST_DIR}/../tools/ota_identity.py")
 
 idf_component_register(
     SRCS

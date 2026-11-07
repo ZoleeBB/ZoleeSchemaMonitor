@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 def identity():
     digest = hashlib.sha256()
-    sources = ['catalog/elements.py', 'catalog/artwork-bindings.json', 'tools/build_assets.py', 'tools/requirements-assets.txt']
+    sources = ['catalog/elements.py', 'catalog/artwork-bindings.json', 'catalog/port-calibration.json', 'tools/build_assets.py', 'tools/requirements-assets.txt']
     sources += sorted(path.relative_to(ROOT).as_posix() for path in (ROOT / 'assets/elements').rglob('*.png'))
     for name in sources:
         digest.update(name.encode() + b'\0' + (ROOT / name).read_bytes() + b'\0')

@@ -13,6 +13,8 @@ Nyisd meg a `http://127.0.0.1:8080/editor` címet. A `--demo` kizárólag szimul
 
 A szerver alapból csak a helyi gépen figyel. A `.dev-data/` tartós helyi adatot tárol, és nem kerül Gitbe. Az importot a böngésző és a kiszolgáló ugyanazzal a validátorral ellenőrzi. A projekt revíziószáma megakadályozza a másik böngésző változtatásainak csendes felülírását.
 
+A kijelölt cső vastagsága a Tulajdonságok → Csővastagság mezőben csövenként 1–30 kijelzőpixel között állítható. A mentett értéket a webes és a natív rajzoló is használja. A [csatlakozópont-audit](grafika/csatlakozopont-audit.md) külön rögzíti a látható és a takart csatlakozásokat; kalibrálás után a kötött csővégek automatikusan az új pontokra illeszkednek.
+
 ## Tesztek
 
 ```sh

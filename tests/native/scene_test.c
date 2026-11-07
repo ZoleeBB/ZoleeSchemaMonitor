@@ -67,6 +67,13 @@ int main(void)
     app_scene_poll();
     assert(previous == s_root);
     cJSON *first = cJSON_GetArrayItem(elements, 0);
+    for (unsigned width = 1; width <= 30; width += width == 1 ? 11 : 18)
+    {
+        cJSON_ReplaceItemInObject(first, "width", cJSON_CreateNumber(width));
+        s_test_revision++;
+        app_scene_poll();
+        assert(lv_obj_get_style_line_width(s_runtime[0].body, 0) == (int)width);
+    }
     cJSON_AddItemToObject(
         first,
         "activity",
@@ -300,9 +307,43 @@ int main(void)
         app_scene_poll();
         double angle = rotation * 3.141592653589793 / 180;
         assert(s_head_count == 0);
-        assert(fabs(s_points[0][0].x - (360 - 29.2 * sin(angle))) < 1.01);
-        assert(fabs(s_points[0][0].y - (576 + 29.2 * cos(angle))) < 1.01);
+        assert(fabs(s_points[0][0].x - (360 - 31.5 * sin(angle))) < 1.01);
+        assert(fabs(s_points[0][0].y - (576 + 31.5 * cos(angle))) < 1.01);
     }
+    // Minden katalógusport: a négyzetes kép illesztése fekvő és álló vásznon, négy irányban.
+    for (unsigned portrait = 0; portrait < 2; portrait++)
+        for (unsigned a = 0; a < sm_catalog_count; a++)
+        {
+            const sm_asset_t *asset = &sm_catalog[a];
+            cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString(asset->id));
+            int width = portrait ? 800 : 1280, height = portrait ? 1280 : 800;
+            int x = sm_json_number(equipment, "x", 0) * width;
+            int y = sm_json_number(equipment, "y", 0) * height;
+            int w = sm_json_number(equipment, "w", .1) * width;
+            int h = sm_json_number(equipment, "h", .1) * height;
+            int side = w < h ? w : h;
+            for (unsigned rotation = 0; rotation < 360; rotation += 90)
+            {
+                cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(rotation));
+                for (unsigned p = 0; p < asset->port_count; p++)
+                {
+                    lv_point_precise_t point;
+                    assert(equipment_port_position(equipment, p, width, height, &point));
+                    double dx = (asset->ports[p].x - .5) * side;
+                    double dy = (asset->ports[p].y - .5) * side;
+                    for (unsigned turn = 0; turn < rotation / 90; turn++)
+                    {
+                        double previous_dx = dx;
+                        dx = -dy;
+                        dy = previous_dx;
+                    }
+                    assert(fabs(point.x - (x + w / 2.0 + dx)) < 1.01);
+                    assert(fabs(point.y - (y + h / 2.0 + dy)) < 1.01);
+                }
+                lv_point_precise_t invalid;
+                assert(!equipment_port_position(equipment, asset->port_count, width, height, &invalid));
+            }
+        }
     cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("dry-cooler"));
     cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(90));
     cJSON_ReplaceItemInObject(cJSON_GetObjectItem(linked_pipe, "source"), "port",

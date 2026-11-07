@@ -6,6 +6,7 @@
 - [Fejlesztés és helyi előnézet](fejlesztes.md)
 - [Készülékes fejlesztői build és helyreállítás](keszulek.md)
 - [A teljes katalógus öt ötvenes bekötési csomagja](grafika/teljes-bekotes.md)
+- [A 333 típus csatlakozópont-auditja és a csővastagság](grafika/csatlakozopont-audit.md)
 - [Grafikai látványtervek és képméretek](grafika/README.md)
 - [Termofejes osztó-gyűjtők, körönkénti állapot és elemforgatás](osztogyujtok.md)
 - [Mentés és visszaállítás](mentes.md)

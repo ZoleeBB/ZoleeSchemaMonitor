@@ -580,6 +580,7 @@ ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]
 
 # Az öt ötvenes csomag tételesen felülvizsgált csatlakozásai.
 INTEGRATED_ARTWORK = json.loads(Path(__file__).with_name("artwork-bindings.json").read_text())
+PORT_CALIBRATION = json.loads(Path(__file__).with_name("port-calibration.json").read_text())
 for identifier, entry in INTEGRATED_ARTWORK.items():
     if "procedural" not in entry:
         ARTWORK[identifier] = (entry.get("source", identifier), entry["ports"], entry["motion"])
@@ -635,4 +636,13 @@ def elements():
             {"x": .04, "y": .30}, {"x": .04, "y": .72},
             *[{"x": .16 + .78 * (i + .5) / 16, "y": y}
               for i in range(16) for y in [.46, .95]]], "animation": None})
+    # A portindexek a mentett csőkapcsolatok részei; a kalibrálás nem rendezheti át őket.
+    for element in result:
+        calibration = PORT_CALIBRATION["elements"][element["id"]]
+        if calibration["mode"] != "procedural":
+            element["ports"] = [{"x": x / PORT_CALIBRATION["canvasPixels"],
+                                 "y": y / PORT_CALIBRATION["canvasPixels"]}
+                                for x, y in calibration["portsPx"]]
+            if calibration.get("note") and not element.get("portNote"):
+                element["portNote"] = calibration["note"]
     return result

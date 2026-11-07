@@ -150,7 +150,7 @@ class CatalogArtworkTests(unittest.TestCase):
                 self.assertLess(left['x'], .2)
                 self.assertGreater(right['x'], .78)
                 self.assertEqual(left['y'], right['y'])
-                self.assertGreater(left['y'], .5)
+                self.assertGreater(left['y'], .4)
                 if identifier in three_way:
                     third = valve['ports'][2]
                     self.assertGreater(third['y'], left['y'] + .2)
