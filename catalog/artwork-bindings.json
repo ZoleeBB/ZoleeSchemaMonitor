@@ -2554,5 +2554,1054 @@
             0,
             0
         ]
+    },
+    "thermostatic-diverting-valve": {
+        "ports": [
+            [
+                0.205,
+                0.55
+            ],
+            [
+                0.795,
+                0.55
+            ],
+            [
+                0.5,
+                0.78
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "mixing-valve-4": {
+        "ports": [
+            [
+                0.13,
+                0.495
+            ],
+            [
+                0.87,
+                0.495
+            ],
+            [
+                0.5,
+                0.205
+            ],
+            [
+                0.5,
+                0.8
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "changeover-valve-6": {
+        "ports": [
+            [
+                0.245,
+                0.425
+            ],
+            [
+                0.245,
+                0.6
+            ],
+            [
+                0.245,
+                0.775
+            ],
+            [
+                0.755,
+                0.425
+            ],
+            [
+                0.755,
+                0.6
+            ],
+            [
+                0.755,
+                0.775
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "pressure-independent-valve": {
+        "ports": [
+            [
+                0.13,
+                0.74
+            ],
+            [
+                0.88,
+                0.74
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "differential-pressure-valve": {
+        "ports": [
+            [
+                0.095,
+                0.78
+            ],
+            [
+                0.765,
+                0.78
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "A réz impulzusvezeték és a távoli mérőcsatlakozó nem átfolyó főport."
+    },
+    "pressure-relief-valve": {
+        "ports": [
+            [
+                0.45,
+                0.86
+            ],
+            [
+                0.715,
+                0.6
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "float-ball-valve": {
+        "ports": [
+            [
+                0.14,
+                0.49
+            ],
+            [
+                0.3,
+                0.64
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "A fekete úszógolyó és mozgatókar nem vízport; az alsó kilépés sematikus pont."
+    },
+    "tank-float-valve": {
+        "ports": [
+            [
+                0.2,
+                0.825
+            ],
+            [
+                0.285,
+                0.52
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Alsó betáp és sematikus tartálykilépés; az úszó nem folyadékcsatlakozó."
+    },
+    "boiler-fill-valve": {
+        "ports": [
+            [
+                0.1,
+                0.59
+            ],
+            [
+                0.88,
+                0.59
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "reduced-pressure-backflow": {
+        "ports": [
+            [
+                0.09,
+                0.51
+            ],
+            [
+                0.91,
+                0.51
+            ],
+            [
+                0.5,
+                0.665
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "sewage-backwater-valve": {
+        "ports": [
+            [
+                0.14,
+                0.585
+            ],
+            [
+                0.88,
+                0.585
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "automatic-bypass-valve": {
+        "ports": [
+            [
+                0.325,
+                0.59
+            ],
+            [
+                0.585,
+                0.83
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ]
+    },
+    "fan": {
+        "ports": [
+            [
+                0.13,
+                0.52
+            ],
+            [
+                0.87,
+                0.52
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.52,
+            0.505,
+            0.25
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "duct-fan": {
+        "ports": [
+            [
+                0.23,
+                0.515
+            ],
+            [
+                0.87,
+                0.4
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.26,
+            0.51,
+            0.155
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "supply-fan": {
+        "ports": [
+            [
+                0.48,
+                0.53
+            ],
+            [
+                0.7,
+                0.16
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.48,
+            0.53,
+            0.175
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "extract-fan": {
+        "ports": [
+            [
+                0.48,
+                0.53
+            ],
+            [
+                0.71,
+                0.145
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.48,
+            0.53,
+            0.175
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "roof-fan": {
+        "ports": [
+            [
+                0.3,
+                0.86
+            ],
+            [
+                0.7,
+                0.86
+            ]
+        ],
+        "motion": [
+            "status",
+            0.5,
+            0.47,
+            0.025
+        ],
+        "note": "Alsó légoldali sematikus be- és kilépés; a zárt tetőburkolaton nincs külső rotor."
+    },
+    "heat-recovery": {
+        "ports": [
+            [
+                0.125,
+                0.275
+            ],
+            [
+                0.125,
+                0.545
+            ],
+            [
+                0.875,
+                0.275
+            ],
+            [
+                0.875,
+                0.545
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "air-handling-unit": {
+        "ports": [
+            [
+                0.09,
+                0.515
+            ],
+            [
+                0.89,
+                0.515
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "rotary-heat-recovery": {
+        "ports": [
+            [
+                0.105,
+                0.37
+            ],
+            [
+                0.105,
+                0.62
+            ],
+            [
+                0.895,
+                0.37
+            ],
+            [
+                0.895,
+                0.62
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.48,
+            0.5,
+            0.245
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "air-filter": {
+        "ports": [
+            [
+                0.13,
+                0.51
+            ],
+            [
+                0.87,
+                0.51
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "heating-coil": {
+        "ports": [
+            [
+                0.125,
+                0.59
+            ],
+            [
+                0.875,
+                0.59
+            ],
+            [
+                0.625,
+                0.275
+            ],
+            [
+                0.735,
+                0.275
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Első két pont: levegő; utolsó két pont: fűtővíz. A keretcsavar nem port."
+    },
+    "cooling-coil": {
+        "ports": [
+            [
+                0.13,
+                0.59
+            ],
+            [
+                0.87,
+                0.59
+            ],
+            [
+                0.66,
+                0.25
+            ],
+            [
+                0.765,
+                0.25
+            ],
+            [
+                0.5,
+                0.78
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Levegő, hűtővíz és külön kondenzvíz-lefolyó."
+    },
+    "humidifier": {
+        "ports": [
+            [
+                0.125,
+                0.525
+            ],
+            [
+                0.875,
+                0.525
+            ],
+            [
+                0.8,
+                0.32
+            ],
+            [
+                0.535,
+                0.745
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali be/ki, vízbetáp és ürítés külön pont."
+    },
+    "dehumidifier": {
+        "ports": [
+            [
+                0.16,
+                0.52
+            ],
+            [
+                0.835,
+                0.52
+            ],
+            [
+                0.5,
+                0.8
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali be/ki és kondenzvíz-lefolyó."
+    },
+    "silencer": {
+        "ports": [
+            [
+                0.205,
+                0.6
+            ],
+            [
+                0.87,
+                0.38
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "damper": {
+        "ports": [
+            [
+                0.15,
+                0.6
+            ],
+            [
+                0.84,
+                0.6
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "motor-damper": {
+        "ports": [
+            [
+                0.2,
+                0.48
+            ],
+            [
+                0.69,
+                0.48
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "fire-damper": {
+        "ports": [
+            [
+                0.15,
+                0.57
+            ],
+            [
+                0.74,
+                0.57
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "supply-terminal": {
+        "ports": [
+            [
+                0.5,
+                0.15
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Egy légcsatorna-csatlakozó; az előlapi befúvó nem második csőport."
+    },
+    "extract-terminal": {
+        "ports": [
+            [
+                0.5,
+                0.5
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Egy sematikus hátsó légcsatorna-csatlakozó."
+    },
+    "vav-box": {
+        "ports": [
+            [
+                0.23,
+                0.56
+            ],
+            [
+                0.78,
+                0.42
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "duct-junction": {
+        "ports": [
+            [
+                0.16,
+                0.28
+            ],
+            [
+                0.84,
+                0.28
+            ],
+            [
+                0.5,
+                0.83
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "wall-axial-fan": {
+        "ports": [
+            [
+                0.19,
+                0.5
+            ],
+            [
+                0.81,
+                0.5
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.5,
+            0.5,
+            0.275
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "centrifugal-fan": {
+        "ports": [
+            [
+                0.49,
+                0.525
+            ],
+            [
+                0.75,
+                0.135
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.49,
+            0.525,
+            0.17
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "ec-inline-fan": {
+        "ports": [
+            [
+                0.145,
+                0.61
+            ],
+            [
+                0.86,
+                0.51
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.17,
+            0.61,
+            0.1
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "mixed-flow-fan": {
+        "ports": [
+            [
+                0.15,
+                0.57
+            ],
+            [
+                0.85,
+                0.57
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.16,
+            0.57,
+            0.13
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "box-fan": {
+        "ports": [
+            [
+                0.13,
+                0.53
+            ],
+            [
+                0.87,
+                0.53
+            ]
+        ],
+        "motion": [
+            "status",
+            0.77,
+            0.63,
+            0.025
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "smoke-extract-fan": {
+        "ports": [
+            [
+                0.25,
+                0.54
+            ],
+            [
+                0.75,
+                0.54
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.5,
+            0.54,
+            0.24
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "destratification-fan": {
+        "ports": [
+            [
+                0.25,
+                0.68
+            ],
+            [
+                0.75,
+                0.68
+            ]
+        ],
+        "motion": [
+            "rotor",
+            0.5,
+            0.71,
+            0.235
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "grease-extract-fan": {
+        "ports": [
+            [
+                0.15,
+                0.535
+            ],
+            [
+                0.375,
+                0.2
+            ]
+        ],
+        "motion": [
+            "status",
+            0.47,
+            0.4,
+            0.025
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "counterflow-heat-recovery": {
+        "ports": [
+            [
+                0.095,
+                0.43
+            ],
+            [
+                0.095,
+                0.6
+            ],
+            [
+                0.905,
+                0.43
+            ],
+            [
+                0.905,
+                0.6
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "crossflow-heat-recovery": {
+        "ports": [
+            [
+                0.11,
+                0.34
+            ],
+            [
+                0.11,
+                0.6
+            ],
+            [
+                0.89,
+                0.34
+            ],
+            [
+                0.89,
+                0.6
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "enthalpy-heat-recovery": {
+        "ports": [
+            [
+                0.11,
+                0.34
+            ],
+            [
+                0.11,
+                0.6
+            ],
+            [
+                0.89,
+                0.34
+            ],
+            [
+                0.89,
+                0.6
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "decentralized-heat-recovery": {
+        "ports": [
+            [
+                0.25,
+                0.54
+            ],
+            [
+                0.78,
+                0.43
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "rooftop-air-handler": {
+        "ports": [
+            [
+                0.125,
+                0.49
+            ],
+            [
+                0.925,
+                0.49
+            ],
+            [
+                0.56,
+                0.325
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "modular-air-handler": {
+        "ports": [
+            [
+                0.085,
+                0.53
+            ],
+            [
+                0.91,
+                0.53
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Sematikus légcsatorna-pontok a burkolat két végén; a hűtő/fűtő közeg hátoldali pontjai nincsenek külön kirajzolva."
+    },
+    "supply-air-unit": {
+        "ports": [
+            [
+                0.08,
+                0.57
+            ],
+            [
+                0.91,
+                0.57
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "extract-air-unit": {
+        "ports": [
+            [
+                0.115,
+                0.5
+            ],
+            [
+                0.895,
+                0.39
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Légoldali csatlakozók; nem hidraulikai vízportok. A vetületben takart oldalt sematikus pont jelzi."
+    },
+    "steam-humidifier": {
+        "ports": [
+            [
+                0.5,
+                0.1
+            ],
+            [
+                0.375,
+                0.905
+            ],
+            [
+                0.54,
+                0.905
+            ]
+        ],
+        "motion": [
+            "none",
+            0,
+            0,
+            0
+        ],
+        "note": "Gőzcsatlakozás, vízbetáp és ürítés; a kijelző nem csőport."
     }
 }

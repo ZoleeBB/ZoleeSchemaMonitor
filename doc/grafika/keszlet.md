@@ -1,6 +1,6 @@
 # Grafikai készletnyilvántartás
 
-**333 katalógustípus; 172 típushoz bekötött egyedi kép, 169 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**333 katalógustípus; 222 típushoz bekötött egyedi kép, 219 külön PNG-forrásból; 11 számított műszaki grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőrzővel próbálható ki; az összes csoport végleges grafikája továbbra is MS1-feltétel.
 
@@ -9,8 +9,8 @@ A típusszám nem a kész egyedi képek száma. A többi típus műszaki helyőr
 | Fűtés / hűtés | 48 | 48 | 0 | 0 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
 | Hidraulika / vízellátás | 64 | 54 | 10 | 0 |
-| Szelepek | 55 | 42 | 1 | 12 |
-| Szellőzés / légtechnika | 51 | 0 | 0 | 51 |
+| Szelepek | 55 | 54 | 1 | 0 |
+| Szellőzés / légtechnika | 51 | 38 | 0 | 13 |
 | Medencetechnika | 33 | 4 | 0 | 29 |
 | Öntözés | 23 | 0 | 0 | 23 |
 | Mérések / érzékelők | 35 | 0 | 0 | 35 |
@@ -214,62 +214,62 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `needle-valve` | Tűszelep | Needle valve | [Egyedi kép](../../assets/elements/universal/needle-valve.png) |
 | `pinch-valve` | Tömlős elzárószelep | Pinch valve | [Egyedi kép](../../assets/elements/universal/pinch-valve.png) |
 | `thermostatic-mixing-valve` | Termosztatikus keverőszelep | Thermostatic mixing valve | [Egyedi kép](../../assets/elements/universal/thermostatic-mixing-valve.png) |
-| `thermostatic-diverting-valve` | Termosztatikus váltószelep | Thermostatic diverting valve | Műszaki helyőrző |
-| `mixing-valve-4` | Négyjáratú keverőszelep | Four-way mixing valve | Műszaki helyőrző |
-| `changeover-valve-6` | Hatjáratú átváltószelep | Six-way changeover valve | Műszaki helyőrző |
-| `pressure-independent-valve` | Nyomásfüggetlen szabályozószelep | Pressure independent control valve | Műszaki helyőrző |
-| `differential-pressure-valve` | Nyomáskülönbség-szabályozó szelep | Differential pressure control valve | Műszaki helyőrző |
-| `pressure-relief-valve` | Nyomástartó lefúvatószelep | Pressure relief valve | Műszaki helyőrző |
-| `float-ball-valve` | Úszógolyós szelep | Float ball valve | Műszaki helyőrző |
-| `tank-float-valve` | Tartálytöltő úszószelep | Tank float valve | Műszaki helyőrző |
-| `boiler-fill-valve` | Automatikus kazántöltő | Automatic boiler fill valve | Műszaki helyőrző |
-| `reduced-pressure-backflow` | Csökkentett nyomású visszafolyásgátló | Reduced pressure backflow preventer | Műszaki helyőrző |
-| `sewage-backwater-valve` | Szennyvíz visszatorlódás-gátló | Sewage backwater valve | Műszaki helyőrző |
-| `automatic-bypass-valve` | Automatikus bypass szelep | Automatic bypass valve | Műszaki helyőrző |
+| `thermostatic-diverting-valve` | Termosztatikus váltószelep | Thermostatic diverting valve | [Egyedi kép](../../assets/elements/universal/thermostatic-diverting-valve.png) |
+| `mixing-valve-4` | Négyjáratú keverőszelep | Four-way mixing valve | [Egyedi kép](../../assets/elements/universal/mixing-valve-4.png) |
+| `changeover-valve-6` | Hatjáratú átváltószelep | Six-way changeover valve | [Egyedi kép](../../assets/elements/universal/changeover-valve-6.png) |
+| `pressure-independent-valve` | Nyomásfüggetlen szabályozószelep | Pressure independent control valve | [Egyedi kép](../../assets/elements/universal/pressure-independent-valve.png) |
+| `differential-pressure-valve` | Nyomáskülönbség-szabályozó szelep | Differential pressure control valve | [Egyedi kép](../../assets/elements/universal/differential-pressure-valve.png) |
+| `pressure-relief-valve` | Nyomástartó lefúvatószelep | Pressure relief valve | [Egyedi kép](../../assets/elements/universal/pressure-relief-valve.png) |
+| `float-ball-valve` | Úszógolyós szelep | Float ball valve | [Egyedi kép](../../assets/elements/universal/float-ball-valve.png) |
+| `tank-float-valve` | Tartálytöltő úszószelep | Tank float valve | [Egyedi kép](../../assets/elements/universal/tank-float-valve.png) |
+| `boiler-fill-valve` | Automatikus kazántöltő | Automatic boiler fill valve | [Egyedi kép](../../assets/elements/universal/boiler-fill-valve.png) |
+| `reduced-pressure-backflow` | Csökkentett nyomású visszafolyásgátló | Reduced pressure backflow preventer | [Egyedi kép](../../assets/elements/universal/reduced-pressure-backflow.png) |
+| `sewage-backwater-valve` | Szennyvíz visszatorlódás-gátló | Sewage backwater valve | [Egyedi kép](../../assets/elements/universal/sewage-backwater-valve.png) |
+| `automatic-bypass-valve` | Automatikus bypass szelep | Automatic bypass valve | [Egyedi kép](../../assets/elements/universal/automatic-bypass-valve.png) |
 | `configurable-manifold` | Termofejes osztó-gyűjtő (2–16 kör) | Actuated manifold (2–16 circuits) | [Paraméterezhető műszaki grafika](../osztogyujtok.md) |
 
 ## Szellőzés / légtechnika
 
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
-| `fan` | Ventilátor | Fan | Műszaki helyőrző |
-| `duct-fan` | Csőventilátor | Duct fan | Műszaki helyőrző |
-| `supply-fan` | Befúvó ventilátor | Supply fan | Műszaki helyőrző |
-| `extract-fan` | Elszívó ventilátor | Extract fan | Műszaki helyőrző |
-| `roof-fan` | Tetőventilátor | Roof fan | Műszaki helyőrző |
-| `heat-recovery` | Hővisszanyerős szellőztető | Heat recovery ventilation | Műszaki helyőrző |
-| `air-handling-unit` | Légkezelő | Air handling unit | Műszaki helyőrző |
-| `rotary-heat-recovery` | Forgódobos hővisszanyerő | Rotary heat recovery | Műszaki helyőrző |
-| `air-filter` | Légszűrő | Air filter | Műszaki helyőrző |
-| `heating-coil` | Fűtőkalorifer | Heating coil | Műszaki helyőrző |
-| `cooling-coil` | Hűtőkalorifer | Cooling coil | Műszaki helyőrző |
-| `humidifier` | Párásító | Humidifier | Műszaki helyőrző |
-| `dehumidifier` | Párátlanító | Dehumidifier | Műszaki helyőrző |
-| `silencer` | Hangcsillapító | Silencer | Műszaki helyőrző |
-| `damper` | Légzsalu | Air damper | Műszaki helyőrző |
-| `motor-damper` | Motoros légzsalu | Motorized damper | Műszaki helyőrző |
-| `fire-damper` | Tűzcsappantyú | Fire damper | Műszaki helyőrző |
-| `supply-terminal` | Befúvó | Supply terminal | Műszaki helyőrző |
-| `extract-terminal` | Elszívó | Extract terminal | Műszaki helyőrző |
-| `vav-box` | VAV szabályozó | VAV box | Műszaki helyőrző |
-| `duct-junction` | Légcsatorna elágazás | Duct junction | Műszaki helyőrző |
-| `wall-axial-fan` | Fali axiálventilátor | Wall axial fan | Műszaki helyőrző |
-| `centrifugal-fan` | Radiálventilátor | Centrifugal fan | Műszaki helyőrző |
-| `ec-inline-fan` | EC csőventilátor | EC inline fan | Műszaki helyőrző |
-| `mixed-flow-fan` | Félradiális csőventilátor | Mixed flow duct fan | Műszaki helyőrző |
-| `box-fan` | Dobozventilátor | Box fan | Műszaki helyőrző |
-| `smoke-extract-fan` | Hő- és füstelvezető ventilátor | Smoke extract fan | Műszaki helyőrző |
-| `destratification-fan` | Légrétegződést megszüntető ventilátor | Destratification fan | Műszaki helyőrző |
-| `grease-extract-fan` | Konyhai zsíroslevegő-elszívó | Kitchen grease extract fan | Műszaki helyőrző |
-| `counterflow-heat-recovery` | Ellenáramú hővisszanyerő | Counterflow heat recovery | Műszaki helyőrző |
-| `crossflow-heat-recovery` | Keresztáramú hővisszanyerő | Crossflow heat recovery | Műszaki helyőrző |
-| `enthalpy-heat-recovery` | Entalpiás hővisszanyerő | Enthalpy heat recovery | Műszaki helyőrző |
-| `decentralized-heat-recovery` | Decentralizált szellőztető | Decentralized heat recovery | Műszaki helyőrző |
-| `rooftop-air-handler` | Tető légkezelő | Rooftop air handling unit | Műszaki helyőrző |
-| `modular-air-handler` | Moduláris légkezelő | Modular air handling unit | Műszaki helyőrző |
-| `supply-air-unit` | Befúvó légkezelő | Supply air unit | Műszaki helyőrző |
-| `extract-air-unit` | Elszívó légkezelő | Extract air unit | Műszaki helyőrző |
-| `steam-humidifier` | Gőzpárásító | Steam humidifier | Műszaki helyőrző |
+| `fan` | Ventilátor | Fan | [Egyedi kép](../../assets/elements/universal/fan.png) |
+| `duct-fan` | Csőventilátor | Duct fan | [Egyedi kép](../../assets/elements/universal/duct-fan.png) |
+| `supply-fan` | Befúvó ventilátor | Supply fan | [Egyedi kép](../../assets/elements/universal/supply-fan.png) |
+| `extract-fan` | Elszívó ventilátor | Extract fan | [Egyedi kép](../../assets/elements/universal/extract-fan.png) |
+| `roof-fan` | Tetőventilátor | Roof fan | [Egyedi kép](../../assets/elements/universal/roof-fan.png) |
+| `heat-recovery` | Hővisszanyerős szellőztető | Heat recovery ventilation | [Egyedi kép](../../assets/elements/universal/heat-recovery.png) |
+| `air-handling-unit` | Légkezelő | Air handling unit | [Egyedi kép](../../assets/elements/universal/air-handling-unit.png) |
+| `rotary-heat-recovery` | Forgódobos hővisszanyerő | Rotary heat recovery | [Egyedi kép](../../assets/elements/universal/rotary-heat-recovery.png) |
+| `air-filter` | Légszűrő | Air filter | [Egyedi kép](../../assets/elements/universal/air-filter.png) |
+| `heating-coil` | Fűtőkalorifer | Heating coil | [Egyedi kép](../../assets/elements/universal/heating-coil.png) |
+| `cooling-coil` | Hűtőkalorifer | Cooling coil | [Egyedi kép](../../assets/elements/universal/cooling-coil.png) |
+| `humidifier` | Párásító | Humidifier | [Egyedi kép](../../assets/elements/universal/humidifier.png) |
+| `dehumidifier` | Párátlanító | Dehumidifier | [Egyedi kép](../../assets/elements/universal/dehumidifier.png) |
+| `silencer` | Hangcsillapító | Silencer | [Egyedi kép](../../assets/elements/universal/silencer.png) |
+| `damper` | Légzsalu | Air damper | [Egyedi kép](../../assets/elements/universal/damper.png) |
+| `motor-damper` | Motoros légzsalu | Motorized damper | [Egyedi kép](../../assets/elements/universal/motor-damper.png) |
+| `fire-damper` | Tűzcsappantyú | Fire damper | [Egyedi kép](../../assets/elements/universal/fire-damper.png) |
+| `supply-terminal` | Befúvó | Supply terminal | [Egyedi kép](../../assets/elements/universal/supply-terminal.png) |
+| `extract-terminal` | Elszívó | Extract terminal | [Egyedi kép](../../assets/elements/universal/extract-terminal.png) |
+| `vav-box` | VAV szabályozó | VAV box | [Egyedi kép](../../assets/elements/universal/vav-box.png) |
+| `duct-junction` | Légcsatorna elágazás | Duct junction | [Egyedi kép](../../assets/elements/universal/duct-junction.png) |
+| `wall-axial-fan` | Fali axiálventilátor | Wall axial fan | [Egyedi kép](../../assets/elements/universal/wall-axial-fan.png) |
+| `centrifugal-fan` | Radiálventilátor | Centrifugal fan | [Egyedi kép](../../assets/elements/universal/centrifugal-fan.png) |
+| `ec-inline-fan` | EC csőventilátor | EC inline fan | [Egyedi kép](../../assets/elements/universal/ec-inline-fan.png) |
+| `mixed-flow-fan` | Félradiális csőventilátor | Mixed flow duct fan | [Egyedi kép](../../assets/elements/universal/mixed-flow-fan.png) |
+| `box-fan` | Dobozventilátor | Box fan | [Egyedi kép](../../assets/elements/universal/box-fan.png) |
+| `smoke-extract-fan` | Hő- és füstelvezető ventilátor | Smoke extract fan | [Egyedi kép](../../assets/elements/universal/smoke-extract-fan.png) |
+| `destratification-fan` | Légrétegződést megszüntető ventilátor | Destratification fan | [Egyedi kép](../../assets/elements/universal/destratification-fan.png) |
+| `grease-extract-fan` | Konyhai zsíroslevegő-elszívó | Kitchen grease extract fan | [Egyedi kép](../../assets/elements/universal/grease-extract-fan.png) |
+| `counterflow-heat-recovery` | Ellenáramú hővisszanyerő | Counterflow heat recovery | [Egyedi kép](../../assets/elements/universal/counterflow-heat-recovery.png) |
+| `crossflow-heat-recovery` | Keresztáramú hővisszanyerő | Crossflow heat recovery | [Egyedi kép](../../assets/elements/universal/crossflow-heat-recovery.png) |
+| `enthalpy-heat-recovery` | Entalpiás hővisszanyerő | Enthalpy heat recovery | [Egyedi kép](../../assets/elements/universal/enthalpy-heat-recovery.png) |
+| `decentralized-heat-recovery` | Decentralizált szellőztető | Decentralized heat recovery | [Egyedi kép](../../assets/elements/universal/decentralized-heat-recovery.png) |
+| `rooftop-air-handler` | Tető légkezelő | Rooftop air handling unit | [Egyedi kép](../../assets/elements/universal/rooftop-air-handler.png) |
+| `modular-air-handler` | Moduláris légkezelő | Modular air handling unit | [Egyedi kép](../../assets/elements/universal/modular-air-handler.png) |
+| `supply-air-unit` | Befúvó légkezelő | Supply air unit | [Egyedi kép](../../assets/elements/universal/supply-air-unit.png) |
+| `extract-air-unit` | Elszívó légkezelő | Extract air unit | [Egyedi kép](../../assets/elements/universal/extract-air-unit.png) |
+| `steam-humidifier` | Gőzpárásító | Steam humidifier | [Egyedi kép](../../assets/elements/universal/steam-humidifier.png) |
 | `ultrasonic-humidifier` | Ultrahangos párásító | Ultrasonic humidifier | Műszaki helyőrző |
 | `desiccant-dehumidifier` | Adszorpciós párátlanító | Desiccant dehumidifier | Műszaki helyőrző |
 | `constant-air-regulator` | Állandó térfogatáram-szabályozó | Constant air volume regulator | Műszaki helyőrző |
