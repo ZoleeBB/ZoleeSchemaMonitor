@@ -2,11 +2,11 @@
 import argparse
 import csv
 from datetime import datetime, timezone
+from http.client import HTTPException
 import json
 import math
 from pathlib import Path
 import time
-from urllib.error import URLError
 from urllib.request import urlopen
 
 
@@ -53,7 +53,7 @@ def main():
                                loxoneConnected=sample["loxone"]["connected"])
                 else:
                     row["status"] = "unmeasured"
-            except (OSError, URLError, ValueError, KeyError, TypeError) as error:
+            except (OSError, HTTPException, ValueError, KeyError, TypeError) as error:
                 row["status"] = type(error).__name__
             writer.writerow(row)
             output.flush()
