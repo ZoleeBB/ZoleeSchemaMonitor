@@ -36,6 +36,8 @@ A [szerkesztő és a kijelző összehasonlító felvételén](animaciok/osszehas
 
 Az [importálható animációs projekt](animaciok/projekt.json) 68 különböző készüléket mutat egy oldalon, köztük az összes animációval rendelkező katalógustípust és egy állítható osztó-gyűjtőt. A harmadik sor bal szélén a kétventilátoros tetőhűtő látható. A forgástengelyek igazítása a két ventilátoragyhoz a demószerver változó jelével ellenőrizhető. Ez a projekt is bekerül a két felbontáson futó LVGL-próbába. A [hat másodperces kijelzőfelvétel](animaciok/kijelzo.mp4) a fekvő LVGL-képpufferből készült. A 75%-os demójelet leállás, kapcsolatvesztés és 95%-os újraindulás követi.
 
+[Szerkesztőkép 75%-os jellel](animaciok/szerkeszto.jpg) · [Kijelzőkép azonos jellel](animaciok/kijelzo.jpg)
+
 ## Kipróbálás
 
 Indítsd el a [fejlesztői szervert](../../doc/fejlesztes.md) a `--demo` kapcsolóval, majd a szerkesztő Import gombjával válassz fájlt. A próbák a demószerver generált numerikus jelét használják az aktivitáshoz, teljesítményhez, szelepálláshoz és kijelzett értékhez. Saját Miniserveren a kötéseket a saját jelforrásokhoz kell társítani.
