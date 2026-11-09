@@ -32,6 +32,10 @@ Az [önállóan importálható próbaoldal](csoaramlas/aramlasi-proba.json) hat 
 
 A [szerkesztő és a kijelző összehasonlító felvételén](animaciok/osszehasonlitas.mp4) azonos jellel, 50 ms-os időlépésekben látszik a keringető, a kétventilátoros hőszivattyú, a háromventilátoros szárazhűtő, a csőventilátor, a szórófej és a motoros háromjáratú szelep. A felső sor a webszerkesztőből, az alsó a firmware LVGL-képpufferéből származik.
 
+## Animált eszközök egy oldalon
+
+Az [importálható animációs projekt](animaciok/projekt.json) 68 különböző készüléket mutat egy oldalon, köztük az összes animációval rendelkező katalógustípust és egy állítható osztó-gyűjtőt. A harmadik sor bal szélén a kétventilátoros tetőhűtő látható. A forgástengelyek igazítása a két ventilátoragyhoz a demószerver változó jelével ellenőrizhető. Ez a projekt is bekerül a két felbontáson futó LVGL-próbába.
+
 ## Kipróbálás
 
 Indítsd el a [fejlesztői szervert](../../doc/fejlesztes.md) a `--demo` kapcsolóval, majd a szerkesztő Import gombjával válassz fájlt. A próbák a demószerver generált numerikus jelét használják az aktivitáshoz, teljesítményhez, szelepálláshoz és kijelzett értékhez. Saját Miniserveren a kötéseket a saját jelforrásokhoz kell társítani.
