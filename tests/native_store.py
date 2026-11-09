@@ -64,7 +64,8 @@ with tempfile.TemporaryDirectory(prefix="schema-store-") as directory:
     assert call("project", project, SD_FAIL="1")["status"] != 0
     # Az exportok a készülék állapottárán és egy új folyamatban végzett booton is átmennek.
     fixtures = sorted((Path(__file__).resolve().parent / "schemas").glob("*/projekt.json"))
-    assert len(fixtures) == 6
+    required = {"animaciok", "kazan", "legtechnika", "medence", "ontozes", "osztok", "terheles"}
+    assert required <= {fixture.parent.name for fixture in fixtures}
     for revision, fixture in enumerate(fixtures):
         exported = json.loads(fixture.read_bytes())
         saved = call("project", exported, revision)

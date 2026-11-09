@@ -101,7 +101,7 @@ jobs:
         run: |
           python3 tools/build_assets.py --png --output dist/graphics --version "$ASSET_VERSION"
           python3 tools/package_preview.py
-      - name: Hat exportált projekt mindkét kijelzőméretben
+      - name: Exportált projektek mindkét kijelzőméretben
         env:
           CJSON_PATH: ${{ github.workspace }}/.native-deps/cjson
           MBEDTLS_PATH: ${{ github.workspace }}/.native-deps/mbedtls
