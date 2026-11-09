@@ -69,6 +69,16 @@ class FullGraphicsTests(unittest.TestCase):
                 self.assertEqual([(round(p['x']*width), round(p['y']*224)) for p in e['ports']],
                                  [(4,99),(4,191)] + [(84+56*i,y) for y in (217,124) for i in range(n)])
 
+    def test_rooftop_chiller_rotors_match_the_two_visible_hubs(self):
+        chiller = next(item for item in catalog.elements() if item['id'] == 'rooftop-chiller')
+        animation = chiller['animation']
+        with Image.open(ROOT / 'assets/elements/universal/rooftop-chiller.png') as image:
+            hubs = [(round(rotor['x'] * image.width), round(rotor['y'] * image.height))
+                    for rotor in animation['rotors']]
+        self.assertEqual(hubs, [(50, 34), (106, 34)])
+        self.assertEqual((animation['x'], animation['y']),
+                         (animation['rotors'][0]['x'], animation['rotors'][0]['y']))
+
     def test_multiple_rotors_and_oblique_projection_stay_inside_the_picture(self):
         items={e['id']:e for e in catalog.elements()}
         self.assertEqual(len(items['dry-cooler']['animation']['rotors']),3)

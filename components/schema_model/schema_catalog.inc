@@ -160,7 +160,7 @@ const sm_asset_t sm_catalog[] = {
     {"ground-source-heat-pump", "Talajszondás hőszivattyú", "Ground source heat pump", "heat-pump", 4, {{0.38125f, 0.075f}, {0.4625f, 0.075f}, {0.5375f, 0.075f}, {0.6125f, 0.075f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"water-source-heat-pump", "Víz-víz hőszivattyú", "Water source heat pump", "heat-pump", 4, {{0.2f, 0.24375f}, {0.2f, 0.31875f}, {0.2f, 0.41875f}, {0.2f, 0.49375f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"absorption-chiller", "Abszorpciós folyadékhűtő", "Absorption chiller", "heat-pump", 6, {{0.19f, 0.275f}, {0.19f, 0.355f}, {0.875f, 0.275f}, {0.875f, 0.35625f}, {0.1875f, 0.625f}, {0.875f, 0.68125f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
-    {"rooftop-chiller", "Tetőre telepített folyadékhűtő", "Rooftop chiller", "heat-pump", 2, {{0.76875f, 0.71875f}, {0.85625f, 0.71875f}}, 1, 0.247f, 0.197f, 0.09f, 1.0f, 0.38f, 1, {{0.61f, 0.197f, 0.09f}}, -90.0f},
+    {"rooftop-chiller", "Tetőre telepített folyadékhűtő", "Rooftop chiller", "heat-pump", 2, {{0.76875f, 0.71875f}, {0.85625f, 0.71875f}}, 1, 0.3125f, 0.2125f, 0.09f, 1.0f, 0.28f, 1, {{0.6625f, 0.2125f, 0.09f}}, -90.0f},
     {"dry-cooler", "Szárazhűtő", "Dry cooler", "heat-pump", 2, {{0.9625f, 0.4875f}, {0.9625f, 0.6f}}, 1, 0.235f, 0.319f, 0.095f, 1.0f, 0.28f, 2, {{0.495f, 0.319f, 0.095f}, {0.756f, 0.319f, 0.095f}}, -90.0f},
     {"floor-standing-boiler", "Álló gázkazán", "Floor standing gas boiler", "boiler", 2, {{0.23125f, 0.40625f}, {0.23125f, 0.525f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"oil-boiler", "Olajtüzelésű kazán", "Oil boiler", "boiler", 2, {{0.25f, 0.7f}, {0.72f, 0.7f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
