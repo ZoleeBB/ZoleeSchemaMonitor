@@ -31,6 +31,26 @@ class CatalogArtworkTests(unittest.TestCase):
         valve = next(item for item in elements if item['id'] == 'changeover-valve-6')
         self.assertEqual(len(valve['ports']), 6)
 
+    def test_boiler_hydraulic_ports_distinguish_dhw_and_cylinder_primary(self):
+        by_id = {item['id']: item for item in catalog.elements()}
+        heating = ['Heating flow', 'Heating return']
+        domestic = ['DHW outlet', 'Cold water inlet']
+        circuits = {
+            'condensing-heat-only': heating,
+            'condensing-dhw-only': domestic,
+            'condensing-combi': [heating[0], *domestic, heating[1]],
+            'condensing-storage': [heating[0], *domestic, heating[1]],
+            'condensing-cylinder': [heating[0], 'Cylinder coil flow', 'Cylinder coil return', heating[1]],
+            'solid-fuel-steel': heating,
+            'solid-fuel-draught': heating,
+        }
+        for identifier, expected in circuits.items():
+            with self.subTest(identifier=identifier):
+                ports = by_id[identifier]['ports']
+                self.assertEqual([port['name']['en'] for port in ports], expected)
+                self.assertEqual(len({port['name']['hu'] for port in ports}), len(expected))
+                self.assertEqual(len({(port['x'], port['y']) for port in ports}), len(expected))
+
     def test_closed_pump_housings_have_status_and_two_water_ports(self):
         identifiers = ['end-suction-pump', 'long-coupled-pump',
                        'vertical-multistage-pump', 'horizontal-multistage-pump',

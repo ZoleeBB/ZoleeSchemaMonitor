@@ -35,10 +35,10 @@ class FullGraphicsTests(unittest.TestCase):
 
     def test_no_catalog_type_is_left_as_a_placeholder(self):
         items = catalog.elements()
-        self.assertEqual(len(items), 338)
+        self.assertEqual(len(items), 340)
         self.assertTrue(all('artwork' in e or e.get('proceduralManifold') or e['family']=='configurable-manifold' for e in items))
-        self.assertEqual(sum('artwork' in e for e in items), 327)
-        self.assertEqual(len({e['artwork'] for e in items if 'artwork' in e}), 323)
+        self.assertEqual(sum('artwork' in e for e in items), 329)
+        self.assertEqual(len({e['artwork'] for e in items if 'artwork' in e}), 325)
         built = json.loads((ROOT/'web/catalog.json').read_text())
         self.assertTrue(all(e['graphicsStatus']=='ready' for e in built['elements']))
 

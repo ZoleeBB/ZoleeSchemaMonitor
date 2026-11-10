@@ -1,6 +1,8 @@
 /* Generált fájl: tools/generate_catalog.py. Kézzel nem szerkesztendő. */
 const sm_asset_t sm_catalog[] = {
     {"gas-boiler", "Gázkazán", "Gas boiler", "boiler", 2, {{0.4f, 0.875f}, {0.6f, 0.875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"solid-fuel-draught", "Vegyestüzelésű kazán – láncos huzatszabályozó", "Multi-fuel boiler with chain draught regulator", "boiler", 2, {{0.19375f, 0.25625f}, {0.79375f, 0.70625f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"solid-fuel-steel", "Vegyestüzelésű lemezkazán – kézi adagolás", "Hand-fired steel multi-fuel boiler", "boiler", 2, {{0.225f, 0.25625f}, {0.76875f, 0.70625f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"condensing-dhw-only", "Átfolyós kondenzációs vízmelegítő – csak HMV", "DHW-only condensing instantaneous water heater", "boiler", 2, {{0.35f, 0.91875f}, {0.65f, 0.91875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"condensing-storage", "Álló kondenzációs kazán – beépített HMV-tároló", "Floor-standing condensing boiler – integral DHW cylinder", "boiler", 4, {{0.31875f, 0.25625f}, {0.675f, 0.25625f}, {0.31875f, 0.5875f}, {0.675f, 0.5875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"condensing-cylinder", "Kondenzációs fűtőkazán – külső indirekt HMV-tároló", "Condensing system boiler – external indirect DHW cylinder", "boiler", 4, {{0.34375f, 0.91875f}, {0.45f, 0.91875f}, {0.55f, 0.91875f}, {0.65625f, 0.91875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},

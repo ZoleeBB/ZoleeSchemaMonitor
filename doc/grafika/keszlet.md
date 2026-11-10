@@ -1,12 +1,12 @@
 # Grafikai készletnyilvántartás
 
-**338 katalógustípus; 327 típushoz bekötött egyedi kép, 323 külön PNG-forrásból; 11 fotómodulokból összeállított grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**340 katalógustípus; 329 típushoz bekötött egyedi kép, 325 külön PNG-forrásból; 11 fotómodulokból összeállított grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 Minden katalógustípus képpel vagy körszám szerint összeállított fotóval megjeleníthető. A grafikai bekötés nem helyettesíti a fizikai P4-/Miniserver-próbát; az MS1 még nyitott.
 
 | Csoport | Típus | Egyedi képpel | Fotómodulokból | Még helyőrző |
 | --- | ---: | ---: | ---: | ---: |
-| Fűtés / hűtés | 53 | 53 | 0 | 0 |
+| Fűtés / hűtés | 55 | 55 | 0 | 0 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
 | Hidraulika / vízellátás | 64 | 54 | 10 | 0 |
 | Szelepek | 55 | 54 | 1 | 0 |
@@ -22,6 +22,8 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | Azonosító | Magyar név | English | Grafika |
 | --- | --- | --- | --- |
 | `gas-boiler` | Gázkazán | Gas boiler | [Egyedi kép](../../assets/elements/universal/gas-boiler.png) |
+| `solid-fuel-draught` | Vegyestüzelésű kazán – láncos huzatszabályozó | Multi-fuel boiler with chain draught regulator | [Egyedi kép](../../assets/elements/universal/solid-fuel-draught.png) |
+| `solid-fuel-steel` | Vegyestüzelésű lemezkazán – kézi adagolás | Hand-fired steel multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/solid-fuel-steel.png) |
 | `condensing-dhw-only` | Átfolyós kondenzációs vízmelegítő – csak HMV | DHW-only condensing instantaneous water heater | [Egyedi kép](../../assets/elements/universal/condensing-heat-only.png) |
 | `condensing-storage` | Álló kondenzációs kazán – beépített HMV-tároló | Floor-standing condensing boiler – integral DHW cylinder | [Egyedi kép](../../assets/elements/universal/condensing-storage.png) |
 | `condensing-cylinder` | Kondenzációs fűtőkazán – külső indirekt HMV-tároló | Condensing system boiler – external indirect DHW cylinder | [Egyedi kép](../../assets/elements/universal/condensing-cylinder.png) |

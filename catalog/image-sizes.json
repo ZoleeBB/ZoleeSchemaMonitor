@@ -1831,6 +1831,21 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "assets/elements/universal/solid-fuel-steel.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/solid-fuel-draught.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "doc/grafika/latvanytervek/kazanvaltozatok.jpg": {
+            "role": "preview",
+            "width": 980,
+            "height": 420
         }
     }
 }

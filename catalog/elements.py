@@ -7,6 +7,8 @@ from pathlib import Path
 GROUPS = [
     ("heating", "boiler", """
 gas-boiler|Gázkazán|Gas boiler
+solid-fuel-draught|Vegyestüzelésű kazán – láncos huzatszabályozó|Multi-fuel boiler with chain draught regulator
+solid-fuel-steel|Vegyestüzelésű lemezkazán – kézi adagolás|Hand-fired steel multi-fuel boiler
 condensing-dhw-only|Átfolyós kondenzációs vízmelegítő – csak HMV|DHW-only condensing instantaneous water heater
 condensing-storage|Álló kondenzációs kazán – beépített HMV-tároló|Floor-standing condensing boiler – integral DHW cylinder
 condensing-cylinder|Kondenzációs fűtőkazán – külső indirekt HMV-tároló|Condensing system boiler – external indirect DHW cylinder
@@ -583,6 +585,8 @@ ARTWORK["condensing-combi"] = ("condensing-combi", [], ("none", 0, 0, 0))
 ARTWORK["condensing-cylinder"] = ("condensing-cylinder", [], ("none", 0, 0, 0))
 ARTWORK["condensing-storage"] = ("condensing-storage", [], ("none", 0, 0, 0))
 ARTWORK["condensing-dhw-only"] = ("condensing-heat-only", [], ("none", 0, 0, 0))
+ARTWORK["solid-fuel-steel"] = ("solid-fuel-steel", [], ("none", 0, 0, 0))
+ARTWORK["solid-fuel-draught"] = ("solid-fuel-draught", [], ("none", 0, 0, 0))
 ARTWORK["single-coil-tank"] = ARTWORK["hot-water-tank"]
 ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
 ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]

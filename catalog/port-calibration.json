@@ -5681,6 +5681,42 @@
         "cold"
       ],
       "sourceSha256": "7d2a091d401dfbd76beacb3b9ab8214a6c312363ca4f66f1783e177bcd3c9ee3"
+    },
+    "solid-fuel-steel": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          36,
+          41
+        ],
+        [
+          123,
+          113
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "sourceSha256": "74064687a7db349ba83af76944e36f1b641b7dd7de28f61c112903236879925c"
+    },
+    "solid-fuel-draught": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          31,
+          41
+        ],
+        [
+          127,
+          113
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "sourceSha256": "1048c9193b9b96823efc2706b506f43340560770440a401dc4f5cbcfc3018cd4"
     }
   }
 }
