@@ -45,6 +45,8 @@ typedef struct
     char last_position[16];
     int last_position_angle;
     double minimum, maximum, phase, length;
+    lv_point_precise_t *route;
+    double *segment_ends;
     unsigned point_count, decimals, dot_radius;
     int direction;
     lv_obj_t *value_label, *power_label, *body, *pipe_outline, *dots[3], *indicator;
@@ -116,10 +118,10 @@ static sm_signal_t signal_read(const sm_binding_t *binding)
     return sm_binding_read(binding, valid, value);
 }
 
-static void dot_position(runtime_t *runtime, unsigned index, lv_obj_t *dot, double distance)
+static void dot_position(runtime_t *runtime, lv_obj_t *dot, double distance)
 {
-    const lv_point_precise_t *points = s_points[index];
-    const double *ends = s_segment_ends[index];
+    const lv_point_precise_t *points = runtime->route;
+    const double *ends = runtime->segment_ends;
     unsigned low = 0, high = runtime->point_count - 1;
     while (low < high)
     {
@@ -282,7 +284,7 @@ void app_scene_update(unsigned elapsed_ms)
                         fmod(runtime->phase * 50 + runtime->length * n / 3, runtime->length);
                     if (runtime->direction < 0)
                         distance = runtime->length - distance;
-                    dot_position(runtime, i, runtime->dots[n], distance);
+                    dot_position(runtime, runtime->dots[n], distance);
                 }
             }
         if (runtime->indicator)
@@ -757,6 +759,70 @@ static void connect_pipe_endpoints(const cJSON *pipe, const cJSON *elements, uns
     }
 }
 
+enum { BRIDGE_STEPS = 8 };
+static lv_point_precise_t *s_bridge_points;
+static double *s_bridge_lengths;
+
+static unsigned bridge_capacity(const cJSON *points)
+{
+    unsigned bridges = 0;
+    const cJSON *p;
+    cJSON_ArrayForEach(p, points)
+        if (!strcmp(sm_json_string(p, "kind"), "over"))
+            bridges++;
+    return bridges ? cJSON_GetArraySize(points) + bridges * BRIDGE_STEPS : 0;
+}
+
+/* A vonal és a mozgó jel ugyanazt a nyolc szakaszra bontott félkört követi. */
+static bool bridge_arc(const lv_point_precise_t *base, unsigned i, double width,
+                       lv_point_precise_t *out)
+{
+    double ax = base[i-1].x - base[i].x, ay = base[i-1].y - base[i].y;
+    double bx = base[i+1].x - base[i].x, by = base[i+1].y - base[i].y;
+    double la = hypot(ax, ay), lb = hypot(bx, by);
+    double radius = fmin(fmax(8, width * 1.4), .45 * fmin(la, lb));
+    if (radius < 1)
+        return false;
+    double x = base[i].x + ax * radius / la, y = base[i].y + ay * radius / la;
+    double dx = base[i].x + bx * radius / lb - x, dy = base[i].y + by * radius / lb - y;
+    double length = hypot(dx, dy);
+    if (length < 1)
+        return false;
+    double sign = dx < 0 || (dx == 0 && dy < 0) ? -1 : 1;
+    for (unsigned k = 0; k <= BRIDGE_STEPS; k++)
+    {
+        double angle = 3.141592653589793 * k / BRIDGE_STEPS;
+        double t = (1 - cos(angle)) / 2, h = sign * radius * sin(angle) / length;
+        out[k] = (lv_point_precise_t){lround(x + dx*t + dy*h), lround(y + dy*t - dx*h)};
+    }
+    return true;
+}
+
+static lv_obj_t *crossing_layer(lv_obj_t **layer)
+{
+    if (!*layer)
+    {
+        *layer = lv_obj_create(s_root);
+        lv_obj_remove_style_all(*layer);
+        lv_obj_set_size(*layer, LV_PCT(100), LV_PCT(100));
+        lv_obj_remove_flag(*layer, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);
+    }
+    return *layer;
+}
+
+static void draw_bridge(lv_obj_t *layer, const lv_point_precise_t *arc, int width,
+                        lv_color_t color, lv_color_t background)
+{
+    for (unsigned pass = 0; pass < 2; pass++)
+    {
+        lv_obj_t *line = lv_line_create(layer);
+        lv_line_set_points(line, arc, BRIDGE_STEPS + 1);
+        lv_obj_set_style_line_width(line, pass ? width : width + 4, 0);
+        lv_obj_set_style_line_color(line, pass ? color : background, 0);
+        lv_obj_set_style_line_rounded(line, true, 0);
+    }
+}
+
 void app_scene_poll(void)
 {
     /* Ismeretlen éjszakai jel nem egyenlő nappallal: az utolsó ismert mód marad.
@@ -799,9 +865,11 @@ void app_scene_poll(void)
     }
     cJSON *manifest = app_assets_manifest();
     const cJSON *element;
-    unsigned index = 0;
+    unsigned index = 0, extra_capacity = 0;
     cJSON_ArrayForEach(element, elements)
     {
+        if (!strcmp(sm_json_string(element, "type"), "pipe"))
+            extra_capacity += bridge_capacity(cJSON_GetObjectItemCaseSensitive(element, "points"));
         if (!strcmp(sm_json_string(element, "type"), "equipment"))
         {
             const cJSON *m = cJSON_GetObjectItemCaseSensitive(element, "manifold");
@@ -819,17 +887,31 @@ void app_scene_poll(void)
         index++;
     }
     cJSON_Delete(manifest);
-    if (!bsp_display_lock(1000))
+    lv_point_precise_t *extra = NULL;
+    double *lengths = NULL;
+    if (extra_capacity)
+    {
+        extra = heap_caps_aligned_alloc(8, extra_capacity * sizeof(*extra), MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+        lengths = heap_caps_aligned_alloc(8, extra_capacity * sizeof(*lengths), MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+    }
+    if ((extra_capacity && (!extra || !lengths)) || !bsp_display_lock(1000))
     {
         for (unsigned i = 0; i < SM_MAX_ELEMENTS; i++)
             if (pictures[i].owner == i)
                 free(pictures[i].bytes);
         free(pictures);
+        free(extra);
+        free(lengths);
         cJSON_Delete(selected);
         return;
     }
     if (s_root)
         lv_obj_delete(s_root);
+    free(s_bridge_points);
+    free(s_bridge_lengths);
+    s_bridge_points = extra;
+    s_bridge_lengths = lengths;
+    lv_obj_t *marks = NULL;
     for (unsigned i = 0; i < SM_MAX_ELEMENTS; i++)
     {
         if (s_pictures[i].bytes && s_pictures[i].owner == i)
@@ -901,14 +983,52 @@ void app_scene_poll(void)
             }
             if (n >= 2)
                 connect_pipe_endpoints(element, elements, index, n, width, height);
+            const cJSON *points = cJSON_GetObjectItemCaseSensitive(element, "points");
+            unsigned capacity = bridge_capacity(points);
+            runtime->route = capacity ? extra : s_points[index];
+            runtime->segment_ends = capacity ? lengths : s_segment_ends[index];
+            if (capacity)
+            {
+                extra += capacity;
+                lengths += capacity;
+            }
+            int line_width = sm_json_number(element, "width", 6);
+            unsigned raw = 0;
+            n = 0;
+            cJSON_ArrayForEach(point, points)
+            {
+                const char *kind = sm_json_string(point, "kind");
+                lv_point_precise_t center = s_points[index][raw];
+                if (capacity && !strcmp(kind, "over") && raw && point->next &&
+                    bridge_arc(s_points[index], raw, line_width, runtime->route + n))
+                {
+                    draw_bridge(crossing_layer(&marks), runtime->route+n, line_width, color, lv_color_hex(first));
+                    n += BRIDGE_STEPS + 1;
+                }
+                else
+                {
+                    runtime->route[n++] = center;
+                    if (!strcmp(kind, "node"))
+                    {
+                        int radius = lround(fmax(4, line_width * .75 + 1));
+                        lv_obj_t *dot = lv_obj_create(crossing_layer(&marks));
+                        lv_obj_remove_style_all(dot);
+                        lv_obj_set_pos(dot, center.x-radius, center.y-radius);
+                        lv_obj_set_size(dot, 2*radius, 2*radius);
+                        lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
+                        lv_obj_set_style_bg_color(dot, color, 0);
+                        lv_obj_set_style_bg_opa(dot, LV_OPA_COVER, 0);
+                    }
+                }
+                raw++;
+            }
             runtime->point_count = n;
             for (unsigned k = 1; k < n; k++)
             {
-                runtime->length += hypot(s_points[index][k].x - s_points[index][k - 1].x,
-                                         s_points[index][k].y - s_points[index][k - 1].y);
-                s_segment_ends[index][k - 1] = runtime->length;
+                runtime->length += hypot(runtime->route[k].x - runtime->route[k-1].x,
+                                         runtime->route[k].y - runtime->route[k-1].y);
+                runtime->segment_ends[k-1] = runtime->length;
             }
-            int line_width = sm_json_number(element, "width", 6);
             runtime->dot_radius = fmax(2, lround(line_width * .3));
             unsigned luminance = 299 * (rgb >> 16) + 587 * ((rgb >> 8) & 255) + 114 * (rgb & 255);
             lv_color_t dot_color = lv_color_hex(luminance >= 145000 ? 0x15202b : 0xffffff);
@@ -932,7 +1052,7 @@ void app_scene_poll(void)
             if (s_dark ? luminance < 70000 : luminance > 205000)
             {
                 lv_obj_t *outline = lv_line_create(s_root);
-                lv_line_set_points(outline, s_points[index], n);
+                lv_line_set_points(outline, runtime->route, n);
                 lv_obj_set_style_line_color(outline, lv_color_hex(s_dark ? 0x9baab5 : 0x738391), 0);
                 lv_obj_set_style_line_width(outline, line_width + 2, 0);
                 lv_obj_set_style_line_rounded(outline, true, 0);
@@ -940,7 +1060,7 @@ void app_scene_poll(void)
             }
             lv_obj_t *line = lv_line_create(s_root);
             runtime->body = line;
-            lv_line_set_points(line, s_points[index], n);
+            lv_line_set_points(line, runtime->route, n);
             lv_obj_set_style_line_color(line, color, 0);
             lv_obj_set_style_line_width(line, line_width, 0);
             lv_obj_set_style_line_rounded(line, true, 0);
@@ -1108,6 +1228,15 @@ void app_scene_poll(void)
                 object, sm_json_number(element, "fontSize", 20) * 256 / 20, 0);
         }
         index++;
+    }
+    if (marks)
+    {
+        lv_obj_move_foreground(marks);
+        for (unsigned i = 0; i < s_runtime_count; i++)
+            if (s_runtime[i].route && s_runtime[i].route != s_points[i])
+                for (unsigned k = 0; k < 3; k++)
+                    if (s_runtime[i].dots[k])
+                        lv_obj_move_foreground(s_runtime[i].dots[k]);
     }
     button(s_root, "<", 4, -1);
     button(s_root, ">", 60, 1);

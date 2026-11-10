@@ -151,11 +151,35 @@ int main(void)
     };
     for (unsigned i = 0; i < sizeof(samples) / sizeof(samples[0]); i++)
     {
-        dot_position(pipe, 0, pipe->dots[0], samples[i].distance);
+        dot_position(pipe, pipe->dots[0], samples[i].distance);
         lv_obj_update_layout(s_root);
         assert(lv_obj_get_x(pipe->dots[0]) == samples[i].x - (int)pipe->dot_radius);
         assert(lv_obj_get_y(pipe->dots[0]) == samples[i].y - (int)pipe->dot_radius);
     }
+    /* A rajzolt félkör pontjain fut az áramlásjel is. */
+    cJSON_ReplaceItemInObject(first, "points", cJSON_Parse(
+        "[{\"x\":0.1,\"y\":0.5},{\"x\":0.5,\"y\":0.5,\"link\":\"x1\",\"kind\":\"over\"},"
+        "{\"x\":0.9,\"y\":0.5}]"));
+    cJSON *cross_pipe = cJSON_GetArrayItem(elements, 1);
+    cJSON *cross_original = cJSON_DetachItemFromObject(cross_pipe, "points");
+    cJSON_AddItemToObject(cross_pipe,"points",cJSON_Parse(
+        "[{\"x\":0.5,\"y\":0.1},{\"x\":0.5,\"y\":0.5,\"link\":\"x1\",\"kind\":\"under\"},"
+        "{\"x\":0.5,\"y\":0.9}]"));
+    s_test_revision++;
+    app_scene_poll();
+    assert(pipe->point_count == 11 && s_runtime[1].point_count == 3);
+    assert(pipe->route[5].x == 640 && pipe->route[5].y < 392);
+    dot_position(pipe, pipe->dots[0], pipe->segment_ends[4]);
+    lv_obj_update_layout(s_root);
+    assert(lv_obj_get_y(pipe->dots[0]) == pipe->route[5].y - (int)pipe->dot_radius);
+    cJSON_ReplaceItemInObject(cJSON_GetArrayItem(cJSON_GetObjectItem(first, "points"),1),
+                              "kind", cJSON_CreateString("node"));
+    cJSON_ReplaceItemInObject(cJSON_GetArrayItem(cJSON_GetObjectItem(cross_pipe, "points"),1),
+                              "kind", cJSON_CreateString("node"));
+    s_test_revision++;
+    app_scene_poll();
+    assert(!s_bridge_points && pipe->point_count == 3 && pipe->route[1].y == 400);
+    cJSON_ReplaceItemInObject(cross_pipe, "points", cross_original);
     cJSON_ReplaceItemInObject(first, "points", old_points);
     cJSON_DeleteItemFromObject(first, "activity");
     s_test_revision++;
