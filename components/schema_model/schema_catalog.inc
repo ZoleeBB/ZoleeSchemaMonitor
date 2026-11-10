@@ -1,6 +1,11 @@
 /* Generált fájl: tools/generate_catalog.py. Kézzel nem szerkesztendő. */
 const sm_asset_t sm_catalog[] = {
     {"gas-boiler", "Gázkazán", "Gas boiler", "boiler", 2, {{0.4f, 0.875f}, {0.6f, 0.875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"condensing-dhw-only", "Átfolyós kondenzációs vízmelegítő – csak HMV", "DHW-only condensing instantaneous water heater", "boiler", 2, {{0.35f, 0.91875f}, {0.65f, 0.91875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"condensing-storage", "Álló kondenzációs kazán – beépített HMV-tároló", "Floor-standing condensing boiler – integral DHW cylinder", "boiler", 4, {{0.31875f, 0.25625f}, {0.675f, 0.25625f}, {0.31875f, 0.5875f}, {0.675f, 0.5875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"condensing-cylinder", "Kondenzációs fűtőkazán – külső indirekt HMV-tároló", "Condensing system boiler – external indirect DHW cylinder", "boiler", 4, {{0.34375f, 0.91875f}, {0.45f, 0.91875f}, {0.55f, 0.91875f}, {0.65625f, 0.91875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"condensing-combi", "Kondenzációs kombi kazán – átfolyós HMV", "Condensing combi boiler – instantaneous DHW", "boiler", 4, {{0.35f, 0.91875f}, {0.45f, 0.91875f}, {0.54375f, 0.91875f}, {0.64375f, 0.91875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
+    {"condensing-heat-only", "Fali kondenzációs fűtőkazán", "Wall-hung heating-only condensing boiler", "boiler", 2, {{0.35f, 0.91875f}, {0.65f, 0.91875f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"electric-boiler", "Elektromos kazán", "Electric boiler", "boiler", 2, {{0.4125f, 0.85625f}, {0.58125f, 0.85625f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"solid-fuel-boiler", "Vegyes tüzelésű kazán", "Solid fuel boiler", "boiler", 2, {{0.25f, 0.7f}, {0.72f, 0.7f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},
     {"pellet-boiler", "Pelletkazán", "Pellet boiler", "boiler", 2, {{0.25f, 0.7f}, {0.72f, 0.7f}}, 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0, {{0, 0, 0}}, -90.0f},

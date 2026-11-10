@@ -1811,6 +1811,26 @@
             "role": "schema-screenshot",
             "width": 1280,
             "height": 800
+        },
+        "assets/elements/universal/condensing-heat-only.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/condensing-combi.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/condensing-cylinder.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
+        },
+        "assets/elements/universal/condensing-storage.png": {
+            "role": "element",
+            "width": 160,
+            "height": 160
         }
     }
 }

@@ -7,6 +7,11 @@ from pathlib import Path
 GROUPS = [
     ("heating", "boiler", """
 gas-boiler|Gázkazán|Gas boiler
+condensing-dhw-only|Átfolyós kondenzációs vízmelegítő – csak HMV|DHW-only condensing instantaneous water heater
+condensing-storage|Álló kondenzációs kazán – beépített HMV-tároló|Floor-standing condensing boiler – integral DHW cylinder
+condensing-cylinder|Kondenzációs fűtőkazán – külső indirekt HMV-tároló|Condensing system boiler – external indirect DHW cylinder
+condensing-combi|Kondenzációs kombi kazán – átfolyós HMV|Condensing combi boiler – instantaneous DHW
+condensing-heat-only|Fali kondenzációs fűtőkazán|Wall-hung heating-only condensing boiler
 electric-boiler|Elektromos kazán|Electric boiler
 solid-fuel-boiler|Vegyes tüzelésű kazán|Solid fuel boiler
 pellet-boiler|Pelletkazán|Pellet boiler
@@ -573,6 +578,11 @@ ARTWORK.update({
     "balancing-valve": ("balancing-valve", [(0.12, 0.70), (0.88, 0.70)], ("none", 0, 0, 0)),
     "pressure-reducer": ("pressure-reducer", [(0.14, 0.74), (0.86, 0.74)], ("none", 0, 0, 0)),
 })
+ARTWORK["condensing-heat-only"] = ("condensing-heat-only", [], ("none", 0, 0, 0))
+ARTWORK["condensing-combi"] = ("condensing-combi", [], ("none", 0, 0, 0))
+ARTWORK["condensing-cylinder"] = ("condensing-cylinder", [], ("none", 0, 0, 0))
+ARTWORK["condensing-storage"] = ("condensing-storage", [], ("none", 0, 0, 0))
+ARTWORK["condensing-dhw-only"] = ("condensing-heat-only", [], ("none", 0, 0, 0))
 ARTWORK["single-coil-tank"] = ARTWORK["hot-water-tank"]
 ARTWORK["heating-pump"] = ARTWORK["circulation-pump"]
 ARTWORK["solar-pump"] = ARTWORK["circulation-pump"]
@@ -584,6 +594,16 @@ PORT_CALIBRATION = json.loads(Path(__file__).with_name("port-calibration.json").
 for identifier, entry in INTEGRATED_ARTWORK.items():
     if "procedural" not in entry:
         ARTWORK[identifier] = (entry.get("source", identifier), entry["ports"], entry["motion"])
+
+
+PORT_NAMES = {
+    "flow": {"hu": "Fűtési előremenő", "en": "Heating flow"},
+    "return": {"hu": "Fűtési visszatérő", "en": "Heating return"},
+    "cold": {"hu": "Hidegvíz-bemenet", "en": "Cold water inlet"},
+    "hot": {"hu": "HMV-kimenet", "en": "DHW outlet"},
+    "coil-flow": {"hu": "Tároló hőcserélője – előremenő", "en": "Cylinder coil flow"},
+    "coil-return": {"hu": "Tároló hőcserélője – visszatérő", "en": "Cylinder coil return"},
+}
 
 
 def elements():
@@ -640,6 +660,9 @@ def elements():
         calibration = PORT_CALIBRATION["elements"][element["id"]]
         width, height = calibration.get("canvas", [PORT_CALIBRATION["canvasPixels"]] * 2)
         element["ports"] = [{"x": x / width, "y": y / height} for x, y in calibration["portsPx"]]
+        if "roles" in calibration:
+            for port, role in zip(element["ports"], calibration["roles"], strict=True):
+                port["name"] = PORT_NAMES[role]
         if calibration.get("note") and not element.get("portNote"):
             element["portNote"] = calibration["note"]
     return result

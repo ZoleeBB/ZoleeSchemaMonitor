@@ -310,7 +310,7 @@ try {
         await Promise.all(images.map(image=>image.decode()));
         return images.map(image=>[image.closest("[data-asset]").dataset.asset,image.naturalWidth,image.naturalHeight]);
     });
-    assert.equal(decoded.length,333);
+    assert.equal(decoded.length,338);
     for (const [id,w,h] of decoded) {
         const n = id === 'configurable-manifold' ? 4 : Number(/^manifold-(\d+)$/.exec(id)?.[1]);
         assert.deepEqual([w,h], n ? [96 + 56*n,224] : [160,160], id);

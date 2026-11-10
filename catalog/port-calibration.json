@@ -5561,6 +5561,126 @@
         224
       ],
       "sourceSha256": "693d0be959c180d72f2e40de2606b2f31e0214437ceaa85e82e6cce539d6b3a0"
+    },
+    "condensing-heat-only": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          56,
+          147
+        ],
+        [
+          104,
+          147
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "sourceSha256": "7d2a091d401dfbd76beacb3b9ab8214a6c312363ca4f66f1783e177bcd3c9ee3"
+    },
+    "condensing-combi": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          56,
+          147
+        ],
+        [
+          72,
+          147
+        ],
+        [
+          87,
+          147
+        ],
+        [
+          103,
+          147
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "sourceSha256": "b55b1125be9141749d1378dc1389a7c283a2f7bddf7ae4233072cbd0b13794ce"
+    },
+    "condensing-cylinder": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          55,
+          147
+        ],
+        [
+          72,
+          147
+        ],
+        [
+          88,
+          147
+        ],
+        [
+          105,
+          147
+        ]
+      ],
+      "roles": [
+        "flow",
+        "coil-flow",
+        "coil-return",
+        "return"
+      ],
+      "sourceSha256": "4691e51f8ecaab48602ec134ba52de207fc346ad9433fe02d4d67a634a8597fc"
+    },
+    "condensing-storage": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          51,
+          41
+        ],
+        [
+          108,
+          41
+        ],
+        [
+          51,
+          94
+        ],
+        [
+          108,
+          94
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "sourceSha256": "5c5ceb1d7142f7f96996ec1382f5dc82e22d802be0bb86463a1b5621544301fd"
+    },
+    "condensing-dhw-only": {
+      "mode": "visible",
+      "portsPx": [
+        [
+          56,
+          147
+        ],
+        [
+          104,
+          147
+        ]
+      ],
+      "roles": [
+        "hot",
+        "cold"
+      ],
+      "sourceSha256": "7d2a091d401dfbd76beacb3b9ab8214a6c312363ca4f66f1783e177bcd3c9ee3"
     }
   }
 }

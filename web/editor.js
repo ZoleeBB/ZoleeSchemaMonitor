@@ -478,8 +478,12 @@ export class Editor {
                             style: 'display:none',
                         }));
                     }
-                    if (!this.preview) asset.ports.forEach((port, index) => equipment.append(svgNode('circle', {cx: port.x * imageW, cy: port.y * imageH,
-                        r: 5, class: 'port', 'data-port': index})));
+                    if (!this.preview) asset.ports.forEach((port, index) => {
+                        const socket = svgNode('circle', {cx: port.x * imageW, cy: port.y * imageH,
+                            r: 5, class: 'port', 'data-port': index});
+                        if (port.name) socket.append(svgNode('title', {}, port.name[this.language]));
+                        equipment.append(socket);
+                    });
                     drawing.append(equipment);
                     if (element.label) group.append(svgNode('text', {x: x + width / 2, y: y + height + 17, 'text-anchor': 'middle',
                         fill: this.dark ? '#dfecf4' : '#354e60', 'font-size': element.fontSize}, element.label));
