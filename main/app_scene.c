@@ -759,6 +759,56 @@ static void connect_pipe_endpoints(const cJSON *pipe, const cJSON *elements, uns
     }
 }
 
+typedef struct
+{
+    const char *id;
+    lv_point_precise_t point;
+} node_anchor_t;
+
+static SCENE_BSS node_anchor_t s_node_anchors[2 * SM_MAX_ELEMENTS];
+
+static int compare_node_anchors(const void *left, const void *right)
+{
+    const node_anchor_t *a = left, *b = right;
+    return strcmp(a->id, b->id);
+}
+
+/* A csonk tényleges pixelhelye tájoláskor eltolódhat. A vele közös csomópont
+ * minden szára ugyanazt a készülékgeometriából számított végpontot kapja. */
+static unsigned collect_node_anchors(const cJSON *elements, int width, int height)
+{
+    unsigned count = 0;
+    const cJSON *pipe;
+    cJSON_ArrayForEach(pipe, elements)
+    {
+        if (strcmp(sm_json_string(pipe, "type"), "pipe"))
+            continue;
+        const cJSON *points = cJSON_GetObjectItemCaseSensitive(pipe, "points");
+        for (unsigned k = 0; k < 2; k++)
+        {
+            const cJSON *end = cJSON_GetObjectItemCaseSensitive(pipe, k ? "target" : "source");
+            if (!cJSON_IsObject(end) || !points || !points->child)
+                continue;
+            const cJSON *p = k ? points->child->prev : points->child;
+            if (strcmp(sm_json_string(p, "kind"), "node"))
+                continue;
+            const char *id = sm_json_string(end, "element");
+            const cJSON *equipment;
+            cJSON_ArrayForEach(equipment, elements)
+            {
+                if (strcmp(sm_json_string(equipment, "id"), id))
+                    continue;
+                if (equipment_port_position(equipment, sm_json_number(end,"port",999), width, height,
+                                            &s_node_anchors[count].point))
+                    s_node_anchors[count++].id = sm_json_string(p, "link");
+                break;
+            }
+        }
+    }
+    qsort(s_node_anchors, count, sizeof(*s_node_anchors), compare_node_anchors);
+    return count;
+}
+
 enum { BRIDGE_STEPS = 8 };
 static lv_point_precise_t *s_bridge_points;
 static double *s_bridge_lengths;
@@ -943,6 +993,7 @@ void app_scene_poll(void)
     lv_obj_add_event_cb(s_root, gesture, LV_EVENT_GESTURE, NULL);
     lv_obj_update_layout(s_root);
     int width = lv_obj_get_width(s_root), height = lv_obj_get_height(s_root);
+    unsigned anchor_count = collect_node_anchors(elements, width, height);
     index = 0;
     cJSON_ArrayForEach(element, elements)
     {
@@ -978,8 +1029,14 @@ void app_scene_poll(void)
             const cJSON *point;
             cJSON_ArrayForEach(point, cJSON_GetObjectItemCaseSensitive(element, "points"))
             {
-                s_points[index][n++] = (lv_point_precise_t){sm_json_number(point, "x", 0) * width,
-                                                            sm_json_number(point, "y", 0) * height};
+                const node_anchor_t *anchor = NULL;
+                if (anchor_count && !strcmp(sm_json_string(point, "kind"), "node"))
+                {
+                    node_anchor_t key = {.id = sm_json_string(point, "link")};
+                    anchor = bsearch(&key, s_node_anchors, anchor_count, sizeof(key), compare_node_anchors);
+                }
+                s_points[index][n++] = anchor ? anchor->point : (lv_point_precise_t){
+                    sm_json_number(point, "x", 0) * width, sm_json_number(point, "y", 0) * height};
             }
             if (n >= 2)
                 connect_pipe_endpoints(element, elements, index, n, width, height);

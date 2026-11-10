@@ -43,3 +43,16 @@ A numerikus értékek és mértékegységek most azonos szabályokkal készülne
 A Teljesítmény megjelenítése (%) felirat a megadott alsó/felső határhoz képesti, 0–100 közé korlátozott százalékot mutatja. Például 10–100 határ és 45-ös forrás esetén mindkét felület `39 %`-ot ír. Korábban a web a nyers forrásértéket írta, miközben a natív kijelző százalékot számolt. A kijelzett százalék nem változtat az explicit aktivitás elsőbbségén; a forrás leválasztása/adathiánya `— %`-ot eredményez.
 
 A formázás 616 közös C/JS határesettel, a kerekítési/előjel/nagyságrendi szabályok egységtesztjével, tényleges böngészős és natív LVGL-feliratokkal ellenőrzött. Ez a numerikus szöveget egységesíti; a betűkészlet, sortördelés és pixelpontos függőleges elhelyezés külön vizuális regresszió marad.
+
+## Csőkeresztezés és leágazás
+
+Kattints két cső metszéspontjára, majd a **Tulajdonságok → Csőkeresztezés** mezőben válassz kapcsolatot. A régebbi sémák jelöletlen keresztezéseit is így állíthatod be.
+
+- **Elkerülés** esetén az egyik vezeték kis ívvel halad át a másikon. Az ívet a kijelző és az áramlásjelző pontok is követik. A két kör külön vezérelhető.
+- **Csomópont** esetén pont jelzi az összekötést. Az összefüggő csövek aktivitásjele, teljesítményforrása, teljesítménytartománya és áramlási iránya közös. Eltérő beállításoknál az összekötés előtt válaszd ki az átveendő csövet. Utána bármelyik csövön módosíthatod a közös beállítást. A szín és a vastagság csövenként szerkeszthető.
+- **Leágazáshoz** kapcsold be a csőrajzolást, majd kattints a meglévő cső kívánt pontjára. A csatlakozási pontot a szerkesztő a vezetékre illeszti. Egy meglévő csőre kattintva be is fejezheted az új ágat. A leágazás mindig csomópont. Ha két külön hálózatot új csővel kötsz össze, a kezdő cső áramlásbeállítása érvényesül.
+- Két áthaladó cső csomópontja visszaállítható elkerülésre. A két kör az addigi beállításokkal válik szét, ha másik csomópont nem köti őket össze. Ha közvetlenül az ívről indítasz ágat, a szerkesztő rákérdez, hogy mindhárom csövet össze szeretnéd-e kötni. Az átalakítás az új cső befejezésekor lép életbe.
+
+[Importálható példa elkerüléssel és leágazással](../tests/schemas/csoaramlas/csomopont-es-elkerules.json)
+
+![Elkerülés és T-csomópont a kijelzőn](../tests/schemas/csoaramlas/csomopont-es-elkerules.jpg)

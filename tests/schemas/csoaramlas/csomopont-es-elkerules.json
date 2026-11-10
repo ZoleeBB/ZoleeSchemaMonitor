@@ -1,0 +1,222 @@
+{
+  "format": "zolee-schema",
+  "version": 1,
+  "title": "Csőkeresztezés és leágazás",
+  "pages": [
+    {
+      "id": "pipe-junctions",
+      "name": "Csőkeresztezés és leágazás",
+      "background": "plain",
+      "elements": [
+        {
+          "id": "main",
+          "type": "pipe",
+          "asset": "",
+          "x": 0.1,
+          "y": 0.1,
+          "w": 0.12,
+          "h": 0.16,
+          "rotation": 0,
+          "label": "Fővezeték",
+          "text": "",
+          "color": "#c54e45",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.12,
+              "y": 0.49
+            },
+            {
+              "x": 0.36,
+              "y": 0.49,
+              "link": "jump",
+              "kind": "over"
+            },
+            {
+              "x": 0.65,
+              "y": 0.49,
+              "link": "tee",
+              "kind": "node"
+            },
+            {
+              "x": 0.88,
+              "y": 0.49
+            }
+          ],
+          "width": 9,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "cross",
+          "type": "pipe",
+          "asset": "",
+          "x": 0.1,
+          "y": 0.1,
+          "w": 0.12,
+          "h": 0.16,
+          "rotation": 0,
+          "label": "Külön kör",
+          "text": "",
+          "color": "#287ac4",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.36,
+              "y": 0.25
+            },
+            {
+              "x": 0.36,
+              "y": 0.49,
+              "link": "jump",
+              "kind": "under"
+            },
+            {
+              "x": 0.36,
+              "y": 0.77
+            }
+          ],
+          "width": 9,
+          "direction": -1,
+          "source": null,
+          "target": null
+        },
+        {
+          "id": "branch",
+          "type": "pipe",
+          "asset": "",
+          "x": 0.1,
+          "y": 0.1,
+          "w": 0.12,
+          "h": 0.16,
+          "rotation": 0,
+          "label": "Leágazás",
+          "text": "",
+          "color": "#c54e45",
+          "fontSize": 20,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": {
+            "uuid": "12345678-1234-5678-0102030405060708",
+            "scale": 1,
+            "offset": 0
+          },
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.65,
+              "y": 0.49,
+              "link": "tee",
+              "kind": "node"
+            },
+            {
+              "x": 0.65,
+              "y": 0.72
+            },
+            {
+              "x": 0.88,
+              "y": 0.72
+            }
+          ],
+          "width": 9,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "jump-label",
+          "type": "text",
+          "asset": "",
+          "x": 0.28,
+          "y": 0.15,
+          "w": 0.22,
+          "h": 0.07,
+          "rotation": 0,
+          "label": "",
+          "text": "Elkerülés",
+          "color": "#354e60",
+          "fontSize": 26,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        },
+        {
+          "align": "left",
+          "id": "tee-label",
+          "type": "text",
+          "asset": "",
+          "x": 0.58,
+          "y": 0.32,
+          "w": 0.24,
+          "h": 0.07,
+          "rotation": 0,
+          "label": "",
+          "text": "Csomópont",
+          "color": "#354e60",
+          "fontSize": 26,
+          "unit": "",
+          "decimals": 1,
+          "value": null,
+          "activity": null,
+          "power": null,
+          "showPower": false,
+          "points": [
+            {
+              "x": 0.1,
+              "y": 0.1
+            },
+            {
+              "x": 0.4,
+              "y": 0.1
+            }
+          ],
+          "width": 6,
+          "direction": 1,
+          "source": null,
+          "target": null
+        }
+      ]
+    }
+  ]
+}

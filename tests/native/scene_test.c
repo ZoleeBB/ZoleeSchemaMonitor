@@ -416,6 +416,13 @@ int main(void)
     cJSON_ReplaceItemInObject(equipment, "asset", cJSON_CreateString("motor-valve-3"));
     cJSON_ReplaceItemInObject(cJSON_GetObjectItem(linked_pipe, "source"), "port",
                               cJSON_CreateNumber(2));
+    cJSON *anchor = cJSON_GetArrayItem(cJSON_GetObjectItem(linked_pipe, "points"),0);
+    cJSON *peer = cJSON_GetArrayItem(cJSON_GetObjectItem(second,"elements"),1);
+    cJSON *tap = cJSON_GetArrayItem(cJSON_GetObjectItem(peer,"points"),0);
+    cJSON_AddStringToObject(anchor,"link","valve-tee");
+    cJSON_AddStringToObject(anchor,"kind","node");
+    cJSON_AddStringToObject(tap,"link","valve-tee");
+    cJSON_AddStringToObject(tap,"kind","node");
     for (unsigned rotation = 0; rotation < 360; rotation += 90)
     {
         cJSON_ReplaceItemInObject(equipment, "rotation", cJSON_CreateNumber(rotation));
@@ -423,6 +430,7 @@ int main(void)
         app_scene_poll();
         double angle = rotation * 3.141592653589793 / 180;
         assert(s_head_count == 0);
+        assert(s_points[1][0].x == s_points[0][0].x && s_points[1][0].y == s_points[0][0].y);
         assert(fabs(s_points[0][0].x - (360 - 31.5 * sin(angle))) < 1.01);
         assert(fabs(s_points[0][0].y - (576 + 31.5 * cos(angle))) < 1.01);
     }

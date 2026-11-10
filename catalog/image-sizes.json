@@ -1806,6 +1806,11 @@
             "role": "schema-screenshot",
             "width": 1280,
             "height": 800
+        },
+        "tests/schemas/csoaramlas/csomopont-es-elkerules.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
         }
     }
 }
