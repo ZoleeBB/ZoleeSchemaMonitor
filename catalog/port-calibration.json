@@ -5717,6 +5717,1454 @@
         "return"
       ],
       "sourceSha256": "1048c9193b9b96823efc2706b506f43340560770440a401dc4f5cbcfc3018cd4"
+    },
+    "boiler-airfel-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          54,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "57f7bac50285592516737f91f184d89ba4aad80b754a06d81fb048b78809bd13"
+    },
+    "boiler-ariston-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          57,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          103,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "68ed94fb47e8dd095629a4d6ebc6dfca9af38fcd550bd8a9e24b7a51c5ae37ed"
+    },
+    "boiler-ariston-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          57,
+          142
+        ],
+        [
+          103,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "68ed94fb47e8dd095629a4d6ebc6dfca9af38fcd550bd8a9e24b7a51c5ae37ed"
+    },
+    "boiler-ariston-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          57,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          103,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "68ed94fb47e8dd095629a4d6ebc6dfca9af38fcd550bd8a9e24b7a51c5ae37ed"
+    },
+    "boiler-ariston-gas-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          57,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          103,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "68ed94fb47e8dd095629a4d6ebc6dfca9af38fcd550bd8a9e24b7a51c5ae37ed"
+    },
+    "boiler-atmos-gasification": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          49,
+          142
+        ],
+        [
+          111,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "cf3f2b24c313a567fa9c903db9a830c028e2b24722cd3f8a6b7947013b60ce8d"
+    },
+    "boiler-b-steel-gasification": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          59,
+          142
+        ],
+        [
+          100,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "24b3d6a344e172b413d2fde9780349717dc9173fe8ed8568f991f3bba8ad519e"
+    },
+    "boiler-baxi-gas-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d6709cc0a9173c19de1b416a7d97774892fb6aadafbe7a4f394c1a924fcfc5cd"
+    },
+    "boiler-baxi-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d6709cc0a9173c19de1b416a7d97774892fb6aadafbe7a4f394c1a924fcfc5cd"
+    },
+    "boiler-baxi-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d6709cc0a9173c19de1b416a7d97774892fb6aadafbe7a4f394c1a924fcfc5cd"
+    },
+    "boiler-baxi-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d6709cc0a9173c19de1b416a7d97774892fb6aadafbe7a4f394c1a924fcfc5cd"
+    },
+    "boiler-beretta-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          57,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          103,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d265d04eca5c81cf059aebd606e6104761ef59d8d79e4d0357e411b964b7894d"
+    },
+    "boiler-beretta-dhw": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          57,
+          142
+        ],
+        [
+          103,
+          142
+        ]
+      ],
+      "roles": [
+        "hot",
+        "cold"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d265d04eca5c81cf059aebd606e6104761ef59d8d79e4d0357e411b964b7894d"
+    },
+    "boiler-biasi-gas-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          107,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "03226461074657ae031a4e935dd0c3f486daacecbd4f6b1d2510b28dd6ecfc7a"
+    },
+    "boiler-biasi-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          107,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "03226461074657ae031a4e935dd0c3f486daacecbd4f6b1d2510b28dd6ecfc7a"
+    },
+    "boiler-biasi-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          107,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "03226461074657ae031a4e935dd0c3f486daacecbd4f6b1d2510b28dd6ecfc7a"
+    },
+    "boiler-biasi-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          107,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "03226461074657ae031a4e935dd0c3f486daacecbd4f6b1d2510b28dd6ecfc7a"
+    },
+    "boiler-bosch-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          70,
+          142
+        ],
+        [
+          90,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "ee717e5d6447c7b3c14f4d88380e607e0d5a1a30fddd99384105865a6c766a60"
+    },
+    "boiler-bosch-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "ee717e5d6447c7b3c14f4d88380e607e0d5a1a30fddd99384105865a6c766a60"
+    },
+    "boiler-bosch-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          70,
+          142
+        ],
+        [
+          90,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "ee717e5d6447c7b3c14f4d88380e607e0d5a1a30fddd99384105865a6c766a60"
+    },
+    "boiler-bosch-electric": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "ee717e5d6447c7b3c14f4d88380e607e0d5a1a30fddd99384105865a6c766a60"
+    },
+    "boiler-burnit-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          50,
+          142
+        ],
+        [
+          110,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8feec009de906c14e31fd073eee6fa7669bc5056825fe1b8f0cd062d5a42ecfa"
+    },
+    "boiler-burnit-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          50,
+          142
+        ],
+        [
+          110,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8feec009de906c14e31fd073eee6fa7669bc5056825fe1b8f0cd062d5a42ecfa"
+    },
+    "boiler-calor-bale": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          49,
+          142
+        ],
+        [
+          110,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "0a9d94c740e39c410a2cf47341dbca3d3a53080945a0e23b240c5cd18887e819"
+    },
+    "boiler-celsius-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          108,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "201fc057df9f2e531a1c06dfcfc5a340459e5393b2826996d77c7ae2ac92be36"
+    },
+    "boiler-celsius-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          108,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "201fc057df9f2e531a1c06dfcfc5a340459e5393b2826996d77c7ae2ac92be36"
+    },
+    "boiler-centrometal-electric": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "a4e8afc0a060022ef2bd2b6820341739dcf7f4c92df8e67a20e6e52a8fbfa816"
+    },
+    "boiler-centrometal-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "a4e8afc0a060022ef2bd2b6820341739dcf7f4c92df8e67a20e6e52a8fbfa816"
+    },
+    "boiler-centrometal-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          70,
+          142
+        ],
+        [
+          90,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "a4e8afc0a060022ef2bd2b6820341739dcf7f4c92df8e67a20e6e52a8fbfa816"
+    },
+    "boiler-centrometal-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "a4e8afc0a060022ef2bd2b6820341739dcf7f4c92df8e67a20e6e52a8fbfa816"
+    },
+    "boiler-centrometal-gasification": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "a4e8afc0a060022ef2bd2b6820341739dcf7f4c92df8e67a20e6e52a8fbfa816"
+    },
+    "boiler-ferroli-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-ferroli-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-ferroli-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-ferroli-electric": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-ferroli-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-ferroli-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-ferroli-gas-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "158cf4f9c34d97f65c9cbc9de4d76d7e3ed6210aa7dc0515a0316d6027e0c056"
+    },
+    "boiler-fondital-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          54,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "6b419f9e38264190d0016cf2d5cb18ca89097ac6b65e2a9f20e24e3eb50b06ba"
+    },
+    "boiler-fondital-cylinder": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          54,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "coil-flow",
+        "coil-return",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "6b419f9e38264190d0016cf2d5cb18ca89097ac6b65e2a9f20e24e3eb50b06ba"
+    },
+    "boiler-hajdu-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          71,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "16bf022c2cd8819edc91a5a67f97a58fb9a5244d6638808171f099d12d57c76d"
+    },
+    "boiler-hajdu-electric": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "16bf022c2cd8819edc91a5a67f97a58fb9a5244d6638808171f099d12d57c76d"
+    },
+    "boiler-heiztech-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          61,
+          142
+        ],
+        [
+          99,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "18d9c8cdfdc6cb9138ab0feed9e2fd42d6ab083b945df1011c81d803df28cc14"
+    },
+    "boiler-heiztech-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          61,
+          142
+        ],
+        [
+          99,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "18d9c8cdfdc6cb9138ab0feed9e2fd42d6ab083b945df1011c81d803df28cc14"
+    },
+    "boiler-hoval-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          50,
+          142
+        ],
+        [
+          70,
+          142
+        ],
+        [
+          89,
+          142
+        ],
+        [
+          109,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "81728b53fdc6be7de2b0abedef51aea8e65b0fa9d99f046ae6ddd0477e1aad86"
+    },
+    "boiler-hunor-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          56,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "d5b98c8f8b8de2d2ab7c479a02ec8bfdd7e5a5998b3b88dd58110b747b82568f"
+    },
+    "boiler-immergas-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          56,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8baec3590486f17537e4237a3ea7e44c3c8147828478cf1209ccd6f3b3a72f0b"
+    },
+    "boiler-immergas-cylinder": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          56,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "coil-flow",
+        "coil-return",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8baec3590486f17537e4237a3ea7e44c3c8147828478cf1209ccd6f3b3a72f0b"
+    },
+    "boiler-immergas-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          56,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8baec3590486f17537e4237a3ea7e44c3c8147828478cf1209ccd6f3b3a72f0b"
+    },
+    "boiler-immergas-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          56,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8baec3590486f17537e4237a3ea7e44c3c8147828478cf1209ccd6f3b3a72f0b"
+    },
+    "boiler-immergas-gas-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          56,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8baec3590486f17537e4237a3ea7e44c3c8147828478cf1209ccd6f3b3a72f0b"
+    },
+    "boiler-kaloritherm-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "ead1929fb03fcbdf1da472048b802c28e68f9692cde5f178484096d7ec66a66e"
+    },
+    "boiler-kensol-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          44,
+          142
+        ],
+        [
+          116,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "9df4f491091b2e93e0976734319c9f75247d31437b0369a87ba57800effae9f7"
+    },
+    "boiler-kospel-electric": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          104,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "c5d396f4ba7cf7ed89343ab34f01fffa25540c155ce83af18cf09e687f7ddc91"
+    },
+    "boiler-lafat-solid": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          107,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "2934f36b86aa8e930af4488121b441d16d92aa8d872f9da66eb8df6c4a8178b8"
+    },
+    "boiler-mareli-gasification": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          108,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "45b55eee8a386c7c77bd43fd0cc014dd758811ee8f1347dc33edde2f7be49967"
+    },
+    "boiler-mareli-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          51,
+          142
+        ],
+        [
+          108,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "45b55eee8a386c7c77bd43fd0cc014dd758811ee8f1347dc33edde2f7be49967"
+    },
+    "boiler-ozon-agro-pellet": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          47,
+          142
+        ],
+        [
+          112,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "45914981fd0d5de460b355aaee10ddda5ad15629a92f79f8da8709b74b07bacd"
+    },
+    "boiler-radiant-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          53,
+          142
+        ],
+        [
+          106,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8e1da9ad0046217349d48af4e4940e5b6baea017b68a8711e18bf0e6dd50c795"
+    },
+    "boiler-remeha-combi": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          105,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8a12e5378754292d26ecb3d36a3d7290281f71bd9e595edf6c4f12ce8cb43855"
+    },
+    "boiler-remeha-heat": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          105,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8a12e5378754292d26ecb3d36a3d7290281f71bd9e595edf6c4f12ce8cb43855"
+    },
+    "boiler-remeha-storage": {
+      "mode": "projected",
+      "portsPx": [
+        [
+          55,
+          142
+        ],
+        [
+          72,
+          142
+        ],
+        [
+          88,
+          142
+        ],
+        [
+          105,
+          142
+        ]
+      ],
+      "roles": [
+        "flow",
+        "hot",
+        "cold",
+        "return"
+      ],
+      "note": "Sematikus vízköri csatlakozások a gyártó közös készülékképén.",
+      "sourceSha256": "8a12e5378754292d26ecb3d36a3d7290281f71bd9e595edf6c4f12ce8cb43855"
     }
   }
 }

@@ -35,12 +35,28 @@ class FullGraphicsTests(unittest.TestCase):
 
     def test_no_catalog_type_is_left_as_a_placeholder(self):
         items = catalog.elements()
-        self.assertEqual(len(items), 340)
+        variant_count = sum(len(brand["types"]) for brand in catalog.BOILER_BRANDS.values())
+        self.assertEqual(len(items), 340 + variant_count)
         self.assertTrue(all('artwork' in e or e.get('proceduralManifold') or e['family']=='configurable-manifold' for e in items))
-        self.assertEqual(sum('artwork' in e for e in items), 329)
-        self.assertEqual(len({e['artwork'] for e in items if 'artwork' in e}), 325)
+        self.assertEqual(sum('artwork' in e for e in items), 329 + variant_count)
+        self.assertEqual(len({e['artwork'] for e in items if 'artwork' in e}), 325 + len(catalog.BOILER_BRANDS))
         built = json.loads((ROOT/'web/catalog.json').read_text())
         self.assertTrue(all(e['graphicsStatus']=='ready' for e in built['elements']))
+
+    def test_branded_boiler_types_use_one_picture_and_named_hydraulic_ports(self):
+        items = {e["id"]: e for e in catalog.elements()}
+        artwork = set()
+        for brand_id, brand in catalog.BOILER_BRANDS.items():
+            for kind, source in brand["types"].items():
+                with self.subTest(brand=brand_id, kind=kind):
+                    item = items[f"boiler-{brand_id}-{kind}"]
+                    self.assertEqual(item["artwork"], f"boiler-{brand_id}")
+                    self.assertTrue(source.startswith("https://"))
+                    self.assertTrue(item["name"]["hu"].startswith(brand["name"] + " – "))
+                    expected = 4 if kind in {"combi", "gas-combi", "storage", "cylinder"} else 2
+                    self.assertEqual(len({p["name"]["hu"] for p in item["ports"]}), expected)
+                    artwork.add(item["artwork"])
+        self.assertEqual(len(artwork), len(catalog.BOILER_BRANDS))
 
     def test_five_batches_cover_exactly_the_250_remaining_types(self):
         batches = json.loads((ROOT/'catalog/integration-batches.json').read_text())
@@ -122,7 +138,7 @@ class FullGraphicsTests(unittest.TestCase):
     def test_binding_metadata_is_part_of_the_firmware_graphics_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder)
-            for name in ['catalog/elements.py','catalog/artwork-bindings.json','catalog/port-calibration.json','tools/build_assets.py','tools/requirements-assets.txt']:
+            for name in ['catalog/elements.py','catalog/artwork-bindings.json','catalog/port-calibration.json','catalog/boiler-brands.json','tools/build_assets.py','tools/requirements-assets.txt']:
                 target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('initial')
             with patch.object(ota_identity,'ROOT',root):
                 before=ota_identity.identity()

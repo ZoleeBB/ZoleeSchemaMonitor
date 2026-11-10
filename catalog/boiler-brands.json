@@ -1,0 +1,199 @@
+{
+  "airfel": {
+    "name": "Airfel",
+    "types": {
+      "combi": "https://www.arukereso.hu/kazan-kalyha-c4026/airfel/digifel-premix-24-p625744896/"
+    }
+  },
+  "ariston": {
+    "name": "Ariston",
+    "types": {
+      "combi": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/ariston-cares-s-24-13694",
+      "heat": "https://www.kazanpont.hu/termek/kondenzacios/futo-kazan/ariston-cares-s-system-24-13695",
+      "storage": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/ariston-clas-b-one-wifi-24-15029",
+      "gas-combi": "https://www.arukereso.hu/kazan-kalyha-c4026/ariston/clas-x-24-cf-combi-3301313-p418162555/"
+    }
+  },
+  "atmos": {
+    "name": "ATMOS",
+    "types": {
+      "gasification": "https://www.kazanpont.hu/termek/szilardtuzelesu-kazanok/faelgazosito-kazan/atmos-dc-18-s-1750"
+    }
+  },
+  "b-steel": {
+    "name": "B-Steel",
+    "types": {
+      "gasification": "https://www.arukereso.hu/kazan-kalyha-c4026/b-steel/24-p359664445/"
+    }
+  },
+  "baxi": {
+    "name": "Baxi",
+    "types": {
+      "gas-combi": "https://www.comfortshop.hu/termek/baxi-bax_eco5blue24-eco5-blue-24-fali-kemenyes-kombi-kazan-24-kw",
+      "storage": "https://www.comfortshop.hu/termek/baxi-bax_nuvduotec24p-nuvola-duo-tec-24_-erp-fali-kondenzacios-hokozpont-45-literes-inox-tartallyal-24-kw",
+      "combi": "https://www.comfortshop.hu/termek/baxi-bax_lunaduotece28-luna-duo-tec-e-28-erp-fali-kondenzacios-kombi-kazan-24-kw",
+      "heat": "https://www.comfortshop.hu/termek/baxi-bax_lunaduotece128-luna-duo-tec-e-1_28-erp-fali-kondenzacios-futokazan-28-kw"
+    }
+  },
+  "beretta": {
+    "name": "Beretta",
+    "types": {
+      "combi": "https://www.arukereso.hu/kazan-kalyha-c4026/beretta/ciao-x-30-c-20187765-p812805891/",
+      "dhw": "https://www.arukereso.hu/kazan-kalyha-c4026/beretta/fonte-lx-11p-20213229-p1232439088/"
+    }
+  },
+  "biasi": {
+    "name": "Biasi",
+    "types": {
+      "gas-combi": "https://www.arukereso.hu/kazan-kalyha-c4026/biasi/dgt-nox-24s-10312-0212-0-p453819867/",
+      "combi": "https://www.arukereso.hu/kazan-kalyha-c4026/biasi/antares-25-s-p1117972432/",
+      "heat": "https://www.arukereso.hu/kazan-kalyha-c4026/biasi/antares-25-sv-p1169239774/",
+      "storage": "https://www.arukereso.hu/kazan-kalyha-c4026/biasi/rinnova-tank-max-25s-110312-0222-0-p900684873/"
+    }
+  },
+  "bosch": {
+    "name": "Bosch",
+    "types": {
+      "combi": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/bosch-condens-1200-w-gc1200w-24-c-23-kondenzacios-gazkazan-15641",
+      "heat": "https://www.kazanpont.hu/termek/kondenzacios/futo-kazan/bosch-condens-gc2300iw-24-p-23-16854",
+      "storage": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/bosch-condens-5300i-wt-24-48-15228",
+      "electric": "https://www.kazanpont.hu/termek/elektromos-kazanok/futo-kazan/bosch-tronic-heat-3500-6kw-11235"
+    }
+  },
+  "burnit": {
+    "name": "Burnit",
+    "types": {
+      "solid": "https://www.kazanpont.hu/termek/vegyestuzelesu-kazan/lemez-kazan/burnit-nwb-max-25-vegyestuzelesu-kazan-16594",
+      "pellet": "https://www.kazanpont.hu/termek/vegyestuzelesu-kazan/lemez-kazan/burnit-nwb-max+pell-eco-20-pellet-egofej-tartaly-16593"
+    }
+  },
+  "calor": {
+    "name": "Calor",
+    "types": {
+      "bale": "https://www.arukereso.hu/kazan-kalyha-c4026/calor/szb-40-p44566682/"
+    }
+  },
+  "celsius": {
+    "name": "Celsius",
+    "types": {
+      "pellet": "https://www.kazanpont.hu/termek/vegyestuzelesu-kazan/lemez-kazan/celsius-combi-29-34-8684",
+      "solid": "https://www.kazanpont.hu/termek/vegyestuzelesu-kazan/lemez-kazan/celsius-v-20-+-homero-+-tolto-uritocsap-378"
+    }
+  },
+  "centrometal": {
+    "name": "Centrometal",
+    "types": {
+      "electric": "https://www.kazanpont.hu/termek/elektromos-kazanok/futo-kazan/centrometal-el-cm-ebasic-6-kw-14760",
+      "solid": "https://www.kazanpont.hu/termek/vegyestuzelesu-kazan/lemez-kazan/centrometal-eko-ck-p-20-kw-12351",
+      "combi": "https://www.comfortshop.hu/termek/centrometal-140101000024-gastec-24-kombi-kondenzacios-fali-gazkazan-_eu-erp_",
+      "pellet": "https://www.arukereso.hu/kazan-kalyha-c4026/centrometal/eko-ckp-cm-pelet-set-20-kw-p394489437/",
+      "gasification": "https://www.arukereso.hu/kazan-kalyha-c4026/centrometal/bio-tec-l-45-p352076141/"
+    }
+  },
+  "ferroli": {
+    "name": "Ferroli",
+    "types": {
+      "combi": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/ferroli-bluehelix-alpha-24-c-16975",
+      "heat": "https://www.kazanpont.hu/termek/kondenzacios/futo-kazan/ferroli-bluehelix-hitech-rrt-28-h-16978",
+      "storage": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/ferroli-bluehelix-hitech-rrt-28-k-50-m-fali-tarolos-16981",
+      "electric": "https://www.kazanpont.hu/termek/elektromos-kazanok/futo-kazan/ferroli-tor-9-kw-16985",
+      "pellet": "https://www.kazanpont.hu/termek/szilardtuzelesu-kazanok/pellet-kazan/ferroli-sunpellet-4-30kw-12589",
+      "solid": "https://www.arukereso.hu/kazan-kalyha-c4026/ferroli/sfl3-p67988797/",
+      "gas-combi": "https://www.arukereso.hu/kazan-kalyha-c4026/ferroli/divatech-d-ln-c24-70dcc4ywa-p670283016/"
+    }
+  },
+  "fondital": {
+    "name": "Fondital",
+    "types": {
+      "combi": "https://www.arukereso.hu/kazan-kalyha-c4026/fondital/antea-condensing-kc-24-p562223334/",
+      "cylinder": "https://www.arukereso.hu/kazan-kalyha-c4026/fondital/antea-condensing-krb-24-p242265065/"
+    }
+  },
+  "hajdu": {
+    "name": "HAJDU",
+    "types": {
+      "combi": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/hajdu-hgk-24-erp-9346",
+      "electric": "https://www.kazanpont.hu/termek/elektromos-kazanok/futo-kazan/hajdu-hek-6-elektromos-kazan-6kw-17612"
+    }
+  },
+  "heiztech": {
+    "name": "HeizTech",
+    "types": {
+      "solid": "https://www.comfortshop.hu/termek/heiztech-heiztech-msbm-28-msbm-28kw-vegyestuzelesu-lemezkazan_-huzatszabalyzoval-es-hamutalcaval-_10720325_",
+      "pellet": "https://www.arukereso.hu/kazan-kalyha-c4026/heiztech/10750146-p1393403794/"
+    }
+  },
+  "hoval": {
+    "name": "Hoval",
+    "types": {
+      "combi": "https://www.arukereso.hu/kazan-kalyha-c4026/hoval/topgas-combi-21-18-kw-7014-106-p1059839008/"
+    }
+  },
+  "hunor": {
+    "name": "Hunor",
+    "types": {
+      "solid": "https://www.arukereso.hu/kazan-kalyha-c4026/hunor/kappa-4-20-kw-p735411510/"
+    }
+  },
+  "immergas": {
+    "name": "Immergas",
+    "types": {
+      "combi": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/immergas-victrix-omnia-25-kw-kondenzacios-kombi-fali-gazkazan-11204",
+      "cylinder": "https://www.kazanpont.hu/termek/kondenzacios/futo-kazan/immergas-victrix-tera-v2-24-plus--16023",
+      "heat": "https://www.kazanpont.hu/termek/kondenzacios/futo-kazan/immergas-victrix-pro-v2-100-17556",
+      "storage": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/immergas-victrix-zeus-25-16027",
+      "gas-combi": "https://www.comfortshop.hu/termek/immergas-3_028476-nike-24-eco-fali-kemenyes-kombi-gazkazan"
+    }
+  },
+  "kaloritherm": {
+    "name": "Kaloritherm",
+    "types": {
+      "solid": "https://www.arukereso.hu/kazan-kalyha-c4026/kaloritherm/sb-25-hc-p457701006/"
+    }
+  },
+  "kensol": {
+    "name": "Kensol",
+    "types": {
+      "pellet": "https://www.arukereso.hu/kazan-kalyha-c4026/kensol/ksep20p-p1178074447/"
+    }
+  },
+  "kospel": {
+    "name": "Kospel",
+    "types": {
+      "electric": "https://www.arukereso.hu/kazan-kalyha-c4026/kospel/ekco-ln2m-6-6-kw-p543718146/"
+    }
+  },
+  "lafat": {
+    "name": "Lafat",
+    "types": {
+      "solid": "https://www.kazanpont.hu/termek/vegyestuzelesu-kazan/lemez-kazan/lafat-sm-40-14754"
+    }
+  },
+  "mareli": {
+    "name": "Mareli",
+    "types": {
+      "gasification": "https://www.comfortshop.hu/termek/mareli-lcg-22-system-lcg-22-faelgazosito-kazan-_22-kw-_-a_",
+      "pellet": "https://www.arukereso.hu/kazan-kalyha-c4026/mareli/unicpel-plus-18-kw-p1382938210/"
+    }
+  },
+  "ozon-agro": {
+    "name": "OZON Agro",
+    "types": {
+      "pellet": "https://www.arukereso.hu/kazan-kalyha-c4026/ozon-agro/55-kw-p590467893/"
+    }
+  },
+  "radiant": {
+    "name": "Radiant",
+    "types": {
+      "heat": "https://www.arukereso.hu/kazan-kalyha-c4026/radiant/r1k-34-b-p370294645/"
+    }
+  },
+  "remeha": {
+    "name": "Remeha",
+    "types": {
+      "combi": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/remeha-delta-24-c-13797",
+      "heat": "https://www.kazanpont.hu/termek/kondenzacios/futo-kazan/remeha-avanta-ace-24s-13793",
+      "storage": "https://www.kazanpont.hu/termek/kondenzacios/kombi-kazan/remeha-calenta-ace-25l-11254"
+    }
+  }
+}

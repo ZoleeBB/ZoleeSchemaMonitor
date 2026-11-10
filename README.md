@@ -4,7 +4,7 @@
 
 **Állapot: MS1 fejlesztés alatt. Ez még nem lezárt, készüléken igazolt kiadás.** A működési webszerkesztő kipróbálható, az összes típus grafikai bekötése elkészült, a készülékes igazolás még szükséges.
 
-A **B, térhatásosabb grafikai irány kiválasztva**. Mind a **340 katalógustípus** bekötve: 329 típus 325 külön PNG-forrást használ, 11 osztótípus valósághű képe közös fotómodulokból épül fel; helyőrző nincs. [Teljes bekötés](doc/grafika/teljes-bekotes.md) · [Készletnyilvántartás](doc/grafika/keszlet.md). A [2–16 körös termofejes osztók és a 90°-os elemforgatás](doc/osztogyujtok.md) is bekötve. A valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
+A **B, térhatásosabb grafikai irány kiválasztva**. A kazánpalettán a gyártó nevére és a működésre is kereshetsz. Gyártónként egy kép tartozik az összes bekötési változathoz. [Gyártók és típusonkénti termékforrások](catalog/boiler-brands.json) · [Teljes bekötés](doc/grafika/teljes-bekotes.md) · [Készletnyilvántartás](doc/grafika/keszlet.md). A [2–16 körös termofejes osztók és a 90°-os elemforgatás](doc/osztogyujtok.md) is bekötve. A valódi Miniserveres és készülékes próbák még szükségesek. Élő adat nélkül a készülék ismeretlen állapotot jelez. [Részletes állapot](doc/allapot.md) · [Készülékes indítás](doc/keszulek.md).
 
 A kipróbálható számítógépes előnézet indítása:
 

@@ -610,6 +610,32 @@ PORT_NAMES = {
 }
 
 
+# Egy gyártói kép többféle hidraulikai kialakításhoz tartozhat.
+BOILER_TYPES = {
+    "heat": ("Kondenzációs fűtőkazán", "Heating-only condensing boiler"),
+    "combi": ("Kondenzációs kombi kazán (átfolyós HMV)", "Condensing combi boiler (instantaneous DHW)"),
+    "cylinder": ("Kondenzációs kazán külső indirekt tárolóhoz", "Condensing boiler with external cylinder connections"),
+    "storage": ("Kondenzációs kazán beépített HMV-tárolóval", "Condensing boiler with integral DHW storage"),
+    "gas-combi": ("Hagyományos kombi gázkazán", "Non-condensing combi gas boiler"),
+    "gas-heat": ("Hagyományos gázfűtőkazán", "Non-condensing gas heating boiler"),
+    "dhw": ("Átfolyós gáz-vízmelegítő (csak HMV)", "Instantaneous gas water heater (DHW only)"),
+    "electric": ("Elektromos fűtőkazán", "Electric heating boiler"),
+    "solid": ("Vegyestüzelésű kazán", "Multi-fuel boiler"),
+    "gasification": ("Faelgázosító kazán", "Wood gasification boiler"),
+    "pellet": ("Pelletkazán", "Pellet boiler"),
+    "bale": ("Bálatüzelésű kazán", "Straw bale boiler"),
+}
+BOILER_BRANDS = json.loads(Path(__file__).with_name("boiler-brands.json").read_text())
+for brand_id, brand in BOILER_BRANDS.items():
+    rows = []
+    for kind in brand["types"]:
+        identifier = f"boiler-{brand_id}-{kind}"
+        hu, en = BOILER_TYPES[kind]
+        rows.append(f"{identifier}|{brand['name']} – {hu}|{brand['name']} – {en}")
+        ARTWORK[identifier] = (f"boiler-{brand_id}", [], ("none", 0, 0, 0))
+    GROUPS.append(("heating", "boiler", "\n".join(rows)))
+
+
 def elements():
     result = []
     for category, family, rows in GROUPS:
