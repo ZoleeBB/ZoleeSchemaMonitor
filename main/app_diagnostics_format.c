@@ -114,6 +114,10 @@ cJSON *app_diagnostics_json(void)
     cJSON_AddBoolToObject(json, "sdSpaceValid", data.sd_space_valid);
     number(json, "sdFree", data.sd_space_valid, data.sd_free);
     number(json, "sdTotal", data.sd_space_valid, data.sd_total);
+    number(json, "displayWindowEndUs", data.display_valid, data.display_window_end_us);
+    number(json, "displayWindowUs", data.display_valid, data.display_window_us);
+    number(json, "displayFrames", data.display_valid, data.display_frames);
+    number(json, "displayFramesOver50Ms", data.display_valid, data.over_50ms_frames);
     number(json, "displayFps", data.display_valid, data.display_fps);
     number(json, "displayMaxRenderMs", data.display_valid && data.display_frames > 0,
            data.max_render_us / 1000.0);

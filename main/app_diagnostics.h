@@ -9,7 +9,8 @@ typedef struct
     uint64_t uptime_seconds, sample_age, sd_total, sd_free;
     bool display_valid;
     double display_fps;
-    unsigned display_frames, max_render_us;
+    int64_t display_window_end_us, display_window_us;
+    unsigned display_frames, over_50ms_frames, max_render_us;
     unsigned cpu[2], internal_free, internal_minimum, internal_total;
     unsigned psram_free, psram_total, dma_free, dma_largest, main_stack_free, task_count;
     bool wifi_connected, recovery_wifi, loxone_connected, rssi_valid;

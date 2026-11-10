@@ -12,7 +12,8 @@ from urllib.request import urlopen
 
 FIELDS = ("firmware", "uptime", "sampleAge", "displayFps", "displayMaxRenderMs",
           "cpu0", "cpu1", "internalFree", "internalMinimum", "psramFree", "dmaLargest",
-          "mainStackFree", "sdMounted", "sdSpaceValid")
+          "mainStackFree", "sdMounted", "sdSpaceValid", "displayWindowEndUs", "displayWindowUs",
+          "displayFrames", "displayFramesOver50Ms")
 
 
 def positive(value):

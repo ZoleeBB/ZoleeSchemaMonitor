@@ -111,6 +111,8 @@ int main(void)
     cJSON *json = app_diagnostics_json();
     assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "cpu0")));
     assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "internalFree")));
+    assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "displayWindowUs")));
+    assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "displayFramesOver50Ms")));
     cJSON_Delete(json);
     app_events_add(APP_EVENT_BOOT);
     app_diagnostics_poll();
@@ -119,14 +121,20 @@ int main(void)
            cpu_reads == 2);
     assert(data.sd_total == 64000000000ULL && data.sd_free == 16000000000ULL);
     assert(data.main_stack_free == 4096 && data.task_count == 23 && data.dma_free == 32768);
-    for (unsigned i = 0; i < 20; i++)
+    app_diagnostics_frame_completed(50000);
+    app_diagnostics_frame_completed(50001);
+    for (unsigned i = 0; i < 18; i++)
         app_diagnostics_frame_completed(11000 + i * 100);
     now = 1000000;
     app_diagnostics_poll();
     assert(cpu_reads == 2 && sd_reads == 1);
     json = app_diagnostics_json();
     assert(cJSON_GetObjectItemCaseSensitive(json, "displayFps")->valuedouble == 20.0);
-    assert(cJSON_GetObjectItemCaseSensitive(json, "displayMaxRenderMs")->valuedouble == 12.9);
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayMaxRenderMs")->valuedouble == 50.001);
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayWindowEndUs")->valueint == 1000000);
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayWindowUs")->valueint == 1000000);
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayFrames")->valueint == 20);
+    assert(cJSON_GetObjectItemCaseSensitive(json, "displayFramesOver50Ms")->valueint == 1);
     cJSON_Delete(json);
     now = 2000000;
     idle[0] = 500000;
@@ -143,6 +151,8 @@ int main(void)
         assert(cJSON_GetObjectItemCaseSensitive(json, "cpu0")->valueint == 75);
         assert(cJSON_GetObjectItemCaseSensitive(json, "displayFps")->valuedouble == 0);
         assert(cJSON_IsNull(cJSON_GetObjectItemCaseSensitive(json, "displayMaxRenderMs")));
+        assert(cJSON_GetObjectItemCaseSensitive(json, "displayFrames")->valueint == 0);
+        assert(cJSON_GetObjectItemCaseSensitive(json, "displayFramesOver50Ms")->valueint == 0);
         free(text);
         cJSON_Delete(json);
     }
