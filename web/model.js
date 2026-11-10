@@ -1,3 +1,4 @@
+import {validatePipeLinks} from './pipe-links.js';
 /* Közös, böngészőben és Node alatt is tesztelhető projektmodell. */
 export const LIMITS = Object.freeze({pages: 10, elements: 150, points: 64, bytes: 1048576});
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{16}$/i;
@@ -96,7 +97,11 @@ function validateElement(element, assets) {
     if (element.type === 'pipe') {
         if (!Array.isArray(element.points) || element.points.length < 2 || element.points.length > LIMITS.points) throw Error('points');
         for (const point of element.points) {
-            object(point, ['x', 'y'], 'point');
+            object(point, ['x', 'y', 'link', 'kind'], 'point');
+            if ('link' in point || 'kind' in point) {
+                if (typeof point.link !== 'string' || !ID.test(point.link) ||
+                    !['node','over','under'].includes(point.kind)) throw Error('pipe.link');
+            }
             number(point.x, 0, 1, 'point.x');
             number(point.y, 0, 1, 'point.y');
         }
@@ -130,6 +135,7 @@ export function validateProject(project, catalog) {
             if (ids.has(element.id)) throw Error('duplicate element.id');
             ids.add(element.id);
         }
+        validatePipeLinks(page);
         for (const pipe of page.elements.filter(element => element.type === 'pipe')) {
             for (const end of [pipe.source, pipe.target]) {
                 if (!end) continue;

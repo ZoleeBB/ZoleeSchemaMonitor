@@ -118,3 +118,22 @@ assert.equal(formatted.length,formattingCases.length);
 formattingCases.forEach(([value,decimals,unit],index)=>
     assert.equal(formatted[index],valueText({valid:value!==null,value},decimals,unit),JSON.stringify(formattingCases[index])));
 console.log(`Native/browser numeric formatting: ${formattingCases.length} cases OK`);
+
+const linked = newProject();
+const joined = ['one', 'two'].map(id => ({...newElement('pipe'), id,
+    points:[{x:.1,y:.5},{x:.5,y:.5,link:'cross',kind:'node'},{x:.9,y:.5}]}));
+linked.pages[0].elements.push(...joined);
+check(linked);
+for (const mutate of [
+    ([a,b]) => { a.points[1].kind='over'; b.points[1].kind='under'; },
+    ([a,b]) => { a.points[1].kind='over'; b.points[1].kind='under'; a.points.shift(); },
+    ([a]) => { a.direction=-1; },
+    ([a]) => { a.points[1].x+=.02; },
+    ([a]) => { delete a.points[1].link; },
+    ([a]) => { a.points[1].kind='invalid'; },
+    (pipes) => { pipes.pop(); }
+]) {
+    const project = structuredClone(linked);
+    mutate(project.pages[0].elements);
+    check(project);
+}

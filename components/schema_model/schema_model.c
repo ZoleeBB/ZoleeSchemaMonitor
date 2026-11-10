@@ -298,11 +298,101 @@ static bool element_valid(const cJSON *element, char *error)
              sm_json_number(element, "direction", 0) != 1))
             return fail(error, "pipe.points");
         const cJSON *point;
-        cJSON_ArrayForEach(point,
-                           points) if (!fields(point, "|x|y|") || !number(point, "x", 0, 1) ||
-                                       !number(point, "y", 0, 1)) return fail(error, "pipe.point");
+        cJSON_ArrayForEach(point, points)
+        {
+            if (!fields(point, "|x|y|link|kind|") || !number(point, "x", 0, 1) ||
+                !number(point, "y", 0, 1))
+                return fail(error, "pipe.point");
+            if (!cJSON_HasObjectItem(point, "link") && !cJSON_HasObjectItem(point, "kind"))
+                continue;
+            const char *kind = sm_json_string(point, "kind");
+            if (!identifier(sm_json_string(point, "link")) ||
+                (strcmp(kind, "node") && strcmp(kind, "over") && strcmp(kind, "under")))
+                return fail(error, "pipe.link");
+            if (strcmp(kind, "node") && (point == points->child || !point->next))
+                return fail(error, "pipe.bridge");
+        }
     }
     return true;
+}
+
+typedef struct
+{
+    const cJSON *pipe, *point;
+    const char *link;
+    unsigned owner;
+} pipe_member_t;
+
+static int compare_members(const void *left, const void *right)
+{
+    const pipe_member_t *a = left, *b = right;
+    int order = strcmp(a->link, b->link);
+    return order ? order : (int)a->owner - (int)b->owner;
+}
+
+static bool same_pipe_flow(const cJSON *a, const cJSON *b)
+{
+    const char *keys[] = {"activity", "power", "direction"};
+    for (unsigned i = 0; i < 3; i++)
+        if (!cJSON_Compare(cJSON_GetObjectItemCaseSensitive(a, keys[i]),
+                           cJSON_GetObjectItemCaseSensitive(b, keys[i]), true))
+            return false;
+    return true;
+}
+
+static bool valid_pipe_links(const cJSON *elements)
+{
+    const cJSON *pipe, *point;
+    size_t count = 0;
+    cJSON_ArrayForEach(pipe, elements)
+        if (!strcmp(sm_json_string(pipe, "type"), "pipe"))
+            cJSON_ArrayForEach(point, cJSON_GetObjectItemCaseSensitive(pipe, "points"))
+                if (cJSON_HasObjectItem(point, "link"))
+                    count++;
+    if (!count)
+        return true;
+    pipe_member_t *members = calloc(count, sizeof(*members));
+    if (!members)
+        return false;
+    size_t used = 0;
+    unsigned owner = 0;
+    cJSON_ArrayForEach(pipe, elements)
+    {
+        if (!strcmp(sm_json_string(pipe, "type"), "pipe"))
+            cJSON_ArrayForEach(point, cJSON_GetObjectItemCaseSensitive(pipe, "points"))
+                if (cJSON_HasObjectItem(point, "link"))
+                    members[used++] = (pipe_member_t){pipe, point, sm_json_string(point, "link"), owner};
+        owner++;
+    }
+    qsort(members, count, sizeof(*members), compare_members);
+    bool valid = true;
+    for (size_t i = 0; valid && i < count;)
+    {
+        size_t start = i;
+        const pipe_member_t *first = &members[start];
+        unsigned nodes = 0, overs = 0, unders = 0;
+        do
+        {
+            const pipe_member_t *m = &members[i];
+            const char *kind = sm_json_string(m->point, "kind");
+            if (!strcmp(kind, "node"))
+            {
+                nodes++;
+                valid = valid && same_pipe_flow(first->pipe, m->pipe);
+            }
+            else if (!strcmp(kind, "over"))
+                overs++;
+            else
+                unders++;
+            valid = valid && (i == start || members[i-1].owner != m->owner) &&
+                fabs(sm_json_number(m->point,"x",0) - sm_json_number(first->point,"x",0)) <= 1e-9 &&
+                fabs(sm_json_number(m->point,"y",0) - sm_json_number(first->point,"y",0)) <= 1e-9;
+            i++;
+        } while (i < count && !strcmp(members[i].link, first->link));
+        valid = valid && ((nodes >= 2 && !overs && !unders) || (!nodes && overs == 1 && unders == 1));
+    }
+    free(members);
+    return valid;
 }
 
 bool sm_project_validate(const cJSON *project, char error[SM_ERROR_SIZE])
@@ -340,6 +430,8 @@ bool sm_project_validate(const cJSON *project, char error[SM_ERROR_SIZE])
                 if (!strcmp(sm_json_string(element, "id"), sm_json_string(other, "id")))
                     return fail(error, "element.duplicate");
         }
+        if (!valid_pipe_links(elements))
+            return fail(error, "pipe.link");
         cJSON_ArrayForEach(element, elements)
         {
             if (strcmp(sm_json_string(element, "type"), "pipe"))
