@@ -1,12 +1,12 @@
 # Grafikai készletnyilvántartás
 
-**402 katalógustípus; 391 típushoz bekötött egyedi kép, 352 külön PNG-forrásból; 11 fotómodulokból összeállított grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
+**477 katalógustípus; 466 típushoz bekötött egyedi kép, 385 külön PNG-forrásból; 11 fotómodulokból összeállított grafika (egy szabadon paraméterezhető osztó és rögzített körszámú változatok).**
 
 Minden katalógustípus képpel vagy körszám szerint összeállított fotóval megjeleníthető. A grafikai bekötés nem helyettesíti a fizikai P4-/Miniserver-próbát; az MS1 még nyitott.
 
 | Csoport | Típus | Egyedi képpel | Fotómodulokból | Még helyőrző |
 | --- | ---: | ---: | ---: | ---: |
-| Fűtés / hűtés | 117 | 117 | 0 | 0 |
+| Fűtés / hűtés | 192 | 192 | 0 | 0 |
 | Tárolás / HMV | 24 | 24 | 0 | 0 |
 | Hidraulika / vízellátás | 64 | 54 | 10 | 0 |
 | Szelepek | 55 | 54 | 1 | 0 |
@@ -81,7 +81,11 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `boiler-ariston-heat` | Ariston – Kondenzációs fűtőkazán | Ariston – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-ariston.png) |
 | `boiler-ariston-storage` | Ariston – Kondenzációs kazán beépített HMV-tárolóval | Ariston – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-ariston.png) |
 | `boiler-ariston-gas-combi` | Ariston – Hagyományos kombi gázkazán | Ariston – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-ariston.png) |
+| `boiler-ariston-dhw` | Ariston – Átfolyós gáz-vízmelegítő (csak HMV) | Ariston – Instantaneous gas water heater (DHW only) | [Egyedi kép](../../assets/elements/universal/boiler-ariston.png) |
 | `boiler-atmos-gasification` | ATMOS – Faelgázosító kazán | ATMOS – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-atmos.png) |
+| `boiler-atmos-pellet` | ATMOS – Pelletkazán | ATMOS – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-atmos.png) |
+| `boiler-attack-gasification` | ATTACK – Faelgázosító kazán | ATTACK – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-attack.png) |
+| `boiler-attack-pellet` | ATTACK – Pelletkazán | ATTACK – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-attack.png) |
 | `boiler-b-steel-gasification` | B-Steel – Faelgázosító kazán | B-Steel – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-b-steel.png) |
 | `boiler-baxi-gas-combi` | Baxi – Hagyományos kombi gázkazán | Baxi – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-baxi.png) |
 | `boiler-baxi-storage` | Baxi – Kondenzációs kazán beépített HMV-tárolóval | Baxi – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-baxi.png) |
@@ -97,6 +101,7 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `boiler-bosch-heat` | Bosch – Kondenzációs fűtőkazán | Bosch – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-bosch.png) |
 | `boiler-bosch-storage` | Bosch – Kondenzációs kazán beépített HMV-tárolóval | Bosch – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-bosch.png) |
 | `boiler-bosch-electric` | Bosch – Elektromos fűtőkazán | Bosch – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-bosch.png) |
+| `boiler-bosch-dhw` | Bosch – Átfolyós gáz-vízmelegítő (csak HMV) | Bosch – Instantaneous gas water heater (DHW only) | [Egyedi kép](../../assets/elements/universal/boiler-bosch.png) |
 | `boiler-burnit-solid` | Burnit – Vegyestüzelésű kazán | Burnit – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-burnit.png) |
 | `boiler-burnit-pellet` | Burnit – Pelletkazán | Burnit – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-burnit.png) |
 | `boiler-calor-bale` | Calor – Bálatüzelésű kazán | Calor – Straw bale boiler | [Egyedi kép](../../assets/elements/universal/boiler-calor.png) |
@@ -107,6 +112,20 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `boiler-centrometal-combi` | Centrometal – Kondenzációs kombi kazán (átfolyós HMV) | Centrometal – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-centrometal.png) |
 | `boiler-centrometal-pellet` | Centrometal – Pelletkazán | Centrometal – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-centrometal.png) |
 | `boiler-centrometal-gasification` | Centrometal – Faelgázosító kazán | Centrometal – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-centrometal.png) |
+| `boiler-chaffoteaux-heat` | Chaffoteaux – Kondenzációs fűtőkazán | Chaffoteaux – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-chaffoteaux.png) |
+| `boiler-chaffoteaux-combi` | Chaffoteaux – Kondenzációs kombi kazán (átfolyós HMV) | Chaffoteaux – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-chaffoteaux.png) |
+| `boiler-cosmogas-heat` | Cosmogas – Kondenzációs fűtőkazán | Cosmogas – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-cosmogas.png) |
+| `boiler-cosmogas-combi` | Cosmogas – Kondenzációs kombi kazán (átfolyós HMV) | Cosmogas – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-cosmogas.png) |
+| `boiler-de-dietrich-combi` | De Dietrich – Kondenzációs kombi kazán (átfolyós HMV) | De Dietrich – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-de-dietrich.png) |
+| `boiler-defro-gasification` | DEFRO – Faelgázosító kazán | DEFRO – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-defro.png) |
+| `boiler-eta-pellet` | ETA – Pelletkazán | ETA – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-eta.png) |
+| `boiler-eta-woodchip` | ETA – Faapríték-kazán | ETA – Wood chip boiler | [Egyedi kép](../../assets/elements/universal/boiler-eta.png) |
+| `boiler-eta-gasification` | ETA – Faelgázosító kazán | ETA – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-eta.png) |
+| `boiler-feg-gas-heat` | FÉG – Hagyományos gázfűtőkazán | FÉG – Non-condensing gas heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-feg.png) |
+| `boiler-feg-gas-combi` | FÉG – Hagyományos kombi gázkazán | FÉG – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-feg.png) |
+| `boiler-feg-heat` | FÉG – Kondenzációs fűtőkazán | FÉG – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-feg.png) |
+| `boiler-feg-combi` | FÉG – Kondenzációs kombi kazán (átfolyós HMV) | FÉG – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-feg.png) |
+| `boiler-feg-cylinder` | FÉG – Kondenzációs kazán külső indirekt tárolóhoz | FÉG – Condensing boiler with external cylinder connections | [Egyedi kép](../../assets/elements/universal/boiler-feg.png) |
 | `boiler-ferroli-combi` | Ferroli – Kondenzációs kombi kazán (átfolyós HMV) | Ferroli – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-ferroli.png) |
 | `boiler-ferroli-heat` | Ferroli – Kondenzációs fűtőkazán | Ferroli – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-ferroli.png) |
 | `boiler-ferroli-storage` | Ferroli – Kondenzációs kazán beépített HMV-tárolóval | Ferroli – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-ferroli.png) |
@@ -116,10 +135,15 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `boiler-ferroli-gas-combi` | Ferroli – Hagyományos kombi gázkazán | Ferroli – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-ferroli.png) |
 | `boiler-fondital-combi` | Fondital – Kondenzációs kombi kazán (átfolyós HMV) | Fondital – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-fondital.png) |
 | `boiler-fondital-cylinder` | Fondital – Kondenzációs kazán külső indirekt tárolóhoz | Fondital – Condensing boiler with external cylinder connections | [Egyedi kép](../../assets/elements/universal/boiler-fondital.png) |
+| `boiler-fornello-pellet` | Fornello – Pelletkazán | Fornello – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-fornello.png) |
+| `boiler-froling-gasification` | Fröling – Faelgázosító kazán | Fröling – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-froling.png) |
 | `boiler-hajdu-combi` | HAJDU – Kondenzációs kombi kazán (átfolyós HMV) | HAJDU – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-hajdu.png) |
 | `boiler-hajdu-electric` | HAJDU – Elektromos fűtőkazán | HAJDU – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-hajdu.png) |
 | `boiler-heiztech-solid` | HeizTech – Vegyestüzelésű kazán | HeizTech – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-heiztech.png) |
 | `boiler-heiztech-pellet` | HeizTech – Pelletkazán | HeizTech – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-heiztech.png) |
+| `boiler-herz-pellet` | HERZ – Pelletkazán | HERZ – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-herz.png) |
+| `boiler-herz-woodchip` | HERZ – Faapríték-kazán | HERZ – Wood chip boiler | [Egyedi kép](../../assets/elements/universal/boiler-herz.png) |
+| `boiler-herz-gasification` | HERZ – Faelgázosító kazán | HERZ – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-herz.png) |
 | `boiler-hoval-combi` | Hoval – Kondenzációs kombi kazán (átfolyós HMV) | Hoval – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-hoval.png) |
 | `boiler-hunor-solid` | Hunor – Vegyestüzelésű kazán | Hunor – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-hunor.png) |
 | `boiler-immergas-combi` | Immergas – Kondenzációs kombi kazán (átfolyós HMV) | Immergas – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-immergas.png) |
@@ -129,15 +153,66 @@ A fűtési, szolár és általános keringető azonos fizikai szivattyúházat h
 | `boiler-immergas-gas-combi` | Immergas – Hagyományos kombi gázkazán | Immergas – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-immergas.png) |
 | `boiler-kaloritherm-solid` | Kaloritherm – Vegyestüzelésű kazán | Kaloritherm – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-kaloritherm.png) |
 | `boiler-kensol-pellet` | Kensol – Pelletkazán | Kensol – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-kensol.png) |
+| `boiler-kolotech-solid` | KOLO Tech – Vegyestüzelésű kazán | KOLO Tech – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-kolotech.png) |
 | `boiler-kospel-electric` | Kospel – Elektromos fűtőkazán | Kospel – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-kospel.png) |
+| `boiler-kostrzewa-pellet` | Kostrzewa – Pelletkazán | Kostrzewa – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-kostrzewa.png) |
+| `boiler-kostrzewa-solid` | Kostrzewa – Vegyestüzelésű kazán | Kostrzewa – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-kostrzewa.png) |
 | `boiler-lafat-solid` | Lafat – Vegyestüzelésű kazán | Lafat – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-lafat.png) |
 | `boiler-mareli-gasification` | Mareli – Faelgázosító kazán | Mareli – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-mareli.png) |
 | `boiler-mareli-pellet` | Mareli – Pelletkazán | Mareli – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-mareli.png) |
+| `boiler-mikoterm-electric` | Mikoterm – Elektromos fűtőkazán | Mikoterm – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-mikoterm.png) |
 | `boiler-ozon-agro-pellet` | OZON Agro – Pelletkazán | OZON Agro – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-ozon-agro.png) |
 | `boiler-radiant-heat` | Radiant – Kondenzációs fűtőkazán | Radiant – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-radiant.png) |
 | `boiler-remeha-combi` | Remeha – Kondenzációs kombi kazán (átfolyós HMV) | Remeha – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-remeha.png) |
 | `boiler-remeha-heat` | Remeha – Kondenzációs fűtőkazán | Remeha – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-remeha.png) |
 | `boiler-remeha-storage` | Remeha – Kondenzációs kazán beépített HMV-tárolóval | Remeha – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-remeha.png) |
+| `boiler-riello-combi` | Riello – Kondenzációs kombi kazán (átfolyós HMV) | Riello – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-riello.png) |
+| `boiler-riello-heat` | Riello – Kondenzációs fűtőkazán | Riello – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-riello.png) |
+| `boiler-riello-gas-combi` | Riello – Hagyományos kombi gázkazán | Riello – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-riello.png) |
+| `boiler-sanica-combi` | Sanica – Kondenzációs kombi kazán (átfolyós HMV) | Sanica – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-sanica.png) |
+| `boiler-sarkany-solid` | Sárkány – Vegyestüzelésű kazán | Sárkány – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-sarkany.png) |
+| `boiler-saunier-duval-combi` | Saunier Duval – Kondenzációs kombi kazán (átfolyós HMV) | Saunier Duval – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-saunier-duval.png) |
+| `boiler-saunier-duval-heat` | Saunier Duval – Kondenzációs fűtőkazán | Saunier Duval – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-saunier-duval.png) |
+| `boiler-saunier-duval-storage` | Saunier Duval – Kondenzációs kazán beépített HMV-tárolóval | Saunier Duval – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-saunier-duval.png) |
+| `boiler-saunier-duval-electric` | Saunier Duval – Elektromos fűtőkazán | Saunier Duval – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-saunier-duval.png) |
+| `boiler-saunier-duval-gas-combi` | Saunier Duval – Hagyományos kombi gázkazán | Saunier Duval – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-saunier-duval.png) |
+| `boiler-saunier-duval-dhw` | Saunier Duval – Átfolyós gáz-vízmelegítő (csak HMV) | Saunier Duval – Instantaneous gas water heater (DHW only) | [Egyedi kép](../../assets/elements/universal/boiler-saunier-duval.png) |
+| `boiler-sime-combi` | Sime – Kondenzációs kombi kazán (átfolyós HMV) | Sime – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-sime.png) |
+| `boiler-sime-heat` | Sime – Kondenzációs fűtőkazán | Sime – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-sime.png) |
+| `boiler-sime-storage` | Sime – Kondenzációs kazán beépített HMV-tárolóval | Sime – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-sime.png) |
+| `boiler-sime-solid` | Sime – Vegyestüzelésű kazán | Sime – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-sime.png) |
+| `boiler-sime-gas-combi` | Sime – Hagyományos kombi gázkazán | Sime – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-sime.png) |
+| `boiler-technorgaz-gas-heat` | Technorgáz – Hagyományos gázfűtőkazán | Technorgáz – Non-condensing gas heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-technorgaz.png) |
+| `boiler-tenko-electric` | Tenko – Elektromos fűtőkazán | Tenko – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-tenko.png) |
+| `boiler-termomax-solid` | Termomax – Vegyestüzelésű kazán | Termomax – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-termomax.png) |
+| `boiler-termostroj-electric` | Termostroj – Elektromos fűtőkazán | Termostroj – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-termostroj.png) |
+| `boiler-thermex-electric` | Thermex – Elektromos fűtőkazán | Thermex – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-thermex.png) |
+| `boiler-thermona-gas-combi` | Thermona – Hagyományos kombi gázkazán | Thermona – Non-condensing combi gas boiler | [Egyedi kép](../../assets/elements/universal/boiler-thermona.png) |
+| `boiler-totya-solid` | Totya – Vegyestüzelésű kazán | Totya – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-totya.png) |
+| `boiler-totya-pellet` | Totya – Pelletkazán | Totya – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-totya.png) |
+| `boiler-unical-combi` | Unical – Kondenzációs kombi kazán (átfolyós HMV) | Unical – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-unical.png) |
+| `boiler-unical-cylinder` | Unical – Kondenzációs kazán külső indirekt tárolóhoz | Unical – Condensing boiler with external cylinder connections | [Egyedi kép](../../assets/elements/universal/boiler-unical.png) |
+| `boiler-vaillant-combi` | Vaillant – Kondenzációs kombi kazán (átfolyós HMV) | Vaillant – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-vaillant.png) |
+| `boiler-vaillant-heat` | Vaillant – Kondenzációs fűtőkazán | Vaillant – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-vaillant.png) |
+| `boiler-vaillant-storage` | Vaillant – Kondenzációs kazán beépített HMV-tárolóval | Vaillant – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-vaillant.png) |
+| `boiler-vaillant-electric` | Vaillant – Elektromos fűtőkazán | Vaillant – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-vaillant.png) |
+| `boiler-vaillant-dhw` | Vaillant – Átfolyós gáz-vízmelegítő (csak HMV) | Vaillant – Instantaneous gas water heater (DHW only) | [Egyedi kép](../../assets/elements/universal/boiler-vaillant.png) |
+| `boiler-vaillant-cylinder` | Vaillant – Kondenzációs kazán külső indirekt tárolóhoz | Vaillant – Condensing boiler with external cylinder connections | [Egyedi kép](../../assets/elements/universal/boiler-vaillant.png) |
+| `boiler-viadrus-solid` | Viadrus – Vegyestüzelésű kazán | Viadrus – Multi-fuel boiler | [Egyedi kép](../../assets/elements/universal/boiler-viadrus.png) |
+| `boiler-viessmann-combi` | Viessmann – Kondenzációs kombi kazán (átfolyós HMV) | Viessmann – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-viessmann.png) |
+| `boiler-viessmann-storage` | Viessmann – Kondenzációs kazán beépített HMV-tárolóval | Viessmann – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-viessmann.png) |
+| `boiler-viessmann-electric` | Viessmann – Elektromos fűtőkazán | Viessmann – Electric heating boiler | [Egyedi kép](../../assets/elements/universal/boiler-viessmann.png) |
+| `boiler-viessmann-heat` | Viessmann – Kondenzációs fűtőkazán | Viessmann – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-viessmann.png) |
+| `boiler-viessmann-gasification` | Viessmann – Faelgázosító kazán | Viessmann – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-viessmann.png) |
+| `boiler-vigas-gasification` | Vigas – Faelgázosító kazán | Vigas – Wood gasification boiler | [Egyedi kép](../../assets/elements/universal/boiler-vigas.png) |
+| `boiler-wentorex-pellet` | WENTOREX – Pelletkazán | WENTOREX – Pellet boiler | [Egyedi kép](../../assets/elements/universal/boiler-wentorex.png) |
+| `boiler-westen-combi` | WESTEN – Kondenzációs kombi kazán (átfolyós HMV) | WESTEN – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-westen.png) |
+| `boiler-westen-heat` | WESTEN – Kondenzációs fűtőkazán | WESTEN – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-westen.png) |
+| `boiler-westen-storage` | WESTEN – Kondenzációs kazán beépített HMV-tárolóval | WESTEN – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-westen.png) |
+| `boiler-wolf-heat` | Wolf – Kondenzációs fűtőkazán | Wolf – Heating-only condensing boiler | [Egyedi kép](../../assets/elements/universal/boiler-wolf.png) |
+| `boiler-wolf-combi` | Wolf – Kondenzációs kombi kazán (átfolyós HMV) | Wolf – Condensing combi boiler (instantaneous DHW) | [Egyedi kép](../../assets/elements/universal/boiler-wolf.png) |
+| `boiler-wolf-storage` | Wolf – Kondenzációs kazán beépített HMV-tárolóval | Wolf – Condensing boiler with integral DHW storage | [Egyedi kép](../../assets/elements/universal/boiler-wolf.png) |
+| `boiler-wolf-cylinder` | Wolf – Kondenzációs kazán külső indirekt tárolóhoz | Wolf – Condensing boiler with external cylinder connections | [Egyedi kép](../../assets/elements/universal/boiler-wolf.png) |
 
 ## Tárolás / HMV
 

@@ -623,6 +623,7 @@ BOILER_TYPES = {
     "solid": ("Vegyestüzelésű kazán", "Multi-fuel boiler"),
     "gasification": ("Faelgázosító kazán", "Wood gasification boiler"),
     "pellet": ("Pelletkazán", "Pellet boiler"),
+    "woodchip": ("Faapríték-kazán", "Wood chip boiler"),
     "bale": ("Bálatüzelésű kazán", "Straw bale boiler"),
 }
 BOILER_BRANDS = json.loads(Path(__file__).with_name("boiler-brands.json").read_text())
