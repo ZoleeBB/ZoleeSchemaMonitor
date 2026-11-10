@@ -33,4 +33,10 @@ A naplózó Python 3-mal, külön csomag nélkül fut. Az URL a saját készül�
 python3 tools/record_device_diagnostics.py http://zolee-schema-monitor.local ms1-24h.csv
 ```
 
+Az aktív, 150 elemes terhelési oldal naplóját az alábbi paranccsal értékeld ki. A program összesíti a különböző mérési ablakokat, a mért időre jutó FPS-t és az 50 ms feletti rajzolásokat. Külön jelzi az ismételt mintákat, a mérés nélküli sorokat, a megfigyelt ablakok közötti időhiányt és az észlelt üzemidő-visszaeséseket. A statikus oldalon mért 0 FPS is beleszámít az átlagba, ezért egy aktív terhelési méréshez hagyd végig ugyanazt az oldalt a panelen.
+
+```sh
+python3 tools/summarize_frame_windows.py ms1-24h.csv
+```
+
 A fizikai próbák és a kiadás utáni ellenőrzések eredménye még nyitott. [MS1 elfogadási lista](../ms1.md)
