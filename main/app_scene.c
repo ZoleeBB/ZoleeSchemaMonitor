@@ -31,6 +31,8 @@ typedef struct
 } picture_t;
 static SCENE_BSS picture_t s_pictures[SM_MAX_ELEMENTS];
 static SCENE_BSS lv_point_precise_t s_points[SM_MAX_ELEMENTS][SM_MAX_POINTS];
+/* Úthossz a cső elejétől az adott szakasz végéig, a bekötések igazítása után. */
+static SCENE_BSS double s_segment_ends[SM_MAX_ELEMENTS][SM_MAX_POINTS - 1];
 static lv_obj_t *s_root;
 static atomic_bool s_diagnostics;
 typedef struct
@@ -116,20 +118,27 @@ static sm_signal_t signal_read(const sm_binding_t *binding)
 
 static void dot_position(runtime_t *runtime, unsigned index, lv_obj_t *dot, double distance)
 {
-    for (unsigned i = 1; i < runtime->point_count; i++)
+    const lv_point_precise_t *points = s_points[index];
+    const double *ends = s_segment_ends[index];
+    unsigned low = 0, high = runtime->point_count - 1;
+    while (low < high)
     {
-        double dx = s_points[index][i].x - s_points[index][i - 1].x;
-        double dy = s_points[index][i].y - s_points[index][i - 1].y;
-        double length = hypot(dx, dy);
-        if (length > 0 && (distance <= length || i + 1 == runtime->point_count))
-        {
-            lv_obj_set_pos(dot,
-                           s_points[index][i - 1].x + dx * distance / length - runtime->dot_radius,
-                           s_points[index][i - 1].y + dy * distance / length - runtime->dot_radius);
-            break;
-        }
-        distance -= length;
+        unsigned mid = low + (high - low) / 2;
+        if (ends[mid] <= distance)
+            low = mid + 1;
+        else
+            high = mid;
     }
+
+    double x = points[low].x, y = points[low].y;
+    if (low + 1 < runtime->point_count)
+    {
+        double start = low ? ends[low - 1] : 0;
+        double fraction = (distance - start) / (ends[low] - start);
+        x += (points[low + 1].x - x) * fraction;
+        y += (points[low + 1].y - y) * fraction;
+    }
+    lv_obj_set_pos(dot, x - runtime->dot_radius, y - runtime->dot_radius);
 }
 
 void app_scene_update(unsigned elapsed_ms)
@@ -894,8 +903,11 @@ void app_scene_poll(void)
                 connect_pipe_endpoints(element, elements, index, n, width, height);
             runtime->point_count = n;
             for (unsigned k = 1; k < n; k++)
+            {
                 runtime->length += hypot(s_points[index][k].x - s_points[index][k - 1].x,
                                          s_points[index][k].y - s_points[index][k - 1].y);
+                s_segment_ends[index][k - 1] = runtime->length;
+            }
             int line_width = sm_json_number(element, "width", 6);
             runtime->dot_radius = fmax(2, lround(line_width * .3));
             unsigned luminance = 299 * (rgb >> 16) + 587 * ((rgb >> 8) & 255) + 114 * (rgb & 255);

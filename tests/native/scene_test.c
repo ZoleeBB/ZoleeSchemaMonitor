@@ -138,6 +138,24 @@ int main(void)
             assert(dir * (lv_obj_get_x(dot)-x) > 0 && dir * (lv_obj_get_y(dot)-y) > 0);
         }
     }
+    /* Ismételt kezdő-, törés- és végpontoknál is a teljes út járható. */
+    cJSON_ReplaceItemInObject(first, "points", cJSON_Parse(
+        "[{\"x\":0.1,\"y\":0.2},{\"x\":0.1,\"y\":0.2},{\"x\":0.5,\"y\":0.2},"
+        "{\"x\":0.5,\"y\":0.2},{\"x\":0.5,\"y\":0.8},{\"x\":0.5,\"y\":0.8}]"));
+    s_test_revision++;
+    app_scene_poll();
+    runtime_t *pipe = &s_runtime[0];
+    assert(pipe->length == 992);
+    const struct { double distance; int x, y; } samples[] = {
+        {0, 128, 160}, {512, 640, 160}, {517, 640, 165}, {992, 640, 640}
+    };
+    for (unsigned i = 0; i < sizeof(samples) / sizeof(samples[0]); i++)
+    {
+        dot_position(pipe, 0, pipe->dots[0], samples[i].distance);
+        lv_obj_update_layout(s_root);
+        assert(lv_obj_get_x(pipe->dots[0]) == samples[i].x - (int)pipe->dot_radius);
+        assert(lv_obj_get_y(pipe->dots[0]) == samples[i].y - (int)pipe->dot_radius);
+    }
     cJSON_ReplaceItemInObject(first, "points", old_points);
     cJSON_DeleteItemFromObject(first, "activity");
     s_test_revision++;
