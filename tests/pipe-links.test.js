@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {newProject, newElement, validateProject} from '../web/model.js';
-import {crossingAt, nearbySegments, attachVertex, shareFlow, pipeGeometry} from '../web/pipe-links.js';
+import {crossingAt, nearbySegments, attachVertex, shareFlow, pipeGeometry, moveLinkedPoint, refreshBridges} from '../web/pipe-links.js';
 
 const size = {width:1280,height:800}, catalog = {elements:[]};
 const point = (x,y) => ({x,y});
@@ -46,4 +46,20 @@ test('junction flow is transitive; a branch endpoint cannot become a bridge', ()
     b.points[0].kind='over';
     a.points[1].kind='under';
     assert.throws(()=>validateProject(project,catalog));
+});
+
+test('moving an independent pipe relocates or removes the bridge without dragging its peer', () => {
+    const project=newProject(), page=project.pages[0];
+    const a=pipe([point(.1,.5),point(.8,.5)]), b=pipe([point(.3,.1),point(.3,.8)]);
+    page.elements.push(a,b);
+    for (const hit of crossingAt(page,point(.3,.5),size,5))
+        attachVertex(hit,'cross',hit.pipe===a?'over':'under',64);
+    for (const p of a.points) moveLinkedPoint(page,p,{x:p.x,y:.6});
+    assert.equal(b.points[1].y,.5);
+    refreshBridges(page);
+    assert.equal(b.points[1].y,.6);
+    validateProject(project,catalog);
+    for (const p of a.points) moveLinkedPoint(page,p,{x:p.x,y:.95});
+    refreshBridges(page);
+    assert.ok(!a.points[1].link && !b.points[1].link);
 });

@@ -1,5 +1,6 @@
 // A próbaséma a normál importon, mentésen és szerkesztőeszközökön keresztül fut.
 import assert from 'node:assert/strict';
+import {newProject, newElement} from '../web/model.js';
 import fs from 'node:fs/promises';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
@@ -133,6 +134,80 @@ async function testPipeFlow(browser, url) {
     }
 }
 
+async function testJunctions(browser,url) {
+    const page = await browser.newPage({viewport:{width:1600,height:1180}});
+    try {
+        const project = newProject();
+        const supply = Object.assign(newElement('pipe'), {id:'supply',label:'Előremenő',
+            points:[{x:.1,y:.5},{x:.9,y:.5}],direction:-1});
+        const riser = Object.assign(newElement('pipe'), {id:'riser',label:'Felszálló',
+            points:[{x:.4,y:.2},{x:.4,y:.8}],color:'#258653'});
+        project.pages[0].elements.push(supply,riser);
+        await page.goto(url+'/editor');
+        page.once('dialog', dialog=>dialog.accept());
+        await page.locator('#import-file').setInputFiles({name:'crossing.json',mimeType:'application/json',
+            buffer:Buffer.from(JSON.stringify(project))});
+        await page.locator('[data-element="riser"]').waitFor({state:'attached'});
+        const canvas = page.locator('#canvas');
+        async function clickAt(x,y) {
+            await canvas.scrollIntoViewIfNeeded();
+            const at = await canvas.evaluate((el,p)=>{
+                const v=el.viewBox.baseVal;
+                const pt=new DOMPoint(p.x*v.width,p.y*v.height).matrixTransform(el.getScreenCTM());
+                return {x:pt.x,y:pt.y};
+            },{x,y});
+            await page.mouse.click(at.x,at.y);
+        }
+        await clickAt(.4,.5);
+        await page.locator('#crossing-mode').selectOption('bridge');
+        assert.equal(await canvas.locator('[data-crossing] polyline').count(),2);
+        await clickAt(.4,.5);
+        const owner = await page.locator('#flow-owner option').evaluateAll(opts=>
+            opts.find(o=>o.text.includes('Előremenő')).value);
+        await page.locator('#flow-owner').selectOption(owner);
+        await page.locator('#crossing-mode').selectOption('node');
+        await page.locator('#draw-pipe').click();
+        await clickAt(.7,.5);
+        await clickAt(.7,.75);
+        await page.locator('#finish-pipe').click();
+        await page.locator('#pipe-direction').selectOption('1');
+        for (const role of ['activity','power']) {
+            await page.locator('[data-binding="'+role+'"]').click();
+            await page.locator('#binding-options').selectOption('12345678-1234-5678-0102030405060708');
+            await page.locator('#binding-apply').click();
+        }
+        await page.locator('#power-min').fill('7');
+        await page.locator('#power-min').blur();
+        const response=page.waitForResponse(r=>r.url().endsWith('/api/project') && r.request().method()==='POST');
+        await page.locator('#save-project').click();
+        assert.equal((await response).status(),200);
+        await page.reload();
+        await page.locator('[data-element="supply"]').waitFor({state:'attached'});
+        const exported=page.waitForEvent('download');
+        await page.locator('#export-page').click();
+        const saved=JSON.parse(await fs.readFile(await (await exported).path()));
+        const pipes=saved.pages[0].elements;
+        assert.equal(pipes.length,3);
+        assert.ok(pipes.every(p=>p.direction===1 && p.power.minimum===7));
+        assert.ok(pipes.every(p=>p.activity.uuid==='12345678-1234-5678-0102030405060708'));
+        assert.deepEqual(pipes[0].power,pipes[2].power);
+        assert.equal(pipes[0].points.filter(p=>p.kind==='node').length,2);
+        assert.equal(pipes[2].points[0].link,pipes[0].points[2].link);
+        await clickAt(.7,.5);
+        assert.equal(await page.locator('#crossing-mode option[value="bridge"]').count(),0);
+        await clickAt(.4,.5);
+        await page.locator('#crossing-mode').selectOption('bridge');
+        await clickAt(.4,.3);
+        await page.locator('#pipe-direction').selectOption('-1');
+        const standalone=page.waitForEvent('download');
+        await page.locator('#export-page').click();
+        const result=JSON.parse(await fs.readFile(await (await standalone).path()));
+        assert.deepEqual(result.pages[0].elements.map(p=>p.direction),[1,-1,1]);
+    } finally {
+        await page.close();
+    }
+}
+
 const {chromium} = await import(process.env.SCHEMA_PLAYWRIGHT || 'playwright');
 const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'schema-pipe-flow-'));
 const server = spawn('python3', ['tools/dev_server.py', '--demo', '--port', '0', '--data', path.join(directory, 'state.json')],
@@ -150,6 +225,7 @@ try {
     browser = await chromium.launch({executablePath:process.env.SCHEMA_CHROME_PATH || undefined,
         args:['--no-sandbox','--disable-dev-shm-usage',...JSON.parse(process.env.SCHEMA_CHROME_ARGS || '[]')]});
     await testPipeFlow(browser,url);
+    await testJunctions(browser,url);
     console.log('Chromium: pipe colors and widths, both flow directions, stop/reconnect, equipment search, pixel sizes, mouse and touch routing OK');
 } finally {
     await browser?.close();

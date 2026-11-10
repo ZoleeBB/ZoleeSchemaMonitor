@@ -1,6 +1,11 @@
 /* A közös feliratok azonos kulcsokkal szerepelnek mindkét nyelven. */
 export const messages = {
     hu: {
+        joinAtBridge: 'Az elkerülés helyén összekötöd mindkét csövet az új ággal?',
+        sharedFlowHint: 'A módosítás minden csomóponttal összekötött csőre érvényes.',
+        pipeCrossing: 'Csőkeresztezés', crossingMode: 'Kapcsolat', pipeNode: 'Csomópont', pipeBridge: 'Elkerülés',
+        flowOwner: 'Ezt az áramlásbeállítást vegye át a hálózat', crossingHint: 'Csomópontnál az összekötött csövek aktivitása, teljesítménye és áramlási iránya közös.',
+        branchHint: 'A leágazás közös áramlású csomópont.', occupiedCrossing: 'Az ívnél előbb válassz csomópontot, vagy indulj mellőle.',
         equipmentLibrary: 'Eszköztár', assetCount: 'eszköz', noAssets: 'Nincs találat. Módosítsd a keresést vagy a kategóriát.', equipmentCategory: 'Kategória',
         alignment: 'Szövegigazítás', left: 'Balra', center: 'Középre', right: 'Jobbra',
         appearance: 'Megjelenés és méret', signals: 'Loxone-adatok', valvePosition: 'Szelepállás',
@@ -39,11 +44,16 @@ export const messages = {
         sourceHint: 'Nincs aktivitásjel: a teljesítmény alsó határ felett aktív. Az explicit aktivitásjel elsőbbséget élvez.',
         flowDirection: 'Áramlási irány', forwardFlow: 'Kezdőpont → végpont', backwardFlow: 'Végpont → kezdőpont',
         drawPipe: 'Cső rajzolása', finishPipe: 'Cső befejezése', pointLimit: 'Egy cső legfeljebb 64 pontból állhat.',
-        pipeHint: 'Érintsd meg a kezdőpontot, majd a töréspontokat. A lezáráshoz válassz csatlakozót vagy nyomd meg a Cső befejezése gombot.',
+        pipeHint: 'Érintsd meg a kezdőpontot, majd a töréspontokat. Meglévő csőre kattintva leágazást indíthatsz vagy zárhatsz le. Szabad véghez válaszd a Cső befejezése gombot.',
         conflict: 'Másik böngésző módosította a projektet. Exportáld a helyi változatot, majd töltsd újra az oldalt.',
         catalogInfo: 'Az elemfajtákat a firmware határozza meg. A fájlok SHA-256 szerint frissülnek; a változatlanokat nem töltjük le újra.',
     },
     en: {
+        joinAtBridge: 'Replace the bridge with a junction connecting both pipes to the new branch?',
+        sharedFlowHint: 'Changes apply to every pipe connected by a junction.',
+        pipeCrossing: 'Pipe crossing', crossingMode: 'Connection', pipeNode: 'Junction', pipeBridge: 'Bridge',
+        flowOwner: 'Use these flow settings for the network', crossingHint: 'Joined pipes share activity, power and flow direction.',
+        branchHint: 'A branch uses a junction with shared flow.', occupiedCrossing: 'Convert the bridge to a junction first, or start beside it.',
         equipmentLibrary: 'Equipment library', assetCount: 'devices', noAssets: 'No matches. Change the search or category.', equipmentCategory: 'Category',
         alignment: 'Text alignment', left: 'Left', center: 'Center', right: 'Right',
         appearance: 'Appearance and size', signals: 'Loxone data', valvePosition: 'Valve position',
@@ -82,7 +92,7 @@ export const messages = {
         sourceHint: 'Without activity source: power above the lower bound is active. An explicit activity source takes precedence.',
         flowDirection: 'Flow direction', forwardFlow: 'Start → end', backwardFlow: 'End → start',
         drawPipe: 'Draw pipe', finishPipe: 'Finish pipe', pointLimit: 'A pipe can contain up to 64 points.',
-        pipeHint: 'Tap the start and then each bend. Select a port or press Finish pipe to complete the route.',
+        pipeHint: 'Tap the start and then each bend. Tap an existing pipe or port to start or end a branch. Use Finish pipe for a free end.',
         conflict: 'Another browser changed the project. Export your local changes, then reload.',
         catalogInfo: 'Equipment types are defined by firmware. Files update by SHA-256; unchanged files are reused.',
     },

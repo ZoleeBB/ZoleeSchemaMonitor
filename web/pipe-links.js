@@ -73,6 +73,14 @@ export function nearbySegments(page, point, size, tolerance) {
     return hits.sort((a,b) => a.distance-b.distance);
 }
 
+function intersection(p, endP, q, endQ) {
+    const r = delta(endP,p), s = delta(endQ,q), det = cross(r,s);
+    if (Math.abs(det) < 1e-12) return null;
+    const diff = delta(q,p), t = cross(diff,s)/det, u = cross(diff,r)/det;
+    if ([t,u].some(v => v < -1e-9 || v > 1+1e-9)) return null;
+    return {point:mix(p,endP,Math.max(0,Math.min(1,t))), t, u};
+}
+
 export function crossingAt(page, point, size, tolerance) {
     const hits = nearbySegments(page, point, size, tolerance);
     let best = null, limit = tolerance;
@@ -80,12 +88,9 @@ export function crossingAt(page, point, size, tolerance) {
         const a = hits[i], b = hits[j];
         if (a.pipe === b.pipe) continue;
         const p = a.pipe.points[a.index], q = b.pipe.points[b.index];
-        const r = delta(a.pipe.points[a.index+1], p), s = delta(b.pipe.points[b.index+1], q);
-        const det = cross(r,s);
-        if (Math.abs(det) < 1e-12) continue;
-        const diff = delta(q,p), t = cross(diff,s)/det, u = cross(diff,r)/det;
-        if ([t,u].some(v => v < -1e-9 || v > 1+1e-9)) continue;
-        const at = mix(p,a.pipe.points[a.index+1],Math.max(0,Math.min(1,t)));
+        const result = intersection(p,a.pipe.points[a.index+1],q,b.pipe.points[b.index+1]);
+        if (!result) continue;
+        const {point:at,t,u} = result;
         const distance = Math.hypot((at.x-point.x)*size.width, (at.y-point.y)*size.height);
         if (distance <= limit) {
             best = [{...a,t,point:at},{...b,t:u,point:at}];
@@ -141,8 +146,28 @@ export function pipeGeometry(pipe, size) {
 
 export function moveLinkedPoint(page, point, position) {
     Object.assign(point, position);
-    if (point.link) {
+    if (point.kind === 'node') {
         for (const {point: peer} of pipeLinks(page).get(point.link))
             Object.assign(peer, {x:point.x, y:point.y});
+    }
+}
+
+// Az elkerülés két független útvonalat jelöl. Mozgatáskor a jel az új metszésre kerül.
+export function refreshBridges(page) {
+    for (const members of pipeLinks(page).values()) {
+        if (members.length !== 2 || members[0].point.kind === 'node') continue;
+        const [a,b] = members;
+        if (a.point.x === b.point.x && a.point.y === b.point.y) continue;
+        const hit = intersection(a.pipe.points[a.index-1],a.pipe.points[a.index+1],
+            b.pipe.points[b.index-1],b.pipe.points[b.index+1]);
+        if (hit && hit.t > 1e-8 && hit.t < 1-1e-8 && hit.u > 1e-8 && hit.u < 1-1e-8) {
+            Object.assign(a.point,hit.point);
+            Object.assign(b.point,hit.point);
+        } else {
+            for (const {point} of members) {
+                delete point.link;
+                delete point.kind;
+            }
+        }
     }
 }

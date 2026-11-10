@@ -1,3 +1,4 @@
+import {refreshBridges, moveLinkedPoint, pipeLinks, shareFlow, sameFlow, nearbySegments, crossingAt, existingVertex, attachVertex, pipeGeometry} from './pipe-links.js';
 import {labelLines} from './text-layout.js';
 import {LIMITS, canvasSize, newElement, newId, validateProject, activityState, readBinding, exportPage, positionState, newManifold, elementPorts, manifoldHeadState, manifoldParts, manifoldCenter, manifoldWidth, equipmentImageSize, manifoldImage, rotateElement, SPRAY_DROPS, sprayPoint, valueText} from './model.js';
 
@@ -135,6 +136,7 @@ export class Editor {
             if (this.page.elements.length >= LIMITS.elements) return this.feedback('150 / page', true);
             this.pipePoints = [];
             this.pipeSource = null;
+            this.branchStart = null;
             if (this.preview) {
                 this.preview = false;
                 this.render();
@@ -316,8 +318,8 @@ export class Editor {
             const asset = this.state.catalog.elements.find(item => item.id === element.asset);
             const count = asset ? elementPorts(element, asset).length : 0;
             for (const key of ['source', 'target']) if (pipe[key]?.element === element.id && pipe[key].port >= count) pipe[key] = null;
-            if (pipe.source?.element === element.id) pipe.points[0] = this.portPoint(element, pipe.source.port);
-            if (pipe.target?.element === element.id) pipe.points[pipe.points.length - 1] = this.portPoint(element, pipe.target.port);
+            if (pipe.source?.element === element.id) moveLinkedPoint(this.page, pipe.points[0], this.portPoint(element, pipe.source.port));
+            if (pipe.target?.element === element.id) moveLinkedPoint(this.page, pipe.points.at(-1), this.portPoint(element, pipe.target.port));
         }
     }
 
@@ -332,7 +334,7 @@ export class Editor {
                 const index = key === 'source' ? 0 : pipe.points.length - 1;
                 const previous = pipe.points[index];
                 if (Math.abs(previous.x - point.x) > 1e-9 || Math.abs(previous.y - point.y) > 1e-9) {
-                    pipe.points[index] = point;
+                    moveLinkedPoint(this.page, previous, point);
                     changed = true;
                 }
             }
@@ -344,6 +346,7 @@ export class Editor {
     draw() {
         if (!this.canvas) return;
         this.synchronizeConnections();
+        refreshBridges(this.page);
         const {width: w, height: h} = this.size;
         this.canvas.replaceChildren();
         const defs = svgNode('defs');
@@ -352,10 +355,25 @@ export class Editor {
         gradient.append(svgNode('stop', {offset: '0', 'stop-color': colors[0]}), svgNode('stop', {offset: '1', 'stop-color': this.page.background === 'plain' ? colors[0] : colors[1]}));
         defs.append(gradient);
         this.canvas.append(defs, svgNode('rect', {width: w, height: h, fill: 'url(#page-bg)'}));
+        const markers = new Map();
+        const bridgeDots = [];
         for (const element of this.page.elements) {
             const group = svgNode('g', {'data-element': element.id, class: element.type + (element.id === this.selected ? ' selected' : '')});
             if (element.type === 'pipe') {
-                const path = svgNode('polyline', {points: element.points.map(point => `${point.x * w},${point.y * h}`).join(' '),
+                const {route, bridges} = pipeGeometry(element,this.size);
+                const coords = points => points.map(p => `${p.x},${p.y}`).join(' ');
+                for (const {arc,point} of bridges) {
+                    const mark = svgNode('g', {'data-crossing':point.link});
+                    for (const [color,width] of [[colors[0],element.width+4],[element.color,element.width]])
+                        mark.append(svgNode('polyline',{points:coords(arc), fill:'none',stroke:color,
+                            'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round'}));
+                    markers.set(point.link, mark);
+                }
+                for (const p of element.points) if (p.kind === 'node') {
+                    markers.set(p.link,svgNode('circle',{'data-crossing':p.link,cx:p.x*w,cy:p.y*h,
+                        r:Math.max(4,element.width*.75+1),fill:element.color,stroke:colors[0],'stroke-width':1}));
+                }
+                const path = svgNode('polyline', {points: coords(route),
                     stroke: element.color, 'stroke-width': element.width, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round'});
                 const luminance = pipeLuminance(element.color);
                 if (this.dark ? luminance < 70000 : luminance > 205000) {
@@ -372,6 +390,10 @@ export class Editor {
                         r: Math.max(2, Math.round(element.width * .3)), fill: luminance >= 145000 ? '#15202b' : '#ffffff',
                         stroke: element.width < 4 ? element.color : 'none', 'stroke-width': 1,
                         class: 'flow-dot', 'data-dot': index, style: 'display:none'}));
+                }
+                if (bridges.length) for (const dot of group.querySelectorAll('[data-dot]')) {
+                    dot.id = 'bridge-dot-' + element.id + '-' + dot.dataset.dot;
+                    bridgeDots.push(svgNode('use', {href:'#'+dot.id,'pointer-events':'none'}));
                 }
                 if (element.id === this.selected && !this.preview) element.points.forEach((point, index) => group.append(svgNode('circle', {
                     cx: point.x * w, cy: point.y * h, r: 6, class: 'handle', 'data-vertex': index})));
@@ -481,6 +503,8 @@ export class Editor {
             }
             this.canvas.append(group);
         }
+        for (const mark of markers.values()) this.canvas.append(mark);
+        this.canvas.append(...bridgeDots);
         this.drawPipePreview();
         this.updateValues();
     }
@@ -494,7 +518,7 @@ export class Editor {
     }
 
     cancelPipe() {
-        this.pipePoints = this.pipeCursor = this.pipeSource = null;
+        this.pipePoints = this.pipeCursor = this.pipeSource = this.branchStart = null;
         this.syncPipeTools();
         this.drawPipePreview();
     }
@@ -521,32 +545,137 @@ export class Editor {
         const port = event.target.closest('[data-port]');
         const equipment = port && this.page.elements.find(item => item.id === port.closest('[data-element]').dataset.element);
         const endpoint = equipment && {element: equipment.id, port: Number(port.dataset.port)};
-        const point = endpoint ? this.portPoint(equipment, endpoint.port) : this.point(event);
+        const mouse = this.point(event);
+        let branch = !endpoint && nearbySegments(this.page,mouse,this.size,6)[0];
+        const marker = event.target.closest('[data-crossing]')?.dataset.crossing;
+        if (!endpoint && marker) {
+            const members = pipeLinks(this.page).get(marker);
+            const {pipe,point} = members.find(m=>m.point.kind==='over') || members[0];
+            branch = nearbySegments({elements:[pipe]},point,this.size,1)[0];
+        }
+        if (branch) {
+            // A már létező töréspontot érintéssel is pontosan el lehet találni.
+            for (const t of [0,1]) {
+                const vertex = branch.pipe.points[branch.index+t];
+                if (Math.hypot((vertex.x-branch.point.x)*this.size.width,
+                               (vertex.y-branch.point.y)*this.size.height) <= 4) {
+                    branch = {...branch,t,point:{x:vertex.x,y:vertex.y}};
+                    break;
+                }
+            }
+            const kind = existingVertex(branch)?.kind;
+            if ((kind === 'over' || kind === 'under') && !confirm(this.tr('joinAtBridge'))) return;
+        }
+        const point = endpoint ? this.portPoint(equipment, endpoint.port) : branch ? branch.point : mouse;
         const last = this.pipePoints.at(-1);
         if (last && Math.hypot(point.x-last.x, point.y-last.y) <= .001) return;
         if (this.pipePoints.length >= LIMITS.points) return this.feedback(this.tr('pointLimit'), true);
         this.pipePoints.push(point);
         this.pipeCursor = null;
-        if (this.pipePoints.length === 1) this.pipeSource = endpoint || null;
-        else if (endpoint) return this.finishPipe(endpoint);
+        if (this.pipePoints.length === 1) {
+            this.pipeSource = endpoint || null;
+            this.branchStart = branch || null;
+        } else if (endpoint || branch) return this.finishPipe(endpoint, branch);
         this.syncPipeTools();
         this.drawPipePreview();
     }
 
-    finishPipe(target = null) {
+    finishPipe(target = null, branchEnd = null) {
         if (!this.pipePoints || this.pipePoints.length < 2 || this.page.elements.length >= LIMITS.elements) return;
-        this.remember();
+        const before = JSON.stringify(this.state.project);
         const pipe = newElement('pipe');
         Object.assign(pipe, this.pipeStyle, {points: this.pipeRoute(this.pipePoints), source: this.pipeSource, target});
-        this.page.elements.push(pipe);
+        try {
+            this.page.elements.push(pipe);
+            const attachments = [[this.branchStart,pipe.points[0]],[branchEnd,pipe.points.at(-1)]]
+                .filter(([hit]) => hit).sort(([a],[b]) => b.index-a.index || b.t-a.t);
+            for (const [hit, vertex] of attachments) {
+                // Az első beszúrás után ugyanannak a csőnek a szakaszindexe megváltozhat.
+                const current = nearbySegments({elements:[hit.pipe]},hit.point,this.size,1)[0];
+                const previous = existingVertex(current);
+                const link = previous?.link || newId('j');
+                if (previous?.kind === 'over' || previous?.kind === 'under')
+                    for (const member of pipeLinks(this.page).get(link)) member.point.kind = 'node';
+                attachVertex(current,link,'node',LIMITS.points);
+                Object.assign(vertex,{...current.point,link,kind:'node'});
+            }
+            shareFlow(this.page,this.branchStart?.pipe || branchEnd?.pipe || pipe);
+            validateProject(this.state.project,this.state.catalog);
+        } catch (error) {
+            this.state.project = JSON.parse(before);
+            this.cancelPipe();
+            this.draw();
+            return this.feedback(this.tr(error.message),true);
+        }
+        this.remember(before);
         this.selected = pipe.id;
         this.cancelPipe();
         this.draw();
         this.inspect();
     }
 
+    inspectCrossing(hits, members) {
+        this.selected = null;
+        const panel = this.root.querySelector('#inspector'), t = this.tr;
+        const endsHere = hit => (hit.index === 0 && hit.t <= 1e-8) ||
+            (hit.index === hit.pipe.points.length-2 && hit.t >= 1-1e-8);
+        const branch = members ? members.length !== 2 || members.some(m =>
+            !m.index || m.index === m.pipe.points.length-1) : hits.some(endsHere);
+        const pipes = members ? members.map(m => m.pipe) : hits.map(hit => hit.pipe);
+        const isNode = members?.[0].point.kind === 'node';
+        const current = members ? (isNode ? 'node' : 'bridge') : null;
+        panel.innerHTML = `<fieldset><legend>${t('pipeCrossing')}</legend>
+            <label>${t('crossingMode')}<select id="crossing-mode">
+            ${current ? '' : '<option value="">—</option>'}
+            <option value="node" ${isNode?'selected':''}>${t('pipeNode')}</option>
+            ${branch?'':`<option value="bridge" ${current==='bridge'?'selected':''}>${t('pipeBridge')}</option>`}
+            </select></label><p class="hint">${t(branch?'branchHint':'crossingHint')}</p></fieldset>`;
+        if (!isNode && !sameFlow(pipes[0],pipes[1])) {
+            const select = document.createElement('select');
+            select.id = 'flow-owner';
+            for (const [index,pipe] of pipes.entries()) {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = (pipe.label || t('pipe')+' '+(this.page.elements.indexOf(pipe)+1)) +
+                    ' · ' + this.bindingName(pipe.activity || pipe.power?.source);
+                select.append(option);
+            }
+            const label = document.createElement('label');
+            label.textContent=t('flowOwner');
+            label.append(select);
+            panel.querySelector('fieldset').append(label);
+        }
+        panel.querySelector('#crossing-mode').onchange = event => {
+            const kind = event.target.value;
+            if (!kind) return;
+            const before = JSON.stringify(this.state.project);
+            const link = members?.[0].point.link || newId('j');
+            try {
+                if (members) members.forEach((m,i) => {m.point.kind = kind==='node'?'node':i?'over':'under';});
+                else hits.forEach((hit,i) => attachVertex(hit,link,kind==='node'?'node':i?'over':'under',LIMITS.points));
+                if (kind === 'node') shareFlow(this.page,pipes[Number(panel.querySelector('#flow-owner')?.value || 0)]);
+                validateProject(this.state.project,this.state.catalog);
+                this.remember(before);
+                this.draw();
+                this.inspectCrossing(null,pipeLinks(this.page).get(link));
+            } catch (error) {
+                this.state.project = JSON.parse(before);
+                this.draw(); this.inspect(); this.feedback(t(error.message),true);
+            }
+        };
+    }
+
     pointerDown(event) {
         if (this.preview || this.pipePoints) return;
+        const mouse = this.point(event);
+        const marker = event.target.closest('[data-crossing]')?.dataset.crossing;
+        const hits = crossingAt(this.page,mouse,this.size,6);
+        const link = marker || hits?.map(existingVertex).find(p => p?.link)?.link;
+        if ((hits || link) && !event.target.hasAttribute('data-vertex')) {
+            this.drag = null;
+            this.inspectCrossing(hits,link && pipeLinks(this.page).get(link));
+            return;
+        }
         const group = event.target.closest('[data-element]');
         this.selected = group?.dataset.element || null;
         this.inspect();
@@ -574,13 +703,14 @@ export class Editor {
         if (this.element.type === 'pipe') {
             if (this.drag.vertex !== undefined) {
                 const vertex = Number(this.drag.vertex);
-                this.element.points[vertex] = point;
+                moveLinkedPoint(this.page, this.element.points[vertex], point);
                 if (vertex === 0) this.element.source = null;
                 if (vertex === this.element.points.length - 1) this.element.target = null;
             } else {
                 const minX = Math.min(...original.points.map(p => p.x)), maxX = Math.max(...original.points.map(p => p.x));
                 const minY = Math.min(...original.points.map(p => p.y)), maxY = Math.max(...original.points.map(p => p.y));
-                this.element.points = original.points.map(p => ({x: p.x + clamp(dx, -minX, 1 - maxX), y: p.y + clamp(dy, -minY, 1 - maxY)}));
+                original.points.forEach((p,i) => moveLinkedPoint(this.page, this.element.points[i], {
+                    x:p.x+clamp(dx,-minX,1-maxX), y:p.y+clamp(dy,-minY,1-maxY)}));
                 this.element.source = this.element.target = null;
             }
         } else if (this.drag.resize) {
@@ -628,13 +758,21 @@ export class Editor {
             <label>${t('power')}<button class="binding-button" data-binding="power">${this.escape(this.bindingName(e.power?.source))}</button></label>
             ${e.power ? `<div class="small-grid"><label>${t('minimum')}<input id="power-min" type="number" step="any" value="${e.power.minimum}"></label><label>${t('maximum')}<input id="power-max" type="number" step="any" value="${e.power.maximum}"></label></div>
                 <label><input id="show-power" type="checkbox" ${e.showPower ? 'checked' : ''}>${t('showPower')}</label>` : ''}<p class="hint">${t('sourceHint')}</p></fieldset>` : ''}`;
+        if (e.type === 'pipe' && e.points.some(p=>p.kind==='node')) {
+            const hint = document.createElement('p');
+            hint.className = 'hint';
+            hint.textContent = t('sharedFlowHint');
+            panel.querySelector('[data-binding="activity"]').closest('fieldset').prepend(hint);
+        }
         if (asset) panel.querySelector('.element-caption').prepend(this.assetPicture(asset, e.manifold));
         panel.querySelector('#element-rotation').onchange = event => {
             const before = clone(this.state.project);
             this.remember();
             try {
                 Object.assign(e, rotateElement(e, Number(event.target.value), this.size));
+                if (e.type === 'pipe') for (const p of e.points) if (p.link) moveLinkedPoint(this.page, p,p);
                 this.updateConnections(e);
+                refreshBridges(this.page);
                 validateProject(this.state.project, this.state.catalog);
                 this.draw(); this.inspect();
             } catch(error) { this.state.project = before; this.feedback(error.message, true); this.inspect(); }
@@ -661,6 +799,7 @@ export class Editor {
             try {
                 if (e.type !== 'pipe') Object.assign(e, rotateElement(e, e.rotation, this.size));
                 this.updateConnections(e);
+                refreshBridges(this.page);
                 validateProject(this.state.project, this.state.catalog);
                 this.remember(JSON.stringify(before));
                 this.draw();
@@ -679,6 +818,7 @@ export class Editor {
             if (key === 'power') e.power = binding ? {source: binding, minimum: e.power?.minimum ?? 0, maximum: e.power?.maximum ?? 100} : null;
             else if (key === 'position') e.position = binding ? {source: binding, minimum: e.position?.minimum ?? 0, maximum: e.position?.maximum ?? 100, reverse: e.position?.reverse ?? false} : null;
             else e[key] = binding;
+            shareFlow(this.page,e);
             this.inspect();
             this.draw();
         });
@@ -691,6 +831,7 @@ export class Editor {
                 }
                 this.remember();
                 Object.assign(e.power, {minimum, maximum});
+                shareFlow(this.page,e);
             };
         }
         for (const selector of ['#position-min', '#position-max']) {
@@ -717,6 +858,7 @@ export class Editor {
         if (e.type === 'pipe') panel.querySelector('#pipe-direction').onchange = event => {
             this.remember();
             e.direction = Number(event.target.value);
+            shareFlow(this.page,e);
             this.draw();
         };
     }
@@ -841,6 +983,10 @@ export class Editor {
         this.remember();
         const deleted = this.selected;
         this.page.elements = this.page.elements.filter(element => element.id !== deleted);
+        for (const peers of pipeLinks(this.page).values()) if (peers.length === 1) {
+            delete peers[0].point.link;
+            delete peers[0].point.kind;
+        }
         for (const element of this.page.elements) {
             if (element.source?.element === deleted) element.source = null;
             if (element.target?.element === deleted) element.target = null;
@@ -855,7 +1001,10 @@ export class Editor {
         this.remember();
         const element = clone(this.element);
         element.id = newId();
-        if (element.type === 'pipe') element.source = element.target = null;
+        if (element.type === 'pipe') {
+            element.source = element.target = null;
+            element.points = element.points.map(({x,y}) => ({x,y}));
+        }
         else { element.x = clamp(element.x + 0.03, 0, 1 - element.w); element.y = clamp(element.y + 0.03, 0, 1 - element.h); }
         this.page.elements.push(element);
         this.selected = element.id;
