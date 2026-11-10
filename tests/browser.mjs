@@ -312,6 +312,17 @@ try {
     });
     const catalog = JSON.parse(await fs.readFile("web/catalog.json", "utf8"));
     assert.deepEqual(decoded.map(([id]) => id).sort(), catalog.elements.map(asset => asset.id).sort());
+    const brandFilter = page.locator('#boiler-manufacturer');
+    await brandFilter.selectOption({label:'Wolf'});
+    const wolfAssets = catalog.elements.filter(asset => asset.manufacturer === 'Wolf');
+    assert.ok(wolfAssets.length >= 3);
+    assert.deepEqual(await page.locator('#library [data-asset]').evaluateAll(nodes => nodes.map(n => n.dataset.asset)),
+        wolfAssets.map(asset => asset.id));
+    await page.locator('#asset-category').selectOption('valves');
+    assert.equal(await brandFilter.isVisible(), false);
+    await page.locator('#asset-category').selectOption('heating');
+    assert.equal(await brandFilter.inputValue(), '');
+    await page.locator('#asset-category').selectOption('');
     for (const [id,w,h] of decoded) {
         const n = id === 'configurable-manifold' ? 4 : Number(/^manifold-(\d+)$/.exec(id)?.[1]);
         assert.deepEqual([w,h], n ? [96 + 56*n,224] : [160,160], id);

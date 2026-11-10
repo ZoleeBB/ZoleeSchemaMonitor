@@ -627,10 +627,12 @@ BOILER_TYPES = {
     "bale": ("Bálatüzelésű kazán", "Straw bale boiler"),
 }
 BOILER_BRANDS = json.loads(Path(__file__).with_name("boiler-brands.json").read_text())
+BOILER_MANUFACTURERS = {}
 for brand_id, brand in BOILER_BRANDS.items():
     rows = []
     for kind in brand["types"]:
         identifier = f"boiler-{brand_id}-{kind}"
+        BOILER_MANUFACTURERS[identifier] = brand["name"]
         hu, en = BOILER_TYPES[kind]
         rows.append(f"{identifier}|{brand['name']} – {hu}|{brand['name']} – {en}")
         ARTWORK[identifier] = (f"boiler-{brand_id}", [], ("none", 0, 0, 0))
@@ -688,6 +690,8 @@ def elements():
         "category": "valves", "family": "configurable-manifold", "animation": None})
     # A portindexek a mentett csőkapcsolatok részei; a kalibrálás nem rendezheti át őket.
     for element in result:
+        if element["id"] in BOILER_MANUFACTURERS:
+            element["manufacturer"] = BOILER_MANUFACTURERS[element["id"]]
         calibration = PORT_CALIBRATION["elements"][element["id"]]
         width, height = calibration.get("canvas", [PORT_CALIBRATION["canvasPixels"]] * 2)
         element["ports"] = [{"x": x / width, "y": y / height} for x, y in calibration["portsPx"]]

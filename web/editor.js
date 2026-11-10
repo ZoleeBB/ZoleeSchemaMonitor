@@ -44,6 +44,9 @@ export class Editor {
         this.preview = false;
         this.librarySearch = '';
         this.libraryCategory = '';
+        this.libraryManufacturer = '';
+        this.boilerManufacturers = [...new Set(state.catalog.elements.map(asset => asset.manufacturer).filter(Boolean))]
+            .sort((a, b) => a.localeCompare(b, this.language));
         this.pipePoints = null;
         this.pipeStyle = {width: 6, color: '#e34d4d'};
         this.phase = 0;
@@ -96,6 +99,7 @@ export class Editor {
             <input id="import-file" type="file" accept="application/json,.json" hidden></div>
             <datalist id="pipe-colors">${['#e34d4d','#287ac4','#258653','#f2cb3d','#ffffff','#26333d'].map(color => `<option value="${color}"></option>`).join('')}</datalist><div class="editor-layout"><section class="library-panel" aria-labelledby="library-title"><h2 id="library-title">${t('equipmentLibrary')}</h2><label>${t('search')}<input id="asset-search" type="search" placeholder="${t('search')}"></label>
             <label>${t('equipmentCategory')}<select id="asset-category"><option value="">${t('all')}</option>${Object.entries(this.state.catalog.categories).map(([id, names]) => `<option value="${id}">${this.escape(names[this.language])}</option>`).join('')}</select></label>
+            <label id="manufacturer-label">${t('boilerManufacturer')}<select id="boiler-manufacturer"><option value="">${t('all')}</option>${this.boilerManufacturers.map(name => `<option>${this.escape(name)}</option>`).join('')}</select></label>
             <div class="toolbar" role="group" aria-label="${t('addElement')}">${this.button('add-text', 'text')}${this.button('add-value', 'value')}${this.button('draw-pipe', 'pipe')}</div><p id="library-count" class="hint" role="status"></p><div class="library" id="library"></div></section>
             <div class="editor-stage"><div class="toolbar canvas-toolbar"><div class="tool-group" role="group" aria-label="${t('editTools')}">${this.button('undo', 'undo')}${this.button('redo', 'redo')}${this.button('duplicate', 'copy')}${this.button('delete', 'delete')}</div>
             <div class="tool-group" role="group" aria-label="${t('preview')}">${this.button('preview', this.preview ? 'edit' : 'preview')}${this.button('night', 'night')}</div></div>
@@ -167,6 +171,9 @@ export class Editor {
         const search = this.root.querySelector('#asset-search'), category = this.root.querySelector('#asset-category');
         search.value = this.librarySearch;
         category.value = this.libraryCategory;
+        const manufacturer = this.root.querySelector('#boiler-manufacturer');
+        manufacturer.value = this.libraryManufacturer;
+        manufacturer.onchange = () => { this.libraryManufacturer = manufacturer.value; this.renderLibrary(); };
         search.oninput = () => { this.librarySearch = search.value; this.renderLibrary(); };
         category.onchange = () => { this.libraryCategory = category.value; this.renderLibrary(); };
         this.root.querySelector('#page-name').onchange = event => {
@@ -225,10 +232,17 @@ export class Editor {
         const terms = searchText(this.librarySearch).trim().split(/\s+/);
         const category = this.root.querySelector('#asset-category').value;
         const library = this.root.querySelector('#library');
+        const showManufacturers = !category || category === 'heating';
+        this.root.querySelector('#manufacturer-label').hidden = !showManufacturers;
+        if (!showManufacturers) {
+            this.libraryManufacturer = '';
+            this.root.querySelector('#boiler-manufacturer').value = '';
+        }
         library.replaceChildren();
         const selectedAsset = this.element?.asset;
         for (const asset of this.state.catalog.elements) {
             if (category && asset.category !== category) continue;
+            if (this.libraryManufacturer && asset.manufacturer !== this.libraryManufacturer) continue;
             const keywords = searchText([asset.name.hu, asset.name.en, asset.id].join(' '));
             if (!terms.every(term => keywords.includes(term))) continue;
             const button = document.createElement('button');
