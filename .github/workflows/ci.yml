@@ -22,6 +22,9 @@ jobs:
     name: Modell, tárolás, böngésző és grafikai csomag
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: read
     outputs:
       version: ${{ steps.plan.outputs.version }}
       publish: ${{ steps.plan.outputs.publish }}
@@ -90,6 +93,9 @@ jobs:
         run: |
           node tests/browser.mjs
           node tests/pipe_flow.mjs
+      - name: Valódi fűtési minta exportálása a webszerkesztőből
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/MS1' && contains(github.event.head_commit.message, '[capture-readme]') }}
+        run: node tests/readme_preview.mjs
       - name: Kiadási verzió és összevont PR ellenőrzése
         id: plan
         env:
@@ -107,8 +113,92 @@ jobs:
           MBEDTLS_PATH: ${{ github.workspace }}/.native-deps/mbedtls
           LVGL_SOURCE: .native-deps/lvgl
           LVGL_HOST_BUILD: /tmp/schema-lvgl-host
+          SCHEMA_README_CAPTURE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/MS1' && contains(github.event.head_commit.message, '[capture-readme]') && 'tests/schemas/readme/kijelzo.ppm' || '' }}
         shell: bash
         run: bash tools/test_export_scenes.sh dist/graphics | tee dist/scene-metrics.csv
+      - name: Tényleges szerkesztő- és LVGL-képek commitolása az MS1 ágra
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/MS1' && contains(github.event.head_commit.message, '[capture-readme]') }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image
+
+          directory = Path("tests/schemas/readme")
+          source = directory / "kijelzo.ppm"
+          assert source.is_file(), "Hiányzik a natív LVGL képpuffer!"
+          picture = Image.open(source).convert("RGB")
+          assert picture.size == (1280, 800)
+          picture.save(directory / "kijelzo.jpg", "JPEG", quality=88, optimize=True)
+          source.unlink()
+
+          graphics = json.loads(Path("catalog/image-sizes.json").read_text(encoding="utf-8"))
+          for name in ("szerkeszto.jpg", "kijelzo.jpg"):
+              file = directory / name
+              with Image.open(file) as image:
+                  w, h = image.size
+              assert w <= 1600 and h <= 1180 and file.stat().st_size <= 512 * 1024, name
+              graphics["images"]["tests/schemas/readme/" + name] = {
+                  "role": "schema-screenshot", "width": w, "height": h
+              }
+          Path("catalog/image-sizes.json").write_text(
+              json.dumps(graphics, ensure_ascii=False, indent=4) + "\n", encoding="utf-8"
+          )
+
+          readme = Path("README.md")
+          value = readme.read_text(encoding="utf-8")
+          for name in ("szerkeszto.jpg", "kijelzo.jpg"):
+              old = "tests/schemas/kazan/" + name
+              new = "tests/schemas/readme/" + name
+              assert old in value, f"Hiányzó README hivatkozás: {old}"
+              value = value.replace(old, new)
+          readme.write_text(value, encoding="utf-8")
+
+          notes = Path("tests/schemas/README.md")
+          value = notes.read_text(encoding="utf-8")
+          anchor = "## Csőáramlási próba"
+          assert anchor in value
+          section = """## A README valódi bemutatója
+
+          A [webszerkesztő képe](readme/szerkeszto.jpg) a futó Chromium szerkesztőből,
+          a [kijelző képe](readme/kijelzo.jpg) az éles LVGL C-rajzoló RGB565 képpufferéből
+          származik. A [projekt exportja](readme/projekt.json) és
+          [az oldal exportja](readme/lap-1.json) a tényleges webes Export gombokkal készült.
+
+          A kazán, a keringető, a háromjáratú keverőszelep és a hatkörös osztó főcsatlakozói
+          **14 pixeles** piros/kék csövekkel csatlakoznak. A keverő hideg ága egy valós
+          T-csomóponton kapcsolódik a visszatérőhöz. Az osztó körönkénti előremenő
+          és visszatérő csonkjai **szabadon maradnak**, nincs közöttük fantáziált
+          rövidzár vagy U-alakú összekötés.
+
+          Mindkét export szimulált, 65%-os Loxone-értékkel készült; a kijelzőkép
+          gazdagépes LVGL-kimenet, nem fizikai ESP32-P4 panelről készült fénykép.
+          A megismételhető exportparancs: `node tests/readme_preview.mjs`.
+          A CI célzott `[capture-readme]` commitja generálja a natív kijelzőképet.
+
+          """
+          notes.write_text(value.replace(anchor, section + anchor, 1), encoding="utf-8")
+          print("Valódi képek és exportok:", (directory / "szerkeszto.jpg").stat().st_size,
+                (directory / "kijelzo.jpg").stat().st_size)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md catalog/image-sizes.json tests/schemas/README.md \
+              tests/schemas/readme/projekt.json tests/schemas/readme/lap-1.json \
+              tests/schemas/readme/szerkeszto.jpg tests/schemas/readme/kijelzo.jpg
+          python3 tools/image_policy.py
+          git commit -m "docs: publish real editor and LVGL README captures [skip ci]"
+          git push origin HEAD:MS1
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/MS1' && contains(github.event.head_commit.message, '[capture-readme]') && hashFiles('tests/schemas/readme/*.jpg') != '' }}
+        with:
+          name: schema-readme-real-captures
+          path: |
+            tests/schemas/readme/*.jpg
+            tests/schemas/readme/*.json
+          retention-days: 7
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
           name: schema-scene-metrics

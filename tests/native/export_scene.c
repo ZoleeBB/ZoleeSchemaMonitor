@@ -143,6 +143,26 @@ static void flush(lv_display_t *d, const lv_area_t *area, uint8_t *bytes)
 }
 static double milliseconds(void);
 static double frame_ms;
+/* Az éles LVGL RGB565 flush-pufferét mentjük; nem rajzolunk külön makettet. */
+static void save_readme_ppm(const char *path)
+{
+    FILE *file = fopen(path, "wb");
+    assert(file && fprintf(file, "P6\n%d %d\n255\n", width, height) > 0);
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            uint16_t pixel = pixels[y * width + x];
+            unsigned char rgb[] = {
+                (unsigned char)((((pixel >> 11) & 31) * 255 + 15) / 31),
+                (unsigned char)((((pixel >> 5) & 63) * 255 + 31) / 63),
+                (unsigned char)(((pixel & 31) * 255 + 15) / 31)
+            };
+            assert(fwrite(rgb, 1, sizeof(rgb), file) == sizeof(rgb));
+        }
+    }
+    assert(fclose(file) == 0);
+}
 static void update(void)
 {
     double start = milliseconds();
@@ -372,6 +392,17 @@ int main(int argc, char **argv)
                     assert(s_pictures[n].bytes);
             }
             assert(max_main <= 10240 && max_lvgl <= 32768 && peak <= 32 * 1024 * 1024);
+            const char *capture = getenv("SCHEMA_README_CAPTURE");
+            if (capture && *capture && width == 1280 &&
+                strstr(argv[arg], "tests/schemas/readme/projekt.json") != NULL && i == 0)
+            {
+                /* A szimulált 65%-os állapotnak a két exporton egyeznie kell. */
+                connected = true;
+                raw = 65;
+                update();
+                render();
+                save_readme_ppm(capture);
+            }
             qsort(times, FRAMES, sizeof(*times), compare);
             printf("%s,%d,%u,%d,%.2f,%zu,%zu,%zu\n",
                    argv[arg],
