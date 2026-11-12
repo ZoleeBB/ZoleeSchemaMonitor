@@ -2,6 +2,11 @@
     "format": "zolee-image-sizes",
     "version": 1,
     "images": {
+        "assets/branding/readme-banner.avif": {
+            "role": "branding-banner",
+            "width": 960,
+            "height": 320
+        },
         "doc/grafika/latvanytervek/01-szivattyuk.jpg": {
             "role": "preview",
             "width": 1280,

@@ -14,6 +14,7 @@ RASTER_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".t
 PROFILES = {
     "manifold-module": {"prefix": "assets/elements/manifold/", "width": 152, "height": 224, "extensions": (".png",), "bytes": 128 * 1024},
     "element": {"prefix": "assets/elements/", "width": 160, "height": 160, "extensions": (".png",), "bytes": 128 * 1024},
+    "branding-banner": {"prefix": "assets/branding/", "width": 2400, "height": 800, "extensions": (".png", ".jpg", ".avif"), "bytes": 1024 * 1024},
     "schema-screenshot": {"prefix": "tests/schemas/", "width": 1600, "height": 1180, "extensions": (".jpg",), "bytes": 512 * 1024},
     "preview": {"prefix": "doc/grafika/latvanytervek/", "width": 1280, "height": 960, "extensions": (".png", ".jpg"), "bytes": 2 * 1024 * 1024},
 }
@@ -78,8 +79,9 @@ def check_images(files, read):
         else:
             from PIL import Image
             with Image.open(BytesIO(data)) as image:
-                if image.format != "JPEG":
-                    raise ValueError(f"Nem valódi JPEG: {path}")
+                expected_format = "AVIF" if path.lower().endswith(".avif") else "JPEG"
+                if image.format != expected_format:
+                    raise ValueError(f"Nem valódi {expected_format}: {path}")
                 size = image.size
         if size != (entry["width"], entry["height"]):
             raise ValueError(f"A kép valódi pixelmérete eltér a jegyzéktől: {path}")

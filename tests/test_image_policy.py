@@ -86,6 +86,22 @@ class ImagePolicyTests(unittest.TestCase):
         self.assertEqual(size, (1280, 853))
         self.assertEqual(png_size(data), size)
 
+    def test_branding_avif_requires_genuine_file_and_declared_dimensions(self):
+        filename = "assets/branding/readme-banner.avif"
+        output = BytesIO()
+        Image.new("RGB", (960, 320), (24, 38, 58)).save(output, format="AVIF", quality=35)
+        data = output.getvalue()
+        files = {POLICY_PATH: policy(filename, 960, 320, role="branding-banner"),
+                 filename: data}
+        self.assertEqual(check_images(set(files), files.__getitem__), 1)
+        files[filename] = png(960, 320)
+        with self.assertRaisesRegex(ValueError, "Nem valódi AVIF"):
+            check_images(set(files), files.__getitem__)
+        files[filename] = data
+        files[POLICY_PATH] = policy(filename, 960, 319, role="branding-banner")
+        with self.assertRaisesRegex(ValueError, "pixelmérete"):
+            check_images(set(files), files.__getitem__)
+
     def test_documentation_jpeg_is_small_and_cannot_replace_runtime_png(self):
         source = BytesIO()
         Image.new("RGB", (1536, 1024), (225, 230, 235)).save(source, format="PNG")
