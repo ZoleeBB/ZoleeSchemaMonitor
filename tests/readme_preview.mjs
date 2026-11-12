@@ -92,7 +92,7 @@ project.pages[0] = {
         textField('szivattyufelirat','KERINGETŐ',.287,.165,.14,16),
         textField('szelep-felirat','3-JÁRATÚ KEVERŐ',.455,.165,.18,16),
         textField('oszto-felirat','6 KÖRÖS OSZTÓ',.75,.165,.17,16),
-        textField('info','Előremenő / Visszatérő  •  14 px-es csövek',.25,.82,.59,19),
+        textField('info','Előremenő (piros) / visszatérő (kék) - 14 px',.25,.82,.59,19),
         textField('ertek-cimke','SZELEPÁLLÁS',.475,.535,.16,14),
         Object.assign(newElement('value'),{id:'szelep-ertek',x:.478,y:.59,w:.1,h:.06,
             value:signal,unit:'%',decimals:0,fontSize:22,color:'#cf5149'})
@@ -132,7 +132,15 @@ try {
     });
     browser=await chromium.launch({headless:true,executablePath:process.env.SCHEMA_CHROME_PATH||undefined,
         args:['--no-sandbox','--disable-dev-shm-usage',...JSON.parse(process.env.SCHEMA_CHROME_ARGS||'[]')]});
-    const page=await browser.newPage({viewport:{width:1600,height:1180},deviceScaleFactor:1,acceptDownloads:true});
+    const page=await browser.newPage({viewport:{width:1600,height:1040},deviceScaleFactor:1,acceptDownloads:true});
+    // A böngésző és az LVGL pontosan ugyanazt az állandó demójelet mutatja.
+    await page.route('**/api/live',async route=>{
+        const response=await route.fetch();
+        const data=await response.json();
+        data.connected=true;
+        data.values={...data.values,[signal.uuid]:65};
+        await route.fulfill({response,json:data});
+    });
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(url+'/editor');
@@ -170,7 +178,7 @@ try {
         const response=await page.request.get(url+name);
         assert(response.ok(),'Nem érhető el grafika: '+name);
     }
-    await page.waitForTimeout(1400);
+    await page.waitForFunction(()=>document.querySelector('[data-live-value]')?.textContent.trim()==='65 %');
     await page.screenshot({path:path.join(output,'szerkeszto.jpg'),type:'jpeg',quality:86,fullPage:false});
     assert.deepEqual(errors,[]);
     console.log('VALÓDI WEBSZERKESZTŐ: ',exported.pages[0].elements.length,

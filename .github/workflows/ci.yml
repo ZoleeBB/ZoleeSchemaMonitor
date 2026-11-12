@@ -151,8 +151,10 @@ jobs:
           for name in ("szerkeszto.jpg", "kijelzo.jpg"):
               old = "tests/schemas/kazan/" + name
               new = "tests/schemas/readme/" + name
-              assert old in value, f"Hiányzó README hivatkozás: {old}"
-              value = value.replace(old, new)
+              if old in value:
+                  value = value.replace(old, new)
+              else:
+                  assert new in value, f"Hiányzó README hivatkozás: {new}"
           readme.write_text(value, encoding="utf-8")
 
           notes = Path("tests/schemas/README.md")
@@ -178,7 +180,9 @@ jobs:
           A CI célzott `[capture-readme]` commitja generálja a natív kijelzőképet.
 
           """
-          notes.write_text(value.replace(anchor, section + anchor, 1), encoding="utf-8")
+          if "## A README valódi bemutatója" not in value:
+              value = value.replace(anchor, section + anchor, 1)
+          notes.write_text(value, encoding="utf-8")
           print("Valódi képek és exportok:", (directory / "szerkeszto.jpg").stat().st_size,
                 (directory / "kijelzo.jpg").stat().st_size)
           PY
