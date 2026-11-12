@@ -136,7 +136,7 @@ try {
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(url+'/editor');
-    await page.waitForSelector('#import-file');
+    await page.waitForSelector('#import-file', {state:'attached'});
     const confirm=page.waitForEvent('dialog').then(dialog=>dialog.accept());
     await page.locator('#import-file').setInputFiles({name:'futes.json',
         mimeType:'application/json',buffer:Buffer.from(JSON.stringify(project))});
