@@ -2160,7 +2160,7 @@
         "tests/schemas/readme/szerkeszto.jpg": {
             "role": "schema-screenshot",
             "width": 1600,
-            "height": 1180
+            "height": 1040
         },
         "tests/schemas/readme/kijelzo.jpg": {
             "role": "schema-screenshot",
