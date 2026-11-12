@@ -1,4 +1,4 @@
-<h1 align="center"><img src="assets/branding/readme-banner.svg" alt="Zolee Schema Monitor – élő gépészeti sémák" width="1600"></h1>
+<h1 align="center"><img src="assets/branding/readme-banner.avif" alt="Zolee Schema Monitor – élő gépészeti rendszerfelügyelet és vizualizáció" width="1600"></h1>
 
 <p align="center">
   <a href="https://ko-fi.com/E1H8299KGN"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Ko-fi támogatás" height="36"></a>
