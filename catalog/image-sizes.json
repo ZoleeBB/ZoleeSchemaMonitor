@@ -2156,6 +2156,16 @@
             "role": "element",
             "width": 160,
             "height": 160
+        },
+        "tests/schemas/readme/szerkeszto.jpg": {
+            "role": "schema-screenshot",
+            "width": 1600,
+            "height": 1180
+        },
+        "tests/schemas/readme/kijelzo.jpg": {
+            "role": "schema-screenshot",
+            "width": 1280,
+            "height": 800
         }
     }
 }

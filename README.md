@@ -26,8 +26,8 @@ A Schema Monitor **nem** az Energy Flow Display Master/Slave, MQTT vagy kaputele
 ## Képek a tényleges szerkesztőből és az LVGL-rajzolóból
 
 <p align="center">
-  <a href="tests/schemas/kazan/szerkeszto.jpg"><img src="tests/schemas/kazan/szerkeszto.jpg" alt="Kazánház – webszerkesztő" width="48%"></a>
-  <a href="tests/schemas/kazan/kijelzo.jpg"><img src="tests/schemas/kazan/kijelzo.jpg" alt="Kazánház – natív LVGL képpuffer" width="48%"></a>
+  <a href="tests/schemas/readme/szerkeszto.jpg"><img src="tests/schemas/readme/szerkeszto.jpg" alt="Kazánház – webszerkesztő" width="48%"></a>
+  <a href="tests/schemas/readme/kijelzo.jpg"><img src="tests/schemas/readme/kijelzo.jpg" alt="Kazánház – natív LVGL képpuffer" width="48%"></a>
 </p>
 
 <p align="center"><em>Balra: böngészős szerkesztő. Jobbra: a gazdagépen futtatott, valódi firmware-rajzolóból exportált kijelzőkép – nem fizikai panelen készült fotó.</em></p>

@@ -24,6 +24,24 @@ Mindkét kép ugyanazon projekt első oldalát és a 65%-os demójelet mutatja. 
 | Padlófűtési osztók | [Szerkesztő](osztok/szerkeszto.jpg) | [LVGL](osztok/kijelzo.jpg) |
 | Vegyes terhelés | [Szerkesztő](terheles/szerkeszto.jpg) | [LVGL](terheles/kijelzo.jpg) |
 
+## A README valódi bemutatója
+
+A [webszerkesztő képe](readme/szerkeszto.jpg) a futó Chromium szerkesztőből,
+a [kijelző képe](readme/kijelzo.jpg) az éles LVGL C-rajzoló RGB565 képpufferéből
+származik. A [projekt exportja](readme/projekt.json) és
+[az oldal exportja](readme/lap-1.json) a tényleges webes Export gombokkal készült.
+
+A kazán, a keringető, a háromjáratú keverőszelep és a hatkörös osztó főcsatlakozói
+**14 pixeles** piros/kék csövekkel csatlakoznak. A keverő hideg ága egy valós
+T-csomóponton kapcsolódik a visszatérőhöz. Az osztó körönkénti előremenő
+és visszatérő csonkjai **szabadon maradnak**, nincs közöttük fantáziált
+rövidzár vagy U-alakú összekötés.
+
+Mindkét export szimulált, 65%-os Loxone-értékkel készült; a kijelzőkép
+gazdagépes LVGL-kimenet, nem fizikai ESP32-P4 panelről készült fénykép.
+A megismételhető exportparancs: `node tests/readme_preview.mjs`.
+A CI célzott `[capture-readme]` commitja generálja a natív kijelzőképet.
+
 ## Csőáramlási próba
 
 Az [önállóan importálható próbaoldal](csoaramlas/aramlasi-proba.json) hat szivattyú és szelep között mutatja az előre és visszafelé haladó áramlást. A csövek 1, 4, 8, 12, 20 és 30 kijelzőpixel vastagok. A demószerver egyetlen aktivitásjele mind a hat kört működteti. A 7,5 másodperces felvételen a jel először aktív, majd nulla, megszakad a kapcsolat, végül visszatér az aktív jel. A képkockák a gazdagépen futtatott firmware LVGL-képpufferéből származnak.
