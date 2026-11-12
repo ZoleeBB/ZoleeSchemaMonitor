@@ -1,5 +1,7 @@
 # Fejlesztési állapot
 
+[MS1 funkcióösszefoglaló (2026-11-12)](ms1-fejlesztesek.md) · [MS1 hátralévő feladatok](ms1-hatralevo.md). A README arculata és támogatási linkjei dokumentációs előrelépésnek számítanak, a készülékes elfogadási tételek státuszát nem módosítják.
+
 **Aktuális grafikai állapot:** 333/333 típus bekötve, nincs helyőrző. 322 PNG-vel megjelenő típus, 319 használt forrás és 11 számított osztó. A teljes maradék 250 típus öt darab ötvenes commitban került be. [Részletes bekötés és ellenőrzés](grafika/teljes-bekotes.md). Az alábbi korábbi csomagleírások történeti állapotok; az MS1 fizikai igazolása még hátravan.
 
 

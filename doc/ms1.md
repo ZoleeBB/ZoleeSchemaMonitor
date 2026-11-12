@@ -2,6 +2,8 @@
 
 Állapot: **nyitott**. Az alapozó commitok és az automatikus ellenőrzések sikere nem zárja a mérföldkövet. [Rövid, aktuális hátralévő lista](ms1-hatralevo.md).
 
+A jelenlegi, megvalósított képességek összefoglalója: [MS1 fejlesztések és bizonyítékok](ms1-fejlesztesek.md). A README arculata és támogatási linkjei elkészültek, de a dokumentációs részfeladat nem helyettesíti a fizikai mérési jegyzőkönyvet vagy az első végleges verziódokumentumot.
+
 ## Elfogadási feltételek
 
 - [x] P4 firmware sikeresen fordul, flash/OTA partícióméretek ellenőrizve (CI-fordítás és csomagoló; nem fizikai telepítési próba).

@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="440" viewBox="0 0 1600 440" role="img" aria-labelledby="title desc">
+<title id="title">Zolee Schema Monitor – élő gépészeti sémák ESP32-P4 kijelzőn</title>
+<desc id="desc">Sötétkék műszaki arculati banner, Zolee Schema Monitor felirattal és stilizált kazán–szivattyú–szelep–osztó-gyűjtő gépészeti sémával.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091523"/><stop offset=".54" stop-color="#142b40"/><stop offset="1" stop-color="#081b2b"/></linearGradient>
+  <radialGradient id="halo" cx=".15" cy=".5" r=".8"><stop stop-color="#2ca5c5" stop-opacity=".28"/><stop offset=".55" stop-color="#125071" stop-opacity=".07"/><stop offset="1" stop-color="#0b1727" stop-opacity="0"/></radialGradient>
+  <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#172e42"/><stop offset="1" stop-color="#0a1b2b"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#304e65"/><stop offset=".55" stop-color="#193247"/><stop offset="1" stop-color="#0f273a"/></linearGradient>
+  <linearGradient id="boiler" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dceaf0"/><stop offset=".38" stop-color="#98b1c0"/><stop offset=".78" stop-color="#e5edf0"/><stop offset="1" stop-color="#597589"/></linearGradient>
+  <linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#83f6c1"/><stop offset="1" stop-color="#209b7a"/></linearGradient>
+  <linearGradient id="red" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ec665d"/><stop offset=".55" stop-color="#ffb36e"/><stop offset="1" stop-color="#eb685e"/></linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#39b9e4"/><stop offset=".53" stop-color="#8ee8ff"/><stop offset="1" stop-color="#32a8d4"/></linearGradient>
+  <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#8ab6cb" stroke-opacity=".068" stroke-width="1"/></pattern>
+  <filter id="shadow" x="-30%" y="-40%" width="170%" height="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="13"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope=".33"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+  <clipPath id="boardClip"><rect x="744" y="53" width="804" height="335" rx="25"/></clipPath>
+</defs>
+
+<rect width="1600" height="440" rx="26" fill="url(#bg)"/>
+<rect width="1600" height="440" rx="26" fill="url(#halo)"/>
+<rect x="0" y="0" width="1600" height="440" rx="26" fill="url(#grid)"/>
+<path d="M0 365 Q240 315 480 392 T950 381 T1600 390 V440 H0Z" fill="#1d6685" opacity=".10"/>
+<circle cx="510" cy="56" r="255" fill="#43b6cc" opacity=".04"/>
+<circle cx="1570" cy="422" r="160" fill="#62cca2" opacity=".06"/>
+<path d="M684 58V382" stroke="#5f8293" stroke-opacity=".20" stroke-width="1"/>
+
+<!-- Product name and custom technical mark -->
+<rect x="75" y="60" width="116" height="116" rx="27" fill="url(#glass)" stroke="#7294a6" stroke-opacity=".6" stroke-width="2"/>
+<rect x="88" y="76" width="91" height="70" rx="12" fill="#0a1f30" stroke="#7f9bad" stroke-width="2"/>
+<path d="M101 104H136V123H164" stroke="#f97e67" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+<path d="M101 129H146V96H165" stroke="#47c4f0" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+<circle cx="138" cy="113" r="13" fill="#e3f2f3" stroke="#2a5266" stroke-width="3"/>
+<path d="M134 106L145 113L134 120Z" fill="#1b7089"/>
+<path d="M107 152H158" stroke="#4b7387" stroke-width="6" stroke-linecap="round"/>
+<rect x="217" y="77" width="191" height="28" rx="14" fill="#16364a" stroke="#346981" stroke-opacity=".75"/>
+<circle cx="234" cy="91" r="4" fill="#68e0b5"/>
+<text x="246" y="96" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#a7e6d5">ZOLEE PROJECT</text>
+<text x="214" y="167" font-family="Arial,Helvetica,sans-serif" font-size="61" font-weight="800" letter-spacing="-2" fill="#f4faff">Zolee</text>
+<text x="75" y="262" font-family="Arial,Helvetica,sans-serif" font-size="79" font-weight="800" letter-spacing="-3.2" fill="#ffffff">Schema</text>
+<text x="74" y="345" font-family="Arial,Helvetica,sans-serif" font-size="83" font-weight="800" letter-spacing="-3" fill="#68ddc2">Monitor</text>
+<text x="80" y="384" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="500" fill="#c2d7e2">Gépészeti rendszerek. Élő adatok. Egy kijelző.</text>
+<path d="M79 407H610" stroke="#5d8da4" opacity=".4"/>
+<text x="80" y="425" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1.3" fill="#80b6cc">ESP32-P4</text>
+<circle cx="173" cy="421" r="3" fill="#447087"/>
+<text x="187" y="425" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1.3" fill="#80b6cc">LOXONE DIRECT</text>
+<circle cx="345" cy="421" r="3" fill="#447087"/>
+<text x="360" y="425" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1.3" fill="#80b6cc">333 TÍPUS</text>
+<circle cx="477" cy="421" r="3" fill="#447087"/>
+<text x="493" y="425" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1.3" fill="#80b6cc">MS1</text>
+
+<!-- Engineering schema monitor -->
+<rect x="744" y="53" width="804" height="335" rx="25" fill="url(#screen)" stroke="#47677e" stroke-opacity=".85" stroke-width="2" filter="url(#shadow)"/>
+<g clip-path="url(#boardClip)">
+  <rect x="755" y="65" width="782" height="310" fill="url(#grid)"/>
+  <path d="M755 118H1535" stroke="#41677b" stroke-opacity=".65"/>
+  <text x="781" y="93" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" letter-spacing="1.4" fill="#d3e8f2">FŰTÉS + HMV</text>
+  <rect x="959" y="72" width="65" height="28" rx="14" fill="#274051" stroke="#52718a" stroke-opacity=".7"/>
+  <text x="991" y="91" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#c3dbe5">DEMO</text>
+  <circle cx="1410" cy="86" r="5" fill="#64edac"/>
+  <circle cx="1410" cy="86" r="10" fill="#64edac" opacity=".22" filter="url(#glow)"/>
+  <text x="1425" y="92" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" fill="#a5e8ca">LOXONE</text>
+
+  <rect x="764" y="133" width="762" height="216" rx="17" fill="#0a2133" stroke="#21475d" stroke-width="1.5"/>
+  <rect x="764" y="133" width="762" height="216" rx="17" fill="url(#grid)" opacity=".85"/>
+  <path d="M923 198H1335" stroke="#5d2931" stroke-width="19" stroke-linecap="round" fill="none"/>
+  <path d="M923 198H1335" stroke="url(#red)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M1335 304H923" stroke="#1d455b" stroke-width="19" stroke-linecap="round" fill="none"/>
+  <path d="M1335 304H923" stroke="url(#blue)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M983 191L993 198L983 205" fill="none" stroke="#ffe9bc" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1247 191L1257 198L1247 205" fill="none" stroke="#ffe9bc" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1100 297L1090 304L1100 311" fill="none" stroke="#d8f9ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="787" y="152" width="143" height="181" rx="17" fill="#091b2b" opacity=".8"/>
+  <rect x="797" y="146" width="126" height="174" rx="14" fill="url(#boiler)" stroke="#dfedf2" stroke-width="2"/>
+  <rect x="808" y="161" width="104" height="34" rx="6" fill="#1b3647" stroke="#97aeba"/>
+  <circle cx="832" cy="177" r="5" fill="#6df2b7"/>
+  <text x="859" y="183" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700" fill="#f3fbff">68°</text>
+  <path d="M860 208C835 240 864 252 863 267C895 247 888 226 877 216C875 232 866 226 860 208Z" fill="#fd7b5e"/>
+  <path d="M868 228C855 246 869 257 870 265C885 250 881 238 874 233Z" fill="#ffcb83"/>
+  <rect x="815" y="283" width="90" height="21" rx="6" fill="#e8f0f1" opacity=".65"/>
+  <text x="860" y="298" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="800" fill="#1c3e53">KAZÁN</text>
+  <circle cx="924" cy="198" r="7" fill="#d2e3e9" stroke="#6f8da0" stroke-width="2"/>
+  <circle cx="924" cy="304" r="7" fill="#d2e3e9" stroke="#6f8da0" stroke-width="2"/>
+
+  <circle cx="1068" cy="198" r="39" fill="#0e293d" stroke="#4f7588" stroke-width="2" />
+  <circle cx="1068" cy="198" r="31" fill="url(#glass)" stroke="#adc8d4" stroke-width="5"/>
+  <circle cx="1068" cy="198" r="16" fill="#163b50" stroke="#8dd6e6" stroke-width="2"/>
+  <path d="M1068 181Q1084 185 1080 195L1068 198Z M1085 207Q1073 222 1065 213L1068 198Z M1055 209Q1047 191 1059 188L1068 198Z" fill="#a7d8de"/>
+  <circle cx="1068" cy="198" r="5" fill="#ccebf1"/>
+  <circle cx="1092" cy="172" r="6" fill="#64f2a8" stroke="#183949" stroke-width="2"/>
+  <text x="1068" y="261" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing=".8" fill="#c4dce8">SZIVATTYÚ</text>
+
+  <path d="M1187 198L1214 176V220Z" fill="#d4e1e9" stroke="#7d9cac" stroke-width="3"/>
+  <path d="M1241 198L1214 176V220Z" fill="#90afbd" stroke="#d0e7f3" stroke-width="2"/>
+  <path d="M1214 212V279" stroke="#7a9dad" stroke-width="12" stroke-linecap="round"/>
+  <path d="M1214 212V279" stroke="#48bddf" stroke-width="6" stroke-linecap="round"/>
+  <rect x="1196" y="145" width="36" height="34" rx="8" fill="#e0eaf0" stroke="#799ba9" stroke-width="2"/>
+  <rect x="1202" y="150" width="24" height="15" rx="4" fill="#334f60"/>
+  <path d="M1207 158L1219 155" stroke="#fb795f" stroke-width="3" stroke-linecap="round"/>
+  <text x="1271" y="259" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing=".6" fill="#c4dce8">3-JÁRATÚ</text>
+  <text x="1271" y="276" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#83e4c3">65%</text>
+
+  <rect x="1329" y="153" width="183" height="178" rx="14" fill="#152e43" stroke="#4b7288" stroke-width="1.5"/>
+  <text x="1422" y="179" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#d8ecf1">OSZTÓ-GYŰJTŐ</text>
+  <text x="1422" y="196" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" letter-spacing="2" fill="#8db6c9">6 KÖR</text>
+  <path d="M1346 215H1497" stroke="#e98d4e" stroke-width="15" stroke-linecap="round"/>
+  <path d="M1346 215H1497" stroke="#ffd39e" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+  <path d="M1346 302H1497" stroke="#468fb6" stroke-width="15" stroke-linecap="round"/>
+  <path d="M1346 302H1497" stroke="#a8e2f4" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+  
+      <path d="M1360 235 V282" stroke="#93aabb" stroke-width="8" stroke-linecap="round"/>
+      <path d="M1360 235 V282" stroke="#d9e7ef" stroke-width="4" stroke-linecap="round"/>
+      <rect x="1351" y="218" width="18" height="24" rx="6" fill="url(#head)" stroke="#82f8c6" stroke-width="1.5"/>
+      <rect x="1356" y="222" width="8" height="10" rx="3" fill="#135c4d"/>
+      <circle cx="1360" cy="238" r="2.5" fill="#73f9c5"/>
+      <rect x="1354" y="281" width="12" height="10" rx="4" fill="#b4c6d2" stroke="#546f81" stroke-width="1"/>
+      
+      <path d="M1386 235 V282" stroke="#93aabb" stroke-width="8" stroke-linecap="round"/>
+      <path d="M1386 235 V282" stroke="#d9e7ef" stroke-width="4" stroke-linecap="round"/>
+      <rect x="1377" y="218" width="18" height="24" rx="6" fill="url(#head)" stroke="#82f8c6" stroke-width="1.5"/>
+      <rect x="1382" y="222" width="8" height="10" rx="3" fill="#135c4d"/>
+      <circle cx="1386" cy="238" r="2.5" fill="#73f9c5"/>
+      <rect x="1380" y="281" width="12" height="10" rx="4" fill="#b4c6d2" stroke="#546f81" stroke-width="1"/>
+      
+      <path d="M1412 235 V282" stroke="#93aabb" stroke-width="8" stroke-linecap="round"/>
+      <path d="M1412 235 V282" stroke="#d9e7ef" stroke-width="4" stroke-linecap="round"/>
+      <rect x="1403" y="218" width="18" height="24" rx="6" fill="url(#head)" stroke="#82f8c6" stroke-width="1.5"/>
+      <rect x="1408" y="222" width="8" height="10" rx="3" fill="#135c4d"/>
+      <circle cx="1412" cy="238" r="2.5" fill="#73f9c5"/>
+      <rect x="1406" y="281" width="12" height="10" rx="4" fill="#b4c6d2" stroke="#546f81" stroke-width="1"/>
+      
+      <path d="M1438 235 V282" stroke="#93aabb" stroke-width="8" stroke-linecap="round"/>
+      <path d="M1438 235 V282" stroke="#d9e7ef" stroke-width="4" stroke-linecap="round"/>
+      <rect x="1429" y="218" width="18" height="24" rx="6" fill="url(#head)" stroke="#82f8c6" stroke-width="1.5"/>
+      <rect x="1434" y="222" width="8" height="10" rx="3" fill="#135c4d"/>
+      <circle cx="1438" cy="238" r="2.5" fill="#73f9c5"/>
+      <rect x="1432" y="281" width="12" height="10" rx="4" fill="#b4c6d2" stroke="#546f81" stroke-width="1"/>
+      
+      <path d="M1464 235 V282" stroke="#93aabb" stroke-width="8" stroke-linecap="round"/>
+      <path d="M1464 235 V282" stroke="#d9e7ef" stroke-width="4" stroke-linecap="round"/>
+      <rect x="1455" y="218" width="18" height="24" rx="6" fill="url(#head)" stroke="#82f8c6" stroke-width="1.5"/>
+      <rect x="1460" y="222" width="8" height="10" rx="3" fill="#135c4d"/>
+      <circle cx="1464" cy="238" r="2.5" fill="#73f9c5"/>
+      <rect x="1458" y="281" width="12" height="10" rx="4" fill="#b4c6d2" stroke="#546f81" stroke-width="1"/>
+      
+      <path d="M1490 235 V282" stroke="#93aabb" stroke-width="8" stroke-linecap="round"/>
+      <path d="M1490 235 V282" stroke="#d9e7ef" stroke-width="4" stroke-linecap="round"/>
+      <rect x="1481" y="218" width="18" height="24" rx="6" fill="url(#head)" stroke="#82f8c6" stroke-width="1.5"/>
+      <rect x="1486" y="222" width="8" height="10" rx="3" fill="#135c4d"/>
+      <circle cx="1490" cy="238" r="2.5" fill="#73f9c5"/>
+      <rect x="1484" y="281" width="12" height="10" rx="4" fill="#b4c6d2" stroke="#546f81" stroke-width="1"/>
+      
+  <circle cx="1335" cy="198" r="7" fill="#f8b78e" stroke="#8d665f" stroke-width="2"/>
+  <circle cx="1335" cy="304" r="7" fill="#a5dfff" stroke="#5087a6" stroke-width="2"/>
+  <text x="784" y="369" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#8fb2c4">GÉPÉSZETI VIZUALIZÁCIÓ</text>
+  <text x="1500" y="369" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#82b39f">HU / EN</text>
+</g>
+<rect x="744" y="53" width="804" height="335" rx="25" fill="none" stroke="#7898ad" stroke-opacity=".4"/>
+</svg>

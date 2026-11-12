@@ -1,6 +1,6 @@
 # MS1 – rövid hátralévő lista
 
-Az MS1 nyitott. A grafikai készlet (333 típus), a szerkesztő, osztó-gyűjtők, animációk, igazítás, mentés és gazdagépes regresszió elkészült. Az öntözési animációt tartalmazó [CI és P4-fordítás sikeres](https://github.com/ZoleeBB/ZoleeSchemaMonitor/actions/runs/42357491467); a main-kiadás ezen az ágon szándékosan nem futott le.
+Az MS1 nyitott. A grafikai készlet (333 típus), a szerkesztő, osztó-gyűjtők, animációk, igazítás, mentés és gazdagépes regresszió elkészült. **A 2026. november 12-i README arculati frissítés (banner, Ko-fi/Revolut-me) és a [részletes fejlesztés-összefoglaló](ms1-fejlesztesek.md) dokumentációs feladat, nem P4-átvétel.** Az öntözési animációt tartalmazó [CI és P4-fordítás sikeres](https://github.com/ZoleeBB/ZoleeSchemaMonitor/actions/runs/42357491467); a main-kiadás ezen az ágon szándékosan nem futott le.
 
 | Hátralévő terület | Konkrét következő igazolás vagy feladat |
 | --- | --- |
